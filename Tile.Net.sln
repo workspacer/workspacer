@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile.Net", "Tile.Net.csproj", "{D89294E0-EB76-440E-835C-CCD1E4CF6933}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Debug|x64.ActiveCfg = Debug|x64
+		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Debug|x64.Build.0 = Debug|x64
+		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Release|x64.ActiveCfg = Release|x64
+		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD604298-5BA0-441E-8BD3-66579436DEFE}
+	EndGlobalSection
+EndGlobal
