@@ -88,6 +88,35 @@ namespace Tile.Net
 			WS_EX_NOACTIVATE = 0x08000000
         }
 
+        public enum GW : uint
+        {
+            GW_OWNER = 4,
+        }
+
+
+        public enum GA : uint
+        {
+            GA_PARENT = 1,
+			GA_ROOT = 2,
+			GA_ROOTOWNER = 3
+		}
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left, Top, Right, Bottom;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct TITLEBARINFO
+        {
+            public const int CCHILDREN_TITLEBAR = 5;
+            public uint cbSize;
+            public RECT rcTitleBar;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = CCHILDREN_TITLEBAR + 1)]
+            public uint[] rgstate;
+        }
+
         public static uint EVENT_SYSTEM_MOVESIZESTART = 0xA;
         public static uint EVENT_SYSTEM_MOVESIZEEND = 0xB;
         public static uint EVENT_OBJECT_DESTROY = 0x00008001;
@@ -104,8 +133,8 @@ namespace Tile.Net
         [DllImport("user32.dll")]
         public static extern bool GetMessage(ref Message lpMsg, IntPtr handle, uint mMsgFilterInMain, uint mMsgFilterMax);
 
-        [DllImport("user32.dll", EntryPoint = "EnumDesktopWindows", ExactSpelling = false, CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern bool EnumDesktopWindows(IntPtr hDesktop, EnumDelegate lpEnumCallbackFunction, IntPtr lParam);
+        [DllImport("user32.dll", EntryPoint = "EnumWindows", ExactSpelling = false, CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool EnumWindows(EnumDelegate lpEnumCallbackFunction, IntPtr lParam);
 
         [DllImport("user32.dll", EntryPoint = "GetWindowText", ExactSpelling = false, CharSet = CharSet.Auto, SetLastError = true)]
         public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpWindowText, int nMaxCount);
@@ -126,5 +155,26 @@ namespace Tile.Net
 
         [DllImport("user32.dll")]
         public static extern bool GetWindowRect(IntPtr hwnd, ref Rect rectangle);
+
+        [DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool IsIconic(IntPtr hWnd);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsZoomed(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindow(IntPtr hWnd, GW uCmd);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetAncestor(IntPtr hWnd, GA gaFlags);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetLastActivePopup(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetTitleBarInfo(IntPtr hwnd, ref TITLEBARINFO pti);
     }
 }
