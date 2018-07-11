@@ -68,6 +68,7 @@
     <Compile Include="Layout\HorizontalLayoutEngine.cs" />
     <Compile Include="Layout\ILayoutEngine.cs" />
     <Compile Include="Native\Dwm.cs" />
+    <Compile Include="Native\Win32Helper.cs" />
     <Compile Include="Native\WindowsDesktopManager.cs" />
     <Compile Include="Window\IWindow.cs" />
     <Compile Include="Window\IWindowLocation.cs" />

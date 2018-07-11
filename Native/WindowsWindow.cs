@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +37,17 @@ namespace Tile.Net
             }
         }
 
+        public bool CanLayout
+        {
+            get
+            {
+                return !Win32Helper.IsCloaked(_handle)  &&
+                    Win32Helper.IsAppWindow(_handle) && 
+                    Win32Helper.IsAltTabWindow(_handle) &&
+                    !Win32.IsIconic(_handle);
+            }
+        }
+
         public bool CanResize
         {
             get
@@ -44,7 +57,7 @@ namespace Tile.Net
             set
             {
                 var style = Win32.GetWindowStyleLongPtr(_handle);
-                style = style & ~Win32.WS.WS_SIZEBOX;
+                style = value ? style | Win32.WS.WS_SIZEBOX : style & ~Win32.WS.WS_SIZEBOX;
                 Win32.SetWindowLongPtr(_handle, Win32.GWL_STYLE, (uint)style);
             }
         }

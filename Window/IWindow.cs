@@ -11,6 +11,8 @@ namespace Tile.Net
         string Title { get; }
         IWindowLocation Location { get; }
 
+        bool CanLayout { get; }
+
         bool CanResize { get; set; }
     }
 }
