@@ -16,7 +16,7 @@ namespace Tile.Net
 
         //void CloseFocusedWindow(); // mod-shift-c
         //void NextLayoutEngine(); // mod-space
-        //void ResetLayout(); // mod-shift-space
+        void ResetLayout(); // mod-shift-space
         //void ResetLayoutToDefault(); // mod-n
 
         void FocusNextWindow(); // mod-j
@@ -27,8 +27,8 @@ namespace Tile.Net
         void SwapFocusAndNextWindow(); // mod-shift-j
         void SwapFocusAndPreviousWindow(); // mod-shift-k
 
-        //void ShrinkMasterArea(); // mod-h
-        //void ExpandMasterArea(); // mod-l
+        void ShrinkMasterArea(); // mod-h
+        void ExpandMasterArea(); // mod-l
 
         //void IncrementNumberOfMasterWindows(); // mod-comma
         //void DecrementNumberOfMasterWindows(); // mod-period

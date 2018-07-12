@@ -29,5 +29,17 @@ namespace Tile.Net
 
             return list;
         }
+
+        public void ShrinkMasterArea()
+        {
+        }
+
+        public void ExpandMasterArea()
+        {
+        }
+
+        public void ResetMasterArea()
+        {
+        }
     }
 }

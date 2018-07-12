@@ -9,5 +9,9 @@ namespace Tile.Net
     public interface ILayoutEngine
     {
         IEnumerable<IWindowLocation> CalcLayout(int numWindows, int spaceWidth, int spaceHeight);
+
+        void ShrinkMasterArea();
+        void ExpandMasterArea();
+        void ResetMasterArea();
     }
 }

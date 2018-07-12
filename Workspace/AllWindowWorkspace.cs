@@ -32,6 +32,12 @@ namespace Tile.Net
             DoLayout();
         }
 
+        public void ResetLayout()
+        {
+            _layoutEngine.ResetMasterArea();
+            DoLayout();
+        }
+
         public void FocusNextWindow()
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
@@ -138,6 +144,17 @@ namespace Tile.Net
                     break;
                 }
             }
+        }
+
+        public void ShrinkMasterArea()
+        {
+            _layoutEngine.ShrinkMasterArea();
+            DoLayout();
+        }
+        public void ExpandMasterArea()
+        {
+            _layoutEngine.ExpandMasterArea();
+            DoLayout();
         }
 
         private ILayoutEngine _layoutEngine;

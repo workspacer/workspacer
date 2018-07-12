@@ -8,13 +8,17 @@ namespace Tile.Net.Layout
 {
     public class TallLayoutEngine : ILayoutEngine
     {
-        private int _numInMaster;
-        private double _masterPercent;
+        private readonly int _numInMaster;
+        private readonly double _masterPercent;
+        private readonly double _masterPercentIncrement;
 
-        public TallLayoutEngine(int numInMaster, double masterPercent)
+        private double _masterPercentOffset = 0;
+
+        public TallLayoutEngine(int numInMaster, double masterPercent, double masterPercentIncrement)
         {
             _numInMaster = numInMaster;
             _masterPercent = masterPercent;
+            _masterPercentIncrement = masterPercentIncrement;
         }
 
         public IEnumerable<IWindowLocation> CalcLayout(int numWindows, int spaceWidth, int spaceHeight)
@@ -24,7 +28,7 @@ namespace Tile.Net.Layout
             if (numWindows == 0)
                 return list;
 
-            int width = (int)(spaceWidth * _masterPercent);
+            int masterWidth = (int)(spaceWidth * (_masterPercent + _masterPercentOffset));
             int masterHeight = spaceHeight / _numInMaster;
             int height = spaceHeight / Math.Max(numWindows - _numInMaster, 1);
 
@@ -33,21 +37,38 @@ namespace Tile.Net.Layout
             // of the working area
             if (_numInMaster > numWindows)
             {
-                width = spaceWidth;
+                masterWidth = spaceWidth;
             }
+
+            int slaveWidth = spaceWidth - masterWidth;
 
             for (var i = 0; i < numWindows; i++)
             {
                 if (i < _numInMaster)
                 {
-                    list.Add(new WindowLocation(0, i * masterHeight, width, masterHeight));
+                    list.Add(new WindowLocation(0, i * masterHeight, masterWidth, masterHeight));
                 }
                 else
                 {
-                    list.Add(new WindowLocation(width, (i - _numInMaster) * height, width, height));
+                    list.Add(new WindowLocation(masterWidth, (i - _numInMaster) * height, slaveWidth, height));
                 }
             }
             return list;
+        }
+
+        public void ShrinkMasterArea()
+        {
+            _masterPercentOffset -= _masterPercentIncrement;
+        }
+
+        public void ExpandMasterArea()
+        {
+            _masterPercentOffset += _masterPercentIncrement;
+        }
+
+        public void ResetMasterArea()
+        {
+            _masterPercentOffset = 0;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Tile.Net
 
         void Start()
         {
-            var layoutEngine = new TallLayoutEngine(1, 0.5);
+            var layoutEngine = new TallLayoutEngine(1, 0.5, 0.03);
             _workspace = new AllWindowWorkspace(layoutEngine);
 
             WindowsDesktopManager.Instance.WindowCreated += WindowCreated;
@@ -32,7 +32,10 @@ namespace Tile.Net
 
             WindowsDesktopManager.Instance.Initialize();
 
-            var mod = KeyModifiers.LAlt | KeyModifiers.LWin;
+            var mod = KeyModifiers.LControl | KeyModifiers.LWin;
+
+            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Space, () => _workspace.ResetLayout());
+
             KeybindManager.Instance.Subscribe(mod, Keys.J, () => _workspace.FocusNextWindow());
             KeybindManager.Instance.Subscribe(mod, Keys.K, () => _workspace.FocusPreviousWindow());
             KeybindManager.Instance.Subscribe(mod, Keys.M, () => _workspace.FocusMasterWindow());
@@ -40,6 +43,9 @@ namespace Tile.Net
             KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Enter, () => _workspace.SwapFocusAndMasterWindow());
             KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.J, () => _workspace.SwapFocusAndNextWindow());
             KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.K, () => _workspace.SwapFocusAndPreviousWindow());
+
+            KeybindManager.Instance.Subscribe(mod, Keys.H, () => _workspace.ShrinkMasterArea());
+            KeybindManager.Instance.Subscribe(mod, Keys.L, () => _workspace.ExpandMasterArea());
 
             var msg = new Win32.Message();
             while (Win32.GetMessage(ref msg, IntPtr.Zero, 0, 0)) { }
