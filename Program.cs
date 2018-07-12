@@ -4,13 +4,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tile.Net.Layout;
 
 namespace Tile.Net
 {
     class Program
     {
 
-        static void Main(string[] args)
+        private IWorkspace _workspace;
+
+        public static void Main(string[] args)
+        {
+            Win32.SetProcessDPIAware();
+
+            new Program().Start();
+        }
+
+        void Start()
         {
             var desktopManager = WindowsDesktopManager.Instance;
             desktopManager.WindowCreated += WindowCreated;
@@ -18,8 +28,8 @@ namespace Tile.Net
             desktopManager.WindowUpdated += WindowUpdated;
 
 
-            var layoutEngine = new HorizontalLayoutEngine();
-            var workspace = new Workspace(layoutEngine);
+            var layoutEngine = new TallLayoutEngine(1, 0.5);
+            _workspace = new AllWindowWorkspace(layoutEngine);
 
             var msg = new Win32.Message();
             while (Win32.GetMessage(ref msg, IntPtr.Zero, 0, 0))
@@ -28,31 +38,19 @@ namespace Tile.Net
             }
         }
 
-        static void WindowCreated(IWindow window)
+        void WindowCreated(IWindow window)
         {
-            Output();
+            _workspace.DoLayout();
         }
 
-        static void WindowDestroyed(IWindow window)
+        void WindowDestroyed(IWindow window)
         {
-            Output();
+            _workspace.DoLayout();
         }
 
-        static void WindowUpdated(IWindow window)
+        void WindowUpdated(IWindow window)
         {
-            Output();
-        }
-
-        static void Output()
-        {
-            Console.Clear();
-            foreach (var w in WindowsDesktopManager.Instance.Windows)
-            {
-                if (w.CanLayout)
-                {
-                    Console.WriteLine(w.Title);
-                }
-            }
+            _workspace.DoLayout();
         }
     }
 }

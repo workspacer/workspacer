@@ -8,8 +8,26 @@ namespace Tile.Net
 {
     public class HorizontalLayoutEngine : ILayoutEngine
     {
-        public void DoLayout(IWorkspace workspace)
+        public IEnumerable<IWindowLocation> CalcLayout(int numWindows, int spaceWidth, int spaceHeight)
         {
+            if (numWindows == 0)
+                return Enumerable.Empty<IWindowLocation>();
+
+            var windowWidth = spaceWidth / numWindows;
+            var extra = spaceWidth % numWindows;
+
+            var list = new List<IWindowLocation>();
+
+            list.Add(new WindowLocation(0, 0, windowWidth + extra, spaceHeight));
+
+            int offset = windowWidth + extra;
+            for (var i = 1; i < numWindows; i++)
+            {
+                list.Add(new WindowLocation(offset, 0, windowWidth, spaceHeight));
+                offset += windowWidth;
+            }
+
+            return list;
         }
     }
 }

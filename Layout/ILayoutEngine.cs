@@ -8,6 +8,6 @@ namespace Tile.Net
 {
     public interface ILayoutEngine
     {
-        void DoLayout(IWorkspace workspace);
+        IEnumerable<IWindowLocation> CalcLayout(int numWindows, int spaceWidth, int spaceHeight);
     }
 }

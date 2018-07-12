@@ -11,6 +11,8 @@ namespace Tile.Net
     {
         [DllImport("dwmapi.dll")]
         public static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out bool pvAttribute, int cbAttribute);
+        [DllImport("dwmapi.dll")]
+        public static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out Win32.Rect pvAttribute, int cbAttribute);
 
 
         [Flags]

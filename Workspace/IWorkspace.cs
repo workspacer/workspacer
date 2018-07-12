@@ -9,5 +9,6 @@ namespace Tile.Net
     public interface IWorkspace
     {
         IEnumerable<IWindow> Windows { get; }
+        void DoLayout();
     }
 }

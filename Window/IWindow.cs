@@ -8,11 +8,18 @@ namespace Tile.Net
 {
     public interface IWindow
     {
+        IntPtr Handle { get; }
         string Title { get; }
         IWindowLocation Location { get; }
 
         bool CanLayout { get; }
 
+        bool IsMinimized { get; }
+        bool IsMaximized { get; }
         bool CanResize { get; set; }
+
+        void ShowNormal();
+        void ShowMaximized();
+        void ShowMinimized();
     }
 }

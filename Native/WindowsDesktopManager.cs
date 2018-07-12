@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Tile.Net.Native;
 
 namespace Tile.Net
 {
@@ -53,6 +54,12 @@ namespace Tile.Net
                 }
                 return true;
             }, IntPtr.Zero);
+        }
+
+        public WindowsDeferPosHandle DeferWindowsPos(int count)
+        {
+            var info = Win32.BeginDeferWindowPos(count);
+            return new WindowsDeferPosHandle(info);
         }
 
         private static WindowsDesktopManager CreateInstance()
