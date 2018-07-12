@@ -13,7 +13,7 @@ namespace Tile.Net
         public static bool IsCloaked(IntPtr hwnd)
         {
             bool isCloaked;
-            var attr = Dwm.DwmGetWindowAttribute(hwnd, (int)Dwm.DwmWindowAttribute.DWMWA_CLOAKED, out isCloaked, Marshal.SizeOf(typeof(bool)));
+            var attr = Win32.DwmGetWindowAttribute(hwnd, (int)Win32.DwmWindowAttribute.DWMWA_CLOAKED, out isCloaked, Marshal.SizeOf(typeof(bool)));
             return isCloaked;
         }
 

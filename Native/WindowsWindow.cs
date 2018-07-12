@@ -38,32 +38,6 @@ namespace Tile.Net
                 Win32.GetWindowRect(_handle, ref rect);
                 return new WindowLocation(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
             }
-
-            set
-            {
-                Win32.Rect rect = new Win32.Rect();
-                Win32.Rect frame = new Win32.Rect();
-                Win32.GetWindowRect(_handle, ref rect);
-                Dwm.DwmGetWindowAttribute(_handle, (int)Dwm.DwmWindowAttribute.DWMWA_EXTENDED_FRAME_BOUNDS, out frame, Marshal.SizeOf(typeof(Win32.Rect)));
-
-                //rect should be `0, 0, 1280, 1024`
-                //frame should be `7, 0, 1273, 1017`
-
-                Win32.Rect border = new Win32.Rect();
-                border.Left = frame.Left - rect.Left;
-                border.Top = frame.Top - rect.Top;
-                border.Right = rect.Right - frame.Right;
-                border.Bottom = rect.Bottom - frame.Bottom;
-
-                Win32.SetWindowPos(_handle, IntPtr.Zero, 
-                    value.X - border.Left, 
-                    value.Y - border.Top, 
-                    value.Width + border.Left + border.Right, 
-                    value.Height + border.Top + border.Bottom, 
-                    Win32.SetWindowPosFlags.FrameChanged | 
-                    Win32.SetWindowPosFlags.IgnoreZOrder | Win32.SetWindowPosFlags.DoNotChangeOwnerZOrder |
-                    Win32.SetWindowPosFlags.DoNotActivate | Win32.SetWindowPosFlags.DoNotCopyBits);
-            }
         }
 
         public bool CanLayout
@@ -75,6 +49,12 @@ namespace Tile.Net
                     Win32Helper.IsAltTabWindow(_handle) &&
                     !Win32.IsIconic(_handle);
             }
+        }
+
+        public bool IsFocused
+        {
+            get { return Win32.GetForegroundWindow() == _handle; }
+            set { Win32.SetForegroundWindow(_handle); }
         }
 
         public bool IsMinimized => Win32.IsIconic(_handle);

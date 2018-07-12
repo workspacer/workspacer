@@ -26,7 +26,7 @@ namespace Tile.Net.Layout
 
             int width = (int)(spaceWidth * _masterPercent);
             int masterHeight = spaceHeight / _numInMaster;
-            int height = spaceHeight / (numWindows - _numInMaster);
+            int height = spaceHeight / Math.Max(numWindows - _numInMaster, 1);
 
             // if there are more "master" windows than actual windows,
             // then we want the pane to actually spread the entire width

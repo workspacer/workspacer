@@ -14,6 +14,7 @@ namespace Tile.Net
 
         bool CanLayout { get; }
 
+        bool IsFocused { get; set; }
         bool IsMinimized { get; }
         bool IsMaximized { get; }
         bool CanResize { get; set; }

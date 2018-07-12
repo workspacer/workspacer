@@ -72,11 +72,14 @@
     <Reference Include="UIAutomationTypes" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Keybinds\KeybindManager.cs" />
     <Compile Include="Layout\HorizontalLayoutEngine.cs" />
     <Compile Include="Layout\ILayoutEngine.cs" />
     <Compile Include="Layout\TallLayoutEngine.cs" />
-    <Compile Include="Native\Dwm.cs" />
     <Compile Include="Native\Win32Helper.cs" />
+    <Compile Include="Native\Win32\Win32.Window.cs" />
+    <Compile Include="Native\Win32\Win32.WinEvent.cs" />
+    <Compile Include="Native\Win32\Win32.Long.cs" />
     <Compile Include="Native\WindowsDeferPosHandle.cs" />
     <Compile Include="Native\WindowsDesktopManager.cs" />
     <Compile Include="Window\IWindow.cs" />
