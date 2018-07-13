@@ -35,7 +35,7 @@ namespace Tile.Net
 
             KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.C, () => _workspace.CloseFocusedWindow());
             KeybindManager.Instance.Subscribe(mod, Keys.Space, () => _workspace.NextLayoutEngine());
-            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Space, () => _workspace.ResetLayout());
+            KeybindManager.Instance.Subscribe(mod, Keys.N, () => _workspace.ResetLayout());
 
             KeybindManager.Instance.Subscribe(mod, Keys.J, () => _workspace.FocusNextWindow());
             KeybindManager.Instance.Subscribe(mod, Keys.K, () => _workspace.FocusPreviousWindow());

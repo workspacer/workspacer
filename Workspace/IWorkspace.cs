@@ -16,8 +16,7 @@ namespace Tile.Net
 
         void CloseFocusedWindow(); // mod-shift-c
         void NextLayoutEngine(); // mod-space
-        void ResetLayout(); // mod-shift-space
-        //void ResetLayoutToDefault(); // mod-n
+        void ResetLayout(); // mod-n
 
         void FocusNextWindow(); // mod-j
         void FocusPreviousWindow(); // mod-k
@@ -37,6 +36,8 @@ namespace Tile.Net
         // probably via SetLayoutEngine?
 
         // non workspace, storing these for a second
+
+        //void ResetLayoutToDefault(); // mod-shift-space
 
         //void ReloadTileNet(); // mod-q
 

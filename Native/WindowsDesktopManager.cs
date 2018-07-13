@@ -26,7 +26,6 @@ namespace Tile.Net
         }
 
         private IDictionary<IntPtr, IWindow> _windows;
-        private IDictionary<IntPtr, Timer> _pollTimers;
 
         private WinEventDelegate _hookDelegate;
 
@@ -39,8 +38,6 @@ namespace Tile.Net
         private WindowsDesktopManager()
         {
             _windows = new Dictionary<IntPtr, IWindow>();
-            _pollTimers = new Dictionary<IntPtr, Timer>();
-
             _hookDelegate = new WinEventDelegate(WindowHook);
         }
 
@@ -49,6 +46,7 @@ namespace Tile.Net
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_DESTROY, Win32.EVENT_CONSTANTS.EVENT_OBJECT_SHOW, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_CLOAKED, Win32.EVENT_CONSTANTS.EVENT_OBJECT_UNCLOAKED, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZESTART, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZEEND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
+            Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZEEND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
 
             Win32.EnumWindows((handle, param) =>
             {
@@ -89,7 +87,6 @@ namespace Tile.Net
                         UpdateWindow(hwnd);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART:
-                        StartWindowMove(hwnd);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZEEND:
                         EndWindowMove(hwnd);
@@ -132,37 +129,13 @@ namespace Tile.Net
             }
         }
 
-        private void StartWindowMove(IntPtr handle)
-        {
-            if (_pollTimers.ContainsKey(handle))
-            {
-                _pollTimers[handle].Stop();
-            }
-            _pollTimers[handle] = CreatePollTimer(handle);
-            _pollTimers[handle].Start();
-        }
-
         private void EndWindowMove(IntPtr handle)
         {
-            if (_pollTimers.ContainsKey(handle))
+            if (_windows.ContainsKey(handle))
             {
-                _pollTimers[handle].Stop();
-                _pollTimers.Remove(handle);
+                var window = _windows[handle];
+                WindowUpdated?.Invoke(window);
             }
-        }
-
-        private Timer CreatePollTimer(IntPtr handle)
-        {
-            var timer = new Timer(10);
-            timer.AutoReset = true;
-            timer.Elapsed += (sender, e) =>
-            {
-                if (_windows.ContainsKey(handle))
-                {
-                    var window = _windows[handle];
-                }
-            };
-            return timer;
         }
     }
 }
