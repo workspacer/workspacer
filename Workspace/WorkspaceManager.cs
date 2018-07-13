@@ -7,23 +7,30 @@ using System.Threading.Tasks;
 
 namespace Tile.Net
 {
-    public class WorkspaceManager
+    public class WorkspaceManager : IManager
     {
         public IEnumerable<IWorkspace> Workspaces => _workspaces;
         public IWorkspace FocusedWorkspace => _workspaces[_focusedWorkspace];
         public Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
 
         private List<IWorkspace> _workspaces;
+        private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
         private int _focusedWorkspace;
 
         private WorkspaceManager()
         {
             _workspaces = new List<IWorkspace>();
+            _windowsToWorkspaces = new Dictionary<IWindow, IWorkspace>();
+            _focusedWorkspace = 0;
         }
+        public static WorkspaceManager Instance { get; } = new WorkspaceManager();
 
-        public void AddWorkspace(IWorkspace workspace)
+        public void AddWorkspace(string name, ILayoutEngine[] layouts)
         {
-            _workspaces.Add(workspace);
+            if (_workspaces.All(w => w.Name != name))
+            {
+                _workspaces.Add(new Workspace(name, layouts));
+            }
         }
 
         public void SwitchToWorkspace(int index)
@@ -58,29 +65,51 @@ namespace Tile.Net
 
         public void AddWindow(IWindow window)
         {
-            if (WorkspaceSelectorFunc == null)
-            {
-                FocusedWorkspace.AddWindow(window);
-            }
-            else
-            {
-                var workspace = WorkspaceSelectorFunc(window);
-                workspace.AddWindow(window);
+            AddWindow(window, true);
+        }
 
-                SwitchToWorkspace(_workspaces.IndexOf(workspace));
+        public void AddWindow(IWindow window, bool switchToWorkspace)
+        {
+            if (!_windowsToWorkspaces.ContainsKey(window))
+            {
+                if (WorkspaceSelectorFunc == null)
+                {
+                    FocusedWorkspace.AddWindow(window);
+                    _windowsToWorkspaces[window] = FocusedWorkspace;
+                }
+                else
+                {
+                    var workspace = WorkspaceSelectorFunc(window);
+
+                    if (workspace != null)
+                    {
+                        workspace.AddWindow(window);
+                        _windowsToWorkspaces[window] = workspace;
+
+                        if (switchToWorkspace)
+                        {
+                            SwitchToWorkspace(_workspaces.IndexOf(workspace));
+                        }
+                    }
+                }
             }
         }
 
         public void RemoveWindow(IWindow window)
         {
-            var workspace = _workspaces.FirstOrDefault(w => w.Windows.Contains(window));
-            workspace?.RemoveWindow(window);
+            if (_windowsToWorkspaces.ContainsKey(window))
+            {
+                _windowsToWorkspaces[window].RemoveWindow(window);
+                _windowsToWorkspaces.Remove(window);
+            }
         }
 
         public void UpdateWindow(IWindow window)
         {
-            var workspace = _workspaces.FirstOrDefault(w => w.Windows.Contains(window));
-            workspace?.UpdateWindow(window);
+            if (_windowsToWorkspaces.ContainsKey(window))
+            {
+                _windowsToWorkspaces[window].UpdateWindow(window);
+            }
         }
 
         public void PreExitCleanup()
@@ -96,7 +125,7 @@ namespace Tile.Net
 
         public IWorkspace GetWorkspaceForWindow(IWindow window)
         {
-            return _workspaces.FirstOrDefault(w => w.Windows.Contains(window));
+            return _windowsToWorkspaces[window];
         }
 
         public IWorkspace this[int index] => _workspaces[index];
@@ -112,25 +141,6 @@ namespace Tile.Net
                 }
                 return workspace;
             }
-        }
-
-        private static WorkspaceManager _instance;
-
-        public static WorkspaceManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = CreateInstance();
-                }
-                return _instance;
-            }
-        }
-
-        private static WorkspaceManager CreateInstance()
-        {
-            return new WorkspaceManager();
         }
     }
 }

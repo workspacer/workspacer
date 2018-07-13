@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tile.Net.Layout
+namespace Tile.Net
 {
     public class FullLayoutEngine : ILayoutEngine
     {
@@ -23,6 +23,8 @@ namespace Tile.Net.Layout
             }
             return list;
         }
+
+        public string Name => "full";
 
         public void ShrinkMasterArea() { }
         public void ExpandMasterArea() { }
