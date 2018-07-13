@@ -92,7 +92,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Native\Win32.cs" />
-    <Compile Include="Workspace\AllWindowWorkspace.cs" />
+    <Compile Include="Workspace\Workspace.cs" />
+    <Compile Include="Workspace\WorkspaceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

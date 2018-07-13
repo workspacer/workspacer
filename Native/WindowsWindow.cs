@@ -12,6 +12,7 @@ namespace Tile.Net
     public class WindowsWindow : IWindow
     {
         private IntPtr _handle;
+        private bool _layoutOverride;
 
         public WindowsWindow(IntPtr handle)
         {
@@ -55,9 +56,10 @@ namespace Tile.Net
         {
             get
             {
-                return !Win32Helper.IsCloaked(_handle) &&
+                return _layoutOverride || 
+                    (!Win32Helper.IsCloaked(_handle) &&
                        Win32Helper.IsAppWindow(_handle) &&
-                       Win32Helper.IsAltTabWindow(_handle);
+                       Win32Helper.IsAltTabWindow(_handle));
             }
         }
 
@@ -84,6 +86,15 @@ namespace Tile.Net
             }
         }
 
+        public void Hide()
+        {
+            if (CanLayout)
+            {
+                _layoutOverride = true;
+            }
+            Win32.ShowWindow(_handle, Win32.SW.SW_HIDE);
+        }
+
         public void ShowNormal()
         {
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWNOACTIVATE);
@@ -97,6 +108,22 @@ namespace Tile.Net
         public void ShowMinimized()
         {
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMINIMIZED);
+        }
+
+        public void ShowInCurrentState()
+        {
+            if (IsMinimized)
+            {
+                ShowMinimized();
+            }
+            else if (IsMaximized)
+            {
+                ShowMaximized();
+            }
+            else
+            {
+                ShowNormal();
+            }
         }
 
         public void Close()

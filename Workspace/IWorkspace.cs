@@ -8,7 +8,12 @@ namespace Tile.Net
 {
     public interface IWorkspace
     {
+        bool IsTemporary { get; }
         IEnumerable<IWindow> Windows { get; }
+        IWindow FocusedWindow { get; }
+
+        void Show();
+        void Hide();
 
         void WindowCreated(IWindow window);
         void WindowDestroyed(IWindow window);
@@ -40,8 +45,6 @@ namespace Tile.Net
         //void ResetLayoutToDefault(); // mod-shift-space
 
         //void ReloadTileNet(); // mod-q
-
-        //void SwitchToWorkspace(int index); // mod-[1..9]
         //void MoveFocusedWindowToWorkspace(int index); // mod-shift-[1..9]
     }
 }

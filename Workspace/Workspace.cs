@@ -10,12 +10,42 @@ using System.Windows.Forms.VisualStyles;
 
 namespace Tile.Net
 {
-    public class AllWindowWorkspace : IWorkspace
+    public class Workspace : IWorkspace
     {
-        private List<IWindow> _windows;
         public IEnumerable<IWindow> Windows => _windows;
+        public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
+        public bool IsTemporary { get; private set; }
+
+        private List<IWindow> _windows;
         private ILayoutEngine[] _layoutEngines;
         private int _layoutIndex;
+        private bool _show;
+
+        public Workspace(bool isTemporary, params ILayoutEngine[] layoutEngines)
+        {
+            _layoutEngines = layoutEngines;
+            _layoutIndex = 0;
+            _windows = new List<IWindow>();
+            _show = false;
+
+            IsTemporary = isTemporary;
+        }
+
+        public void Show()
+        {
+            _show = true;
+            DoLayout();
+
+            var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            if (windows.Count > 0)
+                windows[0].IsFocused = true;
+        }
+
+        public void Hide()
+        {
+            _show = false;
+            DoLayout();
+        }
 
         public void WindowCreated(IWindow window)
         {
@@ -190,29 +220,31 @@ namespace Tile.Net
             DoLayout();
         }
 
-
-        public AllWindowWorkspace(params ILayoutEngine[] layoutEngines)
-        {
-            _layoutEngines = layoutEngines;
-            _layoutIndex = 0;
-            _windows = new List<IWindow>();
-        }
-
         public void DoLayout()
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
-            var bounds = Screen.PrimaryScreen.WorkingArea;
-            var locations = GetLayoutEngine().CalcLayout(windows.Count(), bounds.Width, bounds.Height).ToArray();
 
-            using (var handle = WindowsDesktopManager.Instance.DeferWindowsPos(windows.Count))
+            if (_show)
             {
-                for (var i = 0; i < locations.Length; i++)
-                {
-                    var window = windows[i];
-                    var loc = locations[i];
+                windows.ForEach(w => w.ShowInCurrentState());
 
-                    handle.DeferWindowPos(window, loc);
+                var bounds = Screen.PrimaryScreen.WorkingArea;
+                var locations = GetLayoutEngine().CalcLayout(windows.Count(), bounds.Width, bounds.Height).ToArray();
+
+                using (var handle = WindowsDesktopManager.Instance.DeferWindowsPos(windows.Count))
+                {
+                    for (var i = 0; i < locations.Length; i++)
+                    {
+                        var window = windows[i];
+                        var loc = locations[i];
+
+                        handle.DeferWindowPos(window, loc);
+                    }
                 }
+            }
+            else
+            {
+                windows.ForEach(w => w.Hide());
             }
         }
 

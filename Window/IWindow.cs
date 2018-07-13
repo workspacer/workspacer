@@ -19,9 +19,11 @@ namespace Tile.Net
         bool IsMaximized { get; }
         bool CanResize { get; set; }
 
+        void Hide();
         void ShowNormal();
         void ShowMaximized();
         void ShowMinimized();
+        void ShowInCurrentState();
 
         void Close();
     }
