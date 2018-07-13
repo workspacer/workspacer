@@ -8,16 +8,16 @@ namespace Tile.Net
 {
     public interface IWorkspace
     {
-        bool IsTemporary { get; }
+        string Name { get; }
         IEnumerable<IWindow> Windows { get; }
         IWindow FocusedWindow { get; }
 
         void Show();
         void Hide();
 
-        void WindowCreated(IWindow window);
-        void WindowDestroyed(IWindow window);
-        void WindowUpdated(IWindow window);
+        void AddWindow(IWindow window);
+        void RemoveWindow(IWindow window);
+        void UpdateWindow(IWindow window);
 
         void CloseFocusedWindow(); // mod-shift-c
         void NextLayoutEngine(); // mod-space

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -49,6 +52,38 @@ namespace Tile.Net
                 }
 
                 return new WindowLocation(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top, state);
+            }
+        }
+
+        public Process Process
+        {
+            get
+            {
+                try
+                {
+                    uint processId;
+                    var threadId = Win32.GetWindowThreadProcessId(_handle, out processId);
+                    return Process.GetProcessById((int) processId);
+                }
+                catch (Win32Exception e)
+                {
+                    return null;
+                }
+            }
+        }
+
+        public string ProcessFileName
+        {
+            get
+            {
+                try
+                {
+                    return Process != null ? Path.GetFileName(Process.MainModule.FileName) : null;
+                }
+                catch (Win32Exception e)
+                {
+                    return null;
+                }
             }
         }
 
