@@ -10,10 +10,11 @@ namespace Tile.Net
     public class WorkspaceManager
     {
         public IEnumerable<IWorkspace> Workspaces => _workspaces;
-        public IWorkspace FocusedWorkspace => _focusedWorkspace;
+        public IWorkspace FocusedWorkspace => _workspaces[_focusedWorkspace];
+        public Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
 
         private List<IWorkspace> _workspaces;
-        private IWorkspace _focusedWorkspace;
+        private int _focusedWorkspace;
 
         private WorkspaceManager()
         {
@@ -29,14 +30,14 @@ namespace Tile.Net
         {
             if (index < _workspaces.Count && index >= 0)
             {
-                _focusedWorkspace = _workspaces[index];
+                _focusedWorkspace = index;
 
-                var workspaces = _workspaces.Where(w => w != _focusedWorkspace);
+                var workspaces = _workspaces.Where(w => w != FocusedWorkspace);
                 foreach (var w in workspaces)
                 {
                     w.Hide();
                 }
-                _focusedWorkspace.Show();
+                FocusedWorkspace.Show();
             }
         }
 
@@ -44,29 +45,42 @@ namespace Tile.Net
         {
             if (index < _workspaces.Count && index >= 0)
             {
-                var window = _focusedWorkspace?.FocusedWindow;
+                var window = FocusedWorkspace.FocusedWindow;
                 var targetWorkspace = _workspaces[index];
 
-                _focusedWorkspace?.WindowDestroyed(window);
-                targetWorkspace.WindowCreated(window);
+                if (window != null)
+                {
+                    FocusedWorkspace.RemoveWindow(window);
+                    targetWorkspace.AddWindow(window);
+                }
             }
         }
 
         public void AddWindow(IWindow window)
         {
-            FocusedWorkspace?.WindowCreated(window);
+            if (WorkspaceSelectorFunc == null)
+            {
+                FocusedWorkspace.AddWindow(window);
+            }
+            else
+            {
+                var workspace = WorkspaceSelectorFunc(window);
+                workspace.AddWindow(window);
+
+                SwitchToWorkspace(_workspaces.IndexOf(workspace));
+            }
         }
 
         public void RemoveWindow(IWindow window)
         {
             var workspace = _workspaces.FirstOrDefault(w => w.Windows.Contains(window));
-            workspace?.WindowDestroyed(window);
+            workspace?.RemoveWindow(window);
         }
 
         public void UpdateWindow(IWindow window)
         {
             var workspace = _workspaces.FirstOrDefault(w => w.Windows.Contains(window));
-            workspace?.WindowUpdated(window);
+            workspace?.UpdateWindow(window);
         }
 
         public void PreExitCleanup()
@@ -77,6 +91,26 @@ namespace Tile.Net
                 {
                     w.ShowInCurrentState();
                 }
+            }
+        }
+
+        public IWorkspace GetWorkspaceForWindow(IWindow window)
+        {
+            return _workspaces.FirstOrDefault(w => w.Windows.Contains(window));
+        }
+
+        public IWorkspace this[int index] => _workspaces[index];
+
+        public IWorkspace this[string name]
+        {
+            get
+            {
+                var workspace = _workspaces.FirstOrDefault(w => w.Name == name);
+                if (workspace == null)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                return workspace;
             }
         }
 

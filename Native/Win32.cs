@@ -49,5 +49,8 @@ namespace Tile.Net
 
         [DllImport("user32.dll")]
 		public static extern short GetKeyState(System.Windows.Forms.Keys nVirtKey);
+
+        [DllImport("user32.dll", SetLastError=true)]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
     }
 }

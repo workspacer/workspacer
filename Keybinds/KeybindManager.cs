@@ -143,6 +143,11 @@ namespace Tile.Net
             }
         }
 
+        public bool KeyIsPressed(Keys key)
+        {
+             return (Win32.GetKeyState(key) & 0x8000) == 0x8000;
+        }
+
         private IntPtr KeyboardHook(int nCode, UIntPtr wParam, IntPtr lParam)
         {
             if (nCode == 0 && ((uint)wParam == Win32.WM_KEYDOWN || (uint)wParam == Win32.WM_SYSKEYDOWN))

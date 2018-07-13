@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,9 @@ namespace Tile.Net
         IntPtr Handle { get; }
         string Title { get; }
         IWindowLocation Location { get; }
+
+        Process Process { get; }
+        string ProcessFileName { get; }
 
         bool CanLayout { get; }
 

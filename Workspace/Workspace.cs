@@ -14,21 +14,21 @@ namespace Tile.Net
     {
         public IEnumerable<IWindow> Windows => _windows;
         public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
-        public bool IsTemporary { get; private set; }
+        public string Name { get; }
 
         private List<IWindow> _windows;
         private ILayoutEngine[] _layoutEngines;
         private int _layoutIndex;
         private bool _show;
 
-        public Workspace(bool isTemporary, params ILayoutEngine[] layoutEngines)
+        public Workspace(string name, params ILayoutEngine[] layoutEngines)
         {
             _layoutEngines = layoutEngines;
             _layoutIndex = 0;
             _windows = new List<IWindow>();
             _show = false;
 
-            IsTemporary = isTemporary;
+            Name = name;
         }
 
         public void Show()
@@ -53,19 +53,19 @@ namespace Tile.Net
             }
         }
 
-        public void WindowCreated(IWindow window)
+        public void AddWindow(IWindow window)
         {
             _windows.Add(window);
             DoLayout();
         }
 
-        public void WindowDestroyed(IWindow window)
+        public void RemoveWindow(IWindow window)
         {
             _windows.Remove(window);
             DoLayout();
         }
 
-        public void WindowUpdated(IWindow window)
+        public void UpdateWindow(IWindow window)
         {
             DoLayout();
         }
