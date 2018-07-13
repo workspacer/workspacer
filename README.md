@@ -21,4 +21,4 @@ like "being able to see what workspaces are available" is currently not possible
 
 # Contributing
 
-Thanks for your interest in contributing! Get started [here](CONTRIBUTING.md)
+Thanks for your interest in contributing! Submit a pull request!
