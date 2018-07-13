@@ -10,6 +10,11 @@ namespace Tile.Net
     public static class Win32Helper
     {
 
+        public static void QuitApplication(IntPtr hwnd)
+        {
+            Win32.SendNotifyMessage(hwnd, Win32.WM_SYSCOMMAND, Win32.SC_CLOSE, IntPtr.Zero);
+        }
+
         public static bool IsCloaked(IntPtr hwnd)
         {
             bool isCloaked;

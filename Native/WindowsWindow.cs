@@ -36,7 +36,18 @@ namespace Tile.Net
             {
                 Win32.Rect rect = new Win32.Rect();
                 Win32.GetWindowRect(_handle, ref rect);
-                return new WindowLocation(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+
+                WindowState state = WindowState.Normal;
+                if (IsMinimized)
+                {
+                    state = WindowState.Minimized;
+                }
+                else if (IsMaximized)
+                {
+                    state = WindowState.Maximized;
+                }
+
+                return new WindowLocation(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top, state);
             }
         }
 
@@ -44,10 +55,9 @@ namespace Tile.Net
         {
             get
             {
-                return !Win32Helper.IsCloaked(_handle)  &&
-                    Win32Helper.IsAppWindow(_handle) && 
-                    Win32Helper.IsAltTabWindow(_handle) &&
-                    !Win32.IsIconic(_handle);
+                return !Win32Helper.IsCloaked(_handle) &&
+                       Win32Helper.IsAppWindow(_handle) &&
+                       Win32Helper.IsAltTabWindow(_handle);
             }
         }
 
@@ -87,6 +97,11 @@ namespace Tile.Net
         public void ShowMinimized()
         {
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMINIMIZED);
+        }
+
+        public void Close()
+        {
+            Win32Helper.QuitApplication(_handle);
         }
 
         public override string ToString()

@@ -22,5 +22,7 @@ namespace Tile.Net
         void ShowNormal();
         void ShowMaximized();
         void ShowMinimized();
+
+        void Close();
     }
 }

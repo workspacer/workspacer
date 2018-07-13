@@ -145,7 +145,7 @@ namespace Tile.Net
 
         private IntPtr KeyboardHook(int nCode, UIntPtr wParam, IntPtr lParam)
         {
-            if (nCode == 0 && (wParam == Win32.WM_KEYDOWN || wParam == Win32.WM_SYSKEYDOWN))
+            if (nCode == 0 && ((uint)wParam == Win32.WM_KEYDOWN || (uint)wParam == Win32.WM_SYSKEYDOWN))
             {
                 var key = (Keys) Marshal.ReadInt32(lParam);
                 if (key != Keys.LShiftKey && key != Keys.RShiftKey &&

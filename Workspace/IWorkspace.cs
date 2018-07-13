@@ -14,8 +14,8 @@ namespace Tile.Net
         void WindowDestroyed(IWindow window);
         void WindowUpdated(IWindow window);
 
-        //void CloseFocusedWindow(); // mod-shift-c
-        //void NextLayoutEngine(); // mod-space
+        void CloseFocusedWindow(); // mod-shift-c
+        void NextLayoutEngine(); // mod-space
         void ResetLayout(); // mod-shift-space
         //void ResetLayoutToDefault(); // mod-n
 
@@ -30,8 +30,8 @@ namespace Tile.Net
         void ShrinkMasterArea(); // mod-h
         void ExpandMasterArea(); // mod-l
 
-        //void IncrementNumberOfMasterWindows(); // mod-comma
-        //void DecrementNumberOfMasterWindows(); // mod-period
+        void IncrementNumberOfMasterWindows(); // mod-comma
+        void DecrementNumberOfMasterWindows(); // mod-period
 
         // mod-t - switch to tiling
         // probably via SetLayoutEngine?

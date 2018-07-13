@@ -12,5 +12,7 @@ namespace Tile.Net
         int Y { get; }
         int Width { get; }
         int Height { get; }
+
+        WindowState State { get; }
     }
 }

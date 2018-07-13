@@ -14,6 +14,8 @@ namespace Tile.Net
     {
         private List<IWindow> _windows;
         public IEnumerable<IWindow> Windows => _windows;
+        private ILayoutEngine[] _layoutEngines;
+        private int _layoutIndex;
 
         public void WindowCreated(IWindow window)
         {
@@ -32,9 +34,28 @@ namespace Tile.Net
             DoLayout();
         }
 
+        public void CloseFocusedWindow()
+        {
+            var window = this.Windows.FirstOrDefault(w => w.CanLayout && w.IsFocused);
+            window?.Close();
+        }
+
+        public void NextLayoutEngine()
+        {
+            if (_layoutIndex + 1 == _layoutEngines.Length)
+            {
+                _layoutIndex = 0;
+            }
+            else
+            {
+                _layoutIndex++;
+            }
+            DoLayout();
+        }
+
         public void ResetLayout()
         {
-            _layoutEngine.ResetMasterArea();
+            GetLayoutEngine().ResetMasterArea();
             DoLayout();
         }
 
@@ -148,21 +169,32 @@ namespace Tile.Net
 
         public void ShrinkMasterArea()
         {
-            _layoutEngine.ShrinkMasterArea();
+            GetLayoutEngine().ShrinkMasterArea();
             DoLayout();
         }
         public void ExpandMasterArea()
         {
-            _layoutEngine.ExpandMasterArea();
+            GetLayoutEngine().ExpandMasterArea();
             DoLayout();
         }
 
-        private ILayoutEngine _layoutEngine;
-        private WinEventDelegate _moveDelegate;
-
-        public AllWindowWorkspace(ILayoutEngine layoutEngine)
+        public void IncrementNumberOfMasterWindows()
         {
-            _layoutEngine = layoutEngine;
+            GetLayoutEngine().IncrementNumInMaster();
+            DoLayout();
+        }
+
+        public void DecrementNumberOfMasterWindows()
+        {
+            GetLayoutEngine().DecrementNumInMaster();
+            DoLayout();
+        }
+
+
+        public AllWindowWorkspace(params ILayoutEngine[] layoutEngines)
+        {
+            _layoutEngines = layoutEngines;
+            _layoutIndex = 0;
             _windows = new List<IWindow>();
         }
 
@@ -170,7 +202,7 @@ namespace Tile.Net
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
             var bounds = Screen.PrimaryScreen.WorkingArea;
-            var locations = _layoutEngine.CalcLayout(windows.Count(), bounds.Width, bounds.Height).ToArray();
+            var locations = GetLayoutEngine().CalcLayout(windows.Count(), bounds.Width, bounds.Height).ToArray();
 
             using (var handle = WindowsDesktopManager.Instance.DeferWindowsPos(windows.Count))
             {
@@ -179,12 +211,7 @@ namespace Tile.Net
                     var window = windows[i];
                     var loc = locations[i];
 
-                    if (window.IsMaximized)
-                    {
-                        window.ShowNormal();
-                    }
-
-                    handle.DeferWindowPos(window, loc.X, loc.Y, loc.Width, loc.Height);
+                    handle.DeferWindowPos(window, loc);
                 }
             }
         }
@@ -198,6 +225,11 @@ namespace Tile.Net
             _windows[rightIdx] = left;
 
             DoLayout();
+        }
+
+        private ILayoutEngine GetLayoutEngine()
+        {
+            return _layoutEngines[_layoutIndex];
         }
     }
 }

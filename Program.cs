@@ -23,8 +23,7 @@ namespace Tile.Net
 
         void Start()
         {
-            var layoutEngine = new TallLayoutEngine(1, 0.5, 0.03);
-            _workspace = new AllWindowWorkspace(layoutEngine);
+            _workspace = new AllWindowWorkspace(new TallLayoutEngine(1, 0.5, 0.03), new FullLayoutEngine());
 
             WindowsDesktopManager.Instance.WindowCreated += WindowCreated;
             WindowsDesktopManager.Instance.WindowDestroyed += WindowDestroyed;
@@ -32,8 +31,10 @@ namespace Tile.Net
 
             WindowsDesktopManager.Instance.Initialize();
 
-            var mod = KeyModifiers.LControl | KeyModifiers.LWin;
+            var mod = KeyModifiers.LAlt;
 
+            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.C, () => _workspace.CloseFocusedWindow());
+            KeybindManager.Instance.Subscribe(mod, Keys.Space, () => _workspace.NextLayoutEngine());
             KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Space, () => _workspace.ResetLayout());
 
             KeybindManager.Instance.Subscribe(mod, Keys.J, () => _workspace.FocusNextWindow());
@@ -46,6 +47,9 @@ namespace Tile.Net
 
             KeybindManager.Instance.Subscribe(mod, Keys.H, () => _workspace.ShrinkMasterArea());
             KeybindManager.Instance.Subscribe(mod, Keys.L, () => _workspace.ExpandMasterArea());
+
+            KeybindManager.Instance.Subscribe(mod, Keys.Oemcomma, () => _workspace.IncrementNumberOfMasterWindows());
+            KeybindManager.Instance.Subscribe(mod, Keys.OemPeriod, () => _workspace.DecrementNumberOfMasterWindows());
 
             var msg = new Win32.Message();
             while (Win32.GetMessage(ref msg, IntPtr.Zero, 0, 0)) { }

@@ -12,6 +12,7 @@ namespace Tile.Net.Layout
         private readonly double _masterPercent;
         private readonly double _masterPercentIncrement;
 
+        private int _numInMasterOffset = 0;
         private double _masterPercentOffset = 0;
 
         public TallLayoutEngine(int numInMaster, double masterPercent, double masterPercentIncrement)
@@ -28,14 +29,16 @@ namespace Tile.Net.Layout
             if (numWindows == 0)
                 return list;
 
+            int numInMaster = Math.Min(GetNumInMaster(), numWindows);
+
             int masterWidth = (int)(spaceWidth * (_masterPercent + _masterPercentOffset));
-            int masterHeight = spaceHeight / _numInMaster;
-            int height = spaceHeight / Math.Max(numWindows - _numInMaster, 1);
+            int masterHeight = spaceHeight / numInMaster;
+            int height = spaceHeight / Math.Max(numWindows - numInMaster, 1);
 
             // if there are more "master" windows than actual windows,
             // then we want the pane to actually spread the entire width
             // of the working area
-            if (_numInMaster > numWindows)
+            if (numInMaster >= numWindows)
             {
                 masterWidth = spaceWidth;
             }
@@ -44,13 +47,13 @@ namespace Tile.Net.Layout
 
             for (var i = 0; i < numWindows; i++)
             {
-                if (i < _numInMaster)
+                if (i < numInMaster)
                 {
-                    list.Add(new WindowLocation(0, i * masterHeight, masterWidth, masterHeight));
+                    list.Add(new WindowLocation(0, i * masterHeight, masterWidth, masterHeight, WindowState.Normal));
                 }
                 else
                 {
-                    list.Add(new WindowLocation(masterWidth, (i - _numInMaster) * height, slaveWidth, height));
+                    list.Add(new WindowLocation(masterWidth, (i - numInMaster) * height, slaveWidth, height, WindowState.Normal));
                 }
             }
             return list;
@@ -69,6 +72,24 @@ namespace Tile.Net.Layout
         public void ResetMasterArea()
         {
             _masterPercentOffset = 0;
+        }
+
+        public void IncrementNumInMaster()
+        {
+            _numInMasterOffset++;
+        }
+
+        public void DecrementNumInMaster()
+        {
+            if (GetNumInMaster() > 1)
+            {
+                _numInMasterOffset--;
+            }
+        }
+
+        private int GetNumInMaster()
+        {
+            return _numInMaster + _numInMasterOffset;
         }
     }
 }

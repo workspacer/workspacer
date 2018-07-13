@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Keybinds\KeybindManager.cs" />
+    <Compile Include="Layout\FullLayoutEngine.cs" />
     <Compile Include="Layout\HorizontalLayoutEngine.cs" />
     <Compile Include="Layout\ILayoutEngine.cs" />
     <Compile Include="Layout\TallLayoutEngine.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Window\IWindowLocation.cs" />
     <Compile Include="Native\WindowsWindow.cs" />
     <Compile Include="Window\WindowLocation.cs" />
+    <Compile Include="Window\WindowState.cs" />
     <Compile Include="Workspace\IWorkspace.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

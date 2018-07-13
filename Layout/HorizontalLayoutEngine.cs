@@ -18,12 +18,12 @@ namespace Tile.Net
 
             var list = new List<IWindowLocation>();
 
-            list.Add(new WindowLocation(0, 0, windowWidth + extra, spaceHeight));
+            list.Add(new WindowLocation(0, 0, windowWidth + extra, spaceHeight, WindowState.Normal));
 
             int offset = windowWidth + extra;
             for (var i = 1; i < numWindows; i++)
             {
-                list.Add(new WindowLocation(offset, 0, windowWidth, spaceHeight));
+                list.Add(new WindowLocation(offset, 0, windowWidth, spaceHeight, WindowState.Normal));
                 offset += windowWidth;
             }
 
@@ -39,6 +39,14 @@ namespace Tile.Net
         }
 
         public void ResetMasterArea()
+        {
+        }
+
+        public void IncrementNumInMaster()
+        {
+        }
+
+        public void DecrementNumInMaster()
         {
         }
     }

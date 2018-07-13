@@ -13,5 +13,8 @@ namespace Tile.Net
         void ShrinkMasterArea();
         void ExpandMasterArea();
         void ResetMasterArea();
+
+        void IncrementNumInMaster();
+        void DecrementNumInMaster();
     }
 }
