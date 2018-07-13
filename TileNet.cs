@@ -19,6 +19,10 @@ namespace Tile.Net
 
         public void Start()
         {
+            WindowsDesktopManager.Instance.WindowCreated += WorkspaceManager.Instance.AddWindow;
+            WindowsDesktopManager.Instance.WindowDestroyed += WorkspaceManager.Instance.RemoveWindow;
+            WindowsDesktopManager.Instance.WindowUpdated += WorkspaceManager.Instance.UpdateWindow;
+
             DoConfig();
 
             WindowsDesktopManager.Instance.Initialize();
@@ -37,10 +41,6 @@ namespace Tile.Net
         void DoConfig()
         {
             var mod = KeyModifiers.LAlt;
-
-            WindowsDesktopManager.Instance.WindowCreated += WorkspaceManager.Instance.AddWindow;
-            WindowsDesktopManager.Instance.WindowDestroyed += WorkspaceManager.Instance.RemoveWindow;
-            WindowsDesktopManager.Instance.WindowUpdated += WorkspaceManager.Instance.UpdateWindow;
 
             LayoutManager.Instance.AddLayout<TallLayoutEngine>(1, 0.5, 0.03);
             LayoutManager.Instance.AddLayout<FullLayoutEngine>();
