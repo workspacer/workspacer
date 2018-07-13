@@ -41,7 +41,7 @@ namespace Tile.Net
             KeybindManager.Instance.Subscribe(mod, Keys.K, () => _workspace.FocusPreviousWindow());
             KeybindManager.Instance.Subscribe(mod, Keys.M, () => _workspace.FocusMasterWindow());
 
-            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Enter, () => _workspace.SwapFocusAndMasterWindow());
+            KeybindManager.Instance.Subscribe(mod, Keys.Enter, () => _workspace.SwapFocusAndMasterWindow());
             KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.J, () => _workspace.SwapFocusAndNextWindow());
             KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.K, () => _workspace.SwapFocusAndPreviousWindow());
 
@@ -50,6 +50,8 @@ namespace Tile.Net
 
             KeybindManager.Instance.Subscribe(mod, Keys.Oemcomma, () => _workspace.IncrementNumberOfMasterWindows());
             KeybindManager.Instance.Subscribe(mod, Keys.OemPeriod, () => _workspace.DecrementNumberOfMasterWindows());
+
+            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Q, Quit);
 
             var msg = new Win32.Message();
             while (Win32.GetMessage(ref msg, IntPtr.Zero, 0, 0)) { }
@@ -68,6 +70,11 @@ namespace Tile.Net
         void WindowUpdated(IWindow window)
         {
             _workspace.WindowUpdated(window);
+        }
+
+        void Quit()
+        {
+            Environment.Exit(0);
         }
     }
 }

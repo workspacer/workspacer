@@ -38,7 +38,6 @@ namespace Tile.Net
 
         // non workspace, storing these for a second
 
-        //void QuitTileNet(); // mod-shift-q
         //void ReloadTileNet(); // mod-q
 
         //void SwitchToWorkspace(int index); // mod-[1..9]
