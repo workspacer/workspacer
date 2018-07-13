@@ -52,6 +52,14 @@ namespace Tile.Net
                     {
                         return WorkspaceManager.Instance["web"];
                     }
+                    if (window.ProcessFileName == "ConEmu64.exe")
+                    {
+                        return WorkspaceManager.Instance["term"];
+                    }
+                    if (window.ProcessFileName == "devenv.exe")
+                    {
+                        return WorkspaceManager.Instance["code"];
+                    }
                 }
 
                 return WorkspaceManager.Instance.FocusedWorkspace;
@@ -64,6 +72,7 @@ namespace Tile.Net
             WorkspaceManager.Instance.AddWorkspace(new Workspace("main", new TallLayoutEngine(1, 0.5, 0.03), new FullLayoutEngine()));
             WorkspaceManager.Instance.AddWorkspace(new Workspace("web", new TallLayoutEngine(1, 0.5, 0.03), new FullLayoutEngine()));
             WorkspaceManager.Instance.AddWorkspace(new Workspace("code", new TallLayoutEngine(1, 0.5, 0.03), new FullLayoutEngine()));
+            WorkspaceManager.Instance.AddWorkspace(new Workspace("term", new TallLayoutEngine(1, 0.5, 0.03), new FullLayoutEngine()));
 
             foreach (var w in WindowsDesktopManager.Instance.Windows)
             {
