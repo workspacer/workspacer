@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,16 +15,7 @@ namespace Tile.Net
     public class WindowsDesktopManager
     {
 
-        private static WindowsDesktopManager _instance;
-        public static WindowsDesktopManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = CreateInstance();
-                return _instance;
-            }
-        }
+        public static WindowsDesktopManager Instance { get; } = new WindowsDesktopManager();
 
         private IDictionary<IntPtr, IWindow> _windows;
 
@@ -52,7 +44,7 @@ namespace Tile.Net
             {
                 if (Win32Helper.IsAppWindow(handle))
                 {
-                    RegisterWindow(handle);
+                    RegisterWindow(handle, false);
                 }
                 return true;
             }, IntPtr.Zero);
@@ -64,10 +56,6 @@ namespace Tile.Net
             return new WindowsDeferPosHandle(info);
         }
 
-        private static WindowsDesktopManager CreateInstance()
-        {
-            return new WindowsDesktopManager();
-        }
         private void WindowHook(IntPtr hWinEventHook, Win32.EVENT_CONSTANTS eventType, IntPtr hwnd, Win32.OBJID idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
             if (EventWindowIsValid(idChild, idObject, hwnd))
@@ -100,13 +88,17 @@ namespace Tile.Net
             return idChild == Win32.CHILDID_SELF && idObject == Win32.OBJID.OBJID_WINDOW && hwnd != IntPtr.Zero;
         }
         
-        private void RegisterWindow(IntPtr handle)
+        private void RegisterWindow(IntPtr handle, bool emitEvent = true)
         {
             if (!_windows.ContainsKey(handle))
             {
                 var window = new WindowsWindow(handle);
                 _windows[handle] = window;
-                WindowCreated?.Invoke(window);
+
+                if (emitEvent)
+                {
+                    WindowCreated?.Invoke(window);
+                }
             }
         }
 

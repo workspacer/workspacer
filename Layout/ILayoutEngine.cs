@@ -8,6 +8,8 @@ namespace Tile.Net
 {
     public interface ILayoutEngine
     {
+        string Name { get; }
+
         IEnumerable<IWindowLocation> CalcLayout(int numWindows, int spaceWidth, int spaceHeight);
 
         void ShrinkMasterArea();

@@ -112,23 +112,7 @@ namespace Tile.Net
 
             _subscriptions = new Dictionary<Sub, KeybindHandler>(new Sub.SubEqualityComparer());
         }
-
-        private static KeybindManager _instance;
-        public static KeybindManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = CreateInstance();
-                }
-                return _instance;
-            }
-        }
-        private static KeybindManager CreateInstance()
-        {
-            return new KeybindManager();
-        }
+        public static KeybindManager Instance { get; } = new KeybindManager();
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler)
         {

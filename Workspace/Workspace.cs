@@ -36,12 +36,12 @@ namespace Tile.Net
             if (!_show)
             {
                 _show = true;
-                DoLayout();
 
                 var windows = this.Windows.Where(w => w.CanLayout).ToList();
                 if (windows.Count > 0)
                     windows[0].IsFocused = true;
             }
+            DoLayout();
         }
 
         public void Hide()
@@ -49,8 +49,8 @@ namespace Tile.Net
             if (_show)
             {
                 _show = false;
-                DoLayout();
             }
+            DoLayout();
         }
 
         public void AddWindow(IWindow window)
@@ -230,27 +230,35 @@ namespace Tile.Net
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
 
-            if (_show)
+            if (TileNet.Instance.Enabled)
             {
-                windows.ForEach(w => w.ShowInCurrentState());
-
-                var bounds = Screen.PrimaryScreen.WorkingArea;
-                var locations = GetLayoutEngine().CalcLayout(windows.Count(), bounds.Width, bounds.Height).ToArray();
-
-                using (var handle = WindowsDesktopManager.Instance.DeferWindowsPos(windows.Count))
+                if (_show)
                 {
-                    for (var i = 0; i < locations.Length; i++)
-                    {
-                        var window = windows[i];
-                        var loc = locations[i];
+                    windows.ForEach(w => w.ShowInCurrentState());
 
-                        handle.DeferWindowPos(window, loc);
+                    var bounds = Screen.PrimaryScreen.WorkingArea;
+                    var locations = GetLayoutEngine().CalcLayout(windows.Count(), bounds.Width, bounds.Height)
+                        .ToArray();
+
+                    using (var handle = WindowsDesktopManager.Instance.DeferWindowsPos(windows.Count))
+                    {
+                        for (var i = 0; i < locations.Length; i++)
+                        {
+                            var window = windows[i];
+                            var loc = locations[i];
+
+                            handle.DeferWindowPos(window, loc);
+                        }
                     }
+                }
+                else
+                {
+                    windows.ForEach(w => w.Hide());
                 }
             }
             else
             {
-                windows.ForEach(w => w.Hide());
+                windows.ForEach(w => w.ShowInCurrentState());
             }
         }
 

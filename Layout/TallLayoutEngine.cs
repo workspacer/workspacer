@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tile.Net.Layout
+namespace Tile.Net
 {
     public class TallLayoutEngine : ILayoutEngine
     {
@@ -21,6 +21,8 @@ namespace Tile.Net.Layout
             _masterPercent = masterPercent;
             _masterPercentIncrement = masterPercentIncrement;
         }
+
+        public string Name => "tall";
 
         public IEnumerable<IWindowLocation> CalcLayout(int numWindows, int spaceWidth, int spaceHeight)
         {
