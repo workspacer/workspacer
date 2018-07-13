@@ -33,18 +33,24 @@ namespace Tile.Net
 
         public void Show()
         {
-            _show = true;
-            DoLayout();
+            if (!_show)
+            {
+                _show = true;
+                DoLayout();
 
-            var windows = this.Windows.Where(w => w.CanLayout).ToList();
-            if (windows.Count > 0)
-                windows[0].IsFocused = true;
+                var windows = this.Windows.Where(w => w.CanLayout).ToList();
+                if (windows.Count > 0)
+                    windows[0].IsFocused = true;
+            }
         }
 
         public void Hide()
         {
-            _show = false;
-            DoLayout();
+            if (_show)
+            {
+                _show = false;
+                DoLayout();
+            }
         }
 
         public void WindowCreated(IWindow window)

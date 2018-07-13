@@ -30,7 +30,12 @@ namespace Tile.Net
             if (index < _workspaces.Count && index >= 0)
             {
                 _focusedWorkspace = _workspaces[index];
-                _workspaces.ForEach(w => w.Hide());
+
+                var workspaces = _workspaces.Where(w => w != _focusedWorkspace);
+                foreach (var w in workspaces)
+                {
+                    w.Hide();
+                }
                 _focusedWorkspace.Show();
             }
         }
