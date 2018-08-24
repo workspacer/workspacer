@@ -21,7 +21,7 @@ namespace Tile.Net
             Thread.GetDomain().UnhandledException += ((s, e) =>
                 {
                     Console.Write(e.ExceptionObject);
-                    app.DoLauncherAction(LauncherAction.Quit);
+                    app.Quit();
                 });
 
             app.Start();

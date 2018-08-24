@@ -9,37 +9,49 @@ using System.Threading.Tasks;
 
 namespace Tile.Net.Launcher
 {
-    public class PipeServer
+    public class PipeServer : IDisposable
     {
-        public string WaitForResponse(Process process)
+        private AnonymousPipeServerStream _server;
+        private StreamReader _sr;
+        private Process _process;
+
+        public PipeServer(Process process)
         {
-            
+            _process = process;
+        }
 
-            string response;
-            using (AnonymousPipeServerStream pipeServer = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))
+        public void Start()
+        {
+            _server = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
+            _sr = new StreamReader(_server);
+
+            _process.StartInfo.Arguments = _server.GetClientHandleAsString();
+            _process.StartInfo.UseShellExecute = false;
+            _process.Start();
+
+            _server.DisposeLocalCopyOfClientHandle();
+
+            string temp;
+            do
             {
-                process.StartInfo.Arguments = pipeServer.GetClientHandleAsString();
-                process.StartInfo.UseShellExecute = false;
-                process.Start();
-
-                pipeServer.DisposeLocalCopyOfClientHandle();
-
-                using (StreamReader sr = new StreamReader(pipeServer))
-                {
-                    string temp;
-                    do
-                    {
-                        temp = sr.ReadLine();
-                    }
-                    while (temp == null || !temp.StartsWith("SYNC"));
-
-                    response = sr.ReadLine();
-                }
+                temp = _sr.ReadLine();
             }
+            while (temp == null || !temp.StartsWith("SYNC"));
 
-            process.WaitForExit();
-            process.Close();
-            return response;
+            
+        }
+
+        public string ReadLine()
+        {
+            return _sr.ReadLine();
+        }
+
+        public void Dispose()
+        {
+            _sr?.Dispose();
+            _server?.Dispose();
+            _process.WaitForExit();
+            _process.Close();
         }
     }
 }
