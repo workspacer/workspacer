@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tile.Net.Native
+namespace Tile.Net
 {
     public class WindowsDeferPosHandle : IDisposable
     {

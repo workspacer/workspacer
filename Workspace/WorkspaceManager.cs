@@ -15,6 +15,7 @@ namespace Tile.Net
 
         private List<IWorkspace> _workspaces;
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
+
         private int _focusedWorkspace;
 
         private WorkspaceManager()
@@ -59,6 +60,7 @@ namespace Tile.Net
                 {
                     FocusedWorkspace.RemoveWindow(window);
                     targetWorkspace.AddWindow(window);
+                    _windowsToWorkspaces[window] = targetWorkspace;
                 }
             }
         }
@@ -74,8 +76,7 @@ namespace Tile.Net
             {
                 if (WorkspaceSelectorFunc == null)
                 {
-                    FocusedWorkspace.AddWindow(window);
-                    _windowsToWorkspaces[window] = FocusedWorkspace;
+                    AddWindowToWorkspace(window, FocusedWorkspace);
                 }
                 else
                 {
@@ -83,8 +84,7 @@ namespace Tile.Net
 
                     if (workspace != null)
                     {
-                        workspace.AddWindow(window);
-                        _windowsToWorkspaces[window] = workspace;
+                        AddWindowToWorkspace(window, workspace);
 
                         if (switchToWorkspace)
                         {
@@ -93,6 +93,12 @@ namespace Tile.Net
                     }
                 }
             }
+        }
+
+        private void AddWindowToWorkspace(IWindow window, IWorkspace workspace)
+        {
+            workspace.AddWindow(window);
+            _windowsToWorkspaces[window] = workspace;
         }
 
         public void RemoveWindow(IWindow window)
@@ -126,6 +132,62 @@ namespace Tile.Net
         public IWorkspace GetWorkspaceForWindow(IWindow window)
         {
             return _windowsToWorkspaces[window];
+        }
+
+        public WorkspaceState GetState()
+        {
+            var dict = new Dictionary<int, int>();
+
+            int focusedWindow = 0;
+            foreach (var kv in _windowsToWorkspaces)
+            {
+                var index = _workspaces.IndexOf(kv.Value);
+                dict[(int) kv.Key.Handle] = index;
+
+                if (kv.Key.IsFocused)
+                {
+                    focusedWindow = (int)kv.Key.Handle;
+                }
+            }
+            return new WorkspaceState()
+            {
+                WindowsToWorkspaces = dict,
+                FocusedWorkspace = _focusedWorkspace,
+                FocusedWindow = focusedWindow
+            };
+        }
+
+        public void InitializeWithState(WorkspaceState state, IEnumerable<IWindow> windows)
+        {
+            var wtw = state.WindowsToWorkspaces;
+
+            foreach (var w in windows)
+            {
+                var handle = (int) w.Handle;
+                if (wtw.ContainsKey(handle) && wtw[handle] < _workspaces.Count)
+                {
+                    var workspace = _workspaces[wtw[handle]];
+                    AddWindowToWorkspace(w, workspace);
+                }
+                else
+                {
+                    AddWindowToWorkspace(w, FocusedWorkspace);
+                }
+
+                if (state.FocusedWindow == handle)
+                {
+                    w.IsFocused = true;
+                }
+            }
+            _focusedWorkspace = state.FocusedWorkspace;
+        }
+
+        public void Initialize(IEnumerable<IWindow> windows)
+        {
+            foreach (var w in windows)
+            {
+                AddWindow(w, false);
+            }
         }
 
         public IWorkspace this[int index] => _workspaces[index];

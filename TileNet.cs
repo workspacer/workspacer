@@ -4,31 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using Tile.Net.Shared;
 
 namespace Tile.Net
 {
     public class TileNet
     {
-        public static TileNet Instance { get; } = new TileNet();
+        public static bool Enabled { get; set; }
 
-        public bool Enabled { get; set; }
+        private PipeClient _pipeClient;
 
-        private TileNet()
+        public TileNet(string clientHandle)
         {
+            _pipeClient = new PipeClient(clientHandle);
         }
 
         public void Start()
         {
+            _pipeClient.Start();
+
             WindowsDesktopManager.Instance.WindowCreated += WorkspaceManager.Instance.AddWindow;
             WindowsDesktopManager.Instance.WindowDestroyed += WorkspaceManager.Instance.RemoveWindow;
             WindowsDesktopManager.Instance.WindowUpdated += WorkspaceManager.Instance.UpdateWindow;
 
             DoConfig();
 
+            var state = StateManager.Instance.LoadState();
+
             WindowsDesktopManager.Instance.Initialize();
-            foreach (var w in WindowsDesktopManager.Instance.Windows)
+            if (state != null)
             {
-                WorkspaceManager.Instance.AddWindow(w, false);
+                WorkspaceManager.Instance.InitializeWithState(state.WorkspaceState, WindowsDesktopManager.Instance.Windows);
+            }
+            else
+            {
+                WorkspaceManager.Instance.Initialize(WindowsDesktopManager.Instance.Windows);
             }
 
             Enabled = true;
@@ -52,7 +63,7 @@ namespace Tile.Net
                     return WorkspaceManager.Instance.FocusedWorkspace;
                 }
 
-                if (window.ProcessFileName != null)
+                /*if (window.ProcessFileName != null)
                 {
                     if (window.ProcessFileName == "chrome.exe")
                     {
@@ -66,7 +77,7 @@ namespace Tile.Net
                     {
                         return WorkspaceManager.Instance["code"];
                     }
-                }
+                }*/
 
                 return WorkspaceManager.Instance.FocusedWorkspace;
             };
@@ -115,7 +126,9 @@ namespace Tile.Net
             KeybindManager.Instance.Subscribe(mod, Keys.OemPeriod, 
                 () => WorkspaceManager.Instance.FocusedWorkspace.DecrementNumberOfMasterWindows());
 
-            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Q, () => Quit(0));
+            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Q, () => DoLauncherAction(LauncherAction.Quit));
+
+            KeybindManager.Instance.Subscribe(mod, Keys.Q, () => Restart());
 
             KeybindManager.Instance.Subscribe(mod, Keys.D1, 
                 () => WorkspaceManager.Instance.SwitchToWorkspace(0));
@@ -173,10 +186,25 @@ namespace Tile.Net
                 () => WorkspaceManager.Instance.MoveFocusedWindowToWorkspace(8));
         }
 
-        public void Quit(int exit)
+        public void DoLauncherAction(LauncherAction action)
         {
             WorkspaceManager.Instance.PreExitCleanup();
-            Environment.Exit(exit);
+
+            var response = new LauncherResponse()
+            {
+                Action = action
+            };
+            var str = JsonConvert.SerializeObject(response);
+            _pipeClient.SendResponse(str);
+            _pipeClient.Dispose();
+
+            Environment.Exit(0);
+        }
+
+        public void Restart()
+        {
+            StateManager.Instance.SaveState();
+            DoLauncherAction(LauncherAction.Restart);
         }
     }
 }
