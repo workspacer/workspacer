@@ -1,4 +1,3 @@
-- add some basic state saving functionality + hot reload
 - multi monitor support!
 - add configuration loading from a file at runtime (Roslyn)
 - add WCF pipe for communication with other things (widgets?)

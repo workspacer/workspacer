@@ -12,9 +12,7 @@ My current plan is to use Roslyn to compile the configuration into the applicati
 in order to allow for extreme customization. 
 
 # Is this ready for use yet?
-
-Nope! There are still several massive bugs in this code, so it still needs a bit of work. For example, sometimes windows get hidden
-and it is impossible to get them back without logging out and back in!
+Nope! There are still several massive bugs in this code, so it still needs a bit of work. Tile.Net is designed with any attempt to not corrupt any applications built in, and uses a separate process to handle restarts and window cleanup, in order to prevent window corruption/loss on crashes, however no promises.
 
 I also plan on implementing something similar to [xmobar](https://github.com/jaor/xmobar), but have not started yet, so simple things
 like "being able to see what workspaces are available" is currently not possible.
