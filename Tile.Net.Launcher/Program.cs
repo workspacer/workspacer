@@ -13,31 +13,74 @@ namespace Tile.Net.Launcher
     {
         static void Main(string[] args)
         {
-            while (true)
-            {
-                var str = Start();
-                var response = JsonConvert.DeserializeObject<LauncherResponse>(str);
+            List<long> activeHandles = null;
 
-                switch (response.Action)
+            bool quit = false;
+            while (!quit)
+            {
+                using (var server = Start())
                 {
-                    case LauncherAction.Quit:
-                        return;
-                    case LauncherAction.Restart:
-                        continue;
-                    default:
-                        throw new Exception($"unknown Tile.Net response action {response.Action.ToString()}");
+
+                    bool restart = false;
+                    string line;
+                    do
+                    {
+                        line = server.ReadLine();
+                        LauncherResponse response = null;
+                        try
+                        {
+                            response = JsonConvert.DeserializeObject<LauncherResponse>(line);
+
+                            switch (response.Action)
+                            {
+                                case LauncherAction.Quit:
+                                    restart = true;
+                                    quit = true;
+                                    continue;
+                                case LauncherAction.Restart:
+                                    restart = true;
+                                    continue;
+                                case LauncherAction.UpdateHandles:
+                                    activeHandles = response.ActiveHandles;
+                                    break;
+                                default:
+                                    throw new Exception(
+                                        $"unknown Tile.Net response action {response.Action.ToString()}");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            restart = true;
+                            quit = true;
+                        }
+                    } while (line != null && !restart);
                 }
+            }
+
+            if (activeHandles != null)
+            {
+                CleanupWindowHandles(activeHandles);
             }
         }
 
-        static string Start()
+        static void CleanupWindowHandles(List<long> handles)
+        {
+            foreach (var handle in handles)
+            {
+                var window = new WindowsWindow(new IntPtr(handle));
+                window.ShowInCurrentState();
+            }
+        }
+
+        static PipeServer Start()
         {
             Process process = new Process();
             process.StartInfo.FileName = "Tile.Net.exe";
             process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
 
-            var pipeServer = new PipeServer();
-            return pipeServer.WaitForResponse(process);
+            var server = new PipeServer(process);
+            server.Start();
+            return server;
         }
     }
 }

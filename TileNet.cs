@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Newtonsoft.Json;
 using Tile.Net.Shared;
+using System.Windows.Forms;
+using Timer = System.Timers.Timer;
 
 namespace Tile.Net
 {
@@ -14,15 +15,20 @@ namespace Tile.Net
         public static bool Enabled { get; set; }
 
         private PipeClient _pipeClient;
+        private Timer _timer;
 
         public TileNet(string clientHandle)
         {
             _pipeClient = new PipeClient(clientHandle);
+            _timer = new Timer();
+            _timer.Elapsed += (s, e) => UpdateActiveHandles();
+            _timer.Interval = 500;
         }
 
         public void Start()
         {
             _pipeClient.Start();
+            _timer.Enabled = true;
 
             WindowsDesktopManager.Instance.WindowCreated += WorkspaceManager.Instance.AddWindow;
             WindowsDesktopManager.Instance.WindowDestroyed += WorkspaceManager.Instance.RemoveWindow;
@@ -126,7 +132,7 @@ namespace Tile.Net
             KeybindManager.Instance.Subscribe(mod, Keys.OemPeriod, 
                 () => WorkspaceManager.Instance.FocusedWorkspace.DecrementNumberOfMasterWindows());
 
-            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Q, () => DoLauncherAction(LauncherAction.Quit));
+            KeybindManager.Instance.Subscribe(mod | KeyModifiers.LShift, Keys.Q, () => Quit());
 
             KeybindManager.Instance.Subscribe(mod, Keys.Q, () => Restart());
 
@@ -186,25 +192,41 @@ namespace Tile.Net
                 () => WorkspaceManager.Instance.MoveFocusedWindowToWorkspace(8));
         }
 
-        public void DoLauncherAction(LauncherAction action)
+        private void SendResponse(LauncherResponse response)
         {
-            WorkspaceManager.Instance.PreExitCleanup();
-
-            var response = new LauncherResponse()
-            {
-                Action = action
-            };
             var str = JsonConvert.SerializeObject(response);
             _pipeClient.SendResponse(str);
-            _pipeClient.Dispose();
+        }
 
+        public void Quit()
+        {
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.Quit,
+            };
+            SendResponse(response);
             Environment.Exit(0);
         }
 
         public void Restart()
         {
             StateManager.Instance.SaveState();
-            DoLauncherAction(LauncherAction.Restart);
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.Restart,
+            };
+            SendResponse(response);
+            Environment.Exit(0);
+        }
+
+        public void UpdateActiveHandles()
+        {
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.UpdateHandles,
+                ActiveHandles = WorkspaceManager.Instance.GetActiveHandles().Select(h => h.ToInt64()).ToList(),
+            };
+            SendResponse(response);
         }
     }
 }

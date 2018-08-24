@@ -9,11 +9,14 @@ namespace Tile.Net.Shared
     public enum LauncherAction
     {
         Quit,
-        Restart
+        Restart,
+        UpdateHandles
     }
 
     public class LauncherResponse
     {
         public LauncherAction Action { get; set; } 
+        
+        public List<long> ActiveHandles { get; set; }
     }
 }

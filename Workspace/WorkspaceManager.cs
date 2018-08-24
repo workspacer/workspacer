@@ -118,15 +118,17 @@ namespace Tile.Net
             }
         }
 
-        public void PreExitCleanup()
+        public List<IntPtr> GetActiveHandles()
         {
+            var list = new List<IntPtr>();
             foreach (var ws in _workspaces)
             {
                 foreach (var w in ws.Windows)
                 {
-                    w.ShowInCurrentState();
+                    list.Add(w.Handle);
                 }
             }
+            return list;
         }
 
         public IWorkspace GetWorkspaceForWindow(IWindow window)

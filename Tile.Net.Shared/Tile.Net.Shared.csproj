@@ -50,6 +50,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,7 +60,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LauncherResponse.cs" />
+    <Compile Include="Native\Win32.cs" />
+    <Compile Include="Native\Win32Helper.cs" />
+    <Compile Include="Native\Win32\Win32.Long.cs" />
+    <Compile Include="Native\Win32\Win32.Window.cs" />
+    <Compile Include="Native\Win32\Win32.WinEvent.cs" />
+    <Compile Include="Native\WindowsWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Window\IWindow.cs" />
+    <Compile Include="Window\IWindowLocation.cs" />
+    <Compile Include="Window\WindowLocation.cs" />
+    <Compile Include="Window\WindowState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
