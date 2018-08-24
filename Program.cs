@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tile.Net.Shared;
 
 namespace Tile.Net
 {
@@ -15,13 +16,15 @@ namespace Tile.Net
         public static void Main(string[] args)
         {
             Win32.SetProcessDPIAware();
+
+            var app = new TileNet(args[0]);
             Thread.GetDomain().UnhandledException += ((s, e) =>
                 {
                     Console.Write(e.ExceptionObject);
-                    TileNet.Instance.Quit(1);
+                    app.DoLauncherAction(LauncherAction.Quit);
                 });
 
-            TileNet.Instance.Start();
+            app.Start();
         }
     }
 }

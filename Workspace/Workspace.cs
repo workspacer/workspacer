@@ -37,9 +37,9 @@ namespace Tile.Net
             {
                 _show = true;
 
-                var windows = this.Windows.Where(w => w.CanLayout).ToList();
-                if (windows.Count > 0)
-                    windows[0].IsFocused = true;
+                var window = this.Windows.FirstOrDefault(w => w.CanLayout);
+                if (window != null)
+                    window.IsFocused = true;
             }
             DoLayout();
         }
@@ -230,7 +230,7 @@ namespace Tile.Net
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
 
-            if (TileNet.Instance.Enabled)
+            if (TileNet.Enabled)
             {
                 if (_show)
                 {
