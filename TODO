@@ -1,5 +1,4 @@
 - multi monitor support!
 - add configuration loading from a file at runtime (Roslyn)
-- add WCF pipe for communication with other things (widgets?)
 - create xmobar replacement (using WCF pipe)?
 - create dmenu replacement (using WCF pipe)?

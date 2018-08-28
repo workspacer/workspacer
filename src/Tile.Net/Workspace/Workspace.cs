@@ -237,7 +237,7 @@ namespace Tile.Net
                     windows.ForEach(w => w.ShowInCurrentState());
 
                     var bounds = Screen.PrimaryScreen.WorkingArea;
-                    var locations = GetLayoutEngine().CalcLayout(windows.Count(), bounds.Width, bounds.Height)
+                    var locations = GetLayoutEngine().CalcLayout(windows, bounds.Width, bounds.Height)
                         .ToArray();
 
                     using (var handle = WindowsDesktopManager.Instance.DeferWindowsPos(windows.Count))
