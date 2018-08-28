@@ -10,7 +10,7 @@ namespace Tile.Net
     {
         string Name { get; }
 
-        IEnumerable<IWindowLocation> CalcLayout(int numWindows, int spaceWidth, int spaceHeight);
+        IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight);
 
         void ShrinkMasterArea();
         void ExpandMasterArea();

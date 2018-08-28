@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tile.Net.Shared;
 using System.Windows.Forms;
+using Tile.Net.Layout;
+using Tile.Net.Plugins;
 using Timer = System.Timers.Timer;
 
 namespace Tile.Net
@@ -33,8 +35,10 @@ namespace Tile.Net
             WindowsDesktopManager.Instance.WindowCreated += WorkspaceManager.Instance.AddWindow;
             WindowsDesktopManager.Instance.WindowDestroyed += WorkspaceManager.Instance.RemoveWindow;
             WindowsDesktopManager.Instance.WindowUpdated += WorkspaceManager.Instance.UpdateWindow;
-
+            
+            PluginManager.Instance.BeforeConfig();
             DoConfig();
+            PluginManager.Instance.AfterConfig();
 
             var state = StateManager.Instance.LoadState();
 
@@ -59,8 +63,8 @@ namespace Tile.Net
         {
             var mod = KeyModifiers.LAlt;
 
-            LayoutManager.Instance.AddLayout<TallLayoutEngine>(1, 0.5, 0.03);
-            LayoutManager.Instance.AddLayout<FullLayoutEngine>();
+            LayoutManager.Instance.AddLayout(() => new MenuBarLayoutEngine(new TallLayoutEngine(1, 0.5, 0.03), "Tile.Net.Bar", 50));
+            LayoutManager.Instance.AddLayout(() => new MenuBarLayoutEngine(new FullLayoutEngine(), "Tile.Net.Bar", 50));
 
             WorkspaceManager.Instance.WorkspaceSelectorFunc = (window) =>
             {
@@ -87,6 +91,8 @@ namespace Tile.Net
 
                 return WorkspaceManager.Instance.FocusedWorkspace;
             };
+
+            WorkspaceManager.Instance.WindowFilterFunc += (window) => !window.Title.Contains("Tile.Net.Bar");
 
             WorkspaceManager.Instance.AddWorkspace("main", LayoutManager.Instance.CreateLayouts());
             WorkspaceManager.Instance.AddWorkspace("web", LayoutManager.Instance.CreateLayouts());

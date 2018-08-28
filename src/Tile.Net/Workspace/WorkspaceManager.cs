@@ -12,6 +12,7 @@ namespace Tile.Net
         public IEnumerable<IWorkspace> Workspaces => _workspaces;
         public IWorkspace FocusedWorkspace => _workspaces[_focusedWorkspace];
         public Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
+        public Func<IWindow, bool> WindowFilterFunc { get; set; }
 
         private List<IWorkspace> _workspaces;
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
@@ -72,6 +73,11 @@ namespace Tile.Net
 
         public void AddWindow(IWindow window, bool switchToWorkspace)
         {
+            var shouldTrack = WindowFilterFunc?.Invoke(window) ?? true;
+
+            if (!shouldTrack)
+                return;
+
             if (!_windowsToWorkspaces.ContainsKey(window))
             {
                 if (WorkspaceSelectorFunc == null)
@@ -165,6 +171,10 @@ namespace Tile.Net
 
             foreach (var w in windows)
             {
+                var shouldTrack = WindowFilterFunc?.Invoke(w) ?? true;
+                if (!shouldTrack)
+                    continue;
+
                 var handle = (int) w.Handle;
                 if (wtw.ContainsKey(handle) && wtw[handle] < _workspaces.Count)
                 {

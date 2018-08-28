@@ -13,6 +13,7 @@ namespace Tile.Net
 {
     class Program
     {
+        [STAThread]
         public static void Main(string[] args)
         {
             Win32.SetProcessDPIAware();
