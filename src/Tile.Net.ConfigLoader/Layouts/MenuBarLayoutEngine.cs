@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tile.Net.Layout
+namespace Tile.Net
 {
     public class MenuBarLayoutEngine : ILayoutEngine
     {
