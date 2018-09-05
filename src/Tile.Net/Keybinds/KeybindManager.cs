@@ -6,32 +6,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tile.Net.ConfigLoader;
 
 namespace Tile.Net
 {
-    [Flags]
-    public enum KeyModifiers
-    {
-        None = 0,
-
-        LControl = 1,
-        RControl = 2,
-        Control = LControl | RControl,
-
-        LShift = 4,
-        RShift = 8,
-        Shift = LShift | RShift,
-
-        LAlt = 16,
-        RAlt = 32,
-        Alt = LAlt | RAlt,
-
-        LWin = 64,
-        RWin = 128,
-        Win = LWin | RWin
-    }
-
-    public class KeybindManager
+    public class KeybindManager : IKeybindManager
     {
         private class Sub
         {
@@ -102,7 +81,6 @@ namespace Tile.Net
 
         private Win32.HookProc _hook;
 
-        public delegate void KeybindHandler();
         private IDictionary<Sub, KeybindHandler> _subscriptions;
 
         private KeybindManager()

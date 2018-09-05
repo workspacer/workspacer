@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{605CE3AD-6078-4E19-BD22-56D723E3006D}</ProjectGuid>
+    <ProjectGuid>{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tile.Net.PluginInterface</RootNamespace>
-    <AssemblyName>Tile.Net.PluginInterface</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <RootNamespace>Tile.Net.Native</RootNamespace>
+    <AssemblyName>Tile.Net.Native</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,6 +51,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,10 +60,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPlugin.cs" />
-    <Compile Include="ITileNetContext.cs" />
+    <Compile Include="Native\Win32.cs" />
+    <Compile Include="Native\Win32Helper.cs" />
+    <Compile Include="Native\Win32\Win32.Long.cs" />
+    <Compile Include="Native\Win32\Win32.Window.cs" />
+    <Compile Include="Native\Win32\Win32.WinEvent.cs" />
+    <Compile Include="Native\WindowsDeferPosHandle.cs" />
+    <Compile Include="Native\WindowsDesktopManager.cs" />
+    <Compile Include="Native\WindowsWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TileNetPluginInterfaceHandle.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tile.Net.Shared\Tile.Net.Shared.csproj">
+      <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
+      <Name>Tile.Net.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

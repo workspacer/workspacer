@@ -16,6 +16,7 @@ namespace Tile.Net
         [STAThread]
         public static void Main(string[] args)
         {
+            Debugger.Break();
             Win32.SetProcessDPIAware();
 
             var app = new TileNet(args[0]);

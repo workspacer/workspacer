@@ -4,10 +4,11 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tile.Net.ConfigLoader;
 
 namespace Tile.Net
 {
-    public class LayoutManager
+    public class LayoutManager : ILayoutManager
     {
         public static LayoutManager Instance { get; } = new LayoutManager();
 

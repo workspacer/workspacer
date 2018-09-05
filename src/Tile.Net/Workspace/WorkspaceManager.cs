@@ -4,10 +4,11 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tile.Net.ConfigLoader;
 
 namespace Tile.Net
 {
-    public class WorkspaceManager : IManager
+    public class WorkspaceManager : IManager, IWorkspaceManager
     {
         public IEnumerable<IWorkspace> Workspaces => _workspaces;
         public IWorkspace FocusedWorkspace => _workspaces[_focusedWorkspace];

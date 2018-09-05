@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Tile.Net</RootNamespace>
     <AssemblyName>Tile.Net</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -76,22 +76,16 @@
     <Reference Include="UIAutomationTypes" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigContext.cs" />
     <Compile Include="IManager.cs" />
     <Compile Include="Keybinds\KeybindManager.cs" />
-    <Compile Include="Layout\FullLayoutEngine.cs" />
-    <Compile Include="Layout\ILayoutEngine.cs" />
     <Compile Include="Layout\LayoutManager.cs" />
-    <Compile Include="Layout\MenuBarLayoutEngine.cs" />
-    <Compile Include="Layout\TallLayoutEngine.cs" />
-    <Compile Include="Native\WindowsDeferPosHandle.cs" />
-    <Compile Include="Native\WindowsDesktopManager.cs" />
     <Compile Include="PipeClient.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\TileNetState.cs" />
     <Compile Include="TileNet.cs" />
     <Compile Include="Workspace\WorkspaceState.cs" />
-    <Compile Include="Workspace\IWorkspace.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Workspace\Workspace.cs" />
@@ -103,6 +97,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tile.Net.ConfigLoader\Tile.Net.ConfigLoader.csproj">
+      <Project>{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}</Project>
+      <Name>Tile.Net.ConfigLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tile.Net.Native\Tile.Net.Native.csproj">
+      <Project>{60d4aad0-104c-4820-b141-88fca2da0e6c}</Project>
+      <Name>Tile.Net.Native</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tile.Net.PluginInterface\Tile.Net.PluginInterface.csproj">
       <Project>{605ce3ad-6078-4e19-bd22-56d723e3006d}</Project>
       <Name>Tile.Net.PluginInterface</Name>
@@ -116,5 +118,9 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(SolutionDir)\src\Tile.Net.Launcher\$(OutDir)" /E /Y /R
 </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
 </Project>
