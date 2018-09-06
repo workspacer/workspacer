@@ -48,5 +48,14 @@ namespace Tile.Net
             SendResponse(response);
             Environment.Exit(0);
         }
+
+        public bool Enabled
+        {
+            get => TileNet.Enabled;
+            set
+            {
+                TileNet.Enabled = value;
+            }
+        }
     }
 }

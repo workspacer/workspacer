@@ -12,6 +12,7 @@ namespace Tile.Net.ConfigLoader
         ILayoutManager Layouts { get; }
         IWorkspaceManager Workspaces { get; }
 
+        bool Enabled { get; set; }
         void Quit();
         void Restart();
     }

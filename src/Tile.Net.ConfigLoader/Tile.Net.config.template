@@ -2,7 +2,6 @@
 using System.Linq;
 using Tile.Net.Shared;
 using Tile.Net.ConfigLoader;
-using Tile.Net.Plugins;
 
 namespace Tile.Net.Config
 {
@@ -33,6 +32,9 @@ namespace Tile.Net.Config
             context.Workspaces.AddWorkspace("three", context.Layouts.CreateLayouts());
             context.Workspaces.AddWorkspace("four", context.Layouts.CreateLayouts());
             context.Workspaces.AddWorkspace("five", context.Layouts.CreateLayouts());
+
+            context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.E,
+                () => context.Enabled = !context.Enabled);
 
             context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.C,
                 () => context.Workspaces.FocusedWorkspace.CloseFocusedWindow());
