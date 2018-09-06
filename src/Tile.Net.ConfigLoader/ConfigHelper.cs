@@ -61,6 +61,7 @@ namespace Tile.Net.ConfigLoader
                 .AddSyntaxTrees(tree)
                 .AddReferences(
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(Process).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(TileNetConfigLoaderHandle).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(TileNetSharedHandle).Assembly.Location),

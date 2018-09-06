@@ -15,6 +15,7 @@ namespace Tile.Net
         void Show();
         void Hide();
 
+        void SetMonitor(IMonitor monitor);
         void AddWindow(IWindow window);
         void RemoveWindow(IWindow window);
         void UpdateWindow(IWindow window);

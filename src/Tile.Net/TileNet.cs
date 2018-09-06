@@ -21,7 +21,12 @@ namespace Tile.Net
             _pipeClient = new PipeClient(clientHandle);
             _timer = new Timer();
             _timer.Elapsed += (s, e) => UpdateActiveHandles();
-            _timer.Interval = 500;
+            _timer.Interval = 5000;
+        }
+
+        public TileNet() : this(null)
+        {
+
         }
 
         public void Start()
@@ -52,14 +57,15 @@ namespace Tile.Net
             if (state != null)
             {
                 WorkspaceManager.Instance.InitializeWithState(state.WorkspaceState, WindowsDesktopManager.Instance.Windows);
+                Enabled = true;
             }
             else
             {
                 WorkspaceManager.Instance.Initialize(WindowsDesktopManager.Instance.Windows);
+                Enabled = true;
+                WorkspaceManager.Instance.SwitchToWorkspace(0);
             }
 
-            Enabled = true;
-            WorkspaceManager.Instance.SwitchToWorkspace(0);
 
             var msg = new Win32.Message();
             while (Win32.GetMessage(ref msg, IntPtr.Zero, 0, 0)) { }

@@ -21,17 +21,24 @@ namespace Tile.Net
 
         public void Start()
         {
-            _client = new AnonymousPipeClientStream(PipeDirection.Out, _handle);
-            _sw = new StreamWriter(_client);
+            if (_handle != null)
+            {
+                _client = new AnonymousPipeClientStream(PipeDirection.Out, _handle);
+                _sw = new StreamWriter(_client);
 
-            _sw.AutoFlush = true;
-            _sw.WriteLine("SYNC");
-            _client.WaitForPipeDrain();
+                _sw.AutoFlush = true;
+                _sw.WriteLine("SYNC");
+                _client.WaitForPipeDrain();
+            }
         }
 
         public void SendResponse(string response)
         {
-            _sw.WriteLine(response);
+            if (_sw != null)
+            {
+                _sw.WriteLine(response);
+            }
+
         }
 
         public void Dispose()
