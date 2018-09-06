@@ -88,4 +88,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(SolutionDir)\src\Tile.Net\$(OutDir)*.*" "$(TargetDir)"  /E /Y /R</PostBuildEvent>
+  </PropertyGroup>
 </Project>

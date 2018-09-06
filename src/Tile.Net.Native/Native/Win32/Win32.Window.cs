@@ -205,11 +205,29 @@ namespace Tile.Net
             DWMWA_LAST
         }
 
+        public static readonly uint LSFW_LOCK = 1;
+        public static readonly uint LSFW_UNLOCK = 2;
+        public static readonly int ASFW_ANY = -1;
+
         [DllImport("user32.dll")]
 		public static extern IntPtr GetForegroundWindow();
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllowSetForegroundWindow(int processId);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LockSetForegroundWindow(uint uLockCode);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool BringWindowToTop(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetFocus(IntPtr hWnd);
     }
 }

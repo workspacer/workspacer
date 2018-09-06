@@ -16,6 +16,7 @@ namespace Tile.Net
         public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
         public string Name { get; }
 
+        private IMonitor _monitor;
         private List<IWindow> _windows;
         private ILayoutEngine[] _layoutEngines;
         private int _layoutIndex;
@@ -68,6 +69,11 @@ namespace Tile.Net
         public void UpdateWindow(IWindow window)
         {
             DoLayout();
+        }
+
+        public void SetMonitor(IMonitor monitor)
+        {
+            _monitor = monitor;
         }
 
         public void CloseFocusedWindow()
@@ -232,7 +238,7 @@ namespace Tile.Net
 
             if (TileNet.Enabled)
             {
-                if (_show)
+                if (_show && _monitor != null)
                 {
                     windows.ForEach(w => w.ShowInCurrentState());
 
@@ -247,7 +253,10 @@ namespace Tile.Net
                             var window = windows[i];
                             var loc = locations[i];
 
-                            handle.DeferWindowPos(window, loc);
+                            var adjustedLoc = new WindowLocation(loc.X + _monitor.X, loc.Y + _monitor.Y, 
+                                loc.Width, loc.Height, loc.State);
+
+                            handle.DeferWindowPos(window, adjustedLoc);
                         }
                     }
                 }
@@ -277,5 +286,7 @@ namespace Tile.Net
         {
             return _layoutEngines[_layoutIndex];
         }
+
+        
     }
 }

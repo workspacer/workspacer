@@ -75,7 +75,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir /p "$(SolutionDir)\src\Tile.Net\$(OutDir)\plugins\$(ProjectName)"
-xcopy "$(TargetDir)*.*" "$(SolutionDir)\src\Tile.Net\$(OutDir)\plugins\$(ProjectName)\" /E /Y /R</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

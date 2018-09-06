@@ -29,6 +29,8 @@ namespace Tile.Net.Launcher
             _process.StartInfo.UseShellExecute = false;
             _process.Start();
 
+            var didAllow = Win32.AllowSetForegroundWindow(_process.Id);
+
             _server.DisposeLocalCopyOfClientHandle();
 
             string temp;

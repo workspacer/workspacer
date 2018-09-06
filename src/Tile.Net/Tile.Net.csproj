@@ -85,6 +85,7 @@
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\TileNetState.cs" />
     <Compile Include="TileNet.cs" />
+    <Compile Include="Workspace\Monitor.cs" />
     <Compile Include="Workspace\WorkspaceState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,8 +117,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(SolutionDir)\src\Tile.Net.Launcher\$(OutDir)" /E /Y /R
-</PostBuildEvent>
+    <PostBuildEvent>mkdir /p "$(TargetDir)plugins\Tile.Net.Bar"
+xcopy "$(SolutionDir)\src\Tile.Net.Bar\$(OutDir)*.*" "$(TargetDir)plugins\Tile.Net.Bar\"  /E /Y /R</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

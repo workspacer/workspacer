@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Tile.Net
 {
@@ -65,5 +66,91 @@ namespace Tile.Net
             return hWndTry == hWnd;
             */
 		}
+
+        public static void ForceForegroundWindow(IntPtr hWnd)
+        {
+            uint a;
+            Win32.LockSetForegroundWindow(Win32.LSFW_UNLOCK);
+            Win32.AllowSetForegroundWindow(Win32.ASFW_ANY);
+
+            IntPtr hWndForeground = Win32.GetForegroundWindow();
+            SendKeys.SendWait("{UP}");
+            if (hWndForeground.ToInt32() != 0)
+            {
+                if (hWndForeground != hWnd)
+                {
+                    uint thread1 = Win32.GetWindowThreadProcessId(hWndForeground, out a);
+                    uint thread2 = Win32.GetCurrentThreadId();
+
+
+                    if (thread1 != thread2)
+                    {
+                        Win32.AttachThreadInput(thread1, thread2, true);
+                        Win32.LockSetForegroundWindow(Win32.LSFW_UNLOCK);
+                        Win32.AllowSetForegroundWindow(Win32.ASFW_ANY);
+                        Win32.BringWindowToTop(hWnd);
+                        if (Win32.IsIconic(hWnd))
+                        {
+                            Win32.ShowWindow(hWnd, Win32.SW.SW_SHOWNORMAL);
+                        }
+                        else
+                        {
+                            Win32.ShowWindow(hWnd, Win32.SW.SW_SHOW);
+                        }
+                        Win32.SetFocus(hWnd);
+                        Win32.AttachThreadInput(thread1, thread2, false);
+                    }
+                    else
+                    {
+                        Win32.AttachThreadInput(thread1, thread2, true);
+                        Win32.LockSetForegroundWindow(Win32.LSFW_UNLOCK);
+                        Win32.AllowSetForegroundWindow(Win32.ASFW_ANY);
+                        Win32.BringWindowToTop(hWnd);
+                        Win32.SetForegroundWindow(hWnd);
+                        Win32.SetFocus(hWnd);
+                        Win32.AttachThreadInput(thread1, thread2, false);
+
+                    }
+                    if (Win32.IsIconic(hWnd))
+                    {
+                        Win32.AttachThreadInput(thread1, thread2, true);
+                        Win32.LockSetForegroundWindow(Win32.LSFW_UNLOCK);
+                        Win32.AllowSetForegroundWindow(Win32.ASFW_ANY);
+                        Win32.BringWindowToTop(hWnd);
+                        Win32.ShowWindow(hWnd, Win32.SW.SW_SHOWNORMAL);
+                        Win32.SetFocus(hWnd);
+                        Win32.AttachThreadInput(thread1, thread2, false);
+                    }
+                    else
+                    {
+                        Win32.BringWindowToTop(hWnd);
+                        Win32.ShowWindow(hWnd, Win32.SW.SW_SHOW);
+                    }
+                }
+                Win32.SetForegroundWindow(hWnd);
+                Win32.SetFocus(hWnd);
+            }
+            else
+            {
+                uint thread1 = Win32.GetWindowThreadProcessId(hWndForeground, out a);
+                uint thread2 = Win32.GetCurrentThreadId();
+                try
+                {
+                    Win32.AttachThreadInput(thread1, thread2, true);
+                }
+                catch
+                {
+                    uint failure = 1;
+                }
+                Win32.LockSetForegroundWindow(Win32.LSFW_UNLOCK);
+                Win32.AllowSetForegroundWindow(Win32.ASFW_ANY);
+                Win32.BringWindowToTop(hWnd);
+                Win32.SetForegroundWindow(hWnd);
+
+                Win32.ShowWindow(hWnd, Win32.SW.SW_SHOW);
+                Win32.SetFocus(hWnd);
+                Win32.AttachThreadInput(thread1, thread2, false);
+            }
+        }
     }
 }
