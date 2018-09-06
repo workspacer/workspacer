@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Keybind\KeybindHandler.cs" />
     <Compile Include="Keybind\KeyModifiers.cs" />
+    <Compile Include="Keybind\Keys.cs" />
     <Compile Include="LauncherResponse.cs" />
     <Compile Include="Layout\ILayoutEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

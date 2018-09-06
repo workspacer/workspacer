@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -53,26 +54,33 @@ namespace Tile.Net.ConfigLoader
 
         private static Type CompileConfig()
         {
-            var outputFile = "Tile.Net.Config.dll";
             var config = LoadConfig();
 
             var tree = CSharpSyntaxTree.ParseText(config);
-            var compilation = CSharpCompilation.Create(outputFile)
+            var compilation = CSharpCompilation.Create("Tile.Net.Config.dll")
                 .AddSyntaxTrees(tree)
                 .AddReferences(
                     MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(ValueTuple).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(TileNetConfigLoaderHandle).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(TileNetSharedHandle).Assembly.Location),
                     MetadataReference.CreateFromFile(typeof(TileNetPluginInterfaceHandle).Assembly.Location)
                 ).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
-            using (var file = new FileStream(outputFile, FileMode.Create))
+
+            using (var stream = new MemoryStream())
             {
-                compilation.Emit(file);
+                var emitResult = compilation.Emit(stream);
+                if (emitResult.Success)
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    var assembly = Assembly.Load(stream.ToArray());
+                    return assembly.GetTypes().First(t => t.Name == "Config");
+                } else
+                {
+                    throw new Exception(string.Join("\n", emitResult.Diagnostics.Select(d => d.ToString())));
+                }
             }
-            var assembly = Assembly.LoadFrom(outputFile);
-            return assembly.GetType("Config");
         }
 
         private static string GetConfigPath()

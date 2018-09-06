@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Tile.Net.ConfigLoader;
 
 namespace Tile.Net
@@ -107,7 +106,7 @@ namespace Tile.Net
 
         public bool KeyIsPressed(Keys key)
         {
-             return (Win32.GetKeyState(key) & 0x8000) == 0x8000;
+             return (Win32.GetKeyState(KeysToKeys(key)) & 0x8000) == 0x8000;
         }
 
         private IntPtr KeyboardHook(int nCode, UIntPtr wParam, IntPtr lParam)
@@ -122,35 +121,35 @@ namespace Tile.Net
                 {
                     KeyModifiers modifiersPressed = 0;
                     // there is no other way to distinguish between left and right modifier keys
-                    if ((Win32.GetKeyState(Keys.LShiftKey) & 0x8000) == 0x8000)
+                    if ((Win32.GetKeyState(KeysToKeys(Keys.LShiftKey)) & 0x8000) == 0x8000)
                     {
                         modifiersPressed |= KeyModifiers.LShift;
                     }
-                    if ((Win32.GetKeyState(Keys.RShiftKey) & 0x8000) == 0x8000)
+                    if ((Win32.GetKeyState(KeysToKeys(Keys.RShiftKey)) & 0x8000) == 0x8000)
                     {
                         modifiersPressed |= KeyModifiers.RShift;
                     }
-                    if ((Win32.GetKeyState(Keys.LMenu) & 0x8000) == 0x8000)
+                    if ((Win32.GetKeyState(KeysToKeys(Keys.LMenu)) & 0x8000) == 0x8000)
                     {
                         modifiersPressed |= KeyModifiers.LAlt;
                     }
-                    if ((Win32.GetKeyState(Keys.RMenu) & 0x8000) == 0x8000)
+                    if ((Win32.GetKeyState(KeysToKeys(Keys.RMenu)) & 0x8000) == 0x8000)
                     {
                         modifiersPressed |= KeyModifiers.RAlt;
                     }
-                    if ((Win32.GetKeyState(Keys.LControlKey) & 0x8000) == 0x8000)
+                    if ((Win32.GetKeyState(KeysToKeys(Keys.LControlKey)) & 0x8000) == 0x8000)
                     {
                         modifiersPressed |= KeyModifiers.LControl;
                     }
-                    if ((Win32.GetKeyState(Keys.RControlKey) & 0x8000) == 0x8000)
+                    if ((Win32.GetKeyState(KeysToKeys(Keys.RControlKey)) & 0x8000) == 0x8000)
                     {
                         modifiersPressed |= KeyModifiers.RControl;
                     }
-                    if ((Win32.GetKeyState(Keys.LWin) & 0x8000) == 0x8000)
+                    if ((Win32.GetKeyState(KeysToKeys(Keys.LWin)) & 0x8000) == 0x8000)
                     {
                         modifiersPressed |= KeyModifiers.LWin;
                     }
-                    if ((Win32.GetKeyState(Keys.RWin) & 0x8000) == 0x8000)
+                    if ((Win32.GetKeyState(KeysToKeys(Keys.RWin)) & 0x8000) == 0x8000)
                     {
                         modifiersPressed |= KeyModifiers.RWin;
                     }
@@ -168,6 +167,11 @@ namespace Tile.Net
             }
 
             return Win32.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+        }
+        
+        private System.Windows.Forms.Keys KeysToKeys(Keys keys)
+        {
+            return (System.Windows.Forms.Keys)keys;
         }
     }
 }
