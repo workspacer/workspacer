@@ -27,6 +27,8 @@ namespace Tile.Net
         private Dictionary<IMonitor, IWorkspace> _monitorsToWorkspaces;
         private Dictionary<IWorkspace, IMonitor> _workspacesToMonitors;
 
+        public event WorkspaceUpdatedDelegate WorkspaceUpdated;
+
         private WorkspaceManager()
         {
             _focusedWorkspace = 0;
@@ -74,6 +76,7 @@ namespace Tile.Net
                     {
                         newWorkspace.Show();
                     }
+                    WorkspaceUpdated?.Invoke();
                 }
             };
         }
@@ -284,6 +287,16 @@ namespace Tile.Net
             {
                 AddWindow(w, false);
             }
+        }
+
+        public IMonitor GetMonitorForWorkspace(IWorkspace workspace)
+        {
+            return _workspacesToMonitors.ContainsKey(workspace) ? _workspacesToMonitors[workspace] : null;
+        }
+
+        public IWorkspace GetWorkspaceForMonitor(IMonitor monitor)
+        {
+            return _monitorsToWorkspaces.ContainsKey(monitor) ? _monitorsToWorkspaces[monitor] : null;
         }
 
         public IWorkspace this[int index] => _workspaces[index];

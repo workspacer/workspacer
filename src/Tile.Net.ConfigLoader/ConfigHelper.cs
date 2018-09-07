@@ -10,16 +10,15 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using Tile.Net.PluginInterface;
 using Tile.Net.Shared;
 
 namespace Tile.Net.ConfigLoader
 {
     public static class ConfigHelper
     {
-        public static IConfig GetConfig()
+        public static IConfig GetConfig(IEnumerable<Type> referenceTypes)
         {
-            var type = CompileConfig();
+            var type = CompileConfig(referenceTypes);
 
             return (IConfig) Activator.CreateInstance(type);
         }
@@ -52,23 +51,24 @@ namespace Tile.Net.ConfigLoader
             }
         }
 
-        private static Type CompileConfig()
+        private static Type CompileConfig(IEnumerable<Type> referenceTypes)
         {
             var config = LoadConfig();
 
+            var references = new List<MetadataReference>();
+
+            references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(Process).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(TileNetConfigLoaderHandle).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(TileNetSharedHandle).Assembly.Location));
+
+            references.AddRange(referenceTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
+
             var tree = CSharpSyntaxTree.ParseText(config);
             var compilation = CSharpCompilation.Create("Tile.Net.Config.dll")
-                .AddSyntaxTrees(tree)
-                .AddReferences(
-                    MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(Process).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(TileNetConfigLoaderHandle).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(TileNetSharedHandle).Assembly.Location),
-                    MetadataReference.CreateFromFile(typeof(TileNetPluginInterfaceHandle).Assembly.Location)
-                ).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-
+                .AddSyntaxTrees(tree).AddReferences(references).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        
             using (var stream = new MemoryStream())
             {
                 var emitResult = compilation.Emit(stream);

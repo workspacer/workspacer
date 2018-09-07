@@ -3,8 +3,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using Tile.Net.Shared;
 using Tile.Net.ConfigLoader;
-using Tile.Net.Plugins;
 using Timer = System.Timers.Timer;
+using System.Reflection;
 
 namespace Tile.Net
 {
@@ -33,23 +33,23 @@ namespace Tile.Net
         {
             _pipeClient.Start();
             _timer.Enabled = true;
+            AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
             WindowsDesktopManager.Instance.WindowCreated += WorkspaceManager.Instance.AddWindow;
             WindowsDesktopManager.Instance.WindowDestroyed += WorkspaceManager.Instance.RemoveWindow;
             WindowsDesktopManager.Instance.WindowUpdated += WorkspaceManager.Instance.UpdateWindow;
 
-            PluginManager.Instance.BeforeConfig();
 
             _context = new ConfigContext(_pipeClient)
             {
                 Keybinds = KeybindManager.Instance,
                 Workspaces = WorkspaceManager.Instance,
                 Layouts = LayoutManager.Instance,
+                Plugins = PluginManager.Instance,
             };
             var config = GetConfig();
             config.Configure(_context);
-
-            PluginManager.Instance.AfterConfig();
+            PluginManager.Instance.AfterConfig(_context);
 
             var state = StateManager.Instance.LoadState();
 
@@ -73,7 +73,7 @@ namespace Tile.Net
 
         private IConfig GetConfig()
         {
-            return ConfigHelper.GetConfig();
+            return ConfigHelper.GetConfig(PluginManager.Instance.AvailablePlugins);
         }
 
         private void SendResponse(LauncherResponse response)
@@ -95,6 +95,16 @@ namespace Tile.Net
                 ActiveHandles = WorkspaceManager.Instance.GetActiveHandles().Select(h => h.ToInt64()).ToList(),
             };
             SendResponse(response);
+        }
+
+        private Assembly ResolveAssembly(object sender, ResolveEventArgs args)
+        {
+            var match = PluginManager.Instance.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
+            if (match != null)
+            {
+                return Assembly.LoadFile(match.Location);
+            }
+            return Assembly.Load(args.Name);
         }
     }
 }

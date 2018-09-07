@@ -2,6 +2,7 @@
 using System.Linq;
 using Tile.Net.Shared;
 using Tile.Net.ConfigLoader;
+using Tile.Net.Bar;
 
 namespace Tile.Net.Config
 {
@@ -11,6 +12,8 @@ namespace Tile.Net.Config
         public void Configure(IConfigContext context)
         {
             var mod = KeyModifiers.LAlt;
+
+			context.Plugins.RegisterPlugin<BarPlugin>();
 
             context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new TallLayoutEngine(1, 0.5, 0.03), "Tile.Net.Bar", 50));
             context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new FullLayoutEngine(), "Tile.Net.Bar", 50));

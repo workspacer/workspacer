@@ -106,10 +106,6 @@
       <Project>{60d4aad0-104c-4820-b141-88fca2da0e6c}</Project>
       <Name>Tile.Net.Native</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tile.Net.PluginInterface\Tile.Net.PluginInterface.csproj">
-      <Project>{605ce3ad-6078-4e19-bd22-56d723e3006d}</Project>
-      <Name>Tile.Net.PluginInterface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tile.Net.Shared\Tile.Net.Shared.csproj">
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
       <Name>Tile.Net.Shared</Name>

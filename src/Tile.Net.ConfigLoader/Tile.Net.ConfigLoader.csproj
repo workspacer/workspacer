@@ -175,10 +175,6 @@
   <ItemGroup>
     <Compile Include="ConfigHelper.cs" />
     <Compile Include="IConfig.cs" />
-    <Compile Include="IConfigContext.cs" />
-    <Compile Include="IKeybindManager.cs" />
-    <Compile Include="ILayoutManager.cs" />
-    <Compile Include="IWorkspaceManager.cs" />
     <Compile Include="Layouts\FullLayoutEngine.cs" />
     <Compile Include="Layouts\MenuBarLayoutEngine.cs" />
     <Compile Include="Layouts\TallLayoutEngine.cs" />
@@ -186,10 +182,6 @@
     <Compile Include="TileNetConfigLoaderHandle.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tile.Net.PluginInterface\Tile.Net.PluginInterface.csproj">
-      <Project>{605ce3ad-6078-4e19-bd22-56d723e3006d}</Project>
-      <Name>Tile.Net.PluginInterface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tile.Net.Shared\Tile.Net.Shared.csproj">
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
       <Name>Tile.Net.Shared</Name>

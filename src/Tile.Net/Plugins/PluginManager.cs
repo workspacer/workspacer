@@ -5,40 +5,55 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Tile.Net.PluginInterface;
 
-namespace Tile.Net.Plugins
+namespace Tile.Net
 {
-    public class PluginManager
+    public class PluginManager : IPluginManager
     {
+        private List<Type> _availablePlugins;
         private List<IPlugin> _plugins;
 
-        private PluginManager(List<IPlugin> plugins)
+        private PluginManager()
         {
-            _plugins = plugins;
+            _availablePlugins = GetAvailablePlugins();
+            _plugins = new List<IPlugin>();
         }
-        public static PluginManager Instance { get; } = new PluginManager(GetPlugins());
+        public static PluginManager Instance { get; } = new PluginManager();
 
-        public void BeforeConfig() { _plugins.ForEach(p => p.BeforeConfig()); }
-        public void AfterConfig() { _plugins.ForEach(p => p.AfterConfig()); }
+        public void AfterConfig(IConfigContext context) { _plugins.ForEach(p => p.AfterConfig(context)); }
 
-        private static List<IPlugin> GetPlugins()
+        public void RegisterPlugin<T>() where T : IPlugin
+        {
+            if (_availablePlugins.Contains(typeof(T)))
+            {
+                var plugin = Activator.CreateInstance<T>();
+                _plugins.Add(plugin);
+            }
+            else
+            {
+                throw new Exception($"attempted to register type {typeof(T).Name} but it was never loaded");
+            }
+        }
+
+        public IEnumerable<Type> AvailablePlugins => _availablePlugins;
+
+        private static List<Type> GetAvailablePlugins()
         {
             var directory = Path.Combine(Environment.CurrentDirectory, "plugins");
 
-            var list = new List<IPlugin>();
+            var list = new List<Type>();
             if (Directory.Exists(directory))
             {
                 foreach (var dir in Directory.GetDirectories(directory))
                 {
-                    var plugin = GetPluginFromFolder(dir);
-                    list.Add(plugin);
+                    var pluginType = GetPluginFromFolder(dir);
+                    list.Add(pluginType);
                 }
             }
             return list;
         }
 
-        private static IPlugin GetPluginFromFolder(string dir)
+        private static Type GetPluginFromFolder(string dir)
         {
             var name = new DirectoryInfo(dir).Name;
 
@@ -53,8 +68,7 @@ namespace Tile.Net.Plugins
             }
 
             var type = types[0];
-
-            return (IPlugin)Activator.CreateInstance(type);
+            return type;
         }
     }
 }
