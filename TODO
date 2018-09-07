@@ -1,3 +1,7 @@
+- create dmenu replacement (using WCF pipe)?
 - multi monitor support!
 - create xmobar replacement (using WCF pipe)?
-- create dmenu replacement (using WCF pipe)?
+  - Tile.Net.Bar exists, but needs more work
+  - the left side is hard-coded to be workspaces, the middle and right do nothing
+  - need to introduce a widget system for the bar?
+  - instead of registering plugins, we should allow the config to directly instantiate them, -> new BarPlugin(widgets....);
