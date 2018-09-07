@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tile.Net.PluginInterface
+namespace Tile.Net
 {
-    public interface ITileNetContext
+    public interface IPlugin
     {
+        void AfterConfig(IConfigContext context);
     }
 }

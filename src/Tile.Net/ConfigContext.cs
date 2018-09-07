@@ -14,6 +14,7 @@ namespace Tile.Net
         public IKeybindManager Keybinds { get; set; }
         public ILayoutManager Layouts { get; set; }
         public IWorkspaceManager Workspaces { get; set; }
+        public IPluginManager Plugins { get; set; }
 
         private PipeClient _pipeClient;
 

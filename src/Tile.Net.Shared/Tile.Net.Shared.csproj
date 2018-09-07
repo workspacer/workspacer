@@ -60,6 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConfigContext.cs" />
+    <Compile Include="IKeybindManager.cs" />
+    <Compile Include="ILayoutManager.cs" />
+    <Compile Include="IPlugin.cs" />
+    <Compile Include="IPluginManager.cs" />
+    <Compile Include="IWorkspaceManager.cs" />
     <Compile Include="Keybind\KeybindHandler.cs" />
     <Compile Include="Keybind\KeyModifiers.cs" />
     <Compile Include="Keybind\Keys.cs" />
