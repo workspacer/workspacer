@@ -38,7 +38,15 @@ namespace Tile.Net.Config
                 return context.Workspaces.FocusedWorkspace;
             };
 
-            context.Workspaces.WindowFilterFunc += (window) => !window.Title.Contains("Tile.Net.Bar");
+            context.Workspaces.WindowFilterFunc = (window) => 
+            {
+                if (window.Title.Contains("Tile.Net.Bar"))
+                    return false;
+                if (window.Title.Contains("Task Manager"))
+                    return false;
+
+                return true;
+            };
 
             context.Workspaces.AddWorkspace("one", context.Layouts.CreateLayouts());
             context.Workspaces.AddWorkspace("two", context.Layouts.CreateLayouts());
