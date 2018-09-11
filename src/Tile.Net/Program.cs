@@ -18,7 +18,7 @@ namespace Tile.Net
         {
             Win32.SetProcessDPIAware();
 
-            var app = args.Length > 0 ? new TileNet(args[0]) : new TileNet();
+            var app = new TileNet();
             Thread.GetDomain().UnhandledException += ((s, e) =>
                 {
                     Console.Write(e.ExceptionObject);
