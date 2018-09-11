@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Tile.Net
 {
     public delegate void WorkspaceUpdatedDelegate();
+    public delegate void FocusedMonitorUpdatedDelegate();
 
     public interface IWorkspaceManager
     {
@@ -16,11 +17,15 @@ namespace Tile.Net
         Func<IWindow, bool> WindowFilterFunc { get; set; }
         void AddWorkspace(string name, ILayoutEngine[] layouts);
         IWorkspace FocusedWorkspace { get; }
+        IMonitor FocusedMonitor { get; }
         void SwitchToWorkspace(int index);
+        void SwitchFocusedMonitor(int index);
         void MoveFocusedWindowToWorkspace(int index);
+        void MoveFocusedWindowToMonitor(int index);
         IMonitor GetMonitorForWorkspace(IWorkspace workspace);
         IWorkspace GetWorkspaceForMonitor(IMonitor monitor);
 
         event WorkspaceUpdatedDelegate WorkspaceUpdated;
+        event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
     }
 }

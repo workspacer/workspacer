@@ -49,7 +49,6 @@ namespace Tile.Net
             };
             var config = GetConfig();
             config.Configure(_context);
-            PluginManager.Instance.AfterConfig(_context);
 
             var state = StateManager.Instance.LoadState();
 
@@ -66,6 +65,7 @@ namespace Tile.Net
                 WorkspaceManager.Instance.SwitchToWorkspace(0);
             }
 
+            PluginManager.Instance.AfterConfig(_context);
 
             var msg = new Win32.Message();
             while (Win32.GetMessage(ref msg, IntPtr.Zero, 0, 0)) { }

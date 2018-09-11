@@ -9,18 +9,46 @@ namespace Tile.Net.Bar
 {
     public class BarPlugin : IPlugin
     {
-        private BarForm _form;
+        private List<BarForm> _bars;
+        private BarPluginConfig _config;
+
+        public BarPlugin(BarPluginConfig config)
+        {
+            _config = config;
+        }
 
         public void AfterConfig(IConfigContext context)
         {
-            context.Workspaces.WorkspaceUpdated += () => UpdateWorkspaces(context);
+            _bars = new List<BarForm>();
 
+
+            
             Task.Run(() =>
             {
-                _form = new BarForm();
+                foreach (var m in context.Workspaces.Monitors)
+                {
+                    var bar = new BarForm(m, _config);
+
+                    var widgetContext = new BarWidgetContext(bar, m, context.Workspaces);
+
+                    var left = _config.LeftWidgets();
+                    InitializeWidgets(left, widgetContext);
+                    var middle = _config.MiddleWidgets();
+                    InitializeWidgets(middle, widgetContext);
+                    var right = _config.RightWidgets();
+                    InitializeWidgets(right, widgetContext);
+
+                    bar.LeftWidgets = left;
+                    bar.MiddleWidgets = middle;
+                    bar.RightWidgets = right;
+
+                    bar.Show();
+                    _bars.Add(bar);
+                }
                 Application.EnableVisualStyles();
-                Application.Run(_form);
-                UpdateWorkspaces(context);
+
+                _bars.ForEach(b => b.Redraw());
+
                 while (true)
                 {
                     Application.DoEvents();
@@ -28,19 +56,12 @@ namespace Tile.Net.Bar
             });
         }
 
-        private void UpdateWorkspaces(IConfigContext context)
+        private void InitializeWidgets(IEnumerable<IBarWidget> widgets, IBarWidgetContext context)
         {
-            var parts = new List<string>();
-
-            foreach (var w in context.Workspaces.Workspaces)
+            foreach (var w in widgets)
             {
-                var monitor = context.Workspaces.GetMonitorForWorkspace(w);
-                var part = monitor != null ? $"[{w.Name}]" : w.Name;
-                parts.Add(part);
+                w.Initialize(context);
             }
-            var full = string.Join(" ", parts);
-
-            _form.SetLeft(full);
         }
     }
 }
