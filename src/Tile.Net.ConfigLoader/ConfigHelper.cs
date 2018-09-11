@@ -27,7 +27,7 @@ namespace Tile.Net.ConfigLoader
         {
             var assembly = Assembly.GetAssembly(typeof(ConfigHelper));
             var templateName = assembly.GetManifestResourceNames()
-                .First(n => n.EndsWith("Tile.Net.config.template"));
+                .First(n => n.EndsWith("Tile.Net.config.template.cs"));
 
             using (var stream = assembly.GetManifestResourceStream(templateName))
             using (var reader = new StreamReader(stream))

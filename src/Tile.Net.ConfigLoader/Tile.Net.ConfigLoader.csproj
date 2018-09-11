@@ -188,7 +188,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Tile.Net.config.template" />
+    <EmbeddedResource Include="Tile.Net.config.template.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
