@@ -8,3 +8,5 @@
 - incremental redraws of bar
   - dirty flag?
   - refresh rate controlled by bar instead of widget? get rid of manual redraw calls
+- force foreground not quite working  
+  - looks like windows are still capturing keyboard shortcut when forcing
