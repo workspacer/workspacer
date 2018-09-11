@@ -16,9 +16,9 @@ namespace Tile.Net
         public IWorkspaceManager Workspaces { get; set; }
         public IPluginManager Plugins { get; set; }
 
-        private PipeClient _pipeClient;
+        private PipeServer _pipeClient;
 
-        public ConfigContext(PipeClient pipeClient)
+        public ConfigContext(PipeServer pipeClient)
         {
             _pipeClient = pipeClient;
         }

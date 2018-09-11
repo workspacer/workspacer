@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{020BFFA1-E131-44DF-9B57-C1284DC80C8A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Tile.Net.Launcher</RootNamespace>
-    <AssemblyName>Tile.Net.Launcher</AssemblyName>
+    <RootNamespace>Tile.Net.Watcher</RootNamespace>
+    <AssemblyName>Tile.Net.Watcher</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -69,7 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PipeServer.cs" />
+    <Compile Include="PipeClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,6 +89,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)\src\Tile.Net\$(OutDir)*.*" "$(TargetDir)"  /E /Y /R</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

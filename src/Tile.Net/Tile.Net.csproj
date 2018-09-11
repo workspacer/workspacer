@@ -80,7 +80,7 @@
     <Compile Include="IManager.cs" />
     <Compile Include="Keybinds\KeybindManager.cs" />
     <Compile Include="Layout\LayoutManager.cs" />
-    <Compile Include="PipeClient.cs" />
+    <Compile Include="PipeServer.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="State\StateManager.cs" />
     <Compile Include="State\TileNetState.cs" />
@@ -109,6 +109,10 @@
     <ProjectReference Include="..\Tile.Net.Shared\Tile.Net.Shared.csproj">
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
       <Name>Tile.Net.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tile.Net.Watcher\Tile.Net.Watcher.csproj">
+      <Project>{020bffa1-e131-44df-9b57-c1284dc80c8a}</Project>
+      <Name>Tile.Net.Watcher</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

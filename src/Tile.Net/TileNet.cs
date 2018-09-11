@@ -12,26 +12,21 @@ namespace Tile.Net
     {
         public static bool Enabled { get; set; }
 
-        private PipeClient _pipeClient;
+        private PipeServer _pipeServer;
         private ConfigContext _context;
         private Timer _timer;
 
-        public TileNet(string clientHandle)
+        public TileNet()
         {
-            _pipeClient = new PipeClient(clientHandle);
+            _pipeServer = new PipeServer();
             _timer = new Timer();
             _timer.Elapsed += (s, e) => UpdateActiveHandles();
             _timer.Interval = 5000;
         }
 
-        public TileNet() : this(null)
-        {
-
-        }
-
         public void Start()
         {
-            _pipeClient.Start();
+            _pipeServer.Start();
             _timer.Enabled = true;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
@@ -40,7 +35,7 @@ namespace Tile.Net
             WindowsDesktopManager.Instance.WindowUpdated += WorkspaceManager.Instance.UpdateWindow;
 
 
-            _context = new ConfigContext(_pipeClient)
+            _context = new ConfigContext(_pipeServer)
             {
                 Keybinds = KeybindManager.Instance,
                 Workspaces = WorkspaceManager.Instance,
@@ -83,7 +78,7 @@ namespace Tile.Net
         private void SendResponse(LauncherResponse response)
         {
             var str = JsonConvert.SerializeObject(response);
-            _pipeClient.SendResponse(str);
+            _pipeServer.SendResponse(str);
         }
 
         public void Quit()

@@ -8,11 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile.Net", "src\Tile.Net\Ti
 		{A593B7C4-750D-44EE-8617-134B53C83D5D} = {A593B7C4-750D-44EE-8617-134B53C83D5D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile.Net.Launcher", "src\Tile.Net.Launcher\Tile.Net.Launcher.csproj", "{020BFFA1-E131-44DF-9B57-C1284DC80C8A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D89294E0-EB76-440E-835C-CCD1E4CF6933} = {D89294E0-EB76-440E-835C-CCD1E4CF6933}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile.Net.Shared", "src\Tile.Net.Shared\Tile.Net.Shared.csproj", "{D13FD20B-E571-438D-B122-E24BC5A1384F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile.Net.Bar", "src\Tile.Net.Bar\Tile.Net.Bar.csproj", "{A593B7C4-750D-44EE-8617-134B53C83D5D}"
@@ -20,6 +15,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile.Net.ConfigLoader", "src\Tile.Net.ConfigLoader\Tile.Net.ConfigLoader.csproj", "{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile.Net.Native", "src\Tile.Net.Native\Tile.Net.Native.csproj", "{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tile.Net.Watcher", "src\Tile.Net.Watcher\Tile.Net.Watcher.csproj", "{020BFFA1-E131-44DF-9B57-C1284DC80C8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +34,6 @@ Global
 		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Release|x64.ActiveCfg = Release|x64
 		{D89294E0-EB76-440E-835C-CCD1E4CF6933}.Release|x64.Build.0 = Release|x64
-		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Debug|x64.ActiveCfg = Debug|x64
-		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Debug|x64.Build.0 = Debug|x64
-		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Release|x64.ActiveCfg = Release|x64
-		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Release|x64.Build.0 = Release|x64
 		{D13FD20B-E571-438D-B122-E24BC5A1384F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D13FD20B-E571-438D-B122-E24BC5A1384F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D13FD20B-E571-438D-B122-E24BC5A1384F}.Debug|x64.ActiveCfg = Debug|x64
@@ -77,6 +66,14 @@ Global
 		{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}.Release|x64.ActiveCfg = Release|Any CPU
 		{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}.Release|x64.Build.0 = Release|Any CPU
+		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Debug|x64.ActiveCfg = Debug|x64
+		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Debug|x64.Build.0 = Debug|x64
+		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Release|x64.ActiveCfg = Release|x64
+		{020BFFA1-E131-44DF-9B57-C1284DC80C8A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
