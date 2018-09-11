@@ -36,6 +36,8 @@ namespace Tile.Net
         void IncrementNumberOfMasterWindows(); // mod-comma
         void DecrementNumberOfMasterWindows(); // mod-period
 
+        void ForceLayout();
+
         // mod-t - switch to tiling
         // probably via SetLayoutEngine?
 

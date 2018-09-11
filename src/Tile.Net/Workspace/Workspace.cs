@@ -321,6 +321,9 @@ namespace Tile.Net
             return _layoutEngines[_layoutIndex];
         }
 
-        
+        public void ForceLayout()
+        {
+            DoLayout();
+        }
     }
 }
