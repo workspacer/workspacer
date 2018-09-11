@@ -7,15 +7,14 @@ Currently, Tile.Net supports most default xmonad functionality, like custom layo
 
 # Configuration
 
-Right now, configuration is hardcoded into the application (see the below section "Is this ready for use yet?").
-My current plan is to use Roslyn to compile the configuration into the application at runtime, similar to how xmonad does it,
-in order to allow for extreme customization. 
+Tile.Net is entirely configured in actual C# (which means that you can literally configure it however you want!). 
+When Tile.Net starts, it puts a sample configuration file (the default config) in your user folder called `Tile.Net.config`. 
+This file is compiled and loading into the process at application startup automatically.
 
 # Is this ready for use yet?
-Nope! There are still several massive bugs in this code, so it still needs a bit of work. Tile.Net is designed with any attempt to not corrupt any applications built in, and uses a separate process to handle restarts and window cleanup, in order to prevent window corruption/loss on crashes, however no promises.
 
-I also plan on implementing something similar to [xmobar](https://github.com/jaor/xmobar), but have not started yet, so simple things
-like "being able to see what workspaces are available" is currently not possible.
+Almost! I need to air out a few quirks, implement a couple more tiny features, and optimize a couple of things. I also need to add proper logging.
+Once it's ready, I will post builds here.
 
 # Contributing
 
