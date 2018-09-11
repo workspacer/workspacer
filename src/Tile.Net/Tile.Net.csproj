@@ -118,7 +118,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir /p "$(TargetDir)plugins\Tile.Net.Bar"
-xcopy "$(SolutionDir)\src\Tile.Net.Bar\$(OutDir)*.*" "$(TargetDir)plugins\Tile.Net.Bar\"  /E /Y /R</PostBuildEvent>
+xcopy "$(SolutionDir)\src\Tile.Net.Bar\$(OutDir)*.*" "$(TargetDir)plugins\Tile.Net.Bar\"  /E /Y /R
+
+if $(ConfigurationName) == Release (powershell Compress-Archive -Path '$(TargetDir)*' -DestinationPath '$(SolutionDir)\Tile.Net.zip' -Force)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
