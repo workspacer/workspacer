@@ -16,7 +16,7 @@ namespace Tile.Net.Config
             var barHeight = 30;
             var fontSize = 16;
 
-			context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
+            context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
             {
                 BarHeight = barHeight,
                 FontSize = fontSize,
