@@ -20,60 +20,61 @@ namespace Tile.Net
         private List<IWindow> _windows;
         private ILayoutEngine[] _layoutEngines;
         private int _layoutIndex;
-        private bool _show;
+        private IWindow _lastFocused;
 
         public Workspace(string name, params ILayoutEngine[] layoutEngines)
         {
             _layoutEngines = layoutEngines;
             _layoutIndex = 0;
             _windows = new List<IWindow>();
-            _show = false;
 
+            _lastFocused = null;
             Name = name;
-        }
-
-        public void Show()
-        {
-            if (!_show)
-            {
-                _show = true;
-
-                var window = this.Windows.FirstOrDefault(w => w.CanLayout);
-                if (window != null)
-                    window.IsFocused = true;
-            }
-            DoLayout();
-        }
-
-        public void Hide()
-        {
-            if (_show)
-            {
-                _show = false;
-            }
-            DoLayout();
         }
 
         public void AddWindow(IWindow window)
         {
+            if (_lastFocused == null)
+            {
+                _lastFocused = window;
+            }
+
             _windows.Add(window);
             DoLayout();
         }
 
         public void RemoveWindow(IWindow window)
         {
+            if (_lastFocused == window)
+            {
+                var windows = _windows.Where(w => w.CanLayout).ToList();
+                var next = windows.Count > 1 ? windows[(windows.IndexOf(window) + 1) % windows.Count] : null;
+                _lastFocused = next;
+            }
+
             _windows.Remove(window);
             DoLayout();
         }
 
         public void UpdateWindow(IWindow window)
         {
+            if (window.IsFocused)
+                _lastFocused = window;
+
             DoLayout();
         }
 
-        public void SetMonitor(IMonitor monitor)
+        public IMonitor Monitor
         {
-            _monitor = monitor;
+            get
+            {
+                return _monitor;
+            }
+            set
+            {
+                _monitor = value;
+                DoLayout();
+            }
         }
 
         public void CloseFocusedWindow()
@@ -101,9 +102,18 @@ namespace Tile.Net
             DoLayout();
         }
 
+        public void FocusLastFocusedWindow()
+        {
+            if (_lastFocused != null)
+            {
+                _lastFocused.IsFocused = true;
+            }
+        }
+
         public void FocusNextWindow()
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            var didFocus = false;
             for (var i = 0; i < windows.Count; i++)
             {
                 var window = windows[i];
@@ -117,7 +127,19 @@ namespace Tile.Net
                     {
                         windows[i + 1].IsFocused = true;
                     }
+                    didFocus = true;
                     break;
+                }
+            }
+
+            if (!didFocus && windows.Count > 0)
+            {
+                if (_lastFocused != null)
+                {
+                    _lastFocused.IsFocused = true;
+                } else
+                {
+                    windows[0].IsFocused = true;
                 }
             }
         }
@@ -125,6 +147,7 @@ namespace Tile.Net
         public void FocusPreviousWindow()
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            var didFocus = false;
             for (var i = 0; i < windows.Count; i++)
             {
                 var window = windows[i];
@@ -138,7 +161,19 @@ namespace Tile.Net
                     {
                         windows[i - 1].IsFocused = true;
                     }
+                    didFocus = true;
                     break;
+                }
+            }
+
+            if (!didFocus && windows.Count > 0)
+            {
+                if (_lastFocused != null)
+                {
+                    _lastFocused.IsFocused = true;
+                } else
+                {
+                    windows[0].IsFocused = true;
                 }
             }
         }
@@ -238,12 +273,11 @@ namespace Tile.Net
 
             if (TileNet.Enabled)
             {
-                if (_show && _monitor != null)
+                if (_monitor != null)
                 {
                     windows.ForEach(w => w.ShowInCurrentState());
 
-                    var bounds = Screen.PrimaryScreen.WorkingArea;
-                    var locations = GetLayoutEngine().CalcLayout(windows, bounds.Width, bounds.Height)
+                    var locations = GetLayoutEngine().CalcLayout(windows, _monitor.Width, _monitor.Height)
                         .ToArray();
 
                     using (var handle = WindowsDesktopManager.Instance.DeferWindowsPos(windows.Count))

@@ -1,7 +1,8 @@
-- create dmenu replacement (using WCF pipe)?
 - multi monitor support!
-- create xmobar replacement (using WCF pipe)?
-  - Tile.Net.Bar exists, but needs more work
-  - the left side is hard-coded to be workspaces, the middle and right do nothing
-  - need to introduce a widget system for the bar?
-  - instead of registering plugins, we should allow the config to directly instantiate them, -> new BarPlugin(widgets....);
+  - all clicks in the monitor force monitor focus?
+- create more widgets!
+  - time
+  - network status??
+  - other impls of xmonad widgets
+  - use background to indicate focus instead of widget
+- on startup, place windows into closest monitor, not all first

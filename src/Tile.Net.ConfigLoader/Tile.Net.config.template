@@ -3,6 +3,7 @@ using System.Linq;
 using Tile.Net.Shared;
 using Tile.Net.ConfigLoader;
 using Tile.Net.Bar;
+using Tile.Net.Bar.Widgets;
 
 namespace Tile.Net.Config
 {
@@ -12,11 +13,20 @@ namespace Tile.Net.Config
         public void Configure(IConfigContext context)
         {
             var mod = KeyModifiers.LAlt;
+            var barHeight = 30;
+            var fontSize = 16;
 
-			context.Plugins.RegisterPlugin<BarPlugin>();
+			context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
+            {
+                BarHeight = barHeight,
+                FontSize = fontSize,
+                LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget() },
+                MiddleWidgets = () => new IBarWidget[] { new FocusedMonitorWidget() },
+                RightWidgets = () => new IBarWidget[] { new TimeWidget() },
+            }));
 
-            context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new TallLayoutEngine(1, 0.5, 0.03), "Tile.Net.Bar", 50));
-            context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new FullLayoutEngine(), "Tile.Net.Bar", 50));
+            context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new TallLayoutEngine(1, 0.5, 0.03), "Tile.Net.Bar", barHeight));
+            context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new FullLayoutEngine(), "Tile.Net.Bar", barHeight));
 
             context.Workspaces.WorkspaceSelectorFunc = (window) =>
             {
@@ -35,6 +45,10 @@ namespace Tile.Net.Config
             context.Workspaces.AddWorkspace("three", context.Layouts.CreateLayouts());
             context.Workspaces.AddWorkspace("four", context.Layouts.CreateLayouts());
             context.Workspaces.AddWorkspace("five", context.Layouts.CreateLayouts());
+            context.Workspaces.AddWorkspace("six", context.Layouts.CreateLayouts());
+            context.Workspaces.AddWorkspace("seven", context.Layouts.CreateLayouts());
+            context.Workspaces.AddWorkspace("eight", context.Layouts.CreateLayouts());
+            context.Workspaces.AddWorkspace("nine", context.Layouts.CreateLayouts());
 
             context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.E,
                 () => context.Enabled = !context.Enabled);
@@ -109,6 +123,23 @@ namespace Tile.Net.Config
             context.Keybinds.Subscribe(mod, Keys.D9,
                 () => context.Workspaces.SwitchToWorkspace(8));
 
+            context.Keybinds.Subscribe(mod, Keys.W,
+                () => context.Workspaces.SwitchFocusedMonitor(0));
+
+            context.Keybinds.Subscribe(mod, Keys.E,
+                () => context.Workspaces.SwitchFocusedMonitor(1));
+
+            context.Keybinds.Subscribe(mod, Keys.R,
+                () => context.Workspaces.SwitchFocusedMonitor(2));
+
+            context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.W,
+                () => context.Workspaces.MoveFocusedWindowToMonitor(0));
+
+            context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.E,
+                () => context.Workspaces.MoveFocusedWindowToMonitor(1));
+
+            context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.R,
+                () => context.Workspaces.MoveFocusedWindowToMonitor(2));
 
             context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.D1,
                 () => context.Workspaces.MoveFocusedWindowToWorkspace(0));

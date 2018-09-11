@@ -17,27 +17,23 @@ namespace Tile.Net
         public Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
         public Func<IWindow, bool> WindowFilterFunc { get; set; }
 
-        private int _focusedWorkspace;
-        public IWorkspace FocusedWorkspace => _workspaces[_focusedWorkspace];
+        private int _focusedMonitor;
+        public IMonitor FocusedMonitor => _monitors[_focusedMonitor];
+        public IWorkspace FocusedWorkspace => _workspaces.First(w => w.Monitor == FocusedMonitor);
 
         private List<IMonitor> _monitors;
         private List<IWorkspace> _workspaces;
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
 
-        private Dictionary<IMonitor, IWorkspace> _monitorsToWorkspaces;
-        private Dictionary<IWorkspace, IMonitor> _workspacesToMonitors;
-
         public event WorkspaceUpdatedDelegate WorkspaceUpdated;
+        public event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
 
         private WorkspaceManager()
         {
-            _focusedWorkspace = 0;
             _monitors = new List<IMonitor>();
             _workspaces = new List<IWorkspace>();
             _windowsToWorkspaces = new Dictionary<IWindow, IWorkspace>();
-
-            _monitorsToWorkspaces = new Dictionary<IMonitor, IWorkspace>();
-            _workspacesToMonitors = new Dictionary<IWorkspace, IMonitor>();
+            _focusedMonitor = 0;
         }
         public static WorkspaceManager Instance { get; } = new WorkspaceManager();
 
@@ -54,31 +50,34 @@ namespace Tile.Net
             if (index < _workspaces.Count && index >= 0)
             {
                 var oldWorkspace = FocusedWorkspace;
+                var newWorkspace = _workspaces[index];
+                var srcMonitor = newWorkspace.Monitor;
+                var destMonitor = FocusedMonitor;
 
-                if (_workspacesToMonitors.ContainsKey(oldWorkspace))
+                if (oldWorkspace != newWorkspace)
                 {
-                    var monitor = _workspacesToMonitors[oldWorkspace];
-                    var newWorkspace = _workspaces[index];
+                    AssignWorkspaceMonitor(destMonitor, newWorkspace);
+                    AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
 
-                    if (oldWorkspace != newWorkspace)
+                    var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
+                    if (window != null)
                     {
-                        AssignWorkspaceToMonitor(monitor, newWorkspace);
-                        _focusedWorkspace = index;
-
-                        oldWorkspace.Hide();
-                        newWorkspace.Show();
-                        var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
-                        if (window != null)
-                        {
-                            window.IsFocused = true;
-                        }
-                    } else
-                    {
-                        newWorkspace.Show();
+                        window.IsFocused = true;
                     }
                     WorkspaceUpdated?.Invoke();
                 }
-            };
+            }
+        }
+
+        public void SwitchFocusedMonitor(int index)
+        {
+            if (index < _monitors.Count && index >= 0)
+            {
+                _focusedMonitor = index;
+                FocusedWorkspace.FocusLastFocusedWindow();
+
+                FocusedMonitorUpdated?.Invoke();
+            }
         }
 
         public void MoveFocusedWindowToWorkspace(int index)
@@ -93,6 +92,25 @@ namespace Tile.Net
                     FocusedWorkspace.RemoveWindow(window);
                     targetWorkspace.AddWindow(window);
                     _windowsToWorkspaces[window] = targetWorkspace;
+                    window.IsFocused = true;
+                }
+            }
+        }
+
+        public void MoveFocusedWindowToMonitor(int index)
+        {
+            if (index < _monitors.Count && index >= 0)
+            {
+                var destMonitor = _monitors[index];
+                var destWorkspace = _workspaces.First(w => w.Monitor == destMonitor);
+                var window = FocusedWorkspace.FocusedWindow;
+
+                if (window != null)
+                {
+                    FocusedWorkspace.RemoveWindow(window);
+                    destWorkspace.AddWindow(window);
+                    _windowsToWorkspaces[window] = destWorkspace;
+                    window.IsFocused = true;
                 }
             }
         }
@@ -132,17 +150,14 @@ namespace Tile.Net
             }
         }
 
-        private void AssignWorkspaceToMonitor(IMonitor monitor, IWorkspace workspace)
+        private void AssignWorkspaceMonitor(IMonitor monitor, IWorkspace workspace)
         {
-            var oldWorkspace = _monitorsToWorkspaces.ContainsKey(monitor) ? _monitorsToWorkspaces[monitor] : null;
-            if (oldWorkspace != null)
-            {
-                _workspacesToMonitors.Remove(oldWorkspace);
-            }
-            _monitorsToWorkspaces[monitor] = workspace;
-            _workspacesToMonitors[workspace] = monitor;
+            workspace.Monitor = monitor;
+        }
 
-            workspace.SetMonitor(monitor);
+        private void ClearWorkspaceMonitor(IWorkspace workspace)
+        {
+            workspace.Monitor = null;
         }
 
         private void AddWindowToWorkspace(IWindow window, IWorkspace workspace)
@@ -152,7 +167,10 @@ namespace Tile.Net
 
             if (window.IsFocused)
             {
-                _focusedWorkspace = _workspaces.IndexOf(workspace);
+                if (workspace.Monitor != null)
+                {
+                    _focusedMonitor = _monitors.IndexOf(workspace.Monitor);
+                }
             }
         }
 
@@ -171,7 +189,11 @@ namespace Tile.Net
             {
                 if (window.IsFocused)
                 {
-                    _focusedWorkspace = _workspaces.IndexOf(_windowsToWorkspaces[window]);
+                    var workspace = _windowsToWorkspaces[window];
+                    if (workspace.Monitor != null)
+                    {
+                        _focusedMonitor = _monitors.IndexOf(workspace.Monitor);
+                    }
                 }
 
                 _windowsToWorkspaces[window].UpdateWindow(window);
@@ -198,13 +220,14 @@ namespace Tile.Net
 
         public WorkspaceState GetState()
         {
-            var dict = new Dictionary<int, int>();
+            var windowsToWorkspaces = new Dictionary<int, int>();
+            var monitorsToWorkspaces = new Dictionary<int, int>();
 
             int focusedWindow = 0;
             foreach (var kv in _windowsToWorkspaces)
             {
                 var index = _workspaces.IndexOf(kv.Value);
-                dict[(int) kv.Key.Handle] = index;
+                windowsToWorkspaces[(int) kv.Key.Handle] = index;
 
                 if (kv.Key.IsFocused)
                 {
@@ -212,16 +235,32 @@ namespace Tile.Net
                 }
             }
 
-            var workspaceIndex = _workspaces.IndexOf(FocusedWorkspace);
+            for (var i = 0; i < _monitors.Count; i++)
+            {
+                for (var j = 0; j < _workspaces.Count; j++)
+                {
+                    var monitor = _monitors[i];
+                    var workspace = _workspaces[j];
+
+                    if (workspace.Monitor == monitor)
+                    {
+                        monitorsToWorkspaces[i] = j;
+                    }
+                }
+            }
+
+            var monitorIndex = _monitors.IndexOf(FocusedMonitor);
+
             return new WorkspaceState()
             {
-                WindowsToWorkspaces = dict,
-                FocusedWorkspace = workspaceIndex,
+                WindowsToWorkspaces = windowsToWorkspaces,
+                MonitorsToWorkspaces = monitorsToWorkspaces,
+                FocusedMonitor = monitorIndex,
                 FocusedWindow = focusedWindow
             };
         }
 
-        private void InitializeMonitors()
+        private void InitializeMonitors(bool assignWorkspaces = true)
         {
             var primary = Screen.PrimaryScreen;
             _monitors.Add(new Monitor(0, primary));
@@ -245,13 +284,14 @@ namespace Tile.Net
             {
                 var m = _monitors[i];
                 var w = _workspaces[i];
-                AssignWorkspaceToMonitor(m, w);
+                AssignWorkspaceMonitor(m, w);
             }
         }
 
         public void InitializeWithState(WorkspaceState state, IEnumerable<IWindow> windows)
         {
-            InitializeMonitors();
+            InitializeMonitors(false);
+
             var wtw = state.WindowsToWorkspaces;
 
             foreach (var w in windows)
@@ -276,7 +316,15 @@ namespace Tile.Net
                     w.IsFocused = true;
                 }
             }
-            _focusedWorkspace = state.FocusedWorkspace;
+
+            var mtw = state.MonitorsToWorkspaces;
+            for (var i = 0; i < _monitors.Count; i++)
+            {
+                var workspaceIdx = mtw[i];
+                var workspace = _workspaces[workspaceIdx];
+                var monitor = _monitors[i];
+                workspace.Monitor = monitor;
+            }
         }
 
         public void Initialize(IEnumerable<IWindow> windows)
@@ -291,12 +339,12 @@ namespace Tile.Net
 
         public IMonitor GetMonitorForWorkspace(IWorkspace workspace)
         {
-            return _workspacesToMonitors.ContainsKey(workspace) ? _workspacesToMonitors[workspace] : null;
+            return workspace.Monitor;
         }
 
         public IWorkspace GetWorkspaceForMonitor(IMonitor monitor)
         {
-            return _monitorsToWorkspaces.ContainsKey(monitor) ? _monitorsToWorkspaces[monitor] : null;
+            return _workspaces.FirstOrDefault(w => w.Monitor == monitor);
         }
 
         public IWorkspace this[int index] => _workspaces[index];

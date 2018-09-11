@@ -8,7 +8,7 @@ namespace Tile.Net
 {
     public interface IPluginManager
     {
-        void RegisterPlugin<T>() where T : IPlugin;
+        void RegisterPlugin<T>(T plugin) where T : IPlugin;
         IEnumerable<Type> AvailablePlugins { get; }
     }
 }

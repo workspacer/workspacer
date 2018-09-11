@@ -101,7 +101,8 @@ namespace Tile.Net
         public bool IsFocused
         {
             get { return Win32.GetForegroundWindow() == _handle; }
-            set { Win32Helper.ForceForegroundWindow(_handle); }
+            //set { Win32Helper.ForceForegroundWindow(_handle); }
+            set { Win32.SetForegroundWindow(_handle); }
         }
 
         public bool IsMinimized => Win32.IsIconic(_handle);

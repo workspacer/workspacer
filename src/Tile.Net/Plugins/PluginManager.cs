@@ -22,17 +22,9 @@ namespace Tile.Net
 
         public void AfterConfig(IConfigContext context) { _plugins.ForEach(p => p.AfterConfig(context)); }
 
-        public void RegisterPlugin<T>() where T : IPlugin
+        public void RegisterPlugin<T>(T plugin) where T : IPlugin
         {
-            if (_availablePlugins.Contains(typeof(T)))
-            {
-                var plugin = Activator.CreateInstance<T>();
-                _plugins.Add(plugin);
-            }
-            else
-            {
-                throw new Exception($"attempted to register type {typeof(T).Name} but it was never loaded");
-            }
+            _plugins.Add(plugin);
         }
 
         public IEnumerable<Type> AvailablePlugins => _availablePlugins;

@@ -53,40 +53,61 @@ namespace Tile.Net.ConfigLoader
 
         private static Type CompileConfig(IEnumerable<Type> referenceTypes)
         {
-            var config = LoadConfig();
-
-            var references = new List<MetadataReference>();
-
-            references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(Process).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(TileNetConfigLoaderHandle).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(TileNetSharedHandle).Assembly.Location));
-
-            references.AddRange(referenceTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
-
-            var tree = CSharpSyntaxTree.ParseText(config);
-            var compilation = CSharpCompilation.Create("Tile.Net.Config.dll")
-                .AddSyntaxTrees(tree).AddReferences(references).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-        
-            using (var stream = new MemoryStream())
+            var name = "Tile.Net.Config.dll";
+            Assembly assembly;
+            if (!ConfigIsCompiled())
             {
-                var emitResult = compilation.Emit(stream);
-                if (emitResult.Success)
+                var config = LoadConfig();
+
+                var references = new List<MetadataReference>();
+
+                references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+                references.Add(MetadataReference.CreateFromFile(typeof(Process).Assembly.Location));
+                references.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location));
+                references.Add(MetadataReference.CreateFromFile(typeof(TileNetConfigLoaderHandle).Assembly.Location));
+                references.Add(MetadataReference.CreateFromFile(typeof(TileNetSharedHandle).Assembly.Location));
+
+                references.AddRange(referenceTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
+
+                var tree = CSharpSyntaxTree.ParseText(config);
+                var compilation = CSharpCompilation.Create(name)
+                    .AddSyntaxTrees(tree).AddReferences(references).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+                using (var stream = new FileStream(GetConfigDllPath(), FileMode.Create))
                 {
-                    stream.Seek(0, SeekOrigin.Begin);
-                    var assembly = Assembly.Load(stream.ToArray());
-                    return assembly.GetTypes().First(t => t.Name == "Config");
-                } else
-                {
-                    throw new Exception(string.Join("\n", emitResult.Diagnostics.Select(d => d.ToString())));
+                    var emitResult = compilation.Emit(stream);
+                    if (!emitResult.Success)
+                    {
+                        throw new Exception(string.Join("\n", emitResult.Diagnostics.Select(d => d.ToString())));
+                    }
                 }
             }
+            assembly = Assembly.LoadFile(GetConfigDllPath());
+
+            return assembly.GetTypes().First(t => t.Name == "Config");
+        }
+
+        private static bool ConfigIsCompiled()
+        {
+            var path = GetConfigPath();
+            var dllPath = GetConfigDllPath();
+            if (!File.Exists(path) || !File.Exists(dllPath))
+                return false;
+
+            var text = File.GetLastWriteTime(path);
+            var dll = File.GetLastWriteTime(dllPath);
+
+            return dll >= text;
         }
 
         private static string GetConfigPath()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Tile.Net.config");
+        }
+
+        private static string GetConfigDllPath()
+        {
+            return Path.Combine(Environment.CurrentDirectory, "Tile.Net.Config.dll");
         }
     }
 }

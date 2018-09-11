@@ -12,10 +12,7 @@ namespace Tile.Net
         IEnumerable<IWindow> Windows { get; }
         IWindow FocusedWindow { get; }
 
-        void Show();
-        void Hide();
-
-        void SetMonitor(IMonitor monitor);
+        IMonitor Monitor { get; set; }
         void AddWindow(IWindow window);
         void RemoveWindow(IWindow window);
         void UpdateWindow(IWindow window);
@@ -24,6 +21,7 @@ namespace Tile.Net
         void NextLayoutEngine(); // mod-space
         void ResetLayout(); // mod-n
 
+        void FocusLastFocusedWindow(); 
         void FocusNextWindow(); // mod-j
         void FocusPreviousWindow(); // mod-k
         void FocusMasterWindow(); // mod-m
