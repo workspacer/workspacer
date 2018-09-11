@@ -64,6 +64,10 @@ namespace Tile.Net
                 Enabled = true;
                 WorkspaceManager.Instance.SwitchToWorkspace(0);
             }
+            foreach (var workspace in WorkspaceManager.Instance.Workspaces)
+            {
+                workspace.ForceLayout();
+            }
 
             PluginManager.Instance.AfterConfig(_context);
 

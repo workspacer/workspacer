@@ -8,6 +8,7 @@ namespace Tile.Net
 {
     public interface IMonitor
     {
+        string Name { get; }
         int Index { get; }
         int Width { get; }
         int Height { get; }

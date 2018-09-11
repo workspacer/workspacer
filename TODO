@@ -5,4 +5,4 @@
   - network status??
   - other impls of xmonad widgets
   - use background to indicate focus instead of widget
-- on startup, place windows into closest monitor, not all first
+- invert Tile.Net.Launcher to be spawned from Tile.Net, so that debugging shenannigans don't need to happen

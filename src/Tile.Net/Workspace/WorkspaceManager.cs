@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -333,6 +334,17 @@ namespace Tile.Net
 
             foreach (var w in windows)
             {
+                var shouldTrack = WindowFilterFunc?.Invoke(w) ?? true;
+                if (!shouldTrack)
+                    continue;
+
+                var location = w.Location;
+                var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
+                var monitor = _monitors.First(m => m.Name == screen.DeviceName);
+                var workspace = _workspaces.First(wk => wk.Monitor == monitor);
+
+                AddWindowToWorkspace(w, workspace);
+
                 AddWindow(w, false);
             }
         }

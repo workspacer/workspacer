@@ -11,6 +11,7 @@ namespace Tile.Net
     public class Monitor : IMonitor
     {
         public int Index { get; private set; }
+        public string Name => _screen.DeviceName;
         public int Width => _screen.WorkingArea.Width;
         public int Height => _screen.WorkingArea.Height;
         public int X => _screen.WorkingArea.X;
