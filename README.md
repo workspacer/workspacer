@@ -13,7 +13,7 @@ This file is compiled and loading into the process at application startup automa
 
 # Is this ready for use yet?
 
-Almost! I have posted a beta build zipped up as a release here that you are more than welcome to try out! 
+Almost! I have posted [a beta build](https://github.com/rickbutton/Tile.Net/releases) zipped up as a release here that you are more than welcome to try out! 
 Please let me know when (not if!!) you run into any issues. I have done EXTREMELY limited testing outside of my machines, so no promises.
 
 # Contributing
