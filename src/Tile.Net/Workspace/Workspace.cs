@@ -73,7 +73,6 @@ namespace Tile.Net
             set
             {
                 _monitor = value;
-                DoLayout();
             }
         }
 

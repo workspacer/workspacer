@@ -18,25 +18,23 @@ namespace Tile.Net.Bar
             _config = config;
         }
 
-        public void AfterConfig(IConfigContext context)
+        private class MyAppContext : ApplicationContext
         {
-            _bars = new List<BarForm>();
-
-
-            
-            Task.Run(() =>
+            public MyAppContext(BarPluginConfig config, IConfigContext context)
             {
+                var bars = new List<BarForm>();
+
                 foreach (var m in context.Workspaces.Monitors)
                 {
-                    var bar = new BarForm(m, _config);
+                    var bar = new BarForm(m, config);
 
                     var widgetContext = new BarWidgetContext(bar, m, context.Workspaces);
 
-                    var left = _config.LeftWidgets();
+                    var left = config.LeftWidgets();
                     InitializeWidgets(left, widgetContext);
-                    var middle = _config.MiddleWidgets();
+                    var middle = config.MiddleWidgets();
                     InitializeWidgets(middle, widgetContext);
-                    var right = _config.RightWidgets();
+                    var right = config.RightWidgets();
                     InitializeWidgets(right, widgetContext);
 
                     bar.LeftWidgets = left;
@@ -44,26 +42,27 @@ namespace Tile.Net.Bar
                     bar.RightWidgets = right;
 
                     bar.Show();
-                    _bars.Add(bar);
+                    bars.Add(bar);
                 }
-                Application.EnableVisualStyles();
+                bars.ForEach(b => b.MarkDirty());
+            }
 
-                _bars.ForEach(b => b.Redraw());
-
-                while (true)
+            private void InitializeWidgets(IEnumerable<IBarWidget> widgets, IBarWidgetContext context)
+            {
+                foreach (var w in widgets)
                 {
-                    Thread.Sleep(500);
-                    Application.DoEvents();
+                    w.Initialize(context);
                 }
-            });
+            }
         }
 
-        private void InitializeWidgets(IEnumerable<IBarWidget> widgets, IBarWidgetContext context)
+        public void AfterConfig(IConfigContext context)
         {
-            foreach (var w in widgets)
+            Task.Run(() =>
             {
-                w.Initialize(context);
-            }
+                Application.EnableVisualStyles();
+                Application.Run(new MyAppContext(_config, context));
+            });
         }
     }
 }

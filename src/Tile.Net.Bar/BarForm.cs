@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace Tile.Net.Bar
@@ -12,6 +14,12 @@ namespace Tile.Net.Bar
     {
         private IMonitor _monitor;
         private BarPluginConfig _config;
+        private bool _dirty;
+        private System.Timers.Timer _timer;
+
+        private string _left;
+        private string _middle;
+        private string _right;
 
         public IBarWidget[] LeftWidgets { get; set; }
         public IBarWidget[] MiddleWidgets { get; set; }
@@ -26,6 +34,11 @@ namespace Tile.Net.Bar
         {
             _monitor = monitor;
             _config = config;
+            _dirty = false;
+            _timer = new System.Timers.Timer(50);
+            _timer.Elapsed += Redraw;
+
+            _left = _right = _middle = "";
 
             this.Text = "Tile.Net.Bar";
             this.ControlBox = false;
@@ -50,6 +63,10 @@ namespace Tile.Net.Bar
             this.Width = _monitor.Width;
             var titleBarHeight = this.ClientRectangle.Height - this.Height;
             this.Location = new Point(_monitor.X, _monitor.Y - titleBarHeight);
+            _timer.Enabled = true;
+            SetLeft(_left);
+            SetMiddle(_middle);
+            SetRight(_right);
         }
 
         private void InitializeComponent()
@@ -130,40 +147,62 @@ namespace Tile.Net.Bar
 
         }
 
-        private void SetLeft(string text) { this.Invoke((MethodInvoker)(() => { lblLeft.Text = text; this.Refresh(); })); }
-        private void SetMiddle(string text) { this.Invoke((MethodInvoker)(() => { lblMiddle.Text = text; this.Refresh();  })); }
-        private void SetRight(string text) { this.Invoke((MethodInvoker)(() => { lblRight.Text = text; this.Refresh(); })); }
+        private void SetLeft(string text) { this.Invoke((MethodInvoker)(() => { _left = lblLeft.Text = text;  })); }
+        private void SetMiddle(string text) { this.Invoke((MethodInvoker)(() => { _middle = lblMiddle.Text = text;  })); }
+        private void SetRight(string text) { this.Invoke((MethodInvoker)(() => { _right = lblRight.Text = text; })); }
 
+        public void MarkDirty()
+        {
+            _dirty = true;
+        }
 
-        public void Redraw()
+        private void Redraw(object sender, ElapsedEventArgs args)
+        {
+            if (_dirty)
+            {
+                Redraw();
+                _dirty = false;
+            } 
+        }
+
+        private void Redraw()
         {
             if (LeftWidgets != null)
             {
                 var left = string.Join(" ", LeftWidgets.Select(w => w.GetText()));
-                SetLeft(left);
+
+                if (left != _left)
+                    SetLeft(left);
             }
             else
             {
-                SetLeft("");
+                if (_left != "")
+                    SetLeft("");
             }
 
             if (MiddleWidgets != null)
             {
                 var middle = string.Join(" ", MiddleWidgets.Select(w => w.GetText()));
-                SetMiddle(middle);
+
+                if (middle != _middle)
+                    SetMiddle(middle);
             }
             else
             {
-                SetMiddle("");
+                if (_middle != "")
+                    SetMiddle("");
             }
 
             if (RightWidgets != null)
             {
                 var right = string.Join(" ", RightWidgets.Select(w => w.GetText()));
-                SetRight(right);
+
+                if (right != _right)
+                    SetRight(right);
             } else
             {
-                SetRight("");
+                if (_right != "")
+                    SetRight("");
             }
         }
     }
