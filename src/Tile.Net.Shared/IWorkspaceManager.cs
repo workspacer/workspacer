@@ -20,6 +20,7 @@ namespace Tile.Net
         IMonitor FocusedMonitor { get; }
         void SwitchToWorkspace(int index);
         void SwitchFocusedMonitor(int index);
+        void SwitchFocusedMonitorToMouseLocation();
         void MoveFocusedWindowToWorkspace(int index);
         void MoveFocusedWindowToMonitor(int index);
         IMonitor GetMonitorForWorkspace(IWorkspace workspace);

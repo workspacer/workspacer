@@ -66,9 +66,11 @@
     <Compile Include="IPlugin.cs" />
     <Compile Include="IPluginManager.cs" />
     <Compile Include="IWorkspaceManager.cs" />
+    <Compile Include="Keybind\MouseHandler.cs" />
     <Compile Include="Keybind\KeybindHandler.cs" />
     <Compile Include="Keybind\KeyModifiers.cs" />
     <Compile Include="Keybind\Keys.cs" />
+    <Compile Include="Keybind\MouseEvent.cs" />
     <Compile Include="LauncherResponse.cs" />
     <Compile Include="Layout\ILayoutEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
