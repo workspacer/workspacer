@@ -2,7 +2,4 @@
   - network status??
   - other impls of xmonad widgets
   - use background to indicate focus instead of widget
-- incremental redraws of bar
-  - dirty flag?
-  - refresh rate controlled by bar instead of widget? get rid of manual redraw calls
 - logging!
