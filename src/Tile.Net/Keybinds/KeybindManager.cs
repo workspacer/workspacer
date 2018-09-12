@@ -13,27 +13,42 @@ namespace Tile.Net
     {
         private Win32.HookProc _hook;
 
-        private IDictionary<Sub, KeybindHandler> _subscriptions;
+        private IDictionary<Sub, KeybindHandler> _kbdSubs;
+        private IDictionary<MouseEvent, MouseHandler> _mouseSubs;
 
         private KeybindManager()
         {
-            _hook = KeyboardHook;
+            _hook = Hook;
             Win32.SetWindowsHookEx(Win32.WH_KEYBOARD_LL, _hook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
+            Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, _hook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
 
-            _subscriptions = new Dictionary<Sub, KeybindHandler>(new Sub.SubEqualityComparer());
+            _kbdSubs = new Dictionary<Sub, KeybindHandler>(new Sub.SubEqualityComparer());
+            _mouseSubs = new Dictionary<MouseEvent, MouseHandler>();
         }
         public static KeybindManager Instance { get; } = new KeybindManager();
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler)
         {
             var sub = new Sub(mod, key);
-            if (_subscriptions.ContainsKey(sub))
+            if (_kbdSubs.ContainsKey(sub))
             {
-                _subscriptions[sub] += handler;
+                _kbdSubs[sub] += handler;
             }
             else
             {
-                _subscriptions[sub] = handler;
+                _kbdSubs[sub] = handler;
+            }
+        }
+
+        public void Subscribe(MouseEvent evt, MouseHandler handler)
+        {
+            if (_mouseSubs.ContainsKey(evt))
+            {
+                _mouseSubs[evt] += handler;
+            }
+            else
+            {
+                _mouseSubs[evt] = handler;
             }
         }
 
@@ -42,7 +57,7 @@ namespace Tile.Net
              return (Win32.GetKeyState(KeysToKeys(key)) & 0x8000) == 0x8000;
         }
 
-        private IntPtr KeyboardHook(int nCode, UIntPtr wParam, IntPtr lParam)
+        private IntPtr Hook(int nCode, UIntPtr wParam, IntPtr lParam)
         {
             if (nCode == 0 && ((uint)wParam == Win32.WM_KEYDOWN || (uint)wParam == Win32.WM_SYSKEYDOWN))
             {
@@ -87,21 +102,46 @@ namespace Tile.Net
                         modifiersPressed |= KeyModifiers.RWin;
                     }
 
-                    if (modifiersPressed != KeyModifiers.None)
+                    if (DoKeyboardEvent(key, modifiersPressed))
                     {
-                        var sub = new Sub(modifiersPressed, key);
-                        if (_subscriptions.ContainsKey(sub))
-                        {
-                            _subscriptions[sub]?.Invoke();
-                            return new IntPtr(1);
-                        }
+                        return new IntPtr(1);
                     }
                 }
             }
+            else if (nCode == 0 && (uint)wParam == Win32.WM_LBUTTONDOWN) { if (DoMouseEvent(MouseEvent.LButtonDown)) return new IntPtr(1); }
+            else if (nCode == 0 && (uint)wParam == Win32.WM_LBUTTONUP) { if (DoMouseEvent(MouseEvent.LButtonUp)) return new IntPtr(1); }
+            else if (nCode == 0 && (uint)wParam == Win32.WM_MOUSEMOVE) { if (DoMouseEvent(MouseEvent.MouseMove)) return new IntPtr(1); }
+            else if (nCode == 0 && (uint)wParam == Win32.WM_MOUSEWHEEL) { if (DoMouseEvent(MouseEvent.MouseWheel)) return new IntPtr(1); }
+            else if (nCode == 0 && (uint)wParam == Win32.WM_MOUSEHWHEEL) { if (DoMouseEvent(MouseEvent.MouseHWheel)) return new IntPtr(1); }
+            else if (nCode == 0 && (uint)wParam == Win32.WM_RBUTTONDOWN) { if (DoMouseEvent(MouseEvent.RButtonDown)) return new IntPtr(1); }
+            else if (nCode == 0 && (uint)wParam == Win32.WM_RBUTTONUP) { if (DoMouseEvent(MouseEvent.RButtonUp)) return new IntPtr(1); }
 
             return Win32.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
         }
-        
+
+        private bool DoKeyboardEvent(Keys key, KeyModifiers modifiersPressed)
+        {
+            if (modifiersPressed != KeyModifiers.None)
+            {
+                var sub = new Sub(modifiersPressed, key);
+                if (_kbdSubs.ContainsKey(sub))
+                {
+                    _kbdSubs[sub]?.Invoke();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool DoMouseEvent(MouseEvent evt)
+        {
+            if (_mouseSubs.ContainsKey(evt))
+            {
+                _mouseSubs[evt]?.Invoke();
+            }
+            return false;
+        }
+
         private System.Windows.Forms.Keys KeysToKeys(Keys keys)
         {
             return (System.Windows.Forms.Keys)keys;

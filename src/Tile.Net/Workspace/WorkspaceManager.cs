@@ -74,10 +74,30 @@ namespace Tile.Net
         {
             if (index < _monitors.Count && index >= 0)
             {
-                _focusedMonitor = index;
-                FocusedWorkspace.FocusLastFocusedWindow();
+                if (_focusedMonitor != index)
+                {
+                    _focusedMonitor = index;
+                    FocusedWorkspace.FocusLastFocusedWindow();
 
-                FocusedMonitorUpdated?.Invoke();
+                    FocusedMonitorUpdated?.Invoke();
+                }
+            }
+        }
+
+        public void SwitchFocusedMonitorToMouseLocation()
+        {
+            var loc = Control.MousePosition;
+            var screen = Screen.FromPoint(new Point(loc.X, loc.Y));
+            var monitor = _monitors.First(m => m.Name == screen.DeviceName);
+
+            for (var i = 0; i < _monitors.Count; i++)
+            {
+                if (_monitors[i] == monitor && _focusedMonitor != i)
+                {
+                    _focusedMonitor = i;
+                    FocusedMonitorUpdated?.Invoke();
+                    break;
+                }
             }
         }
 

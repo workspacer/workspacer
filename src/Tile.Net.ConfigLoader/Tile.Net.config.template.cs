@@ -58,6 +58,9 @@ namespace Tile.Net.Config
             context.Workspaces.AddWorkspace("eight", context.Layouts.CreateLayouts());
             context.Workspaces.AddWorkspace("nine", context.Layouts.CreateLayouts());
 
+            context.Keybinds.Subscribe(MouseEvent.LButtonDown,
+                () => context.Workspaces.SwitchFocusedMonitorToMouseLocation());
+
             context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.E,
                 () => context.Enabled = !context.Enabled);
 

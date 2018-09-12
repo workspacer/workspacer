@@ -28,9 +28,18 @@ namespace Tile.Net
         public static extern bool SetProcessDPIAware();
 
         public static readonly int WH_KEYBOARD_LL = 13;
+        public static readonly int WH_MOUSE_LL = 14;
         public static readonly uint WM_KEYDOWN = 0x100;
         public static readonly uint WM_SYSKEYDOWN = 0x104;
         public static readonly uint WM_SYSCOMMAND = 0x0112;
+
+        public static readonly uint WM_LBUTTONDOWN = 0x0201;
+        public static readonly uint WM_LBUTTONUP = 0x0202;
+        public static readonly uint WM_MOUSEMOVE = 0x0200;
+        public static readonly uint WM_MOUSEWHEEL = 0x020A;
+        public static readonly uint WM_MOUSEHWHEEL = 0x020E;
+        public static readonly uint WM_RBUTTONDOWN = 0x0204;
+        public static readonly uint WM_RBUTTONUP = 0x0205;
 
         public static readonly UIntPtr SC_MINIMIZE = (UIntPtr) 0xF020;
 		public static readonly IntPtr SC_MINIMIZESigned = (IntPtr) 0xF020;

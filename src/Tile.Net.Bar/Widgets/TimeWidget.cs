@@ -14,7 +14,7 @@ namespace Tile.Net.Bar.Widgets
         private int _refresh;
         private Timer _timer;
 
-        public TimeWidget(string format = "h:mm:ss tt", int refresh = 50)
+        public TimeWidget(string format = "h:mm:ss tt", int refresh = 200)
         {
             _format = format;
             _refresh = refresh;
