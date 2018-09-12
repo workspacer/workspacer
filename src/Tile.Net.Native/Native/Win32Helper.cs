@@ -69,61 +69,7 @@ namespace Tile.Net
 
         public static void ForceForegroundWindow(IntPtr hWnd)
         {
-            uint a;
-            Win32.LockSetForegroundWindow(Win32.LSFW_UNLOCK);
-            Win32.AllowSetForegroundWindow(Win32.ASFW_ANY);
-
-            IntPtr hWndForeground = Win32.GetForegroundWindow();
-            SendKeys.SendWait("{UP}");
-            if (hWndForeground.ToInt32() != 0)
-            {
-                if (hWndForeground != hWnd)
-                {
-                    uint thread1 = Win32.GetWindowThreadProcessId(hWndForeground, out a);
-                    uint thread2 = Win32.GetCurrentThreadId();
-
-                    Win32.AttachThreadInput(thread1, thread2, true);
-                    Win32.LockSetForegroundWindow(Win32.LSFW_UNLOCK);
-                    Win32.AllowSetForegroundWindow(Win32.ASFW_ANY);
-                    Win32.BringWindowToTop(hWnd);
-                    if (thread1 != thread2)
-                    {
-                        Win32.ShowWindow(hWnd, Win32.SW.SW_SHOW);
-                    }
-                    else
-                    {
-                        Win32.SetForegroundWindow(hWnd);
-                    }
-                    Win32.SetFocus(hWnd);
-                    Win32.AttachThreadInput(thread1, thread2, false);
-
-                    Win32.BringWindowToTop(hWnd);
-                    Win32.ShowWindow(hWnd, Win32.SW.SW_SHOW);
-                }
-                Win32.SetForegroundWindow(hWnd);
-                Win32.SetFocus(hWnd);
-            }
-            else
-            {
-                uint thread1 = Win32.GetWindowThreadProcessId(hWndForeground, out a);
-                uint thread2 = Win32.GetCurrentThreadId();
-                try
-                {
-                    Win32.AttachThreadInput(thread1, thread2, true);
-                }
-                catch
-                {
-                    uint failure = 1;
-                }
-                Win32.LockSetForegroundWindow(Win32.LSFW_UNLOCK);
-                Win32.AllowSetForegroundWindow(Win32.ASFW_ANY);
-                Win32.BringWindowToTop(hWnd);
-                Win32.SetForegroundWindow(hWnd);
-
-                Win32.ShowWindow(hWnd, Win32.SW.SW_SHOW);
-                Win32.SetFocus(hWnd);
-                Win32.AttachThreadInput(thread1, thread2, false);
-            }
+            FocusStealer.Steal(hWnd);
         }
     }
 }

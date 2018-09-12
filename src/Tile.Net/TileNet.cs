@@ -34,7 +34,6 @@ namespace Tile.Net
             WindowsDesktopManager.Instance.WindowDestroyed += WorkspaceManager.Instance.RemoveWindow;
             WindowsDesktopManager.Instance.WindowUpdated += WorkspaceManager.Instance.UpdateWindow;
 
-
             _context = new ConfigContext(_pipeServer)
             {
                 Keybinds = KeybindManager.Instance,
@@ -66,8 +65,8 @@ namespace Tile.Net
 
             PluginManager.Instance.AfterConfig(_context);
 
-            var msg = new Win32.Message();
-            while (Win32.GetMessage(ref msg, IntPtr.Zero, 0, 0)) { }
+            FocusStealer.Initialize();
+            while(true) { }
         }
 
         private IConfig GetConfig()
@@ -86,7 +85,7 @@ namespace Tile.Net
             _context.Quit();
         }
 
-        public void UpdateActiveHandles()
+        private void UpdateActiveHandles()
         {
             var response = new LauncherResponse()
             {
@@ -103,7 +102,7 @@ namespace Tile.Net
             {
                 return Assembly.LoadFile(match.Location);
             }
-            return Assembly.Load(args.Name);
+            return null;
         }
     }
 }

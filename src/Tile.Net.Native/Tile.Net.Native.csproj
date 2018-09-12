@@ -58,8 +58,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Native\FocusStealer.cs" />
     <Compile Include="Native\Win32.cs" />
     <Compile Include="Native\Win32Helper.cs" />
     <Compile Include="Native\Win32\Win32.Long.cs" />
@@ -75,6 +79,9 @@
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
       <Name>Tile.Net.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
