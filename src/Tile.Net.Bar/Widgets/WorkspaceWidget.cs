@@ -20,10 +20,9 @@ namespace Tile.Net.Bar.Widgets
         public string GetText()
         {
             var parts = new List<string>();
-            var workspaces = _context.Workspaces.Workspaces.ToArray();
-            for (var i = 0; i < workspaces.Length; i++)
+            var workspaces = _context.Workspaces.Workspaces;
+            foreach (var workspace in workspaces)
             {
-                var workspace = workspaces[i];
                 if (workspace.Monitor == _context.Monitor)
                 {
                     parts.Add($"[{workspace.Name}]");
@@ -37,7 +36,7 @@ namespace Tile.Net.Bar.Widgets
 
         private void UpdateWorkspaces()
         {
-            _context.Redraw();
+            _context.MarkDirty();
         }
     }
 }

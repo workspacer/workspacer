@@ -59,13 +59,16 @@ namespace Tile.Net
                 {
                     AssignWorkspaceMonitor(destMonitor, newWorkspace);
                     AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
+                    WorkspaceUpdated?.Invoke();
+
+                    oldWorkspace.DoLayout();
+                    newWorkspace.DoLayout();
 
                     var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
                     if (window != null)
                     {
                         window.IsFocused = true;
                     }
-                    WorkspaceUpdated?.Invoke();
                 }
             }
         }

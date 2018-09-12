@@ -25,7 +25,7 @@ namespace Tile.Net.Bar.Widgets
         {
             _context = context;
 
-            context.Workspaces.FocusedMonitorUpdated += () => context.Redraw();
+            context.Workspaces.FocusedMonitorUpdated += () => context.MarkDirty();
         }
     }
 }

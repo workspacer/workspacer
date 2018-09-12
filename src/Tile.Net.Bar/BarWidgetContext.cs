@@ -20,9 +20,9 @@ namespace Tile.Net.Bar
             Workspaces = workspaces;
         }
 
-        public void Redraw()
+        public void MarkDirty()
         {
-            _form.Redraw();
+            _form.MarkDirty();
         }
     }
 }

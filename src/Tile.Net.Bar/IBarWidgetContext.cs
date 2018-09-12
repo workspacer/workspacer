@@ -10,6 +10,6 @@ namespace Tile.Net.Bar
     {
         IMonitor Monitor { get; }
         IWorkspaceManager Workspaces { get; }
-        void Redraw();
+        void MarkDirty();
     }
 }
