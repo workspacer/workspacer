@@ -79,6 +79,7 @@
     <Compile Include="ConfigContext.cs" />
     <Compile Include="IManager.cs" />
     <Compile Include="Keybinds\KeybindManager.cs" />
+    <Compile Include="Keybinds\Sub.cs" />
     <Compile Include="Layout\LayoutManager.cs" />
     <Compile Include="PipeServer.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
