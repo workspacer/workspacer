@@ -83,6 +83,19 @@ namespace Tile.Net
             window?.Close();
         }
 
+        public void PreviousLayoutEngine()
+        {
+            if (_layoutIndex == 0)
+            {
+                _layoutIndex = _layoutEngines.Length - 1;
+            }
+            else
+            {
+                _layoutIndex--;
+            }
+            DoLayout();
+        }
+
         public void NextLayoutEngine()
         {
             if (_layoutIndex + 1 == _layoutEngines.Length)

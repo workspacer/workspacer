@@ -72,6 +72,9 @@ namespace Tile.Net.Config
             context.Keybinds.Subscribe(mod, Keys.Space,
                 () => context.Workspaces.FocusedWorkspace.NextLayoutEngine());
 
+            context.Keybinds.Subscribe(mod | KeyModifiers.LShift, Keys.Space,
+                () => context.Workspaces.FocusedWorkspace.PreviousLayoutEngine());
+
             context.Keybinds.Subscribe(mod, Keys.N,
                 () => context.Workspaces.FocusedWorkspace.ResetLayout());
 
