@@ -90,6 +90,7 @@ namespace Tile.Net
 
         public void ResetMasterArea()
         {
+            _numInMasterOffset = 0;
         }
 
         public void ShrinkMasterArea()
