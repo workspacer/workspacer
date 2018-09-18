@@ -21,6 +21,7 @@ namespace Tile.Net
 
         void DoLayout(); // mod-n
         void CloseFocusedWindow(); // mod-shift-c
+        void PreviousLayoutEngine(); // mod-space
         void NextLayoutEngine(); // mod-space
         void ResetLayout(); // mod-n
 
