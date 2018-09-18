@@ -9,6 +9,8 @@ namespace Tile.Net
     public interface IWorkspace
     {
         string Name { get; }
+        string LayoutName { get; }
+
         IEnumerable<IWindow> Windows { get; }
         IWindow FocusedWindow { get; }
 

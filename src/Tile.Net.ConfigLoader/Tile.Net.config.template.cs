@@ -22,7 +22,7 @@ namespace Tile.Net.Config
                 FontSize = fontSize,
                 LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget() },
                 MiddleWidgets = () => new IBarWidget[] { new FocusedMonitorWidget() },
-                RightWidgets = () => new IBarWidget[0],
+                RightWidgets = () => new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
             }));
 
             context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new TallLayoutEngine(1, 0.5, 0.03), "Tile.Net.Bar", barHeight));

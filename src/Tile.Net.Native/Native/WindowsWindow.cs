@@ -98,12 +98,8 @@ namespace Tile.Net
             }
         }
 
-        public bool IsFocused
-        {
-            get { return Win32.GetForegroundWindow() == _handle; }
-            set { Win32Helper.ForceForegroundWindow(_handle); }
-        }
 
+        public bool IsFocused => Win32.GetForegroundWindow() == _handle;
         public bool IsMinimized => Win32.IsIconic(_handle);
         public bool IsMaximized => Win32.IsZoomed(_handle);
 
@@ -119,6 +115,11 @@ namespace Tile.Net
                 style = value ? style | Win32.WS.WS_SIZEBOX : style & ~Win32.WS.WS_SIZEBOX;
                 Win32.SetWindowLongPtr(_handle, Win32.GWL_STYLE, (uint)style);
             }
+        }
+
+        public void Focus()
+        {
+            Win32Helper.ForceForegroundWindow(_handle);
         }
 
         public void Hide()

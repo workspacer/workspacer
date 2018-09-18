@@ -15,6 +15,7 @@ namespace Tile.Net
         public IEnumerable<IWindow> Windows => _windows;
         public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
         public string Name { get; }
+        public string LayoutName => _layoutEngines[_layoutIndex].Name;
 
         private IMonitor _monitor;
         private List<IWindow> _windows;
@@ -105,7 +106,7 @@ namespace Tile.Net
         {
             if (_lastFocused != null)
             {
-                _lastFocused.IsFocused = true;
+                _lastFocused.Focus();
             }
         }
 
@@ -120,11 +121,11 @@ namespace Tile.Net
                 {
                     if (i + 1 == windows.Count)
                     {
-                        windows[0].IsFocused = true;
+                        windows[0].Focus();
                     }
                     else
                     {
-                        windows[i + 1].IsFocused = true;
+                        windows[i + 1].Focus();
                     }
                     didFocus = true;
                     break;
@@ -135,10 +136,10 @@ namespace Tile.Net
             {
                 if (_lastFocused != null)
                 {
-                    _lastFocused.IsFocused = true;
+                    _lastFocused.Focus();
                 } else
                 {
-                    windows[0].IsFocused = true;
+                    windows[0].Focus();
                 }
             }
         }
@@ -154,11 +155,11 @@ namespace Tile.Net
                 {
                     if (i == 0)
                     {
-                        windows[windows.Count - 1].IsFocused = true;
+                        windows[windows.Count - 1].Focus();
                     }
                     else
                     {
-                        windows[i - 1].IsFocused = true;
+                        windows[i - 1].Focus();
                     }
                     didFocus = true;
                     break;
@@ -169,10 +170,10 @@ namespace Tile.Net
             {
                 if (_lastFocused != null)
                 {
-                    _lastFocused.IsFocused = true;
+                    _lastFocused.Focus();
                 } else
                 {
-                    windows[0].IsFocused = true;
+                    windows[0].Focus();
                 }
             }
         }
@@ -182,7 +183,7 @@ namespace Tile.Net
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
             if (windows.Count > 0)
             {
-                windows[0].IsFocused = true;
+                windows[0].Focus();
             }
         }
 
