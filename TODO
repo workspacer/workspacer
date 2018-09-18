@@ -14,6 +14,4 @@
 
 --- arch
 - better translation screen->monitor?
-- dont save config by default
-- command line options (parser?)
-	pass commands? restart/reload/etc
+- pass commands? restart/reload/etc
