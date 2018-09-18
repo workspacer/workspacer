@@ -23,7 +23,7 @@ namespace Tile.Net.ConfigLoader
             return (IConfig) Activator.CreateInstance(type);
         }
 
-        private static string GetConfigTemplate()
+        public static string GetConfigTemplate()
         {
             var assembly = Assembly.GetAssembly(typeof(ConfigHelper));
             var templateName = assembly.GetManifestResourceNames()
@@ -45,9 +45,7 @@ namespace Tile.Net.ConfigLoader
             }
             else
             {
-                var template = GetConfigTemplate();
-                File.WriteAllText(path, template);
-                return template;
+                return GetConfigTemplate();
             }
         }
 
@@ -91,16 +89,19 @@ namespace Tile.Net.ConfigLoader
         {
             var path = GetConfigPath();
             var dllPath = GetConfigDllPath();
-            if (!File.Exists(path) || !File.Exists(dllPath))
+            if (!File.Exists(dllPath))
                 return false;
 
             var text = File.GetLastWriteTime(path);
             var dll = File.GetLastWriteTime(dllPath);
 
+            if (!File.Exists(path))
+                return false;
+
             return dll >= text;
         }
 
-        private static string GetConfigPath()
+        public static string GetConfigPath()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Tile.Net.config");
         }

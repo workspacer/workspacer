@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandLine;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tile.Net.Shared;
+using Tile.Net.Verbs;
 
 namespace Tile.Net
 {
@@ -18,6 +20,19 @@ namespace Tile.Net
         {
             Win32.SetProcessDPIAware();
 
+            if (args.Length > 0)
+            {
+                CommandLine.Parser.Default.ParseArguments<InitVerbOptions>(args)
+                    .MapResult((InitVerbOptions opts) => new InitVerb().Execute(),
+                    (errs) => 1);
+            } else
+            {
+                Run();
+            }
+        }
+
+        private static int Run()
+        {
             var app = new TileNet();
             Thread.GetDomain().UnhandledException += ((s, e) =>
                 {
@@ -26,6 +41,7 @@ namespace Tile.Net
                 });
 
             app.Start();
+            return 0;
         }
     }
 }

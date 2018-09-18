@@ -1,5 +1,4 @@
 - create more widgets!
-  - time
   - cpu temp
   - workspace
      - flashing when windows flash
@@ -14,7 +13,6 @@
   - tile.net.shared needs to be moved to a nuget package?
 
 --- arch
-- store workspace on monitor
 - better translation screen->monitor?
 - dont save config by default
 - command line options (parser?)
