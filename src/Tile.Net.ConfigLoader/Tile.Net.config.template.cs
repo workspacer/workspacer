@@ -27,6 +27,8 @@ namespace Tile.Net.Config
 
             context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new TallLayoutEngine(1, 0.5, 0.03), "Tile.Net.Bar", barHeight));
             context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new FullLayoutEngine(), "Tile.Net.Bar", barHeight));
+            context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new VertLayoutEngine(2), "Tile.Net.Bar", barHeight));
+            context.Layouts.AddLayout(() => new MenuBarLayoutEngine(new HorzLayoutEngine(2), "Tile.Net.Bar", barHeight));
 
             context.Workspaces.WorkspaceSelectorFunc = (window) =>
             {
