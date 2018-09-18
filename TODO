@@ -1,5 +1,21 @@
 - create more widgets!
-  - network status??
-  - other impls of xmonad widgets
-  - use background to indicate focus instead of widget
+  - time
+  - cpu temp
+  - workspace
+     - flashing when windows flash
+	 - use background to indicate monitor focus instead of widget
 - logging!
+
+- dynamic workspaces?
+- directional focus change?
+
+- docs on configuration (inline autogen'd docs)
+- tutorial on creating a plugin
+  - tile.net.shared needs to be moved to a nuget package?
+
+--- arch
+- store workspace on monitor
+- better translation screen->monitor?
+- dont save config by default
+- command line options (parser?)
+	pass commands? restart/reload/etc

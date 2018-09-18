@@ -70,7 +70,9 @@
     <Compile Include="IBarWidget.cs" />
     <Compile Include="IBarWidgetContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Widgets\ActiveLayoutWidget.cs" />
     <Compile Include="Widgets\FocusedMonitorWidget.cs" />
+    <Compile Include="Widgets\TimeWidget.cs" />
     <Compile Include="Widgets\WorkspaceWidget.cs" />
   </ItemGroup>
   <ItemGroup>

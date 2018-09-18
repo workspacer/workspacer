@@ -20,7 +20,7 @@ namespace Tile.Net
 
         private int _focusedMonitor;
         public IMonitor FocusedMonitor => _monitors[_focusedMonitor];
-        public IWorkspace FocusedWorkspace => _workspaces.First(w => w.Monitor == FocusedMonitor);
+        public IWorkspace FocusedWorkspace => FocusedMonitor.Workspace;
 
         private List<IMonitor> _monitors;
         private List<IWorkspace> _workspaces;
@@ -67,7 +67,7 @@ namespace Tile.Net
                     var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
                     if (window != null)
                     {
-                        window.IsFocused = true;
+                        window.Focus();
                     }
                 }
             }
@@ -116,7 +116,7 @@ namespace Tile.Net
                     FocusedWorkspace.RemoveWindow(window);
                     targetWorkspace.AddWindow(window);
                     _windowsToWorkspaces[window] = targetWorkspace;
-                    window.IsFocused = true;
+                    window.Focus();
                 }
             }
         }
@@ -126,7 +126,7 @@ namespace Tile.Net
             if (index < _monitors.Count && index >= 0)
             {
                 var destMonitor = _monitors[index];
-                var destWorkspace = _workspaces.First(w => w.Monitor == destMonitor);
+                var destWorkspace = destMonitor.Workspace;
                 var window = FocusedWorkspace.FocusedWindow;
 
                 if (window != null)
@@ -134,7 +134,7 @@ namespace Tile.Net
                     FocusedWorkspace.RemoveWindow(window);
                     destWorkspace.AddWindow(window);
                     _windowsToWorkspaces[window] = destWorkspace;
-                    window.IsFocused = true;
+                    window.Focus();
                 }
             }
         }
@@ -177,10 +177,15 @@ namespace Tile.Net
         private void AssignWorkspaceMonitor(IMonitor monitor, IWorkspace workspace)
         {
             workspace.Monitor = monitor;
+            monitor.Workspace = workspace;
         }
 
         private void ClearWorkspaceMonitor(IWorkspace workspace)
         {
+            if (workspace.Monitor != null)
+            {
+                workspace.Monitor.Workspace = null;
+            }
             workspace.Monitor = null;
         }
 
@@ -337,7 +342,7 @@ namespace Tile.Net
 
                 if (state.FocusedWindow == handle)
                 {
-                    w.IsFocused = true;
+                    w.Focus();
                 }
             }
 
@@ -347,7 +352,7 @@ namespace Tile.Net
                 var workspaceIdx = mtw[i];
                 var workspace = _workspaces[workspaceIdx];
                 var monitor = _monitors[i];
-                workspace.Monitor = monitor;
+                AssignWorkspaceMonitor(monitor, workspace);
             }
         }
 
@@ -364,7 +369,7 @@ namespace Tile.Net
                 var location = w.Location;
                 var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
                 var monitor = _monitors.First(m => m.Name == screen.DeviceName);
-                var workspace = _workspaces.First(wk => wk.Monitor == monitor);
+                var workspace = monitor.Workspace;
 
                 AddWindowToWorkspace(w, workspace);
 
@@ -379,7 +384,7 @@ namespace Tile.Net
 
         public IWorkspace GetWorkspaceForMonitor(IMonitor monitor)
         {
-            return _workspaces.FirstOrDefault(w => w.Monitor == monitor);
+            return monitor.Workspace;
         }
 
         public IWorkspace this[int index] => _workspaces[index];
