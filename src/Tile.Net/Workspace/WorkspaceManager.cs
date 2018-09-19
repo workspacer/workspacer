@@ -177,7 +177,10 @@ namespace Tile.Net
         private void AssignWorkspaceMonitor(IMonitor monitor, IWorkspace workspace)
         {
             workspace.Monitor = monitor;
-            monitor.Workspace = workspace;
+            if (monitor != null)
+            {
+                monitor.Workspace = workspace;
+            }
         }
 
         private void ClearWorkspaceMonitor(IWorkspace workspace)
