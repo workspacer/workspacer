@@ -10,7 +10,8 @@ namespace Tile.Net.Verbs
     {
         protected void DisplayMessage(string message)
         {
-            Console.WriteLine(message);
+            var title = GetType().Name.Replace("Verb", "");
+            MessageHelper.ShowMessage(title, message);
         }
 
         public abstract int Execute();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +37,8 @@ namespace Tile.Net
             var app = new TileNet();
             Thread.GetDomain().UnhandledException += ((s, e) =>
                 {
-                    Console.Write(e.ExceptionObject);
+                    var message = ((Exception)e.ExceptionObject).ToString() + "\n\npress ctrl-c to copy this";
+                    MessageHelper.ShowMessage("unhandled exception!", message);
                     app.Quit();
                 });
 

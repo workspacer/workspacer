@@ -71,13 +71,15 @@ namespace Tile.Net.ConfigLoader
                 var compilation = CSharpCompilation.Create(name)
                     .AddSyntaxTrees(tree).AddReferences(references).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
+                EmitResult emitResult;
                 using (var stream = new FileStream(GetConfigDllPath(), FileMode.Create))
                 {
-                    var emitResult = compilation.Emit(stream);
-                    if (!emitResult.Success)
-                    {
-                        throw new Exception(string.Join("\n", emitResult.Diagnostics.Select(d => d.ToString())));
-                    }
+                    emitResult = compilation.Emit(stream);
+                }
+                if (!emitResult.Success)
+                {
+                    File.Delete(GetConfigDllPath());
+                    throw new Exception(string.Join("\n", emitResult.Diagnostics.Select(d => d.ToString())));
                 }
             }
             assembly = Assembly.LoadFile(GetConfigDllPath());
