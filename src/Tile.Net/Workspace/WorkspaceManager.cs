@@ -237,7 +237,7 @@ namespace Tile.Net
             var list = new List<IntPtr>();
             foreach (var ws in _workspaces)
             {
-                foreach (var w in ws.Windows)
+                foreach (var w in ws.Windows.Where(w => w.CanLayout))
                 {
                     list.Add(w.Handle);
                 }
