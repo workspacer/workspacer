@@ -26,6 +26,9 @@ namespace Tile.Net
         IMonitor GetMonitorForWorkspace(IWorkspace workspace);
         IWorkspace GetWorkspaceForMonitor(IMonitor monitor);
 
+        IWorkspace this[int index] { get; }
+        IWorkspace this[string name] { get; }
+
         event WorkspaceUpdatedDelegate WorkspaceUpdated;
         event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
     }
