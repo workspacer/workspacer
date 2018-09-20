@@ -1,3 +1,4 @@
+- preserve window order in workspace on restart
 - create more widgets!
   - cpu temp
   - workspace
