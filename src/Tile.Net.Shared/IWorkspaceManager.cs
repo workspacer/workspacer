@@ -8,6 +8,9 @@ namespace Tile.Net
 {
     public delegate void WorkspaceUpdatedDelegate();
     public delegate void FocusedMonitorUpdatedDelegate();
+    public delegate void WindowAddedDelegate(IWindow window, IWorkspace workspace);
+    public delegate void WindowUpdatedDelegate(IWindow window, IWorkspace workspace);
+    public delegate void WindowRemovedDelegate(IWindow window, IWorkspace workspace);
 
     public interface IWorkspaceManager
     {
@@ -30,6 +33,9 @@ namespace Tile.Net
         IWorkspace this[string name] { get; }
 
         event WorkspaceUpdatedDelegate WorkspaceUpdated;
+        event WindowAddedDelegate WindowAdded;
+        event WindowUpdatedDelegate WindowUpdated;
+        event WindowRemovedDelegate WindowRemoved;
         event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
     }
 }

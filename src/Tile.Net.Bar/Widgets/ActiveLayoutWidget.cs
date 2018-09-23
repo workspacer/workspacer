@@ -18,7 +18,7 @@ namespace Tile.Net.Bar.Widgets
 
         public string GetText()
         {
-            return "|" + _context.Monitor.Workspace.LayoutName + "|";
+            return "[" + _context.Monitor.Workspace.LayoutName + "]";
         }
 
         public void Initialize(IBarWidgetContext context)
