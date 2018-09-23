@@ -72,7 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Widgets\ActiveLayoutWidget.cs" />
     <Compile Include="Widgets\FocusedMonitorWidget.cs" />
+    <Compile Include="Widgets\TextWidget.cs" />
     <Compile Include="Widgets\TimeWidget.cs" />
+    <Compile Include="Widgets\TitleWidget.cs" />
     <Compile Include="Widgets\WorkspaceWidget.cs" />
   </ItemGroup>
   <ItemGroup>

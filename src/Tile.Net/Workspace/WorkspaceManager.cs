@@ -27,6 +27,9 @@ namespace Tile.Net
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
 
         public event WorkspaceUpdatedDelegate WorkspaceUpdated;
+        public event WindowAddedDelegate WindowAdded;
+        public event WindowUpdatedDelegate WindowUpdated;
+        public event WindowRemovedDelegate WindowRemoved;
         public event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
 
         private WorkspaceManager()
@@ -204,14 +207,17 @@ namespace Tile.Net
                     _focusedMonitor = _monitors.IndexOf(workspace.Monitor);
                 }
             }
+            WindowAdded?.Invoke(window, workspace);
         }
 
         public void RemoveWindow(IWindow window)
         {
             if (_windowsToWorkspaces.ContainsKey(window))
             {
+                var workspace = _windowsToWorkspaces[window];
                 _windowsToWorkspaces[window].RemoveWindow(window);
                 _windowsToWorkspaces.Remove(window);
+                WindowRemoved?.Invoke(window, workspace);
             }
         }
 
@@ -219,9 +225,9 @@ namespace Tile.Net
         {
             if (_windowsToWorkspaces.ContainsKey(window))
             {
+                var workspace = _windowsToWorkspaces[window];
                 if (window.IsFocused)
                 {
-                    var workspace = _windowsToWorkspaces[window];
                     if (workspace.Monitor != null)
                     {
                         _focusedMonitor = _monitors.IndexOf(workspace.Monitor);
@@ -229,6 +235,7 @@ namespace Tile.Net
                 }
 
                 _windowsToWorkspaces[window].UpdateWindow(window);
+                WindowUpdated?.Invoke(window, workspace);
             }
         }
 

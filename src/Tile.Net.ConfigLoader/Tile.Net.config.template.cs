@@ -20,7 +20,7 @@ namespace Tile.Net.Config
             {
                 BarHeight = barHeight,
                 FontSize = fontSize,
-                LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget() },
+                LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() },
                 MiddleWidgets = () => new IBarWidget[] { new FocusedMonitorWidget() },
                 RightWidgets = () => new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
             }));
