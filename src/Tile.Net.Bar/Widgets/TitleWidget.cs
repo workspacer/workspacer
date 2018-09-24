@@ -12,9 +12,7 @@ namespace Tile.Net.Bar.Widgets
 
         public override IBarWidgetPart[] GetParts()
         {
-            var window = Context.Monitor.Workspace.FocusedWindow ??
-                         Context.Monitor.Workspace.Windows.FirstOrDefault(w => w.CanLayout);
-
+            var window = GetWindow();
             var isFocusedMonitor = Context.Workspaces.FocusedMonitor == Context.Monitor;
             var multipleMonitors = Context.Workspaces.Monitors.Count() > 1;
             var color = isFocusedMonitor && multipleMonitors ? MonitorHasFocusColor : null;
@@ -30,14 +28,28 @@ namespace Tile.Net.Bar.Widgets
 
         public override void Initialize()
         {
-            Context.Workspaces.WindowAdded += Refresh;
-            Context.Workspaces.WindowRemoved += Refresh;
-            Context.Workspaces.WindowUpdated += Refresh;
+            Context.Workspaces.WindowAdded += RefreshAddRemove;
+            Context.Workspaces.WindowRemoved += RefreshAddRemove;
+            Context.Workspaces.WindowUpdated += RefreshUpdated;
         }
 
-        private void Refresh(IWindow window, IWorkspace workspace)
+        private IWindow GetWindow()
+        {
+            return Context.Monitor.Workspace.FocusedWindow ??
+                   Context.Monitor.Workspace.Windows.FirstOrDefault(w => w.CanLayout);
+        }
+
+        private void RefreshAddRemove(IWindow window, IWorkspace workspace)
         {
             if (workspace == Context.Monitor.Workspace)
+            {
+                Context.MarkDirty();
+            }
+        }
+
+        private void RefreshUpdated(IWindow window, IWorkspace workspace)
+        {
+            if (workspace == Context.Monitor.Workspace && window == GetWindow())
             {
                 Context.MarkDirty();
             }

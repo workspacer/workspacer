@@ -39,6 +39,7 @@ namespace Tile.Net
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZESTART, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZEEND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZEEND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
+            Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE, Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE, IntPtr.Zero, _hookDelegate, 0, 0, 0);
 
             Win32.EnumWindows((handle, param) =>
             {
@@ -73,6 +74,7 @@ namespace Tile.Net
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZESTART:
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZEEND:
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND:
+                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE:
                         UpdateWindow(hwnd);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART:
