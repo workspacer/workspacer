@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "/workspacer"
 languageCode = "en-us"
 title = "workspacer"
 theme = "hugo-classic"
