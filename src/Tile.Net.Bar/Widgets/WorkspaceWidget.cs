@@ -8,6 +8,9 @@ namespace Tile.Net.Bar.Widgets
 {
     public class WorkspaceWidget : BarWidgetBase
     {
+        public Color WorkspaceHasFocusColor { get; set; } = Color.Red;
+        public Color WorkspaceEmptyColor { get; set; } = Color.Gray;
+
         public override void Initialize()
         {
             Context.Workspaces.WorkspaceUpdated += () => UpdateWorkspaces();
@@ -24,10 +27,10 @@ namespace Tile.Net.Bar.Widgets
 
                 if (workspace.Monitor == Context.Monitor)
                 {
-                    parts.Add(Part($"[{workspace.Name}]", Color.Red));
+                    parts.Add(Part($"[{workspace.Name}]", WorkspaceHasFocusColor));
                 } else
                 {
-                    parts.Add(Part($" {workspace.Name} ", hasWindows ? null : Color.Gray));
+                    parts.Add(Part($" {workspace.Name} ", hasWindows ? null : WorkspaceEmptyColor));
                 }
             }
             return parts.ToArray();
