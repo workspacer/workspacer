@@ -6,26 +6,22 @@ using System.Threading.Tasks;
 
 namespace Tile.Net.Bar.Widgets
 {
-    public class FocusedMonitorWidget : IBarWidget
+    public class FocusedMonitorWidget : BarWidgetBase
     {
-        private IBarWidgetContext _context;
-
-        public string GetText()
+        public override IBarWidgetPart[] GetParts()
         {
-            if (_context.Workspaces.FocusedMonitor == _context.Monitor)
+            if (Context.Workspaces.FocusedMonitor == Context.Monitor)
             {
-                return "**********";
+                return Parts("**********");
             } else
             {
-                return "";
+                return Parts("");
             }
         }
 
-        public void Initialize(IBarWidgetContext context)
+        public override void Initialize()
         {
-            _context = context;
-
-            context.Workspaces.FocusedMonitorUpdated += () => context.MarkDirty();
+            Context.Workspaces.FocusedMonitorUpdated += () => Context.MarkDirty();
         }
     }
 }

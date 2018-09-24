@@ -15,13 +15,16 @@ namespace Tile.Net.Config
             var mod = KeyModifiers.LAlt;
             var barHeight = 30;
             var fontSize = 16;
+            var defaultForeground = Color.White;
+            var defaultBackground = Color.Black;
 
             context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
             {
                 BarHeight = barHeight,
                 FontSize = fontSize,
+                DefaultWidgetForeground = defaultForeground,
+                DefaultWidgetBackground = defaultBackground,
                 LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() },
-                MiddleWidgets = () => new IBarWidget[] { new FocusedMonitorWidget() },
                 RightWidgets = () => new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
             }));
 

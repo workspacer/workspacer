@@ -6,37 +6,36 @@ using System.Threading.Tasks;
 
 namespace Tile.Net.Bar.Widgets
 {
-    public class WorkspaceWidget : IBarWidget
+    public class WorkspaceWidget : BarWidgetBase
     {
-        private IBarWidgetContext _context;
-
-        public void Initialize(IBarWidgetContext context)
+        public override void Initialize()
         {
-            _context = context;
-
-            context.Workspaces.WorkspaceUpdated += () => UpdateWorkspaces();
+            Context.Workspaces.WorkspaceUpdated += () => UpdateWorkspaces();
+            Context.Workspaces.WindowMoved += (w, o, n) => UpdateWorkspaces();
         }
 
-        public string GetText()
+        public override IBarWidgetPart[] GetParts()
         {
-            var parts = new List<string>();
-            var workspaces = _context.Workspaces.Workspaces;
+            var parts = new List<IBarWidgetPart>();
+            var workspaces = Context.Workspaces.Workspaces;
             foreach (var workspace in workspaces)
             {
-                if (workspace.Monitor == _context.Monitor)
+                var hasWindows = workspace.Windows.Any(w => w.CanLayout);
+
+                if (workspace.Monitor == Context.Monitor)
                 {
-                    parts.Add($"[{workspace.Name}]");
+                    parts.Add(Part($"[{workspace.Name}]", Color.Red));
                 } else
                 {
-                    parts.Add($" {workspace.Name} ");
+                    parts.Add(Part($" {workspace.Name} ", hasWindows ? null : Color.Gray));
                 }
             }
-            return string.Join("", parts);
+            return parts.ToArray();
         }
 
         private void UpdateWorkspaces()
         {
-            _context.MarkDirty();
+            Context.MarkDirty();
         }
     }
 }

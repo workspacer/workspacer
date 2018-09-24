@@ -7,9 +7,8 @@ using System.Timers;
 
 namespace Tile.Net.Bar.Widgets
 {
-    public class TimeWidget : IBarWidget
+    public class TimeWidget : BarWidgetBase
     {
-        private IBarWidgetContext _context;
         private Timer _timer;
         private int _interval;
         private string _format;
@@ -22,16 +21,15 @@ namespace Tile.Net.Bar.Widgets
 
         public TimeWidget() : this(200, "hh:mm:ss tt") { }
 
-        public string GetText()
+        public override IBarWidgetPart[] GetParts()
         {
-            return DateTime.Now.ToString(_format);
+            return Parts(DateTime.Now.ToString(_format));
         }
 
-        public void Initialize(IBarWidgetContext context)
+        public override void Initialize()
         {
-            _context = context;
             _timer = new Timer(_interval);
-            _timer.Elapsed += (s, e) => context.MarkDirty();
+            _timer.Elapsed += (s, e) => Context.MarkDirty();
             _timer.Enabled = true;
         }
     }

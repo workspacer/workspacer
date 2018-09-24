@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tile.Net.Bar.Widgets
 {
-    public class TextWidget : IBarWidget
+    public class TextWidget : BarWidgetBase
     {
         private string _text;
 
@@ -15,12 +15,12 @@ namespace Tile.Net.Bar.Widgets
             _text = text;
         }
 
-        public string GetText()
+        public override IBarWidgetPart[] GetParts()
         {
-            return _text;
+            return Parts(_text);
         }
 
-        public void Initialize(IBarWidgetContext context)
+        public override void Initialize()
         {
         }
     }

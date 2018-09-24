@@ -28,32 +28,17 @@ namespace Tile.Net.Bar
                 {
                     var bar = new BarForm(m, config);
 
-                    var widgetContext = new BarWidgetContext(bar, m, context.Workspaces);
-
                     var left = config.LeftWidgets();
-                    InitializeWidgets(left, widgetContext);
-                    var middle = config.MiddleWidgets();
-                    InitializeWidgets(middle, widgetContext);
                     var right = config.RightWidgets();
-                    InitializeWidgets(right, widgetContext);
 
-                    bar.LeftWidgets = left;
-                    bar.MiddleWidgets = middle;
-                    bar.RightWidgets = right;
+                    bar.Initialize(left, right, context);
 
                     bar.Show();
                     bars.Add(bar);
                 }
-                bars.ForEach(b => b.MarkDirty());
             }
 
-            private void InitializeWidgets(IEnumerable<IBarWidget> widgets, IBarWidgetContext context)
-            {
-                foreach (var w in widgets)
-                {
-                    w.Initialize(context);
-                }
-            }
+            
         }
 
         public void AfterConfig(IConfigContext context)

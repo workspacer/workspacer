@@ -30,6 +30,7 @@ namespace Tile.Net
         public event WindowAddedDelegate WindowAdded;
         public event WindowUpdatedDelegate WindowUpdated;
         public event WindowRemovedDelegate WindowRemoved;
+        public event WindowMovedDelegate WindowMoved;
         public event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
 
         private WorkspaceManager()
@@ -120,6 +121,7 @@ namespace Tile.Net
                     targetWorkspace.AddWindow(window);
                     _windowsToWorkspaces[window] = targetWorkspace;
                     window.Focus();
+                    WindowMoved?.Invoke(window, FocusedWorkspace, targetWorkspace);
                 }
             }
         }

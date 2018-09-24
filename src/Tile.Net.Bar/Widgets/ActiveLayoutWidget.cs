@@ -7,25 +7,23 @@ using System.Timers;
 
 namespace Tile.Net.Bar.Widgets
 {
-    public class ActiveLayoutWidget : IBarWidget
+    public class ActiveLayoutWidget : BarWidgetBase
     {
-        private IBarWidgetContext _context;
         private Timer _timer;
 
         public ActiveLayoutWidget()
         {
         }
 
-        public string GetText()
+        public override IBarWidgetPart[] GetParts()
         {
-            return "[" + _context.Monitor.Workspace.LayoutName + "]";
+            return Parts("[" + Context.Monitor.Workspace.LayoutName + "]");
         }
 
-        public void Initialize(IBarWidgetContext context)
+        public override void Initialize()
         {
-            _context = context;
             _timer = new Timer(200);
-            _timer.Elapsed += (s, e) => context.MarkDirty();
+            _timer.Elapsed += (s, e) => Context.MarkDirty();
             _timer.Enabled = true;
         }
     }

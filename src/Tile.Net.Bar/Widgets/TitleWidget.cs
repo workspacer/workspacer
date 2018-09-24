@@ -6,38 +6,38 @@ using System.Threading.Tasks;
 
 namespace Tile.Net.Bar.Widgets
 {
-    public class TitleWidget : IBarWidget
+    public class TitleWidget : BarWidgetBase
     {
-        private IBarWidgetContext _context;
-
-        public string GetText()
+        public override IBarWidgetPart[] GetParts()
         {
-            var window = _context.Monitor.Workspace.FocusedWindow ??
-                         _context.Monitor.Workspace.Windows.FirstOrDefault(w => w.CanLayout);
+            var window = Context.Monitor.Workspace.FocusedWindow ??
+                         Context.Monitor.Workspace.Windows.FirstOrDefault(w => w.CanLayout);
+
+            var isFocusedMonitor = Context.Workspaces.FocusedMonitor == Context.Monitor;
+            var multipleMonitors = Context.Workspaces.Monitors.Count() > 1;
+            var color = isFocusedMonitor && multipleMonitors ? Color.Yellow : null;
 
             if (window != null)
             {
-                return window.Title;
+                return Parts(Part(window.Title, color));
             } else
             {
-                return "";
+                return Parts(Part("no windows", color));
             }
         }
 
-        public void Initialize(IBarWidgetContext context)
+        public override void Initialize()
         {
-            _context = context;
-
-            _context.Workspaces.WindowAdded += Refresh;
-            _context.Workspaces.WindowRemoved += Refresh;
-            _context.Workspaces.WindowUpdated += Refresh;
+            Context.Workspaces.WindowAdded += Refresh;
+            Context.Workspaces.WindowRemoved += Refresh;
+            Context.Workspaces.WindowUpdated += Refresh;
         }
 
         private void Refresh(IWindow window, IWorkspace workspace)
         {
-            if (workspace == _context.Monitor.Workspace)
+            if (workspace == Context.Monitor.Workspace)
             {
-                _context.MarkDirty();
+                Context.MarkDirty();
             }
         }
     }
