@@ -2,11 +2,13 @@
 title: home
 ---
 
+[<img src="/images/logo-128x128.png" style="max-width:15%;min-width:40px;float:right;" alt="logo" />](https://github.com/rickbutton/workspacer)
+
 # workspacer
 
 ### a tiling window manager for Windows
 
-Workspacer is a tiling window manager for Windows 10, that is similar in style and function to xmonad (in fact, the keybindings, match xmonad's defaults almost 100%).
+Workspacer is a tiling window manager for Windows 10, that is similar in style and function to xmonad.
 
 Currently, Workspacer supports most default xmonad functionality, like custom layout engines, workspace support, and powerful keybinds.
 
