@@ -11,18 +11,18 @@ namespace Tile.Net.Bar
         public IMonitor Monitor { get; private set; }
         public IWorkspaceManager Workspaces { get; private set; }
 
-        private BarForm _form;
+        private BarSection _section;
 
-        public BarWidgetContext(BarForm form, IMonitor monitor, IWorkspaceManager workspaces)
+        public BarWidgetContext(BarSection section, IMonitor monitor, IWorkspaceManager workspaces)
         {
-            _form = form;
+            _section = section;
             Monitor = monitor;
             Workspaces = workspaces;
         }
 
         public void MarkDirty()
         {
-            _form.MarkDirty();
+            _section.MarkDirty();
         }
     }
 }

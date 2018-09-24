@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Tile.Net.Bar
 {
-    public interface IBarWidget
+    public interface IBarWidgetPart
     {
-        void Initialize(IBarWidgetContext context);
-        IBarWidgetPart[] GetParts();
+        string Text { get; }
+        Color ForegroundColor { get; }
+        Color BackgroundColor { get; }
     }
 }
