@@ -8,6 +8,8 @@ namespace Tile.Net.Bar.Widgets
 {
     public class TitleWidget : BarWidgetBase
     {
+        public Color MonitorHasFocusColor { get; set; } = Color.Yellow;
+
         public override IBarWidgetPart[] GetParts()
         {
             var window = Context.Monitor.Workspace.FocusedWindow ??
@@ -15,7 +17,7 @@ namespace Tile.Net.Bar.Widgets
 
             var isFocusedMonitor = Context.Workspaces.FocusedMonitor == Context.Monitor;
             var multipleMonitors = Context.Workspaces.Monitors.Count() > 1;
-            var color = isFocusedMonitor && multipleMonitors ? Color.Yellow : null;
+            var color = isFocusedMonitor && multipleMonitors ? MonitorHasFocusColor : null;
 
             if (window != null)
             {
