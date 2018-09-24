@@ -15,7 +15,7 @@
 
 - docs on configuration (inline autogen'd docs)
 - tutorial on creating a plugin
-  - tile.net.shared needs to be moved to a nuget package?
+  - Workspacer.shared needs to be moved to a nuget package?
 
 --- arch
 - better translation screen->monitor?
