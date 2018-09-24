@@ -11,13 +11,10 @@
     <ul>
       {{ $title := lower .Title }}
       {{ $section := lower .Section }}
-      <li class="pull-left {{ if .IsHome }}current{{ end }}">
-        <a href="{{ .Site.BaseURL }}">/home/{{ lower .Site.Title}}</a>
-      </li>
       {{ range .Site.Menus.main }}
       {{ $name := lower .Name }}
       <li class="pull-left {{ if eq $name $title }}current{{ else if eq $section $name }}current{{ else if eq $title (pluralize $name) }}current{{ end }}">
-        <a href="{{ .URL }}">~/{{ lower .Name }}</a>
+        <a href="{{ .URL }}">{{ lower .Name }}</a>
       </li>
       {{end}}
 
