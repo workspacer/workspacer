@@ -21,4 +21,22 @@
 
   <xsl:template match="*[self::wix:Component or self::wix:ComponentRef]
                         [key('ToRemove', @Id)]" />
+
+  <xsl:template match='wix:Component[contains(wix:File/@Source, "Workspacer.exe") and not(contains(wix:File/@Source, "Workspacer.exe.config"))]'> 
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+      <xsl:comment> added shortcut under Component with File that has Source with Workspacer.exe </xsl:comment>
+      <Shortcut 
+        Id="WorkspacerExeShortcut" 
+        Name="Workspacer" 
+        Directory="ApplicationProgramsFolder" 
+        Advertise="yes" WorkingDirectory="INSTALLDIR">
+        <Icon Id="WorkspacerIcon.exe" SourceFile="$(var.SourceDir)\Workspacer.exe" />
+      </Shortcut>
+      <RemoveFolder
+        Id="WorkspacerExeShortcut_ProgramMenuFolder_ApplicationProgramsFolder"  
+        Directory="ApplicationProgramsFolder" 
+        On="uninstall" />
+    </xsl:copy>
+  </xsl:template>
 </xsl:stylesheet>
