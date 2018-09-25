@@ -10,5 +10,23 @@
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title></title>
+      <link>/docs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/</guid>
+      <description> docs </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/quickstart/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/quickstart/</guid>
+      <description> test </description>
+    </item>
+    
   </channel>
 </rss>

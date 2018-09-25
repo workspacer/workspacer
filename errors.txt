@@ -1,0 +1,77 @@
+------ Rebuild All started: Project: Workspacer.Shared, Configuration: Release x64 ------
+  Workspacer.Shared -> C:\git\Workspacer\src\Workspacer.Shared\bin\x64\Release\Workspacer.Shared.dll
+------ Rebuild All started: Project: Workspacer.Native, Configuration: Release x64 ------
+C:\git\Workspacer\src\Workspacer.Native\Native\WindowsWindow.cs(68,39,68,40): warning CS0168: The variable 'e' is declared but never used
+C:\git\Workspacer\src\Workspacer.Native\Native\WindowsWindow.cs(83,39,83,40): warning CS0168: The variable 'e' is declared but never used
+  Workspacer.Native -> C:\git\Workspacer\src\Workspacer.Native\bin\x64\Release\Workspacer.Native.dll
+------ Rebuild All started: Project: Workspacer.Bar, Configuration: Release x64 ------
+C:\git\Workspacer\src\Workspacer.Bar\BarPlugin.cs(13,31,13,36): warning CS0169: The field 'BarPlugin._bars' is never used
+  Workspacer.Bar -> C:\git\Workspacer\src\Workspacer.Bar\bin\x64\Release\Workspacer.Bar.dll
+------ Rebuild All started: Project: Workspacer.ConfigLoader, Configuration: Release x64 ------
+  Workspacer.ConfigLoader -> C:\git\Workspacer\src\Workspacer.ConfigLoader\bin\x64\Release\Workspacer.ConfigLoader.dll
+------ Rebuild All started: Project: Workspacer.Watcher, Configuration: Release x64 ------
+C:\git\Workspacer\src\Workspacer.Watcher\Program.cs(48,38,48,39): warning CS0168: The variable 'e' is declared but never used
+  Workspacer.Watcher -> C:\git\Workspacer\src\Workspacer.Watcher\bin\x64\Release\Workspacer.Watcher.exe
+------ Rebuild All started: Project: Workspacer, Configuration: Release x64 ------
+  Workspacer -> C:\git\Workspacer\src\Workspacer\bin\x64\Release\Workspacer.exe
+  The syntax of the command is incorrect.
+  C:\git\Workspacer\\src\Workspacer.Bar\bin\x64\Release\Workspacer.Bar.dll
+  C:\git\Workspacer\\src\Workspacer.Bar\bin\x64\Release\Workspacer.Bar.pdb
+  C:\git\Workspacer\\src\Workspacer.Bar\bin\x64\Release\Workspacer.Shared.dll
+  C:\git\Workspacer\\src\Workspacer.Bar\bin\x64\Release\Workspacer.Shared.pdb
+  4 File(s) copied
+------ Starting pre-build validation for project 'Workspacer.Setup' ------ 
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME.INTEROPSERVICES' (Signature='B03F5F7F11D50A3A' Version='4.0.20.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.TEXT.ENCODING.EXTENSIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.REFLECTION' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME.EXTENSIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.XML.XDOCUMENT' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.LINQ.EXPRESSIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.IO.FILESYSTEM' (Signature='B03F5F7F11D50A3A' Version='4.0.1.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.THREADING' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.COLLECTIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.XML.READERWRITER' (Signature='B03F5F7F11D50A3A' Version='4.1.0.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.THREADING.TASKS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.IO' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.IO.FILESYSTEM.PRIMITIVES' (Signature='B03F5F7F11D50A3A' Version='4.0.1.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.TEXT.ENCODING' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME' (Signature='B03F5F7F11D50A3A' Version='4.0.20.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.COLLECTIONS.CONCURRENT' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.GLOBALIZATION' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.DIAGNOSTICS.DEBUG' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.CSharp.dll'
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME' (Signature='B03F5F7F11D50A3A' Version='4.0.20.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.IO' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.THREADING' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME.EXTENSIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.GLOBALIZATION' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.REFLECTION' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.COLLECTIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME.INTEROPSERVICES' (Signature='B03F5F7F11D50A3A' Version='4.0.20.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.TEXT.ENCODING' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'System.Text.Encoding.CodePages.dll'
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME' (Signature='B03F5F7F11D50A3A' Version='4.0.20.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME.EXTENSIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.IO.FILESYSTEM.PRIMITIVES' (Signature='B03F5F7F11D50A3A' Version='4.0.1.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.IO.COMPRESSION' (Signature='B77A5C561934E089' Version='4.1.1.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.XML.READERWRITER' (Signature='B03F5F7F11D50A3A' Version='4.1.0.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.COLLECTIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.COLLECTIONS.CONCURRENT' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.IO.FILESYSTEM' (Signature='B03F5F7F11D50A3A' Version='4.0.1.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.IO' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.THREADING.TASKS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.TEXT.ENCODING' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.GLOBALIZATION' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.THREADING' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.TEXT.ENCODING.EXTENSIONS' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.REFLECTION' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.XML.XPATH.XDOCUMENT' (Signature='B03F5F7F11D50A3A' Version='4.0.1.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.RUNTIME.INTEROPSERVICES' (Signature='B03F5F7F11D50A3A' Version='4.0.20.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.DIAGNOSTICS.DEBUG' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+WARNING: Unable to find dependency 'SYSTEM.XML.XDOCUMENT' (Signature='B03F5F7F11D50A3A' Version='4.0.10.0') of assembly 'Microsoft.CodeAnalysis.dll'
+------ Pre-build validation for project 'Workspacer.Setup' completed ------
+------ Rebuild All started: Project: Workspacer.Setup, Configuration: Release ------
+Building file 'C:\git\Workspacer\src\Workspacer.Setup\Release\Workspacer.Setup.msi'...
+ERROR: An error occurred generating a bootstrapper: Unable to finish updating resource for C:\git\Workspacer\src\Workspacer.Setup\Release\setup.exe with error 8007006E
+ERROR: General failure building bootstrapper
+ERROR: Unrecoverable build error
+========== Rebuild All: 6 succeeded, 1 failed, 0 skipped ==========
+
