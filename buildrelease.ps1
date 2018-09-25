@@ -36,7 +36,7 @@ foreach ($file in $setupProjs)
     Set-Content $file.PSPath
 }
 
-#& $msbuild Workspacer.sln /t:Clean,Build /p:Configuration=Release /p:Platform=x64
+& $msbuild Workspacer.sln /t:Clean,Build /p:Configuration=Release /p:Platform=x64
 
 heat dir $buildDir -o $setupDir\Workspacer.wxs -t $setupDir\Workspacer.xslt -scon -sfrag -srd -sreg -gg -cg Workspacer -dr INSTALLDIR -var var.SourceDir
 heat dir $barBuildDir -o $setupDir\Workspacer.Bar.wxs -t $setupDir\Workspacer.Bar.xslt -scon -sfrag -srd -sreg -gg -cg Workspacer.Bar -dr INSTALLDIR -var var.SourceDir
@@ -44,4 +44,4 @@ heat dir $barBuildDir -o $setupDir\Workspacer.Bar.wxs -t $setupDir\Workspacer.Ba
 candle $setupDir\Product.wxs -ext WixUIExtension -o $outDir\Product.wixobj 
 candle $setupDir\Workspacer.wxs -ext WixUIExtension -o $outDir\Workspacer.wixobj -dSourceDir="$buildDir"
 candle $setupDir\Workspacer.Bar.wxs -ext WixUIExtension -o $outDir\Workspacer.Bar.wixobj -dSourceDir="$barBuildDir"
-light -out $outDir\Workspacer.$version.msi $outDir\Product.wixobj $outDir\Workspacer.wixobj $outDir\Workspacer.Bar.wixobj -ext WixUIExtension
+light -out $outDir\Workspacer.msi $outDir\Product.wixobj $outDir\Workspacer.wixobj $outDir\Workspacer.Bar.wixobj -ext WixUIExtension
