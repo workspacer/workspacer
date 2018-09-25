@@ -179,9 +179,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir /p "$(TargetDir)plugins\Workspacer.Bar"
-xcopy "$(SolutionDir)\src\Workspacer.Bar\$(OutDir)*.*" "$(TargetDir)plugins\Workspacer.Bar\"  /E /Y /R
-
-if $(ConfigurationName) == Release (powershell Compress-Archive -Path '$(TargetDir)*' -DestinationPath '$(SolutionDir)\Workspacer.zip' -Force)</PostBuildEvent>
+xcopy "$(SolutionDir)\src\Workspacer.Bar\$(OutDir)*.*" "$(TargetDir)plugins\Workspacer.Bar\"  /E /Y /R</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
