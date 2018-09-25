@@ -4,6 +4,7 @@ using Workspacer.Shared;
 using Workspacer.ConfigLoader;
 using Workspacer.Bar;
 using Workspacer.Bar.Widgets;
+using System.Diagnostics;
 
 namespace Workspacer.Config
 {
@@ -40,9 +41,9 @@ namespace Workspacer.Config
 
             context.Workspaces.WindowFilterFunc = (window) => 
             {
-                if (window.Title.Contains(barTitle))
-                    return false;
                 if (window.Title.Contains("Task Manager"))
+                    return false;
+                if (window.Process.Id == Process.GetCurrentProcess().Id)
                     return false;
 
                 return true;
