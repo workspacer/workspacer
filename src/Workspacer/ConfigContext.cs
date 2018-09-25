@@ -12,9 +12,9 @@ namespace Workspacer
     public class ConfigContext : IConfigContext
     {
         public IKeybindManager Keybinds { get; set; }
-        public ILayoutManager Layouts { get; set; }
         public IWorkspaceManager Workspaces { get; set; }
         public IPluginManager Plugins { get; set; }
+        public ISystemTrayManager SystemTray { get; set; }
 
         private PipeServer _pipeClient;
 

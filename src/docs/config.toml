@@ -17,6 +17,15 @@ publishDir = "../../docs"
     url = "/"
     weight = 1
 
+[[menu.main]]
+    name = "quick start"
+    url = "/quickstart"
+    weight = 2
+[[menu.main]]
+    name = "docs"
+    url = "/docs"
+    weight = 3
+
 [params]
     description = "a tiling window Manager for Windows"
     footer = "MIT Licensed | [github](https://github.com/rickbutton/workspacer)"

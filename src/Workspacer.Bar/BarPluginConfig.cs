@@ -8,6 +8,7 @@ namespace Workspacer.Bar
 {
     public class BarPluginConfig
     {
+        public string BarTitle { get; set; } = "Workspacer.Bar";
         public int BarHeight { get; set; } = 30;
         public int FontSize { get; set; } = 16;
 

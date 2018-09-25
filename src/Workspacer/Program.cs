@@ -1,5 +1,4 @@
-﻿using CommandLine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Workspacer.Shared;
-using Workspacer.Verbs;
 
 namespace Workspacer
 {
@@ -20,16 +18,7 @@ namespace Workspacer
         public static void Main(string[] args)
         {
             Win32.SetProcessDPIAware();
-
-            if (args.Length > 0)
-            {
-                CommandLine.Parser.Default.ParseArguments<InitVerbOptions>(args)
-                    .MapResult((InitVerbOptions opts) => new InitVerb().Execute(),
-                    (errs) => 1);
-            } else
-            {
-                Run();
-            }
+            Run();
         }
 
         private static int Run()

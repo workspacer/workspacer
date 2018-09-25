@@ -5,6 +5,7 @@ using Workspacer.Shared;
 using Workspacer.ConfigLoader;
 using Timer = System.Timers.Timer;
 using System.Reflection;
+using System.IO;
 
 namespace Workspacer
 {
@@ -38,9 +39,19 @@ namespace Workspacer
             {
                 Keybinds = KeybindManager.Instance,
                 Workspaces = WorkspaceManager.Instance,
-                Layouts = LayoutManager.Instance,
                 Plugins = PluginManager.Instance,
+                SystemTray = SystemTrayManager.Instance,
             };
+
+
+            SystemTrayManager.Instance.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
+            SystemTrayManager.Instance.AddToContextMenu("Quit Workspacer", () => _context.Quit());
+            SystemTrayManager.Instance.AddToContextMenu("Restart Workspacer", () => _context.Restart());
+            if (CanCreateExampleConfig())
+            {
+                SystemTrayManager.Instance.AddToContextMenu("Create example Workspacer.config", CreateExampleConfig);
+            }
+
             var config = GetConfig();
             config.Configure(_context);
 
@@ -103,6 +114,29 @@ namespace Workspacer
                 return Assembly.LoadFile(match.Location);
             }
             return null;
+        }
+
+        private bool CanCreateExampleConfig()
+        {
+            return !File.Exists(ConfigHelper.GetConfigPath());
+        }
+
+        private void CreateExampleConfig()
+        {
+            if (File.Exists(ConfigHelper.GetConfigPath()))
+            {
+                DisplayMessage("Workspacer.config already exists, so one cannot be created.");
+            } else
+            {
+                File.WriteAllText(ConfigHelper.GetConfigPath(), ConfigHelper.GetConfigTemplate());
+                DisplayMessage($"Workspacer.config created at: [${ConfigHelper.GetConfigPath()}]");
+            }
+        }
+
+        public void DisplayMessage(string message)
+        {
+            var title = GetType().Name.Replace("Verb", "");
+            MessageHelper.ShowMessage(title, message);
         }
     }
 }

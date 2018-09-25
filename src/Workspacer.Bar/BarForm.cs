@@ -29,7 +29,7 @@ namespace Workspacer.Bar
             _timer = new System.Timers.Timer(50);
             _timer.Elapsed += Redraw;
 
-            this.Text = "Workspacer.Bar";
+            this.Text = config.BarTitle;
             this.ControlBox = false;
             this.FormBorderStyle = FormBorderStyle.None;
 

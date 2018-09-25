@@ -52,6 +52,12 @@ namespace Workspacer
             }
         }
 
+        public void Unsubscribe(MouseEvent evt)
+        {
+            if (_mouseSubs.ContainsKey(evt))
+                _mouseSubs.Remove(evt);
+        }
+
         public bool KeyIsPressed(Keys key)
         {
              return (Win32.GetKeyState(KeysToKeys(key)) & 0x8000) == 0x8000;
@@ -145,6 +151,133 @@ namespace Workspacer
         private System.Windows.Forms.Keys KeysToKeys(Keys keys)
         {
             return (System.Windows.Forms.Keys)keys;
+        }
+
+        public void SubscribeDefaults(IConfigContext context, KeyModifiers mod)
+        {
+            Subscribe(MouseEvent.LButtonDown,
+                () => context.Workspaces.SwitchFocusedMonitorToMouseLocation());
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.E,
+                () => context.Enabled = !context.Enabled);
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.C,
+                () => context.Workspaces.FocusedWorkspace.CloseFocusedWindow());
+
+            Subscribe(mod, Keys.Space,
+                () => context.Workspaces.FocusedWorkspace.NextLayoutEngine());
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.Space,
+                () => context.Workspaces.FocusedWorkspace.PreviousLayoutEngine());
+
+            Subscribe(mod, Keys.N,
+                () => context.Workspaces.FocusedWorkspace.ResetLayout());
+
+            Subscribe(mod, Keys.J,
+                () => context.Workspaces.FocusedWorkspace.FocusNextWindow());
+
+            Subscribe(mod, Keys.K,
+                () => context.Workspaces.FocusedWorkspace.FocusPreviousWindow());
+
+            Subscribe(mod, Keys.M,
+                () => context.Workspaces.FocusedWorkspace.FocusMasterWindow());
+
+            Subscribe(mod, Keys.Enter,
+                () => context.Workspaces.FocusedWorkspace.SwapFocusAndMasterWindow());
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.J,
+                () => context.Workspaces.FocusedWorkspace.SwapFocusAndNextWindow());
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.K,
+                () => context.Workspaces.FocusedWorkspace.SwapFocusAndPreviousWindow());
+
+            Subscribe(mod, Keys.H,
+                () => context.Workspaces.FocusedWorkspace.ShrinkMasterArea());
+
+            Subscribe(mod, Keys.L,
+                () => context.Workspaces.FocusedWorkspace.ExpandMasterArea());
+
+            Subscribe(mod, Keys.Oemcomma,
+                () => context.Workspaces.FocusedWorkspace.IncrementNumberOfMasterWindows());
+
+            Subscribe(mod, Keys.OemPeriod,
+                () => context.Workspaces.FocusedWorkspace.DecrementNumberOfMasterWindows());
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.Q, context.Quit);
+
+            Subscribe(mod, Keys.Q, context.Restart);
+
+            Subscribe(mod, Keys.D1,
+                () => context.Workspaces.SwitchToWorkspace(0));
+
+            Subscribe(mod, Keys.D2,
+                () => context.Workspaces.SwitchToWorkspace(1));
+
+            Subscribe(mod, Keys.D3,
+                () => context.Workspaces.SwitchToWorkspace(2));
+
+            Subscribe(mod, Keys.D4,
+                () => context.Workspaces.SwitchToWorkspace(3));
+
+            Subscribe(mod, Keys.D5,
+                () => context.Workspaces.SwitchToWorkspace(4));
+
+            Subscribe(mod, Keys.D6,
+                () => context.Workspaces.SwitchToWorkspace(5));
+
+            Subscribe(mod, Keys.D7,
+                () => context.Workspaces.SwitchToWorkspace(6));
+
+            Subscribe(mod, Keys.D8,
+                () => context.Workspaces.SwitchToWorkspace(7));
+
+            Subscribe(mod, Keys.D9,
+                () => context.Workspaces.SwitchToWorkspace(8));
+
+            Subscribe(mod, Keys.W,
+                () => context.Workspaces.SwitchFocusedMonitor(0));
+
+            Subscribe(mod, Keys.E,
+                () => context.Workspaces.SwitchFocusedMonitor(1));
+
+            Subscribe(mod, Keys.R,
+                () => context.Workspaces.SwitchFocusedMonitor(2));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.W,
+                () => context.Workspaces.MoveFocusedWindowToMonitor(0));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.E,
+                () => context.Workspaces.MoveFocusedWindowToMonitor(1));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.R,
+                () => context.Workspaces.MoveFocusedWindowToMonitor(2));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D1,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(0));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D2,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(1));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D3,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(2));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D4,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(3));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D5,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(4));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D6,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(5));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D7,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(6));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D8,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(7));
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.D9,
+                () => context.Workspaces.MoveFocusedWindowToWorkspace(8));
         }
     }
 }
