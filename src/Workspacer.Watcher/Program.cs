@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Workspacer.Shared;
@@ -72,6 +73,13 @@ namespace Workspacer.Watcher
 
         static void Restart()
         {
+            Process[] processes = Process.GetProcessesByName("Workspacer");
+            while (processes.Length > 0)
+            {
+                Thread.Sleep(100);
+                processes = Process.GetProcessesByName("Workspacer");
+            }
+
             Process process = new Process();
             process.StartInfo.FileName = "Workspacer.exe";
             process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
