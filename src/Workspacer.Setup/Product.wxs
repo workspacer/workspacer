@@ -29,6 +29,9 @@
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramMenuFolder">
+      	<Directory Id="ApplicationProgramsFolder" Name="Workspacer"/>
+  	  </Directory>
 			<Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLDIR" Name="Workspacer" >
           <Directory Id="PLUGINSDIR" Name="plugins" />
