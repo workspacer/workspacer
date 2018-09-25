@@ -28,17 +28,17 @@ namespace Workspacer
         void FocusLastFocusedWindow(); 
         void FocusNextWindow(); // mod-j
         void FocusPreviousWindow(); // mod-k
-        void FocusMasterWindow(); // mod-m
+        void FocusPrimaryWindow(); // mod-m
 
-        void SwapFocusAndMasterWindow(); // mod-return
+        void SwapFocusAndPrimaryWindow(); // mod-return
         void SwapFocusAndNextWindow(); // mod-shift-j
         void SwapFocusAndPreviousWindow(); // mod-shift-k
 
-        void ShrinkMasterArea(); // mod-h
-        void ExpandMasterArea(); // mod-l
+        void ShrinkPrimaryArea(); // mod-h
+        void ExpandPrimaryArea(); // mod-l
 
-        void IncrementNumberOfMasterWindows(); // mod-comma
-        void DecrementNumberOfMasterWindows(); // mod-period
+        void IncrementNumberOfPrimaryWindows(); // mod-comma
+        void DecrementNumberOfPrimaryWindows(); // mod-period
 
         void ForceLayout();
 

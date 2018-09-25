@@ -12,11 +12,11 @@ namespace Workspacer
 
         IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight);
 
-        void ShrinkMasterArea();
-        void ExpandMasterArea();
-        void ResetMasterArea();
+        void ShrinkPrimaryArea();
+        void ExpandPrimaryArea();
+        void ResetPrimaryArea();
 
-        void IncrementNumInMaster();
-        void DecrementNumInMaster();
+        void IncrementNumInPrimary();
+        void DecrementNumInPrimary();
     }
 }

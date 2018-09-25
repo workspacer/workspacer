@@ -180,10 +180,10 @@ namespace Workspacer
                 () => context.Workspaces.FocusedWorkspace.FocusPreviousWindow());
 
             Subscribe(mod, Keys.M,
-                () => context.Workspaces.FocusedWorkspace.FocusMasterWindow());
+                () => context.Workspaces.FocusedWorkspace.FocusPrimaryWindow());
 
             Subscribe(mod, Keys.Enter,
-                () => context.Workspaces.FocusedWorkspace.SwapFocusAndMasterWindow());
+                () => context.Workspaces.FocusedWorkspace.SwapFocusAndPrimaryWindow());
 
             Subscribe(mod | KeyModifiers.LShift, Keys.J,
                 () => context.Workspaces.FocusedWorkspace.SwapFocusAndNextWindow());
@@ -192,16 +192,16 @@ namespace Workspacer
                 () => context.Workspaces.FocusedWorkspace.SwapFocusAndPreviousWindow());
 
             Subscribe(mod, Keys.H,
-                () => context.Workspaces.FocusedWorkspace.ShrinkMasterArea());
+                () => context.Workspaces.FocusedWorkspace.ShrinkPrimaryArea());
 
             Subscribe(mod, Keys.L,
-                () => context.Workspaces.FocusedWorkspace.ExpandMasterArea());
+                () => context.Workspaces.FocusedWorkspace.ExpandPrimaryArea());
 
             Subscribe(mod, Keys.Oemcomma,
-                () => context.Workspaces.FocusedWorkspace.IncrementNumberOfMasterWindows());
+                () => context.Workspaces.FocusedWorkspace.IncrementNumberOfPrimaryWindows());
 
             Subscribe(mod, Keys.OemPeriod,
-                () => context.Workspaces.FocusedWorkspace.DecrementNumberOfMasterWindows());
+                () => context.Workspaces.FocusedWorkspace.DecrementNumberOfPrimaryWindows());
 
             Subscribe(mod | KeyModifiers.LShift, Keys.Q, context.Quit);
 

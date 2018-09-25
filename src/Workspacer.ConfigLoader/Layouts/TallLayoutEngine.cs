@@ -8,18 +8,18 @@ namespace Workspacer
 {
     public class TallLayoutEngine : ILayoutEngine
     {
-        private readonly int _numInMaster;
-        private readonly double _masterPercent;
-        private readonly double _masterPercentIncrement;
+        private readonly int _numInPrimary;
+        private readonly double _primaryPercent;
+        private readonly double _primaryPercentIncrement;
 
-        private int _numInMasterOffset = 0;
-        private double _masterPercentOffset = 0;
+        private int _numInPrimaryOffset = 0;
+        private double _primaryPercentOffset = 0;
 
-        public TallLayoutEngine(int numInMaster, double masterPercent, double masterPercentIncrement)
+        public TallLayoutEngine(int numInPrimary, double primaryPercent, double primaryPercentIncrement)
         {
-            _numInMaster = numInMaster;
-            _masterPercent = masterPercent;
-            _masterPercentIncrement = masterPercentIncrement;
+            _numInPrimary = numInPrimary;
+            _primaryPercent = primaryPercent;
+            _primaryPercentIncrement = primaryPercentIncrement;
         }
 
         public string Name => "tall";
@@ -32,67 +32,67 @@ namespace Workspacer
             if (numWindows == 0)
                 return list;
 
-            int numInMaster = Math.Min(GetNumInMaster(), numWindows);
+            int numInPrimary = Math.Min(GetNumInPrimary(), numWindows);
 
-            int masterWidth = (int)(spaceWidth * (_masterPercent + _masterPercentOffset));
-            int masterHeight = spaceHeight / numInMaster;
-            int height = spaceHeight / Math.Max(numWindows - numInMaster, 1);
+            int primaryWidth = (int)(spaceWidth * (_primaryPercent + _primaryPercentOffset));
+            int primaryHeight = spaceHeight / numInPrimary;
+            int height = spaceHeight / Math.Max(numWindows - numInPrimary, 1);
 
-            // if there are more "master" windows than actual windows,
+            // if there are more "primary" windows than actual windows,
             // then we want the pane to actually spread the entire width
             // of the working area
-            if (numInMaster >= numWindows)
+            if (numInPrimary >= numWindows)
             {
-                masterWidth = spaceWidth;
+                primaryWidth = spaceWidth;
             }
 
-            int slaveWidth = spaceWidth - masterWidth;
+            int secondaryWidth = spaceWidth - primaryWidth;
 
             for (var i = 0; i < numWindows; i++)
             {
-                if (i < numInMaster)
+                if (i < numInPrimary)
                 {
-                    list.Add(new WindowLocation(0, i * masterHeight, masterWidth, masterHeight, WindowState.Normal));
+                    list.Add(new WindowLocation(0, i * primaryHeight, primaryWidth, primaryHeight, WindowState.Normal));
                 }
                 else
                 {
-                    list.Add(new WindowLocation(masterWidth, (i - numInMaster) * height, slaveWidth, height, WindowState.Normal));
+                    list.Add(new WindowLocation(primaryWidth, (i - numInPrimary) * height, secondaryWidth, height, WindowState.Normal));
                 }
             }
             return list;
         }
 
-        public void ShrinkMasterArea()
+        public void ShrinkPrimaryArea()
         {
-            _masterPercentOffset -= _masterPercentIncrement;
+            _primaryPercentOffset -= _primaryPercentIncrement;
         }
 
-        public void ExpandMasterArea()
+        public void ExpandPrimaryArea()
         {
-            _masterPercentOffset += _masterPercentIncrement;
+            _primaryPercentOffset += _primaryPercentIncrement;
         }
 
-        public void ResetMasterArea()
+        public void ResetPrimaryArea()
         {
-            _masterPercentOffset = 0;
+            _primaryPercentOffset = 0;
         }
 
-        public void IncrementNumInMaster()
+        public void IncrementNumInPrimary()
         {
-            _numInMasterOffset++;
+            _numInPrimaryOffset++;
         }
 
-        public void DecrementNumInMaster()
+        public void DecrementNumInPrimary()
         {
-            if (GetNumInMaster() > 1)
+            if (GetNumInPrimary() > 1)
             {
-                _numInMasterOffset--;
+                _numInPrimaryOffset--;
             }
         }
 
-        private int GetNumInMaster()
+        private int GetNumInPrimary()
         {
-            return _numInMaster + _numInMasterOffset;
+            return _numInPrimary + _numInPrimaryOffset;
         }
     }
 }

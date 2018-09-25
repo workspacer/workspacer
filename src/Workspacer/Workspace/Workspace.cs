@@ -111,7 +111,7 @@ namespace Workspacer
 
         public void ResetLayout()
         {
-            GetLayoutEngine().ResetMasterArea();
+            GetLayoutEngine().ResetPrimaryArea();
             DoLayout();
         }
 
@@ -191,7 +191,7 @@ namespace Workspacer
             }
         }
 
-        public void FocusMasterWindow()
+        public void FocusPrimaryWindow()
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
             if (windows.Count > 0)
@@ -200,17 +200,17 @@ namespace Workspacer
             }
         }
 
-        public void SwapFocusAndMasterWindow()
+        public void SwapFocusAndPrimaryWindow()
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
             if (windows.Count > 1)
             {
-                var master = windows[0];
+                var primary = windows[0];
                 var focus = windows.FirstOrDefault(w => w.IsFocused);
 
                 if (focus != null)
                 {
-                    SwapWindows(master, focus);
+                    SwapWindows(primary, focus);
                 }
             }
         }
@@ -257,26 +257,26 @@ namespace Workspacer
             }
         }
 
-        public void ShrinkMasterArea()
+        public void ShrinkPrimaryArea()
         {
-            GetLayoutEngine().ShrinkMasterArea();
+            GetLayoutEngine().ShrinkPrimaryArea();
             DoLayout();
         }
-        public void ExpandMasterArea()
+        public void ExpandPrimaryArea()
         {
-            GetLayoutEngine().ExpandMasterArea();
-            DoLayout();
-        }
-
-        public void IncrementNumberOfMasterWindows()
-        {
-            GetLayoutEngine().IncrementNumInMaster();
+            GetLayoutEngine().ExpandPrimaryArea();
             DoLayout();
         }
 
-        public void DecrementNumberOfMasterWindows()
+        public void IncrementNumberOfPrimaryWindows()
         {
-            GetLayoutEngine().DecrementNumInMaster();
+            GetLayoutEngine().IncrementNumInPrimary();
+            DoLayout();
+        }
+
+        public void DecrementNumberOfPrimaryWindows()
+        {
+            GetLayoutEngine().DecrementNumInPrimary();
             DoLayout();
         }
 
