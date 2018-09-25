@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Workspacer" Language="1033" Version="0.2" Manufacturer="Rick Button" UpgradeCode="a44f393c-d625-4906-8407-462699f59014">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Feature Id="ProductFeature" Title="Workspacer" Level="1">
+			<ComponentGroupRef Id="Workspacer" />
+			<ComponentGroupRef Id="Workspacer.Bar" />
+		</Feature>
+
+		<UI>
+		<UIRef Id="WixUI_InstallDir" />
+		<Publish Dialog="WelcomeDlg"
+							Control="Next"
+							Event="NewDialog"
+							Value="InstallDirDlg"
+							Order="2">1</Publish>
+		<Publish Dialog="InstallDirDlg"
+							Control="Back"
+							Event="NewDialog"
+							Value="WelcomeDlg"
+							Order="2">1</Publish>
+		</UI>
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR" Name="Workspacer" >
+          <Directory Id="PLUGINSDIR" Name="plugins" />
+        </Directory>
+      </Directory>
+		</Directory>
+	</Fragment>
+</Wix>
