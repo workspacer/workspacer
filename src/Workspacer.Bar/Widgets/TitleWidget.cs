@@ -31,6 +31,7 @@ namespace Workspacer.Bar.Widgets
             Context.Workspaces.WindowAdded += RefreshAddRemove;
             Context.Workspaces.WindowRemoved += RefreshAddRemove;
             Context.Workspaces.WindowUpdated += RefreshUpdated;
+            Context.Workspaces.FocusedMonitorUpdated += RefreshFocusedMonitor;
         }
 
         private IWindow GetWindow()
@@ -53,6 +54,11 @@ namespace Workspacer.Bar.Widgets
             {
                 Context.MarkDirty();
             }
+        }
+
+        private void RefreshFocusedMonitor()
+        {
+            Context.MarkDirty();
         }
     }
 }
