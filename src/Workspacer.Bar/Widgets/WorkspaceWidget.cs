@@ -21,17 +21,19 @@ namespace Workspacer.Bar.Widgets
         {
             var parts = new List<IBarWidgetPart>();
             var workspaces = Context.Workspaces.Workspaces;
+            int index = 0;
             foreach (var workspace in workspaces)
             {
                 var hasWindows = workspace.Windows.Any(w => w.CanLayout);
 
                 if (workspace.Monitor == Context.Monitor)
                 {
-                    parts.Add(Part($"[{workspace.Name}]", WorkspaceHasFocusColor));
+                    parts.Add(Part(GetDisplayName(workspace, index, true), WorkspaceHasFocusColor));
                 } else
                 {
-                    parts.Add(Part($" {workspace.Name} ", hasWindows ? null : WorkspaceEmptyColor));
+                    parts.Add(Part(GetDisplayName(workspace, index, false), hasWindows ? null : WorkspaceEmptyColor));
                 }
+                index++;
             }
             return parts.ToArray();
         }
@@ -39,6 +41,11 @@ namespace Workspacer.Bar.Widgets
         private void UpdateWorkspaces()
         {
             Context.MarkDirty();
+        }
+
+        protected string GetDisplayName(IWorkspace workspace, int index, bool visible)
+        {
+            return visible ? $"[{workspace.Name}]" : $" {workspace.Name} ";
         }
     }
 }
