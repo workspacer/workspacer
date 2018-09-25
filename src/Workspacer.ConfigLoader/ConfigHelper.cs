@@ -52,65 +52,38 @@ namespace Workspacer.ConfigLoader
         private static Type CompileConfig(IEnumerable<Type> referenceTypes)
         {
             var name = "Workspacer.Config.dll";
-            Assembly assembly;
-            if (!ConfigIsCompiled())
+            var config = LoadConfig();
+
+            var references = new List<MetadataReference>();
+            references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(Process).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(WorkspacerConfigLoaderHandle).Assembly.Location));
+            references.Add(MetadataReference.CreateFromFile(typeof(WorkspacerSharedHandle).Assembly.Location));
+            references.AddRange(referenceTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
+
+            var tree = CSharpSyntaxTree.ParseText(config);
+            var compilation = CSharpCompilation.Create(name)
+                .AddSyntaxTrees(tree).AddReferences(references).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            EmitResult emitResult;
+            byte[] result;
+            using (var stream = new MemoryStream())
             {
-                var config = LoadConfig();
-
-                var references = new List<MetadataReference>();
-
-                references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
-                references.Add(MetadataReference.CreateFromFile(typeof(Process).Assembly.Location));
-                references.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location));
-                references.Add(MetadataReference.CreateFromFile(typeof(WorkspacerConfigLoaderHandle).Assembly.Location));
-                references.Add(MetadataReference.CreateFromFile(typeof(WorkspacerSharedHandle).Assembly.Location));
-
-                references.AddRange(referenceTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
-
-                var tree = CSharpSyntaxTree.ParseText(config);
-                var compilation = CSharpCompilation.Create(name)
-                    .AddSyntaxTrees(tree).AddReferences(references).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-                EmitResult emitResult;
-                using (var stream = new FileStream(GetConfigDllPath(), FileMode.Create))
-                {
-                    emitResult = compilation.Emit(stream);
-                }
-                if (!emitResult.Success)
-                {
-                    File.Delete(GetConfigDllPath());
-                    throw new Exception(string.Join("\n", emitResult.Diagnostics.Select(d => d.ToString())));
-                }
+                emitResult = compilation.Emit(stream);
+                result = stream.ToArray();
             }
-            assembly = Assembly.LoadFile(GetConfigDllPath());
-
+            if (!emitResult.Success)
+            {
+                throw new Exception(string.Join("\n", emitResult.Diagnostics.Select(d => d.ToString())));
+            }
+            var assembly = Assembly.Load(result);
             return assembly.GetTypes().First(t => t.Name == "Config");
-        }
-
-        private static bool ConfigIsCompiled()
-        {
-            var path = GetConfigPath();
-            var dllPath = GetConfigDllPath();
-            if (!File.Exists(dllPath))
-                return false;
-
-            var text = File.GetLastWriteTime(path);
-            var dll = File.GetLastWriteTime(dllPath);
-
-            if (!File.Exists(path))
-                return false;
-
-            return dll >= text;
         }
 
         public static string GetConfigPath()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Workspacer.config");
-        }
-
-        private static string GetConfigDllPath()
-        {
-            return Path.Combine(Environment.CurrentDirectory, "Workspacer.Config.dll");
         }
     }
 }

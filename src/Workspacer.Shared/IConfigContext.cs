@@ -9,9 +9,9 @@ namespace Workspacer
     public interface IConfigContext
     {
         IKeybindManager Keybinds { get; }
-        ILayoutManager Layouts { get; }
-        IWorkspaceManager Workspaces { get; }
         IPluginManager Plugins { get; }
+        IWorkspaceManager Workspaces { get; }
+        ISystemTrayManager SystemTray { get; }
 
         bool Enabled { get; set; }
         void Quit();

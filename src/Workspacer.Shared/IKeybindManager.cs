@@ -10,6 +10,9 @@ namespace Workspacer
     {
         void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler);
         void Subscribe(MouseEvent evt, MouseHandler handler);
+        void Unsubscribe(MouseEvent evt);
+
         bool KeyIsPressed(Keys key);
+        void SubscribeDefaults(IConfigContext context, KeyModifiers mod);
     }
 }

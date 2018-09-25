@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Workspacer
 {
-    public interface ILayoutManager
+    public interface ISystemTrayManager
     {
-        void AddLayout(Func<ILayoutEngine> func);
-        ILayoutEngine[] CreateLayouts();
+        void AddToContextMenu(string text, Action handler);
     }
 }
