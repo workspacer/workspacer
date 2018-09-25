@@ -83,7 +83,7 @@ namespace Workspacer.ConfigLoader
 
         public static string GetConfigPath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Workspacer.config");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Workspacer.config.cs");
         }
     }
 }

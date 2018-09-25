@@ -49,7 +49,7 @@ namespace Workspacer
             SystemTrayManager.Instance.AddToContextMenu("Restart Workspacer", () => _context.Restart());
             if (CanCreateExampleConfig())
             {
-                SystemTrayManager.Instance.AddToContextMenu("Create example Workspacer.config", CreateExampleConfig);
+                SystemTrayManager.Instance.AddToContextMenu("Create example Workspacer.config.cs", CreateExampleConfig);
             }
 
             var config = GetConfig();
@@ -125,11 +125,11 @@ namespace Workspacer
         {
             if (File.Exists(ConfigHelper.GetConfigPath()))
             {
-                DisplayMessage("Workspacer.config already exists, so one cannot be created.");
+                DisplayMessage("Workspacer.config.cs already exists, so one cannot be created.");
             } else
             {
                 File.WriteAllText(ConfigHelper.GetConfigPath(), ConfigHelper.GetConfigTemplate());
-                DisplayMessage($"Workspacer.config created at: [${ConfigHelper.GetConfigPath()}]");
+                DisplayMessage($"Workspacer.config.cs created at: [${ConfigHelper.GetConfigPath()}]");
             }
         }
 
