@@ -60,10 +60,10 @@ namespace Workspacer
             return list;
         }
 
-        public void DecrementNumInMaster() { }
-        public void ExpandMasterArea() { }
-        public void IncrementNumInMaster() { }
-        public void ResetMasterArea() { }
-        public void ShrinkMasterArea() { } 
+        public void DecrementNumInPrimary() { }
+        public void ExpandPrimaryArea() { }
+        public void IncrementNumInPrimary() { }
+        public void ResetPrimaryArea() { }
+        public void ShrinkPrimaryArea() { } 
     }
 }

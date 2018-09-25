@@ -28,10 +28,10 @@ namespace Workspacer
                 .Select(l => new WindowLocation(l.X, l.Y + _offset, l.Width, l.Height, l.State));
         }
 
-        public void ShrinkMasterArea() { _inner.ShrinkMasterArea(); }
-        public void ExpandMasterArea() { _inner.ExpandMasterArea(); }
-        public void ResetMasterArea() { _inner.ResetMasterArea(); }
-        public void IncrementNumInMaster() { _inner.IncrementNumInMaster(); }
-        public void DecrementNumInMaster() { _inner.DecrementNumInMaster(); }
+        public void ShrinkPrimaryArea() { _inner.ShrinkPrimaryArea(); }
+        public void ExpandPrimaryArea() { _inner.ExpandPrimaryArea(); }
+        public void ResetPrimaryArea() { _inner.ResetPrimaryArea(); }
+        public void IncrementNumInPrimary() { _inner.IncrementNumInPrimary(); }
+        public void DecrementNumInPrimary() { _inner.DecrementNumInPrimary(); }
     }
 }

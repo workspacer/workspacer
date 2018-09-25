@@ -33,14 +33,14 @@ Workspacer tries to mimic xmonad's keybindings wherever possible. The default ke
 | alt-n | reset layout |
 | alt-j | focus next window |
 | alt-k | focus previous window |
-| alt-m | focus master window |
-| alt-enter | swap focus and master window |
+| alt-m | focus primary window |
+| alt-enter | swap focus and primary window |
 | alt-shift-j | swap focus and next window |
 | alt-shift-k | swap focus and previous window |
-| alt-h | shrink master area |
-| alt-l | expand master area |
-| alt-comma | increment number of master windows |
-| alt-period | decrement number of master windows |
+| alt-h | shrink primary area |
+| alt-l | expand primary area |
+| alt-comma | increment number of primary windows |
+| alt-period | decrement number of primary windows |
 | alt-shift-q | quit workspacer |
 | alt-q | restart workspacer |
 | alt-{1..9} | - switch to workspace {1..9} |

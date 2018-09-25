@@ -32,11 +32,11 @@ namespace Workspacer
 
         public string Name => "full";
 
-        public void ShrinkMasterArea() { }
-        public void ExpandMasterArea() { }
-        public void ResetMasterArea() { }
-        public void IncrementNumInMaster() { }
-        public void DecrementNumInMaster() { }
+        public void ShrinkPrimaryArea() { }
+        public void ExpandPrimaryArea() { }
+        public void ResetPrimaryArea() { }
+        public void IncrementNumInPrimary() { }
+        public void DecrementNumInPrimary() { }
 
         private WindowState GetDesiredState(IWindow window, bool noFocus = false)
         {
