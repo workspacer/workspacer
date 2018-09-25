@@ -6314,7 +6314,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.1"
+        "ProductVersion" = "8:0.2"
         "Manufacturer" = "8:Rick Button"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
