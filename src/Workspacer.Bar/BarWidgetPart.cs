@@ -11,5 +11,6 @@ namespace Workspacer.Bar
         public string Text { get; set; }
         public Color ForegroundColor { get; set; }
         public Color BackgroundColor { get; set; }
+        public Action PartClicked { get; set; }
     }
 }

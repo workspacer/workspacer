@@ -28,14 +28,23 @@ namespace Workspacer.Bar.Widgets
 
                 if (workspace.Monitor == Context.Monitor)
                 {
-                    parts.Add(Part(GetDisplayName(workspace, index, true), WorkspaceHasFocusColor));
+                    parts.Add(CreatePart(workspace, index, true, WorkspaceHasFocusColor));
                 } else
                 {
-                    parts.Add(Part(GetDisplayName(workspace, index, false), hasWindows ? null : WorkspaceEmptyColor));
+                    parts.Add(CreatePart(workspace, index, false, hasWindows ? null : WorkspaceEmptyColor));
                 }
                 index++;
             }
             return parts.ToArray();
+        }
+
+        private IBarWidgetPart CreatePart(IWorkspace workspace, int index, bool visible, Color color)
+        {
+            return Part(GetDisplayName(workspace, index, visible), color, null, () =>
+            {
+                var monitorIndex = Context.Workspaces.Monitors.ToList().IndexOf(Context.Monitor);
+                Context.Workspaces.SwitchMonitorToWorkspace(monitorIndex, index);
+            });
         }
 
         private void UpdateWorkspaces()

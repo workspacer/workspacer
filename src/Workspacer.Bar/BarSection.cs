@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -20,6 +21,8 @@ namespace Workspacer.Bar
         private bool _dirty;
         private IBarWidgetContext _context;
 
+        private IDictionary<Label, Action> _clickedHandlers;
+
         public BarSection(bool reverse, FlowLayoutPanel panel, IBarWidget[] widgets, IMonitor monitor, IWorkspaceManager workspaceManager, 
             Color defaultFore, Color defaultBack, int fontSize)
         {
@@ -32,6 +35,9 @@ namespace Workspacer.Bar
             _reverse = reverse;
             _defaultFore = defaultFore;
             _defaultBack = defaultBack;
+
+
+            _clickedHandlers = new Dictionary<Label, Action>();
 
             _context = new BarWidgetContext(this, _monitor, _workspaceManager);
             InitializeWidgets(widgets, _context);
@@ -97,6 +103,14 @@ namespace Workspacer.Bar
             {
                 label.BackColor = ColorToColor(_defaultBack);
             }
+
+            if (part.PartClicked != null)
+            {
+                _clickedHandlers[label] = part.PartClicked;
+            } else
+            {
+                _clickedHandlers.Remove(label);
+            }
         }
 
         public void MarkDirty()
@@ -123,6 +137,15 @@ namespace Workspacer.Bar
             label.Font = CreateFont(_fontSize);
             label.Margin = new Padding(0);
             label.Padding = new Padding(0);
+
+            label.Click += (s, e) =>
+            {
+                if (_clickedHandlers.ContainsKey(label))
+                {
+                    _clickedHandlers[label]();
+                }
+            };
+
             return label;
         }
 
