@@ -104,6 +104,60 @@ namespace Workspacer
             }
         }
 
+        public void SwitchToNextWorkspace()
+        {
+            var index = _workspaces.IndexOf(FocusedWorkspace);
+            var newIndex = index >= _workspaces.Count - 1 ? 0 : index + 1;
+
+            var oldWorkspace = FocusedWorkspace;
+            var newWorkspace = _workspaces[newIndex];
+            var srcMonitor = newWorkspace.Monitor;
+            var destMonitor = FocusedMonitor;
+
+            if (oldWorkspace != newWorkspace)
+            {
+                AssignWorkspaceMonitor(destMonitor, newWorkspace);
+                AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
+                WorkspaceUpdated?.Invoke();
+
+                oldWorkspace.DoLayout();
+                newWorkspace.DoLayout();
+
+                var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
+                if (window != null)
+                {
+                    window.Focus();
+                }
+            }
+        }
+
+        public void SwitchToPreviousWorkspace()
+        {
+            var index = _workspaces.IndexOf(FocusedWorkspace);
+            var newIndex = index == 0 ? _workspaces.Count - 1 : index - 1;
+
+            var oldWorkspace = FocusedWorkspace;
+            var newWorkspace = _workspaces[newIndex];
+            var srcMonitor = newWorkspace.Monitor;
+            var destMonitor = FocusedMonitor;
+
+            if (oldWorkspace != newWorkspace)
+            {
+                AssignWorkspaceMonitor(destMonitor, newWorkspace);
+                AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
+                WorkspaceUpdated?.Invoke();
+
+                oldWorkspace.DoLayout();
+                newWorkspace.DoLayout();
+
+                var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
+                if (window != null)
+                {
+                    window.Focus();
+                }
+            }
+        }
+
         public void SwitchFocusedMonitor(int index)
         {
             if (index < _monitors.Count && index >= 0)

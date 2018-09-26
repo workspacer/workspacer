@@ -24,6 +24,8 @@ namespace Workspacer
         IMonitor FocusedMonitor { get; }
         void SwitchToWorkspace(int index);
         void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex);
+        void SwitchToNextWorkspace();
+        void SwitchToPreviousWorkspace();
         void SwitchFocusedMonitor(int index);
         void SwitchFocusedMonitorToMouseLocation();
         void MoveFocusedWindowToWorkspace(int index);

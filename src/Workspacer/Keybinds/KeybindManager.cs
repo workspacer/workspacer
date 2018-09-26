@@ -234,6 +234,12 @@ namespace Workspacer
             Subscribe(mod, Keys.D9,
                 () => context.Workspaces.SwitchToWorkspace(8));
 
+            Subscribe(mod, Keys.Left,
+                () => context.Workspaces.SwitchToPreviousWorkspace());
+
+            Subscribe(mod, Keys.Right,
+                () => context.Workspaces.SwitchToNextWorkspace());
+
             Subscribe(mod, Keys.W,
                 () => context.Workspaces.SwitchFocusedMonitor(0));
 

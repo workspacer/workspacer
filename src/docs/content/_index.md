@@ -43,7 +43,9 @@ Workspacer tries to mimic xmonad's keybindings wherever possible. The default ke
 | alt-period | decrement number of primary windows |
 | alt-shift-q | quit workspacer |
 | alt-q | restart workspacer |
-| alt-{1..9} | - switch to workspace {1..9} |
+| alt-left | switch to left workspace |
+| alt-right | switch to right workspace |
+| alt-{1..9} | switch to workspace {1..9} |
 | alt-{wer} | focus monitor {123} |
 | alt-shift-{wer} | move focused window to monitor {123} |
 | alt-shift-{1..9} | move focused window to workspace {1..9} |
