@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="Workspacer" Language="1033" Version="0.4" Manufacturer="Rick Button" UpgradeCode="a44f393c-d625-4906-8407-462699f59014">
+	<Product Id="*" Name="Workspacer" Language="1033" Version="0.5" Manufacturer="Rick Button" UpgradeCode="a44f393c-d625-4906-8407-462699f59014">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />

@@ -44,4 +44,4 @@ heat dir $barBuildDir -o $setupDir\Workspacer.Bar.wxs -t $setupDir\Workspacer.Ba
 candle $setupDir\Product.wxs -ext WixUIExtension -o $outDir\Product.wixobj 
 candle $setupDir\Workspacer.wxs -ext WixUIExtension -o $outDir\Workspacer.wixobj -dSourceDir="$buildDir"
 candle $setupDir\Workspacer.Bar.wxs -ext WixUIExtension -o $outDir\Workspacer.Bar.wixobj -dSourceDir="$barBuildDir"
-light -out $outDir\Workspacer.msi $outDir\Product.wixobj $outDir\Workspacer.wixobj $outDir\Workspacer.Bar.wixobj -ext WixUIExtension
+light -out $outDir\Workspacer-$version.msi $outDir\Product.wixobj $outDir\Workspacer.wixobj $outDir\Workspacer.Bar.wixobj -ext WixUIExtension
