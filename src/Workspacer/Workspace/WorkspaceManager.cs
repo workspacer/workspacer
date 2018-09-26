@@ -451,7 +451,8 @@ namespace Workspacer
                 }
                 else
                 {
-                    AddWindowToWorkspace(w, FocusedWorkspace);
+                    var destWorkspace = WorkspaceSelectorFunc?.Invoke(w) ?? FocusedWorkspace;
+                    AddWindowToWorkspace(w, destWorkspace);
                 }
 
                 if (state.FocusedWindow == handle)
@@ -480,12 +481,17 @@ namespace Workspacer
                 if (!shouldTrack)
                     continue;
 
-                var location = w.Location;
-                var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
-                var monitor = _monitors.First(m => m.Name == screen.DeviceName);
-                var workspace = monitor.Workspace;
+                var destWorkspace = WorkspaceSelectorFunc?.Invoke(w);
 
-                AddWindowToWorkspace(w, workspace);
+                if (destWorkspace == null)
+                {
+                    var location = w.Location;
+                    var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
+                    var monitor = _monitors.First(m => m.Name == screen.DeviceName);
+                    destWorkspace = monitor.Workspace;
+                }
+
+                AddWindowToWorkspace(w, destWorkspace);
 
                 AddWindow(w, false);
             }
