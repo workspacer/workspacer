@@ -2,46 +2,46 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="INSTALLDIR">
-            <Component Id="cmp8EBDFD22B0B792322659F9103094942C" Guid="{A39A55E8-747C-4B14-9907-2006A05EA4EC}">
+            <Component Id="cmp8EBDFD22B0B792322659F9103094942C" Guid="{25C4E4FF-C0C9-4D7E-AD84-CC0FA86BFD03}">
                 <File Id="filB6BFC957FDC0117C979F214C0CC0A4A8" KeyPath="yes" Source="$(var.SourceDir)\AutoUpdater.NET.dll" />
             </Component>
-            <Component Id="cmp4F07074C4BF7BF4016DD5A470E2B9637" Guid="{959E436D-F4C1-4F7C-A598-57812763CB77}">
+            <Component Id="cmp4F07074C4BF7BF4016DD5A470E2B9637" Guid="{E579A0F8-2D33-481A-B3A8-B2E63CE40F5C}">
                 <File Id="fil48A502818AF34CF3F90310C0DDE65DF8" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.CodeAnalysis.CSharp.dll" />
             </Component>
-            <Component Id="cmpDA296E172B5770F0FA3EEE7889D77464" Guid="{182107E8-DD95-4556-8F2F-854EE19214D8}">
+            <Component Id="cmpDA296E172B5770F0FA3EEE7889D77464" Guid="{D6D6747E-33D2-4BBA-842B-87CB3A356A9A}">
                 <File Id="filA694FFFBA0D6ABE28FDF8C85A0AEA552" KeyPath="yes" Source="$(var.SourceDir)\Microsoft.CodeAnalysis.dll" />
             </Component>
-            <Component Id="cmp1874AB219070404EED322213C6A1A49E" Guid="{1FE21D2E-8724-408D-B1EC-1B77863C652A}">
+            <Component Id="cmp1874AB219070404EED322213C6A1A49E" Guid="{A8F80FF9-2034-42C4-B215-30001BB2EECB}">
                 <File Id="fil05FF769999D602AD4FA6A489C44ED290" KeyPath="yes" Source="$(var.SourceDir)\Newtonsoft.Json.dll" />
             </Component>
-            <Component Id="cmp33FDA478CB86F083519801379B2D2D8B" Guid="{76FDAAFC-4E34-4F93-ABC4-C588A91CA108}">
+            <Component Id="cmp33FDA478CB86F083519801379B2D2D8B" Guid="{005648B9-3A82-46D1-82B3-3635A7C2EEFD}">
                 <File Id="fil5D4575804C3CE3ACC76FF53290806177" KeyPath="yes" Source="$(var.SourceDir)\System.Collections.Immutable.dll" />
             </Component>
-            <Component Id="cmpC4D6E68A472E9CC1FAF71994B5B4DE32" Guid="{40E3D3BF-A406-404B-9FDE-1D03C61EBB8B}">
+            <Component Id="cmpC4D6E68A472E9CC1FAF71994B5B4DE32" Guid="{D37AC81F-F440-4E57-9DE0-C0BB1E034CDB}">
                 <File Id="fil741DE04C3124C1446D2FFF811D83E100" KeyPath="yes" Source="$(var.SourceDir)\System.Reflection.Metadata.dll" />
             </Component>
-            <Component Id="cmp02CB84C817118FDC13CA3B122EC0950A" Guid="{B2A56E0D-D7E4-4ECD-92A5-BB1C5BB25E50}">
+            <Component Id="cmp02CB84C817118FDC13CA3B122EC0950A" Guid="{4F56BA12-8B9D-45DF-9EA7-69D1091D48F3}">
                 <File Id="fil1B9D0066C718C200D72A19AA47F72B65" KeyPath="yes" Source="$(var.SourceDir)\System.Reflection.TypeExtensions.dll" />
             </Component>
-            <Component Id="cmpD5EF7B2A59F953E92E81EF7D6E6DBA82" Guid="{A6775AE0-1695-432C-87CE-AFD4A72DD75C}">
+            <Component Id="cmpD5EF7B2A59F953E92E81EF7D6E6DBA82" Guid="{4E5CE68D-BD84-4EBE-BBE5-11FF2A4A9696}">
                 <File Id="filC1BF4E80AF32E75E9827A0C9117D6A6B" KeyPath="yes" Source="$(var.SourceDir)\System.Text.Encoding.CodePages.dll" />
             </Component>
-            <Component Id="cmp9DA87BA429922A2AB9A872E6B393B838" Guid="{AA4B4BE1-8A3A-4562-AFFB-981E4E95E213}">
+            <Component Id="cmp9DA87BA429922A2AB9A872E6B393B838" Guid="{EE6F03A3-77AB-4BCA-B7CC-556B8AD17E35}">
                 <File Id="fil6A8BC02D0E287837DC8027D6A31B1B88" KeyPath="yes" Source="$(var.SourceDir)\System.Threading.Tasks.Extensions.dll" />
             </Component>
-            <Component Id="cmp03CF69A194B4A2739C318456AC27FD44" Guid="{15D3D2E6-015A-41B5-9CC9-BE82507F128D}">
+            <Component Id="cmp03CF69A194B4A2739C318456AC27FD44" Guid="{B29860FB-2747-4568-80F5-34285CFACAE2}">
                 <File Id="fil8A10FE4992D85145DB056A84216542FA" KeyPath="yes" Source="$(var.SourceDir)\WindowsInput.dll" />
             </Component>
-            <Component Id="cmpFACC651D9390CD9EB3CBFCB929D2FA3F" Guid="{8A4D8B5E-1A9D-4FAC-9789-95CD651009FF}">
+            <Component Id="cmpFACC651D9390CD9EB3CBFCB929D2FA3F" Guid="{FA54F599-F398-46B1-BDFD-01792CC18171}">
                 <File Id="fil3682EC5C4EC78B4247797BF8B25CDD9E" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.Config.dll" />
             </Component>
-            <Component Id="cmpC3B0733FE130C739802C811EF25DC47C" Guid="{6C850D02-78F5-4672-BF57-08EC194959A0}">
+            <Component Id="cmpC3B0733FE130C739802C811EF25DC47C" Guid="{06908E38-B04C-48E3-9FE3-A180038F7708}">
                 <File Id="fil77DCB74AC8ADA6B057D7BDA1308E2595" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.ConfigLoader.dll" />
             </Component>
-            <Component Id="cmp5C5EF2DBBD37D363B94ADE60FC1D72B1" Guid="{639353A4-C0C9-4BE2-8431-DF41EBAF7BCE}">
+            <Component Id="cmp5C5EF2DBBD37D363B94ADE60FC1D72B1" Guid="{8A64CA02-1F32-4EA1-ADC9-50D0DEFD3091}">
                 <File Id="filDCF902D2E25F12A63B50C6CD9808064E" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.ConfigLoader.dll.config" />
             </Component>
-            <Component Id="cmp06F932762EF2BEC40DDA54B8B8143171" Guid="{93814639-1CCA-4956-B07A-2A8F466CE717}">
+            <Component Id="cmp06F932762EF2BEC40DDA54B8B8143171" Guid="{672ABA39-4E91-4F8A-A487-FFA0363E5F1C}">
                 <File Id="fil08D8F6772AA608B0DC1B08061978D1A5" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.exe" />
                 <!-- added shortcut under Component with File that has Source with Workspacer.exe -->
                 <Shortcut Id="WorkspacerExeShortcut" Name="Workspacer" Directory="ApplicationProgramsFolder" Advertise="yes" WorkingDirectory="INSTALLDIR">
@@ -49,132 +49,132 @@
                 </Shortcut>
                 <RemoveFolder Id="WorkspacerExeShortcut_ProgramMenuFolder_ApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
             </Component>
-            <Component Id="cmp5C021801B830EE30A43E857BB6573549" Guid="{E3228E9C-B635-4940-B893-F0C2D32D79E5}">
+            <Component Id="cmp5C021801B830EE30A43E857BB6573549" Guid="{CA9AE555-B159-4A9D-90C8-9E223763E1E1}">
                 <File Id="fil5D6843B2E3FFA901B3A7F430381AB5A9" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.exe.config" />
             </Component>
-            <Component Id="cmp5EA76CFC630C17BDC5301FD8696E502B" Guid="{DA4A39FC-0B65-4F58-8938-0F9774FAF9A2}">
+            <Component Id="cmp5EA76CFC630C17BDC5301FD8696E502B" Guid="{1209828B-D620-4666-8AFB-A3687D7D9180}">
                 <File Id="fil483E2D817306EDE0276B828442228D3D" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.Native.dll" />
             </Component>
-            <Component Id="cmp3B4ECEAD69951EC228EF37E1066B18B9" Guid="{51344811-6AC0-4A7A-80E5-8EAB8478B4F6}">
+            <Component Id="cmp3B4ECEAD69951EC228EF37E1066B18B9" Guid="{F6EF9EC4-0DF3-48E8-A81A-1CAABCB018AF}">
                 <File Id="fil09C3338B2EBE89B793EE1D82EE141AE4" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.Shared.dll" />
             </Component>
-            <Component Id="cmp9ACDF19FC4DC7CE3908A4A17D410FA35" Guid="{B2510A75-B4A0-4B1D-871F-ABECEF12028D}">
+            <Component Id="cmp9ACDF19FC4DC7CE3908A4A17D410FA35" Guid="{4278B727-581A-4DE3-AAC8-9AF3CDD17A4B}">
                 <File Id="filAC89C12D248BDAA1EF9061EA08EA2570" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.Watcher.exe" />
             </Component>
-            <Component Id="cmp945D24CD4FF1F09B24972CA2D34F74B6" Guid="{95D80B4C-722E-4E13-B785-12E591884937}">
+            <Component Id="cmp945D24CD4FF1F09B24972CA2D34F74B6" Guid="{230144F0-3AB1-4657-A726-ECB3B8DC5741}">
                 <File Id="filD7A304616C874C8ACB1BED6E0B0073AD" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.Watcher.exe.config" />
             </Component>
             <Directory Id="dirBE132B8BAD188FE48DEA668A8A1A277A" Name="cs">
-                <Component Id="cmpEA4BD9BE7BCA09DB3C0E7E31125BDA11" Guid="{B3CB3E12-B32E-49DB-AC3B-09DAD0C963C9}">
+                <Component Id="cmpEA4BD9BE7BCA09DB3C0E7E31125BDA11" Guid="{D09AFCFC-79D8-4D19-92B4-12D78D80CDE5}">
                     <File Id="fil65B05C4ED58BD5BAC172B5A163D70A83" KeyPath="yes" Source="$(var.SourceDir)\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp1A761DF5349446F72F35B7FEDBF3120F" Guid="{0E95E18A-879C-4C20-8B27-07FABDD87E07}">
+                <Component Id="cmp1A761DF5349446F72F35B7FEDBF3120F" Guid="{4E165550-168A-4385-A993-68AE16B69B32}">
                     <File Id="fil3562B8289793F485FCC3AF02578C09BA" KeyPath="yes" Source="$(var.SourceDir)\cs\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dirF7A62AAB979B938D6BCEC1392A589DA5" Name="de">
-                <Component Id="cmpBEEDCA047A471366A76BB801865BBF2F" Guid="{720DB35E-B0C6-434B-ABA3-ACE2F0DCFC01}">
+                <Component Id="cmpBEEDCA047A471366A76BB801865BBF2F" Guid="{6F8F0C02-198E-4F08-AF25-FA85A4E8EB0D}">
                     <File Id="filEAA0ED3DD43CA4A6C5339C91B28893C2" KeyPath="yes" Source="$(var.SourceDir)\de\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp1C6676866F01AA2556DAC1B771EF1539" Guid="{EB4A1EC1-2194-4904-9DE8-1C9604DDD8BE}">
+                <Component Id="cmp1C6676866F01AA2556DAC1B771EF1539" Guid="{8C3C8965-3035-4AD2-A55F-F7C993F951F3}">
                     <File Id="fil41A20BAC1BDC430F046AE1A72B607C0F" KeyPath="yes" Source="$(var.SourceDir)\de\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dir577231E2EF642DDF4B09B65F4BEE3BE2" Name="es">
-                <Component Id="cmpF92D089E4A4AB6136800FE488C3A010B" Guid="{D0E6A33E-80E7-4CD0-86C1-241FDEA39944}">
+                <Component Id="cmpF92D089E4A4AB6136800FE488C3A010B" Guid="{D38802F8-889B-46CD-9B6B-7F3FD9A7B8C8}">
                     <File Id="filE9BC9718A392FED24F9A6B492FFDDB7C" KeyPath="yes" Source="$(var.SourceDir)\es\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp990B94488BD9B35D447CB2BE66E1B672" Guid="{603EACA3-A2AF-4647-8E83-82A92726EACC}">
+                <Component Id="cmp990B94488BD9B35D447CB2BE66E1B672" Guid="{D060DC06-054D-4BDA-B056-3F35E00827D2}">
                     <File Id="filA177E076B4A6A18B081D730DF114F223" KeyPath="yes" Source="$(var.SourceDir)\es\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dir0B7D401DE3233449E75F31A823BF5B99" Name="fr">
-                <Component Id="cmpFA8C8F08B041B87E0F2EFD0EE7C4C241" Guid="{03607DC9-8660-4674-9C41-A11819168DE4}">
+                <Component Id="cmpFA8C8F08B041B87E0F2EFD0EE7C4C241" Guid="{0C84D2E3-3089-4D72-A31C-524F61452278}">
                     <File Id="fil7FE724305613C803D98828159331E28E" KeyPath="yes" Source="$(var.SourceDir)\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp18FB531E380E2A5A569EF18152DA1AC0" Guid="{70F03B5A-D18D-47FC-9037-11E9587FBD59}">
+                <Component Id="cmp18FB531E380E2A5A569EF18152DA1AC0" Guid="{BA844D4E-FBC3-4B04-9A0D-F67E5C29CD34}">
                     <File Id="fil492DC5B33172FCA2C27811AB714D4B38" KeyPath="yes" Source="$(var.SourceDir)\fr\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dirB5B71807E9474A6ED7A421DAF6D9317F" Name="it">
-                <Component Id="cmp0CEB672BFEC524145DF042ACB4BBA457" Guid="{8CCFD054-D7A8-4FBE-A73F-78DECA53F43D}">
+                <Component Id="cmp0CEB672BFEC524145DF042ACB4BBA457" Guid="{11ED455B-5BFC-42B9-BAB0-28CF8CEBB286}">
                     <File Id="fil6E56E2B3E2E94898DE88827DA6F96307" KeyPath="yes" Source="$(var.SourceDir)\it\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmpE36B8567E7CFFA5ECAFC23DD795BD6FD" Guid="{F1A31D26-8D0F-4DBC-A876-BCDD9046DA5D}">
+                <Component Id="cmpE36B8567E7CFFA5ECAFC23DD795BD6FD" Guid="{7CC65FCC-1A85-4335-9978-69696A6A3D60}">
                     <File Id="filFDDF905850500D7220E73EC9EF020D7C" KeyPath="yes" Source="$(var.SourceDir)\it\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dir5315138C69BA7E69268AF83BB8AE9018" Name="ja">
-                <Component Id="cmp75050144596E1865F5F0EEA3C76CB60B" Guid="{35E26650-9CB8-4E0D-85D3-7BB5170A54F2}">
+                <Component Id="cmp75050144596E1865F5F0EEA3C76CB60B" Guid="{4C61ECAC-4233-4D31-BAFF-42A1F73E6566}">
                     <File Id="filBBBE052F4026E7EB5BBC6C88E41E43A9" KeyPath="yes" Source="$(var.SourceDir)\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp55D7B5BCB42B707583C1DB614AF516D7" Guid="{279D4344-8425-46C3-BA57-18CA38D449C1}">
+                <Component Id="cmp55D7B5BCB42B707583C1DB614AF516D7" Guid="{1F2F8DEB-5BB8-4C3B-91ED-0B7CA927CF76}">
                     <File Id="fil6911913142D63D4DD8C456F929EA41D6" KeyPath="yes" Source="$(var.SourceDir)\ja\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dir6C3FEF1D6BC03982CA1FBA00284BF75D" Name="ko">
-                <Component Id="cmp4DAEDA3280093E29997D0BCD2FFC72FF" Guid="{29E5FC48-A2D2-4367-9E5A-20D86A150B05}">
+                <Component Id="cmp4DAEDA3280093E29997D0BCD2FFC72FF" Guid="{3CABB86F-D9B8-4FA5-8207-C896CC4097AE}">
                     <File Id="fil25600BCB0EA76BE322394102D0256C53" KeyPath="yes" Source="$(var.SourceDir)\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp99E1376FAA44BF35FEA90FDCB893DD7F" Guid="{DC9C03CF-8C65-4C5C-BB5B-310FB181B98D}">
+                <Component Id="cmp99E1376FAA44BF35FEA90FDCB893DD7F" Guid="{CFE5A413-A582-4264-9965-E132B5CF6A2C}">
                     <File Id="filA945C1386DF3DDA7E94BB24EA709F062" KeyPath="yes" Source="$(var.SourceDir)\ko\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dir42A5D57151A6A3E9D965C69C82893176" Name="pl">
-                <Component Id="cmp20DFAFD97DE1AB52199D05E23B83F1FC" Guid="{AE5ED729-A999-415D-8DD7-BAFA71D24FC0}">
+                <Component Id="cmp20DFAFD97DE1AB52199D05E23B83F1FC" Guid="{B20F9503-9465-4D3B-8846-E351F642B37D}">
                     <File Id="fil75BB6E4B788DFFF826915546A4E9D72C" KeyPath="yes" Source="$(var.SourceDir)\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmpE4583C6533010E05D38470264CD2AB61" Guid="{4B6DDCEA-F24A-43FC-B178-827F6B351B94}">
+                <Component Id="cmpE4583C6533010E05D38470264CD2AB61" Guid="{04FC45B5-1BD3-4E48-B4B5-27A655793515}">
                     <File Id="fil6BFFB11E7A6031948F706509B842646D" KeyPath="yes" Source="$(var.SourceDir)\pl\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dir280A744A3793B4E73B0B13172DB8683E" Name="plugins">
                 <Directory Id="dirABE840546C60F398251433139682FFA4" Name="Workspacer.Bar">
-                    <Component Id="cmp00646BAB2264B28F1D47103E48BC52FE" Guid="{BB280ECA-58DC-4F57-B916-3ABA19D0065C}">
+                    <Component Id="cmp00646BAB2264B28F1D47103E48BC52FE" Guid="{85333BD8-301B-4AD6-AE63-6161ED5F980E}">
                         <File Id="filAB310D75EDDC4FE75D7E9E42C4B4206F" KeyPath="yes" Source="$(var.SourceDir)\plugins\Workspacer.Bar\Workspacer.Bar.dll" />
                     </Component>
-                    <Component Id="cmp4D08E035BA79D991BC3392EBB4E9327B" Guid="{389E71E2-8C12-4A19-B6E8-95DD4E4B8B49}">
+                    <Component Id="cmp4D08E035BA79D991BC3392EBB4E9327B" Guid="{339DC275-0DFC-4266-A7AA-C7883E923A29}">
                         <File Id="fil4E58D1C67D59CF2B26C5D05574AE6816" KeyPath="yes" Source="$(var.SourceDir)\plugins\Workspacer.Bar\Workspacer.Shared.dll" />
                     </Component>
                 </Directory>
             </Directory>
             <Directory Id="dir3CF6B6BC48181D29C167EF5DB7F05816" Name="pt-BR">
-                <Component Id="cmp294B5EB50BF9CFA7D5D18EA57245EF0F" Guid="{EB1E0DFB-8E77-48A5-BA5F-3C379502B299}">
+                <Component Id="cmp294B5EB50BF9CFA7D5D18EA57245EF0F" Guid="{53046CC6-1556-4167-ABFB-F51702C76352}">
                     <File Id="fil96997F1684E11D4C214842B0670E18D2" KeyPath="yes" Source="$(var.SourceDir)\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp9B349D6A4624CD34E910DF6C2F50E8CC" Guid="{D643053D-442C-48BF-A80D-F4CC92E0B1EB}">
+                <Component Id="cmp9B349D6A4624CD34E910DF6C2F50E8CC" Guid="{8DEA286E-0030-4403-9781-D87B05257F73}">
                     <File Id="fil0564CEE4E5C65A9E3CDB8CDE7F1BC451" KeyPath="yes" Source="$(var.SourceDir)\pt-BR\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dirF7C0BEA86C276F53E8C9E8E6B2629A9B" Name="ru">
-                <Component Id="cmp91DB723D2D8A6EDCB1BFEBA96873208B" Guid="{6D79E013-A3DB-440F-8329-2B352B49CAEE}">
+                <Component Id="cmp91DB723D2D8A6EDCB1BFEBA96873208B" Guid="{FB8AF55B-99A3-4DAB-AC44-E88958B1FC0E}">
                     <File Id="fil8D62D8EC05A4BC6B77079E00EE4A318C" KeyPath="yes" Source="$(var.SourceDir)\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp6B9BDE3EAF74936D695A67D7F8F89D8E" Guid="{55F08C38-78AD-4253-9E2A-EA1093330D3D}">
+                <Component Id="cmp6B9BDE3EAF74936D695A67D7F8F89D8E" Guid="{E0B4242E-D0B7-461F-87E6-79DE90E26591}">
                     <File Id="fil46D66E54006F96077B3491BF70086810" KeyPath="yes" Source="$(var.SourceDir)\ru\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dirABDF097918DC4D178C28DD77E3766325" Name="tr">
-                <Component Id="cmpA414DD719A4D692BEDF26DA8ED7E45E7" Guid="{F0198A75-0E4B-4B59-BB10-21272A81F1DC}">
+                <Component Id="cmpA414DD719A4D692BEDF26DA8ED7E45E7" Guid="{3E8851E6-1ECA-44CE-9683-2AE4601BA50D}">
                     <File Id="filE3BE016450D67B5DEBE8B8B7D17F9B53" KeyPath="yes" Source="$(var.SourceDir)\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmpE7D072C8F4C1335BDCD845D4521661C8" Guid="{C5123F39-C029-4249-B9F0-0DE6CADAC1E8}">
+                <Component Id="cmpE7D072C8F4C1335BDCD845D4521661C8" Guid="{D483B291-919F-4779-B4AE-B165D75BE8E3}">
                     <File Id="fil3969E3A3132025132A7D16C6DD8E3709" KeyPath="yes" Source="$(var.SourceDir)\tr\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dirD5682402C737D6B46ADCA4F0C55141DF" Name="zh-Hans">
-                <Component Id="cmp363376071E960C25113D5206051E735C" Guid="{EE63D873-717C-46C3-9115-0654E0116494}">
+                <Component Id="cmp363376071E960C25113D5206051E735C" Guid="{4AA78E3F-4E7F-4658-83A2-ACDFCEE66DBE}">
                     <File Id="fil17FD9AB0B307FD0DC6A43425CCB1F884" KeyPath="yes" Source="$(var.SourceDir)\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp86106BAF0B837A6671BBC03F3FD4B3A0" Guid="{C1F16C83-3A85-489A-B907-E30E15888DA1}">
+                <Component Id="cmp86106BAF0B837A6671BBC03F3FD4B3A0" Guid="{45022D03-D48B-4B8C-9352-108837D100B6}">
                     <File Id="fil75B8E1C7BF4AC93075D9612ECE7FE99A" KeyPath="yes" Source="$(var.SourceDir)\zh-Hans\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
             <Directory Id="dir161743E4D186A5C18DD78D84F6714734" Name="zh-Hant">
-                <Component Id="cmp4DC6059C93B3DE9388F154E7364EA1B0" Guid="{F0CD6E04-22E3-483C-9231-F9D512ED4681}">
+                <Component Id="cmp4DC6059C93B3DE9388F154E7364EA1B0" Guid="{AB2EE492-C815-44F9-B55F-4DC4ACF46AD7}">
                     <File Id="filDF6C9E061F9924FB0B12790C22D61EF9" KeyPath="yes" Source="$(var.SourceDir)\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" />
                 </Component>
-                <Component Id="cmp7947051F5B198D128AE48419153A8BC3" Guid="{ACC24A8E-4726-4DEF-A2A2-6E88AA27EE41}">
+                <Component Id="cmp7947051F5B198D128AE48419153A8BC3" Guid="{9310E251-E682-4C50-BD89-15DFE52D9DBA}">
                     <File Id="fil40E727760D71C1D864F0AB950887FB2D" KeyPath="yes" Source="$(var.SourceDir)\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
                 </Component>
             </Directory>
