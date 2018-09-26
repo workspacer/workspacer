@@ -34,13 +34,14 @@ namespace Workspacer.Bar
             return parts;
         }
 
-        protected IBarWidgetPart Part(string text, Color fore = null, Color back = null)
+        protected IBarWidgetPart Part(string text, Color fore = null, Color back = null, Action partClicked = null)
         {
             return new BarWidgetPart()
             {
                 Text = text,
                 ForegroundColor = fore,
-                BackgroundColor = back
+                BackgroundColor = back,
+                PartClicked = partClicked,
             };
         }
     }

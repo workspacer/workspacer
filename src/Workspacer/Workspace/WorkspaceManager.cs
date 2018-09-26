@@ -77,6 +77,33 @@ namespace Workspacer
             }
         }
 
+        public void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex)
+        {
+            if (workspaceIndex < _workspaces.Count && workspaceIndex >= 0)
+            {
+                var oldWorkspace = FocusedWorkspace;
+                var newWorkspace = _workspaces[workspaceIndex];
+                var srcMonitor = newWorkspace.Monitor;
+                var destMonitor = _monitors[monitorIndex];
+
+                if (oldWorkspace != newWorkspace)
+                {
+                    AssignWorkspaceMonitor(destMonitor, newWorkspace);
+                    AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
+                    WorkspaceUpdated?.Invoke();
+
+                    oldWorkspace.DoLayout();
+                    newWorkspace.DoLayout();
+
+                    var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
+                    if (window != null)
+                    {
+                        window.Focus();
+                    }
+                }
+            }
+        }
+
         public void SwitchFocusedMonitor(int index)
         {
             if (index < _monitors.Count && index >= 0)
