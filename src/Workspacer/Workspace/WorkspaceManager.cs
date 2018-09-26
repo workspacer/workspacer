@@ -198,11 +198,21 @@ namespace Workspacer
 
                 if (window != null)
                 {
+                    var windows = FocusedWorkspace.Windows.Where(w => w.CanLayout);
+                    // get next window
+                    var nextWindow = windows.SkipWhile(x => x != window).Skip(1).FirstOrDefault();
+                    if (nextWindow == null)
+                    {
+                        // get previous window
+                        nextWindow = windows.TakeWhile(x => x != window).LastOrDefault();
+                    }
+
                     FocusedWorkspace.RemoveWindow(window);
                     targetWorkspace.AddWindow(window);
                     _windowsToWorkspaces[window] = targetWorkspace;
-                    window.Focus();
                     WindowMoved?.Invoke(window, FocusedWorkspace, targetWorkspace);
+
+                    nextWindow?.Focus();
                 }
             }
         }
@@ -217,10 +227,21 @@ namespace Workspacer
 
                 if (window != null)
                 {
+                    var windows = FocusedWorkspace.Windows.Where(w => w.CanLayout);
+                    // get next window
+                    var nextWindow = windows.SkipWhile(x => x != window).Skip(1).FirstOrDefault();
+                    if (nextWindow == null)
+                    {
+                        // get previous window
+                        nextWindow = windows.TakeWhile(x => x != window).LastOrDefault();
+                    }
+
                     FocusedWorkspace.RemoveWindow(window);
                     destWorkspace.AddWindow(window);
                     _windowsToWorkspaces[window] = destWorkspace;
-                    window.Focus();
+                    WindowMoved?.Invoke(window, FocusedWorkspace, destWorkspace);
+
+                    nextWindow?.Focus();
                 }
             }
         }
