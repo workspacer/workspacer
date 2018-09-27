@@ -17,8 +17,6 @@ namespace Workspacer
         public int X => _screen.WorkingArea.X;
         public int Y => _screen.WorkingArea.Y;
 
-        public IWorkspace Workspace { get; set; }
-
         private Screen _screen;
 
         public Monitor(int index, Screen screen)

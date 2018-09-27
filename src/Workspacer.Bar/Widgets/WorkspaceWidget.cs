@@ -20,13 +20,14 @@ namespace Workspacer.Bar.Widgets
         public override IBarWidgetPart[] GetParts()
         {
             var parts = new List<IBarWidgetPart>();
-            var workspaces = Context.Workspaces.Workspaces;
+            var workspaces = Context.Workspaces.Container.GetWorkspaces(Context.Monitor);
             int index = 0;
             foreach (var workspace in workspaces)
             {
                 var hasWindows = workspace.Windows.Any(w => w.CanLayout);
 
-                if (workspace.Monitor == Context.Monitor)
+                var monitor = Context.Workspaces.Container.GetMonitorForWorkspace(workspace);
+                if (monitor == Context.Monitor)
                 {
                     parts.Add(CreatePart(workspace, index, true, WorkspaceHasFocusColor));
                 } else

@@ -10,11 +10,11 @@ namespace Workspacer
 {
     public class StateManager
     {
-        public static StateManager Instance { get; } = new StateManager();
+        private WorkspaceManager _workspaces;
 
-        private StateManager()
+        public StateManager(WorkspaceManager workspaces)
         {
-            
+            _workspaces = workspaces;
         }
 
         public void SaveState()
@@ -46,7 +46,7 @@ namespace Workspacer
         {
             var state = new WorkspacerState()
             {
-                WorkspaceState = WorkspaceManager.Instance.GetState()
+                WorkspaceState = _workspaces.GetState()
             };
             return state;
         }

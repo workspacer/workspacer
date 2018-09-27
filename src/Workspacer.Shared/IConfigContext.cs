@@ -12,6 +12,7 @@ namespace Workspacer
         IPluginManager Plugins { get; }
         IWorkspaceManager Workspaces { get; }
         ISystemTrayManager SystemTray { get; }
+        IWindowsManager Windows { get; }
 
         bool Enabled { get; set; }
         void Quit();

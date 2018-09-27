@@ -11,11 +11,8 @@ namespace Workspacer
 {
     public delegate void WindowDelegate(IWindow window);
 
-    public class WindowsDesktopManager
+    public class WindowsManager : IWindowsManager
     {
-
-        public static WindowsDesktopManager Instance { get; } = new WindowsDesktopManager();
-
         private IDictionary<IntPtr, IWindow> _windows;
 
         private WinEventDelegate _hookDelegate;
@@ -26,7 +23,7 @@ namespace Workspacer
 
         public IEnumerable<IWindow> Windows => _windows.Values;
 
-        private WindowsDesktopManager()
+        public WindowsManager()
         {
             _windows = new Dictionary<IntPtr, IWindow>();
             _hookDelegate = new WinEventDelegate(WindowHook);
@@ -51,7 +48,7 @@ namespace Workspacer
             }, IntPtr.Zero);
         }
 
-        public WindowsDeferPosHandle DeferWindowsPos(int count)
+        public IWindowsDeferPosHandle DeferWindowsPos(int count)
         {
             var info = Win32.BeginDeferWindowPos(count);
             return new WindowsDeferPosHandle(info);

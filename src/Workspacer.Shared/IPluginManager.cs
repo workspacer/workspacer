@@ -10,5 +10,6 @@ namespace Workspacer
     {
         void RegisterPlugin<T>(T plugin) where T : IPlugin;
         IEnumerable<Type> AvailablePlugins { get; }
+        void AfterConfig(IConfigContext context);
     }
 }

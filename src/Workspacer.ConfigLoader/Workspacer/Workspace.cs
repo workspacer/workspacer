@@ -14,17 +14,19 @@ namespace Workspacer
     {
         public IEnumerable<IWindow> Windows => _windows;
         public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
+        public IWindow LastFocusedWindow => _lastFocused;
         public string Name { get; }
         public string LayoutName => _layoutEngines[_layoutIndex].Name;
 
-        private IMonitor _monitor;
+        private IConfigContext _context;
         private List<IWindow> _windows;
         private ILayoutEngine[] _layoutEngines;
         private int _layoutIndex;
         private IWindow _lastFocused;
 
-        public Workspace(string name, params ILayoutEngine[] layoutEngines)
+        public Workspace(IConfigContext context, string name, ILayoutEngine[] layoutEngines)
         {
+            _context = context;
             _layoutEngines = layoutEngines;
             _layoutIndex = 0;
             _windows = new List<IWindow>();
@@ -63,18 +65,6 @@ namespace Workspacer
                 _lastFocused = window;
 
             DoLayout();
-        }
-
-        public IMonitor Monitor
-        {
-            get
-            {
-                return _monitor;
-            }
-            set
-            {
-                _monitor = value;
-            }
         }
 
         public void CloseFocusedWindow()
@@ -284,23 +274,24 @@ namespace Workspacer
         {
             var windows = this.Windows.Where(w => w.CanLayout).ToList();
 
-            if (Workspacer.Enabled)
+            if (_context.Enabled)
             {
-                if (_monitor != null)
+                var monitor = _context.Workspaces.Container.GetMonitorForWorkspace(this);
+                if (monitor != null)
                 {
                     windows.ForEach(w => w.ShowInCurrentState());
 
-                    var locations = GetLayoutEngine().CalcLayout(windows, _monitor.Width, _monitor.Height)
+                    var locations = GetLayoutEngine().CalcLayout(windows, monitor.Width, monitor.Height)
                         .ToArray();
 
-                    using (var handle = WindowsDesktopManager.Instance.DeferWindowsPos(windows.Count))
+                    using (var handle = _context.Windows.DeferWindowsPos(windows.Count))
                     {
                         for (var i = 0; i < locations.Length; i++)
                         {
                             var window = windows[i];
                             var loc = locations[i];
 
-                            var adjustedLoc = new WindowLocation(loc.X + _monitor.X, loc.Y + _monitor.Y, 
+                            var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y, 
                                 loc.Width, loc.Height, loc.State);
 
                             handle.DeferWindowPos(window, adjustedLoc);
@@ -332,11 +323,6 @@ namespace Workspacer
         private ILayoutEngine GetLayoutEngine()
         {
             return _layoutEngines[_layoutIndex];
-        }
-
-        public void ForceLayout()
-        {
-            DoLayout();
         }
     }
 }

@@ -49,12 +49,13 @@ namespace Workspacer.Config
                 return true;
             };
 
-            context.Workspaces.AddWorkspace("one", createLayouts());
-            context.Workspaces.AddWorkspace("two", createLayouts());
-            context.Workspaces.AddWorkspace("three", createLayouts());
-            context.Workspaces.AddWorkspace("four", createLayouts());
-            context.Workspaces.AddWorkspace("five", createLayouts());
-
+            var container = new WorkspaceContainer(context);
+            container.CreateWorkspace("one", createLayouts());
+            container.CreateWorkspace("two", createLayouts());
+            container.CreateWorkspace("three", createLayouts());
+            container.CreateWorkspace("four", createLayouts());
+            container.CreateWorkspace("five", createLayouts());
+            context.Workspaces.Container = container;
 
             context.Keybinds.SubscribeDefaults(context, mod);
         }

@@ -70,7 +70,7 @@
     <Compile Include="Native\Win32\Win32.Window.cs" />
     <Compile Include="Native\Win32\Win32.WinEvent.cs" />
     <Compile Include="Native\WindowsDeferPosHandle.cs" />
-    <Compile Include="Native\WindowsDesktopManager.cs" />
+    <Compile Include="Native\WindowsManager.cs" />
     <Compile Include="Native\WindowsWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

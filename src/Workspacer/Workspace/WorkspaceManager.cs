@@ -14,17 +14,17 @@ namespace Workspacer
     public class WorkspaceManager : IManager, IWorkspaceManager
     {
         public IEnumerable<IMonitor> Monitors => _monitors;
-        public IEnumerable<IWorkspace> Workspaces => _workspaces;
         public Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
         public Func<IWindow, bool> WindowFilterFunc { get; set; }
 
         private int _focusedMonitor;
         public IMonitor FocusedMonitor => _monitors[_focusedMonitor];
-        public IWorkspace FocusedWorkspace => FocusedMonitor.Workspace;
+        public IWorkspace FocusedWorkspace => Container.GetWorkspaceForMonitor(FocusedMonitor);
 
         private List<IMonitor> _monitors;
-        private List<IWorkspace> _workspaces;
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
+
+        public IWorkspaceContainer Container { get; set; }
 
         public event WorkspaceUpdatedDelegate WorkspaceUpdated;
         public event WindowAddedDelegate WindowAdded;
@@ -33,129 +33,92 @@ namespace Workspacer
         public event WindowMovedDelegate WindowMoved;
         public event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
 
-        private WorkspaceManager()
+        public WorkspaceManager()
         {
             _monitors = new List<IMonitor>();
-            _workspaces = new List<IWorkspace>();
             _windowsToWorkspaces = new Dictionary<IWindow, IWorkspace>();
             _focusedMonitor = 0;
-        }
-        public static WorkspaceManager Instance { get; } = new WorkspaceManager();
-
-        public void AddWorkspace(string name, ILayoutEngine[] layouts)
-        {
-            if (_workspaces.All(w => w.Name != name))
-            {
-                _workspaces.Add(new Workspace(name, layouts));
-            }
         }
 
         public void SwitchToWorkspace(int index)
         {
-            if (index < _workspaces.Count && index >= 0)
-            {
-                var oldWorkspace = FocusedWorkspace;
-                var newWorkspace = _workspaces[index];
-                var srcMonitor = newWorkspace.Monitor;
-                var destMonitor = FocusedMonitor;
+            var currentWorkspace = FocusedWorkspace;
+            var targetWorkspace = Container.GetWorkspaceAtIndex(currentWorkspace, index);
+            SwitchToWorkspace(targetWorkspace);
+        }
 
-                if (oldWorkspace != newWorkspace)
-                {
-                    AssignWorkspaceMonitor(destMonitor, newWorkspace);
-                    AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
-                    WorkspaceUpdated?.Invoke();
+        private void SwitchToWorkspace(IWorkspace targetWorkspace)
+        {
+            var destMonitor = FocusedMonitor;
+            var currentWorkspace = FocusedWorkspace;
+            var sourceMonitor = Container.GetMonitorForWorkspace(targetWorkspace);
 
-                    oldWorkspace.DoLayout();
-                    newWorkspace.DoLayout();
+            Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+            Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
-                    var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
-                    if (window != null)
-                    {
-                        window.Focus();
-                    }
-                }
-            }
+            currentWorkspace.DoLayout();
+            targetWorkspace.DoLayout();
+
+            WorkspaceUpdated?.Invoke();
+
+            targetWorkspace.FocusPrimaryWindow();
         }
 
         public void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex)
         {
-            if (workspaceIndex < _workspaces.Count && workspaceIndex >= 0)
-            {
-                var oldWorkspace = FocusedWorkspace;
-                var newWorkspace = _workspaces[workspaceIndex];
-                var srcMonitor = newWorkspace.Monitor;
-                var destMonitor = _monitors[monitorIndex];
+            if (monitorIndex >= _monitors.Count)
+                return;
 
-                if (oldWorkspace != newWorkspace)
-                {
-                    AssignWorkspaceMonitor(destMonitor, newWorkspace);
-                    AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
-                    WorkspaceUpdated?.Invoke();
+            var destMonitor = _monitors[monitorIndex];
+            var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
+            var targetWorkspace = Container.GetWorkspaceAtIndex(currentWorkspace, workspaceIndex);
+            var sourceMonitor = Container.GetMonitorForWorkspace(targetWorkspace);
 
-                    oldWorkspace.DoLayout();
-                    newWorkspace.DoLayout();
+            Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+            Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
-                    var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
-                    if (window != null)
-                    {
-                        window.Focus();
-                    }
-                }
-            }
+            currentWorkspace.DoLayout();
+            targetWorkspace.DoLayout();
+
+            WorkspaceUpdated?.Invoke();
+
+            targetWorkspace.FocusPrimaryWindow();
         }
 
         public void SwitchToNextWorkspace()
         {
-            var index = _workspaces.IndexOf(FocusedWorkspace);
-            var newIndex = index >= _workspaces.Count - 1 ? 0 : index + 1;
-
-            var oldWorkspace = FocusedWorkspace;
-            var newWorkspace = _workspaces[newIndex];
-            var srcMonitor = newWorkspace.Monitor;
             var destMonitor = FocusedMonitor;
+            var currentWorkspace = FocusedWorkspace;
+            var targetWorkspace = Container.GetNextWorkspace(currentWorkspace);
+            var sourceMonitor = Container.GetMonitorForWorkspace(targetWorkspace);
 
-            if (oldWorkspace != newWorkspace)
-            {
-                AssignWorkspaceMonitor(destMonitor, newWorkspace);
-                AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
-                WorkspaceUpdated?.Invoke();
+            Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+            Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
-                oldWorkspace.DoLayout();
-                newWorkspace.DoLayout();
+            currentWorkspace.DoLayout();
+            targetWorkspace.DoLayout();
 
-                var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
-                if (window != null)
-                {
-                    window.Focus();
-                }
-            }
+            WorkspaceUpdated?.Invoke();
+
+            targetWorkspace.FocusPrimaryWindow();
         }
 
         public void SwitchToPreviousWorkspace()
         {
-            var index = _workspaces.IndexOf(FocusedWorkspace);
-            var newIndex = index == 0 ? _workspaces.Count - 1 : index - 1;
-
-            var oldWorkspace = FocusedWorkspace;
-            var newWorkspace = _workspaces[newIndex];
-            var srcMonitor = newWorkspace.Monitor;
             var destMonitor = FocusedMonitor;
+            var currentWorkspace = FocusedWorkspace;
+            var targetWorkspace = Container.GetPreviousWorkspace(currentWorkspace);
+            var sourceMonitor = Container.GetMonitorForWorkspace(targetWorkspace);
 
-            if (oldWorkspace != newWorkspace)
-            {
-                AssignWorkspaceMonitor(destMonitor, newWorkspace);
-                AssignWorkspaceMonitor(srcMonitor, oldWorkspace);
-                WorkspaceUpdated?.Invoke();
+            Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+            Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
-                oldWorkspace.DoLayout();
-                newWorkspace.DoLayout();
+            currentWorkspace.DoLayout();
+            targetWorkspace.DoLayout();
 
-                var window = newWorkspace.Windows.Where(w => w.CanLayout).FirstOrDefault();
-                if (window != null)
-                {
-                    window.Focus();
-                }
-            }
+            WorkspaceUpdated?.Invoke();
+
+            targetWorkspace.FocusPrimaryWindow();
         }
 
         public void SwitchFocusedMonitor(int index)
@@ -191,58 +154,57 @@ namespace Workspacer
 
         public void MoveFocusedWindowToWorkspace(int index)
         {
-            if (index < _workspaces.Count && index >= 0)
+            var window = FocusedWorkspace.FocusedWindow;
+            var targetWorkspace = Container.GetWorkspaceAtIndex(FocusedWorkspace, index);
+
+            if (window != null && targetWorkspace != null)
             {
-                var window = FocusedWorkspace.FocusedWindow;
-                var targetWorkspace = _workspaces[index];
-
-                if (window != null)
+                var windows = FocusedWorkspace.Windows.Where(w => w.CanLayout);
+                // get next window
+                var nextWindow = windows.SkipWhile(x => x != window).Skip(1).FirstOrDefault();
+                if (nextWindow == null)
                 {
-                    var windows = FocusedWorkspace.Windows.Where(w => w.CanLayout);
-                    // get next window
-                    var nextWindow = windows.SkipWhile(x => x != window).Skip(1).FirstOrDefault();
-                    if (nextWindow == null)
-                    {
-                        // get previous window
-                        nextWindow = windows.TakeWhile(x => x != window).LastOrDefault();
-                    }
-
-                    FocusedWorkspace.RemoveWindow(window);
-                    targetWorkspace.AddWindow(window);
-                    _windowsToWorkspaces[window] = targetWorkspace;
-                    WindowMoved?.Invoke(window, FocusedWorkspace, targetWorkspace);
-
-                    nextWindow?.Focus();
+                    // get previous window
+                    nextWindow = windows.TakeWhile(x => x != window).LastOrDefault();
                 }
+
+                FocusedWorkspace.RemoveWindow(window);
+                targetWorkspace.AddWindow(window);
+
+                _windowsToWorkspaces[window] = targetWorkspace;
+                WindowMoved?.Invoke(window, FocusedWorkspace, targetWorkspace);
+
+                nextWindow?.Focus();
             }
         }
 
         public void MoveFocusedWindowToMonitor(int index)
         {
-            if (index < _monitors.Count && index >= 0)
+            if (index >= _monitors.Count)
+                return;
+
+            var window = FocusedWorkspace.FocusedWindow;
+            var targetMonitor = _monitors[index];
+            var targetWorkspace = Container.GetWorkspaceForMonitor(targetMonitor);
+
+            if (window != null && targetWorkspace != null)
             {
-                var destMonitor = _monitors[index];
-                var destWorkspace = destMonitor.Workspace;
-                var window = FocusedWorkspace.FocusedWindow;
-
-                if (window != null)
+                var windows = FocusedWorkspace.Windows.Where(w => w.CanLayout);
+                // get next window
+                var nextWindow = windows.SkipWhile(x => x != window).Skip(1).FirstOrDefault();
+                if (nextWindow == null)
                 {
-                    var windows = FocusedWorkspace.Windows.Where(w => w.CanLayout);
-                    // get next window
-                    var nextWindow = windows.SkipWhile(x => x != window).Skip(1).FirstOrDefault();
-                    if (nextWindow == null)
-                    {
-                        // get previous window
-                        nextWindow = windows.TakeWhile(x => x != window).LastOrDefault();
-                    }
-
-                    FocusedWorkspace.RemoveWindow(window);
-                    destWorkspace.AddWindow(window);
-                    _windowsToWorkspaces[window] = destWorkspace;
-                    WindowMoved?.Invoke(window, FocusedWorkspace, destWorkspace);
-
-                    nextWindow?.Focus();
+                    // get previous window
+                    nextWindow = windows.TakeWhile(x => x != window).LastOrDefault();
                 }
+
+                FocusedWorkspace.RemoveWindow(window);
+                targetWorkspace.AddWindow(window);
+
+                _windowsToWorkspaces[window] = targetWorkspace;
+                WindowMoved?.Invoke(window, FocusedWorkspace, targetWorkspace);
+
+                nextWindow?.Focus();
             }
         }
 
@@ -274,29 +236,11 @@ namespace Workspacer
 
                         if (switchToWorkspace)
                         {
-                            SwitchToWorkspace(_workspaces.IndexOf(workspace));
+                            SwitchToWorkspace(workspace);
                         }
                     }
                 }
             }
-        }
-
-        private void AssignWorkspaceMonitor(IMonitor monitor, IWorkspace workspace)
-        {
-            workspace.Monitor = monitor;
-            if (monitor != null)
-            {
-                monitor.Workspace = workspace;
-            }
-        }
-
-        private void ClearWorkspaceMonitor(IWorkspace workspace)
-        {
-            if (workspace.Monitor != null)
-            {
-                workspace.Monitor.Workspace = null;
-            }
-            workspace.Monitor = null;
         }
 
         private void AddWindowToWorkspace(IWindow window, IWorkspace workspace)
@@ -306,9 +250,10 @@ namespace Workspacer
 
             if (window.IsFocused)
             {
-                if (workspace.Monitor != null)
+                var monitor = Container.GetMonitorForWorkspace(workspace);
+                if (monitor != null)
                 {
-                    _focusedMonitor = _monitors.IndexOf(workspace.Monitor);
+                    _focusedMonitor = _monitors.IndexOf(monitor);
                 }
             }
             WindowAdded?.Invoke(window, workspace);
@@ -332,9 +277,10 @@ namespace Workspacer
                 var workspace = _windowsToWorkspaces[window];
                 if (window.IsFocused)
                 {
-                    if (workspace.Monitor != null)
+                var monitor = Container.GetMonitorForWorkspace(workspace);
+                    if (monitor != null)
                     {
-                        _focusedMonitor = _monitors.IndexOf(workspace.Monitor);
+                        _focusedMonitor = _monitors.IndexOf(monitor);
                     }
                 }
 
@@ -346,7 +292,7 @@ namespace Workspacer
         public List<IntPtr> GetActiveHandles()
         {
             var list = new List<IntPtr>();
-            foreach (var ws in _workspaces)
+            foreach (var ws in Container.GetAllWorkspaces())
             {
                 foreach (var w in ws.Windows.Where(w => w.CanLayout))
                 {
@@ -356,20 +302,17 @@ namespace Workspacer
             return list;
         }
 
-        public IWorkspace GetWorkspaceForWindow(IWindow window)
-        {
-            return _windowsToWorkspaces[window];
-        }
-
         public WorkspaceState GetState()
         {
             var windowsToWorkspaces = new Dictionary<int, int>();
             var monitorsToWorkspaces = new Dictionary<int, int>();
 
+            var allWorkspaces = Container.GetAllWorkspaces().ToList();
+
             int focusedWindow = 0;
             foreach (var kv in _windowsToWorkspaces)
             {
-                var index = _workspaces.IndexOf(kv.Value);
+                var index = allWorkspaces.IndexOf(kv.Value);
                 windowsToWorkspaces[(int) kv.Key.Handle] = index;
 
                 if (kv.Key.IsFocused)
@@ -380,12 +323,12 @@ namespace Workspacer
 
             for (var i = 0; i < _monitors.Count; i++)
             {
-                for (var j = 0; j < _workspaces.Count; j++)
+                for (var j = 0; j < allWorkspaces.Count; j++)
                 {
                     var monitor = _monitors[i];
-                    var workspace = _workspaces[j];
+                    var workspace = allWorkspaces[j];
 
-                    if (workspace.Monitor == monitor)
+                    if (Container.GetMonitorForWorkspace(workspace) == monitor)
                     {
                         monitorsToWorkspaces[i] = j;
                     }
@@ -417,8 +360,9 @@ namespace Workspacer
                 }
             }
 
+            var allWorkspaces = Container.GetAllWorkspaces().ToList();
             // check to make sure there are enough workspaces for the monitors
-            if (_monitors.Count > _workspaces.Count)
+            if (_monitors.Count > allWorkspaces.Count)
             {
                 throw new Exception("you must specify at least enough workspaces to cover all monitors");
             }
@@ -426,8 +370,8 @@ namespace Workspacer
             for (var i = 0; i < _monitors.Count; i++)
             {
                 var m = _monitors[i];
-                var w = _workspaces[i];
-                AssignWorkspaceMonitor(m, w);
+                var w = allWorkspaces[i];
+                Container.AssignWorkspaceToMonitor(w, m);
             }
         }
 
@@ -436,6 +380,7 @@ namespace Workspacer
             InitializeMonitors(false);
 
             var wtw = state.WindowsToWorkspaces;
+            var allWorkspaces = Container.GetAllWorkspaces().ToList();
 
             foreach (var w in windows)
             {
@@ -444,9 +389,9 @@ namespace Workspacer
                     continue;
 
                 var handle = (int) w.Handle;
-                if (wtw.ContainsKey(handle) && wtw[handle] < _workspaces.Count)
+                if (wtw.ContainsKey(handle) && wtw[handle] < allWorkspaces.Count)
                 {
-                    var workspace = _workspaces[wtw[handle]];
+                    var workspace = allWorkspaces[wtw[handle]];
                     AddWindowToWorkspace(w, workspace);
                 }
                 else
@@ -465,9 +410,9 @@ namespace Workspacer
             for (var i = 0; i < _monitors.Count; i++)
             {
                 var workspaceIdx = mtw[i];
-                var workspace = _workspaces[workspaceIdx];
+                var workspace = allWorkspaces[workspaceIdx];
                 var monitor = _monitors[i];
-                AssignWorkspaceMonitor(monitor, workspace);
+                Container.AssignWorkspaceToMonitor(workspace, monitor);
             }
         }
 
@@ -488,37 +433,12 @@ namespace Workspacer
                     var location = w.Location;
                     var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
                     var monitor = _monitors.First(m => m.Name == screen.DeviceName);
-                    destWorkspace = monitor.Workspace;
+                    destWorkspace = Container.GetWorkspaceForMonitor(monitor);
                 }
 
                 AddWindowToWorkspace(w, destWorkspace);
 
                 AddWindow(w, false);
-            }
-        }
-
-        public IMonitor GetMonitorForWorkspace(IWorkspace workspace)
-        {
-            return workspace.Monitor;
-        }
-
-        public IWorkspace GetWorkspaceForMonitor(IMonitor monitor)
-        {
-            return monitor.Workspace;
-        }
-
-        public IWorkspace this[int index] => _workspaces[index];
-
-        public IWorkspace this[string name]
-        {
-            get
-            {
-                var workspace = _workspaces.FirstOrDefault(w => w.Name == name);
-                if (workspace == null)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-                return workspace;
             }
         }
     }

@@ -13,12 +13,11 @@ namespace Workspacer
         private List<Type> _availablePlugins;
         private List<IPlugin> _plugins;
 
-        private PluginManager()
+        public PluginManager()
         {
             _availablePlugins = GetAvailablePlugins();
             _plugins = new List<IPlugin>();
         }
-        public static PluginManager Instance { get; } = new PluginManager();
 
         public void AfterConfig(IConfigContext context) { _plugins.ForEach(p => p.AfterConfig(context)); }
 
