@@ -14,7 +14,5 @@ namespace Workspacer
         int Height { get; }
         int X { get; }
         int Y { get; }
-        
-        IWorkspace Workspace { get; set; }
     }
 }

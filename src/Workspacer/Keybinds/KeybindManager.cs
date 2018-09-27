@@ -16,7 +16,7 @@ namespace Workspacer
         private IDictionary<Sub, KeybindHandler> _kbdSubs;
         private IDictionary<MouseEvent, MouseHandler> _mouseSubs;
 
-        private KeybindManager()
+        public KeybindManager()
         {
             _hook = Hook;
             Win32.SetWindowsHookEx(Win32.WH_KEYBOARD_LL, _hook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
@@ -25,7 +25,6 @@ namespace Workspacer
             _kbdSubs = new Dictionary<Sub, KeybindHandler>(new Sub.SubEqualityComparer());
             _mouseSubs = new Dictionary<MouseEvent, MouseHandler>();
         }
-        public static KeybindManager Instance { get; } = new KeybindManager();
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler)
         {

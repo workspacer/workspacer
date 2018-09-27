@@ -15,12 +15,15 @@ namespace Workspacer
         public IWorkspaceManager Workspaces { get; set; }
         public IPluginManager Plugins { get; set; }
         public ISystemTrayManager SystemTray { get; set; }
+        public IWindowsManager Windows { get; set; }
 
         private PipeServer _pipeClient;
+        private StateManager _state;
 
-        public ConfigContext(PipeServer pipeClient)
+        public ConfigContext(PipeServer pipeClient, StateManager state)
         {
             _pipeClient = pipeClient;
+            _state = state;
         }
 
         private void SendResponse(LauncherResponse response)
@@ -31,7 +34,7 @@ namespace Workspacer
         
         public void Restart()
         {
-            StateManager.Instance.SaveState();
+            _state.SaveState();
             var response = new LauncherResponse()
             {
                 Action = LauncherAction.Restart,

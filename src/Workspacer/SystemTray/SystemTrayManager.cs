@@ -13,15 +13,13 @@ namespace Workspacer
         private ContextMenuStrip _strip;
         private NotifyIcon _icon;
 
-        private SystemTrayManager()
+        public SystemTrayManager()
         {
             _icon = new NotifyIcon();
             _strip = _icon.ContextMenuStrip = new ContextMenuStrip();
             _icon.Icon = Properties.Resources.logo;
             _icon.Visible = true;
         }
-
-        public static SystemTrayManager Instance { get; } = new SystemTrayManager();
 
         public void AddToContextMenu(string text, Action handler)
         {

@@ -13,13 +13,12 @@ namespace Workspacer
 
         IEnumerable<IWindow> Windows { get; }
         IWindow FocusedWindow { get; }
+        IWindow LastFocusedWindow { get; }
 
-        IMonitor Monitor { get; set; }
         void AddWindow(IWindow window);
         void RemoveWindow(IWindow window);
         void UpdateWindow(IWindow window);
 
-        void DoLayout(); // mod-n
         void CloseFocusedWindow(); // mod-shift-c
         void PreviousLayoutEngine(); // mod-space
         void NextLayoutEngine(); // mod-space
@@ -40,7 +39,7 @@ namespace Workspacer
         void IncrementNumberOfPrimaryWindows(); // mod-comma
         void DecrementNumberOfPrimaryWindows(); // mod-period
 
-        void ForceLayout();
+        void DoLayout();
 
         // mod-t - switch to tiling
         // probably via SetLayoutEngine?

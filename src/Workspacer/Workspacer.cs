@@ -17,6 +17,12 @@ namespace Workspacer
         private ConfigContext _context;
         private Timer _timer;
 
+        private KeybindManager _keybinds;
+        private WorkspaceManager _workspaces;
+        private PluginManager _plugins;
+        private SystemTrayManager _systemTray;
+        private WindowsManager _windows;
+
         public Workspacer()
         {
             _pipeServer = new PipeServer();
@@ -31,50 +37,59 @@ namespace Workspacer
             _timer.Enabled = true;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
-            WindowsDesktopManager.Instance.WindowCreated += WorkspaceManager.Instance.AddWindow;
-            WindowsDesktopManager.Instance.WindowDestroyed += WorkspaceManager.Instance.RemoveWindow;
-            WindowsDesktopManager.Instance.WindowUpdated += WorkspaceManager.Instance.UpdateWindow;
+            _keybinds = new KeybindManager();
+            _plugins = new PluginManager();
+            _systemTray = new SystemTrayManager();
+            _workspaces = new WorkspaceManager();
+            _windows = new WindowsManager();
 
-            _context = new ConfigContext(_pipeServer)
+            _windows.WindowCreated += _workspaces.AddWindow;
+            _windows.WindowDestroyed += _workspaces.RemoveWindow;
+            _windows.WindowUpdated += _workspaces.UpdateWindow;
+
+            var stateManager = new StateManager(_workspaces);
+
+            _context = new ConfigContext(_pipeServer, stateManager)
             {
-                Keybinds = KeybindManager.Instance,
-                Workspaces = WorkspaceManager.Instance,
-                Plugins = PluginManager.Instance,
-                SystemTray = SystemTrayManager.Instance,
+                Keybinds = _keybinds,
+                Workspaces = _workspaces,
+                Plugins = _plugins,
+                SystemTray = _systemTray,
+                Windows = _windows,
             };
 
 
-            SystemTrayManager.Instance.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
-            SystemTrayManager.Instance.AddToContextMenu("Quit Workspacer", () => _context.Quit());
-            SystemTrayManager.Instance.AddToContextMenu("Restart Workspacer", () => _context.Restart());
+            _systemTray.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
+            _systemTray.AddToContextMenu("Quit Workspacer", () => _context.Quit());
+            _systemTray.AddToContextMenu("Restart Workspacer", () => _context.Restart());
             if (CanCreateExampleConfig())
             {
-                SystemTrayManager.Instance.AddToContextMenu("Create example Workspacer.config.cs", CreateExampleConfig);
+                _systemTray.AddToContextMenu("Create example Workspacer.config.cs", CreateExampleConfig);
             }
 
             var config = GetConfig();
             config.Configure(_context);
 
-            var state = StateManager.Instance.LoadState();
+            var state = stateManager.LoadState();
 
-            WindowsDesktopManager.Instance.Initialize();
+            _windows.Initialize();
             if (state != null)
             {
-                WorkspaceManager.Instance.InitializeWithState(state.WorkspaceState, WindowsDesktopManager.Instance.Windows);
+                _workspaces.InitializeWithState(state.WorkspaceState, _windows.Windows);
                 Enabled = true;
             }
             else
             {
-                WorkspaceManager.Instance.Initialize(WindowsDesktopManager.Instance.Windows);
+                _workspaces.Initialize(_windows.Windows);
                 Enabled = true;
-                WorkspaceManager.Instance.SwitchToWorkspace(0);
+                _workspaces.SwitchToWorkspace(0);
             }
-            foreach (var workspace in WorkspaceManager.Instance.Workspaces)
+            foreach (var workspace in _workspaces.Container.GetAllWorkspaces())
             {
-                workspace.ForceLayout();
+                workspace.DoLayout();
             }
 
-            PluginManager.Instance.AfterConfig(_context);
+            _plugins.AfterConfig(_context);
 
             FocusStealer.Initialize();
             while(true) { }
@@ -82,7 +97,7 @@ namespace Workspacer
 
         private IConfig GetConfig()
         {
-            return ConfigHelper.GetConfig(PluginManager.Instance.AvailablePlugins);
+            return ConfigHelper.GetConfig(_plugins.AvailablePlugins);
         }
 
         private void SendResponse(LauncherResponse response)
@@ -101,14 +116,14 @@ namespace Workspacer
             var response = new LauncherResponse()
             {
                 Action = LauncherAction.UpdateHandles,
-                ActiveHandles = WorkspaceManager.Instance.GetActiveHandles().Select(h => h.ToInt64()).ToList(),
+                ActiveHandles = _workspaces.GetActiveHandles().Select(h => h.ToInt64()).ToList(),
             };
             SendResponse(response);
         }
 
         private Assembly ResolveAssembly(object sender, ResolveEventArgs args)
         {
-            var match = PluginManager.Instance.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
+            var match = _plugins.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
             if (match != null)
             {
                 return Assembly.LoadFile(match.Location);

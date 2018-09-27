@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Workspacer
 {
-    public class WindowsDeferPosHandle : IDisposable
+    public class WindowsDeferPosHandle : IWindowsDeferPosHandle
     {
         private IntPtr _info;
 

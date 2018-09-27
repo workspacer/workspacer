@@ -15,13 +15,16 @@ namespace Workspacer
 
     public interface IWorkspaceManager
     {
-        IEnumerable<IWorkspace> Workspaces { get; }
         IEnumerable<IMonitor> Monitors { get; }
+
         Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
         Func<IWindow, bool> WindowFilterFunc { get; set; }
-        void AddWorkspace(string name, ILayoutEngine[] layouts);
+
         IWorkspace FocusedWorkspace { get; }
         IMonitor FocusedMonitor { get; }
+
+        IWorkspaceContainer Container { get; set; }
+
         void SwitchToWorkspace(int index);
         void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex);
         void SwitchToNextWorkspace();
@@ -30,11 +33,6 @@ namespace Workspacer
         void SwitchFocusedMonitorToMouseLocation();
         void MoveFocusedWindowToWorkspace(int index);
         void MoveFocusedWindowToMonitor(int index);
-        IMonitor GetMonitorForWorkspace(IWorkspace workspace);
-        IWorkspace GetWorkspaceForMonitor(IMonitor monitor);
-
-        IWorkspace this[int index] { get; }
-        IWorkspace this[string name] { get; }
 
         event WorkspaceUpdatedDelegate WorkspaceUpdated;
         event WindowAddedDelegate WindowAdded;
