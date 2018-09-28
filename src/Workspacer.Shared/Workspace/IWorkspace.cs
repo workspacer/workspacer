@@ -39,9 +39,10 @@ namespace Workspacer
         void IncrementNumberOfPrimaryWindows(); // mod-comma
         void DecrementNumberOfPrimaryWindows(); // mod-period
 
+        void ToggleFocusedWindowTiling(); // mod-t
+
         void DoLayout();
 
-        // mod-t - switch to tiling
         // probably via SetLayoutEngine?
 
         // non workspace, storing these for a second
