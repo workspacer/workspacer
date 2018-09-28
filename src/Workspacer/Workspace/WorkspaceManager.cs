@@ -280,7 +280,7 @@ namespace Workspacer
                 var workspace = _windowsToWorkspaces[window];
                 if (window.IsFocused)
                 {
-                var monitor = Container.GetCurrentMonitorForWorkspace(workspace);
+                    var monitor = Container.GetCurrentMonitorForWorkspace(workspace);
                     if (monitor != null)
                     {
                         _focusedMonitor = _monitors.IndexOf(monitor);
