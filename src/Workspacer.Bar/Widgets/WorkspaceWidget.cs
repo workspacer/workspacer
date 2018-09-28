@@ -26,7 +26,7 @@ namespace Workspacer.Bar.Widgets
             {
                 var hasWindows = workspace.Windows.Any(w => w.CanLayout);
 
-                var monitor = Context.Workspaces.Container.GetMonitorForWorkspace(workspace);
+                var monitor = Context.Workspaces.Container.GetCurrentMonitorForWorkspace(workspace);
                 if (monitor == Context.Monitor)
                 {
                     parts.Add(CreatePart(workspace, index, true, WorkspaceHasFocusColor));

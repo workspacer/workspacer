@@ -49,19 +49,22 @@ namespace Workspacer
 
         private void SwitchToWorkspace(IWorkspace targetWorkspace)
         {
-            var destMonitor = FocusedMonitor;
-            var currentWorkspace = FocusedWorkspace;
-            var sourceMonitor = Container.GetMonitorForWorkspace(targetWorkspace);
+            if (targetWorkspace != null)
+            {
+                var destMonitor = Container.GetDesiredMonitorForWorkspace(targetWorkspace) ?? FocusedMonitor;
+                var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
+                var sourceMonitor = Container.GetCurrentMonitorForWorkspace(targetWorkspace);
 
-            Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
-            Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
+                Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+                Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
-            currentWorkspace.DoLayout();
-            targetWorkspace.DoLayout();
+                currentWorkspace.DoLayout();
+                targetWorkspace.DoLayout();
 
-            WorkspaceUpdated?.Invoke();
+                WorkspaceUpdated?.Invoke();
 
-            targetWorkspace.FocusPrimaryWindow();
+                targetWorkspace.FocusPrimaryWindow();
+            }
         }
 
         public void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex)
@@ -72,7 +75,7 @@ namespace Workspacer
             var destMonitor = _monitors[monitorIndex];
             var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
             var targetWorkspace = Container.GetWorkspaceAtIndex(currentWorkspace, workspaceIndex);
-            var sourceMonitor = Container.GetMonitorForWorkspace(targetWorkspace);
+            var sourceMonitor = Container.GetCurrentMonitorForWorkspace(targetWorkspace);
 
             Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
             Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
@@ -88,9 +91,9 @@ namespace Workspacer
         public void SwitchToNextWorkspace()
         {
             var destMonitor = FocusedMonitor;
-            var currentWorkspace = FocusedWorkspace;
+            var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
             var targetWorkspace = Container.GetNextWorkspace(currentWorkspace);
-            var sourceMonitor = Container.GetMonitorForWorkspace(targetWorkspace);
+            var sourceMonitor = Container.GetCurrentMonitorForWorkspace(targetWorkspace);
 
             Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
             Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
@@ -106,9 +109,9 @@ namespace Workspacer
         public void SwitchToPreviousWorkspace()
         {
             var destMonitor = FocusedMonitor;
-            var currentWorkspace = FocusedWorkspace;
+            var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
             var targetWorkspace = Container.GetPreviousWorkspace(currentWorkspace);
-            var sourceMonitor = Container.GetMonitorForWorkspace(targetWorkspace);
+            var sourceMonitor = Container.GetCurrentMonitorForWorkspace(targetWorkspace);
 
             Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
             Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
@@ -250,7 +253,7 @@ namespace Workspacer
 
             if (window.IsFocused)
             {
-                var monitor = Container.GetMonitorForWorkspace(workspace);
+                var monitor = Container.GetCurrentMonitorForWorkspace(workspace);
                 if (monitor != null)
                 {
                     _focusedMonitor = _monitors.IndexOf(monitor);
@@ -277,7 +280,7 @@ namespace Workspacer
                 var workspace = _windowsToWorkspaces[window];
                 if (window.IsFocused)
                 {
-                var monitor = Container.GetMonitorForWorkspace(workspace);
+                var monitor = Container.GetCurrentMonitorForWorkspace(workspace);
                     if (monitor != null)
                     {
                         _focusedMonitor = _monitors.IndexOf(monitor);
@@ -328,7 +331,7 @@ namespace Workspacer
                     var monitor = _monitors[i];
                     var workspace = allWorkspaces[j];
 
-                    if (Container.GetMonitorForWorkspace(workspace) == monitor)
+                    if (Container.GetCurrentMonitorForWorkspace(workspace) == monitor)
                     {
                         monitorsToWorkspaces[i] = j;
                     }
@@ -346,7 +349,7 @@ namespace Workspacer
             };
         }
 
-        private void InitializeMonitors(bool assignWorkspaces = true)
+        public void InitializeMonitors()
         {
             var primary = Screen.PrimaryScreen;
             _monitors.Add(new Monitor(0, primary));
@@ -360,25 +363,11 @@ namespace Workspacer
                 }
             }
 
-            var allWorkspaces = Container.GetAllWorkspaces().ToList();
-            // check to make sure there are enough workspaces for the monitors
-            if (_monitors.Count > allWorkspaces.Count)
-            {
-                throw new Exception("you must specify at least enough workspaces to cover all monitors");
-            }
-
-            for (var i = 0; i < _monitors.Count; i++)
-            {
-                var m = _monitors[i];
-                var w = allWorkspaces[i];
-                Container.AssignWorkspaceToMonitor(w, m);
-            }
+            
         }
 
         public void InitializeWithState(WorkspaceState state, IEnumerable<IWindow> windows)
         {
-            InitializeMonitors(false);
-
             var wtw = state.WindowsToWorkspaces;
             var allWorkspaces = Container.GetAllWorkspaces().ToList();
 
@@ -418,8 +407,14 @@ namespace Workspacer
 
         public void Initialize(IEnumerable<IWindow> windows)
         {
-            InitializeMonitors();
-
+            var allWorkspaces = Container.GetAllWorkspaces().ToList();
+            for (var i = 0; i < _monitors.Count; i++)
+            {
+                var m = _monitors[i];
+                var w = allWorkspaces[i];
+                Container.AssignWorkspaceToMonitor(w, m);
+            }
+            
             foreach (var w in windows)
             {
                 var shouldTrack = WindowFilterFunc?.Invoke(w) ?? true;

@@ -12,10 +12,14 @@ namespace Workspacer
 
         IWorkspace GetNextWorkspace(IWorkspace currentWorkspace);
         IWorkspace GetPreviousWorkspace(IWorkspace currentWorkspace);
+
         IWorkspace GetWorkspaceAtIndex(IWorkspace currentWorkspace, int index);
         IWorkspace GetWorkspaceByName(IWorkspace currentWorkspace, string name);
+
         IWorkspace GetWorkspaceForMonitor(IMonitor monitor);
-        IMonitor GetMonitorForWorkspace(IWorkspace workspace);
+        IMonitor GetCurrentMonitorForWorkspace(IWorkspace workspace);
+        IMonitor GetDesiredMonitorForWorkspace(IWorkspace workspace);
+
         IEnumerable<IWorkspace> GetWorkspaces(IWorkspace currentWorkspace);
         IEnumerable<IWorkspace> GetWorkspaces(IMonitor currentMonitor);
         IEnumerable<IWorkspace> GetAllWorkspaces();
