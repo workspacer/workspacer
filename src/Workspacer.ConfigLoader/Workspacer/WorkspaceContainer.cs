@@ -79,9 +79,14 @@ namespace Workspacer
             return _workspaces.FirstOrDefault(w => w.Name == name);
         }
 
-        public IMonitor GetMonitorForWorkspace(IWorkspace workspace)
+        public IMonitor GetCurrentMonitorForWorkspace(IWorkspace workspace)
         {
             return _mtw.Keys.FirstOrDefault(m => _mtw[m] == workspace);
+        }
+
+        public IMonitor GetDesiredMonitorForWorkspace(IWorkspace workspace)
+        {
+            return null;
         }
 
         public IWorkspace GetWorkspaceForMonitor(IMonitor monitor)

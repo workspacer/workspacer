@@ -67,12 +67,22 @@ namespace Workspacer
                 _systemTray.AddToContextMenu("Create example Workspacer.config.cs", CreateExampleConfig);
             }
 
+            _workspaces.InitializeMonitors();
+
             var config = GetConfig();
             config.Configure(_context);
 
             var state = stateManager.LoadState();
 
             _windows.Initialize();
+
+            var allWorkspaces = _workspaces.Container.GetAllWorkspaces().ToList();
+            // check to make sure there are enough workspaces for the monitors
+            if (_workspaces.Monitors.Count() > allWorkspaces.Count)
+            {
+                throw new Exception("you must specify at least enough workspaces to cover all monitors");
+            }
+
             if (state != null)
             {
                 _workspaces.InitializeWithState(state.WorkspaceState, _windows.Windows);
@@ -84,6 +94,7 @@ namespace Workspacer
                 Enabled = true;
                 _workspaces.SwitchToWorkspace(0);
             }
+
             foreach (var workspace in _workspaces.Container.GetAllWorkspaces())
             {
                 workspace.DoLayout();
