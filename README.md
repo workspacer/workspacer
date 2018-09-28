@@ -35,6 +35,7 @@ Workspacer tries to mimic xmonad's keybindings wherever possible. The default ke
 | alt-l | expand primary area |
 | alt-comma | increment number of primary windows |
 | alt-period | decrement number of primary windows |
+| alt-t | toggle tiling for focused window |
 | alt-shift-q | quit workspacer |
 | alt-q | restart workspacer |
 | alt-left | switch to left workspace |
