@@ -40,7 +40,7 @@ namespace Workspacer
 
         public void AddWindow(IWindow window)
         {
-            if (_lastFocused == null)
+            if (_lastFocused == null && window.IsFocused)
             {
                 _lastFocused = window;
             }

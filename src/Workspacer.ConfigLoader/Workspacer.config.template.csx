@@ -47,6 +47,8 @@ namespace Workspacer.Config
             {
                 if (window.Title.Contains("Task Manager"))
                     return false;
+                if (window.Title.Contains("Program Manager"))
+                    return false;
                 if (window.Process.Id == Process.GetCurrentProcess().Id)
                     return false;
 
