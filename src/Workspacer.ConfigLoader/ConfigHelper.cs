@@ -23,30 +23,59 @@ namespace Workspacer.ConfigLoader
             return (IConfig) Activator.CreateInstance(type);
         }
 
-        public static string GetConfigTemplate()
+        public static bool CanCreateExampleConfig()
+        {
+            return !File.Exists(GetConfigFilePath());
+        }
+
+        public static bool CreateExampleConfig()
+        {
+            if (File.Exists(GetConfigFilePath()))
+                return false;
+
+            Directory.CreateDirectory(GetConfigDirPath());
+
+            var projectJson = Path.Combine(GetConfigDirPath(), "project.json");
+            if (!File.Exists(projectJson))
+                File.WriteAllText(projectJson, "{}");
+
+            File.WriteAllText(GetConfigFilePath(), GetConfigTemplate());
+            return true;
+        }
+
+        private static string GetConfigTemplate()
         {
             var assembly = Assembly.GetAssembly(typeof(ConfigHelper));
             var templateName = assembly.GetManifestResourceNames()
-                .First(n => n.EndsWith("Workspacer.config.template.cs"));
+                .First(n => n.EndsWith("Workspacer.config.template.csx"));
 
             using (var stream = assembly.GetManifestResourceStream(templateName))
             using (var reader = new StreamReader(stream))
             {
-                return reader.ReadToEnd();
+                var template = reader.ReadToEnd();
+
+                var path = Path.GetDirectoryName(assembly.Location);
+                template = template.Replace("WORKSPACER_PATH", path);
+
+                return template;
             }
         }
 
         private static string LoadConfig()
         {
-            var path = GetConfigPath();
+            var path = GetConfigFilePath();
+            string file;
             if (File.Exists(path))
             {
-                return File.ReadAllText(path);
+                file = File.ReadAllText(path);
             }
             else
             {
-                return GetConfigTemplate();
+                file = GetConfigTemplate();
             }
+
+            file = file.Replace("#r ", "//#r ");
+            return file;
         }
 
         private static Type CompileConfig(IEnumerable<Type> referenceTypes)
@@ -81,9 +110,14 @@ namespace Workspacer.ConfigLoader
             return assembly.GetTypes().First(t => t.Name == "Config");
         }
 
-        public static string GetConfigPath()
+        public static string GetConfigDirPath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Workspacer.config.cs");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer");
+        }
+
+        public static string GetConfigFilePath()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer", "Workspacer.config.csx");
         }
     }
 }

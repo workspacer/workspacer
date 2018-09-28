@@ -195,7 +195,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Workspacer.config.template.cs" />
+    <EmbeddedResource Include="Workspacer.config.template.csx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

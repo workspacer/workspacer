@@ -62,9 +62,9 @@ namespace Workspacer
             _systemTray.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
             _systemTray.AddToContextMenu("Quit Workspacer", () => _context.Quit());
             _systemTray.AddToContextMenu("Restart Workspacer", () => _context.Restart());
-            if (CanCreateExampleConfig())
+            if (ConfigHelper.CanCreateExampleConfig())
             {
-                _systemTray.AddToContextMenu("Create example Workspacer.config.cs", CreateExampleConfig);
+                _systemTray.AddToContextMenu("Create example Workspacer.config.csx", CreateExampleConfig);
             }
 
             _workspaces.InitializeMonitors();
@@ -142,20 +142,17 @@ namespace Workspacer
             return null;
         }
 
-        private bool CanCreateExampleConfig()
-        {
-            return !File.Exists(ConfigHelper.GetConfigPath());
-        }
+        
 
         private void CreateExampleConfig()
         {
-            if (File.Exists(ConfigHelper.GetConfigPath()))
+            if (!ConfigHelper.CanCreateExampleConfig())
             {
-                DisplayMessage("Workspacer.config.cs already exists, so one cannot be created.");
+                DisplayMessage("Workspacer.config.csx already exists, so one cannot be created.");
             } else
             {
-                File.WriteAllText(ConfigHelper.GetConfigPath(), ConfigHelper.GetConfigTemplate());
-                DisplayMessage($"Workspacer.config.cs created at: [${ConfigHelper.GetConfigPath()}]");
+                ConfigHelper.CreateExampleConfig();
+                DisplayMessage($"Workspacer.config.csx created in: [${ConfigHelper.GetConfigDirPath()}]");
             }
         }
 

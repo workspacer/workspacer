@@ -1,4 +1,8 @@
-﻿using System;
+﻿#r "WORKSPACER_PATH\Workspacer.Shared.dll"
+#r "WORKSPACER_PATH\Workspacer.ConfigLoader.dll"
+#r "WORKSPACER_PATH\plugins\Workspacer.Bar\Workspacer.Bar.dll"
+
+using System;
 using System.Linq;
 using Workspacer.Shared;
 using Workspacer.ConfigLoader;
@@ -49,12 +53,13 @@ namespace Workspacer.Config
                 return true;
             };
 
-            var container = new WorkspaceContainer(context);
-            container.CreateWorkspace("one", createLayouts());
-            container.CreateWorkspace("two", createLayouts());
-            container.CreateWorkspace("three", createLayouts());
-            container.CreateWorkspace("four", createLayouts());
-            container.CreateWorkspace("five", createLayouts());
+            var monitors = context.Workspaces.Monitors.ToList();
+            var container = new StickyWorkspaceContainer(context, StickyWorkspaceIndexMode.Local);
+
+            container.CreateWorkspace(monitors[0], "one", createLayouts());
+            container.CreateWorkspace(monitors[0], "two", createLayouts());
+            container.CreateWorkspace(monitors[1], "three", createLayouts());
+            container.CreateWorkspace(monitors[1], "four", createLayouts());
             context.Workspaces.Container = container;
 
             context.Keybinds.SubscribeDefaults(context, mod);
