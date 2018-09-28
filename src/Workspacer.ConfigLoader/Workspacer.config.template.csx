@@ -53,13 +53,12 @@ namespace Workspacer.Config
                 return true;
             };
 
-            var monitors = context.Workspaces.Monitors.ToList();
-            var container = new StickyWorkspaceContainer(context, StickyWorkspaceIndexMode.Local);
-
-            container.CreateWorkspace(monitors[0], "one", createLayouts());
-            container.CreateWorkspace(monitors[0], "two", createLayouts());
-            container.CreateWorkspace(monitors[1], "three", createLayouts());
-            container.CreateWorkspace(monitors[1], "four", createLayouts());
+            var container = new WorkspaceContainer(context);
+            container.CreateWorkspace("one", createLayouts());
+            container.CreateWorkspace("two", createLayouts());
+            container.CreateWorkspace("three", createLayouts());
+            container.CreateWorkspace("four", createLayouts());
+            container.CreateWorkspace("five", createLayouts());
             context.Workspaces.Container = container;
 
             context.Keybinds.SubscribeDefaults(context, mod);
