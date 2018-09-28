@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>0.5.0.0</version>
-    <url>https://github.com/rickbutton/workspacer/releases/download/v0.5/Workspacer-0.5.msi</url>
+    <version>0.6.0.0</version>
+    <url>https://github.com/rickbutton/workspacer/releases/download/v0.6/Workspacer-0.6.msi</url>
     <changelog>https://raw.githubusercontent.com/rickbutton/workspacer/master/CHANGELOG.md</changelog>
     <mandatory>false</mandatory>
 </item>
