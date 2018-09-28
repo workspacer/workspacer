@@ -202,6 +202,9 @@ namespace Workspacer
             Subscribe(mod, Keys.OemPeriod,
                 () => context.Workspaces.FocusedWorkspace.DecrementNumberOfPrimaryWindows());
 
+            Subscribe(mod, Keys.T,
+                () => context.Workspaces.FocusedWorkspace.ToggleFocusedWindowTiling());
+
             Subscribe(mod | KeyModifiers.LShift, Keys.Q, context.Quit);
 
             Subscribe(mod, Keys.Q, context.Restart);
