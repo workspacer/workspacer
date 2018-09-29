@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json;
-using Workspacer.Shared;
 using Workspacer.ConfigLoader;
 using Timer = System.Timers.Timer;
 using System.Reflection;
 using System.IO;
+using Workspacer.Shared;
 
 namespace Workspacer
 {
     public class Workspacer
     {
+        private static Logger Logger = Logger.Create();
         public static bool Enabled { get; set; }
 
         private PipeServer _pipeServer;
@@ -33,6 +34,8 @@ namespace Workspacer
 
         public void Start()
         {
+            Logger.Debug("starting Workspacer");
+
             _pipeServer.Start();
             _timer.Enabled = true;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;

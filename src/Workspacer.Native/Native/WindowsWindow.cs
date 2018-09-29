@@ -14,6 +14,8 @@ namespace Workspacer
 {
     public class WindowsWindow : IWindow
     {
+        private static Logger Logger = Logger.Create();
+
         private IntPtr _handle;
         private bool _layoutOverride;
 
@@ -119,11 +121,13 @@ namespace Workspacer
 
         public void Focus()
         {
+            Logger.Debug("[{0}] :: Focus", this);
             Win32Helper.ForceForegroundWindow(_handle);
         }
 
         public void Hide()
         {
+            Logger.Debug("[{0}] :: Hide", this);
             if (CanLayout)
             {
                 _layoutOverride = true;
@@ -133,16 +137,19 @@ namespace Workspacer
 
         public void ShowNormal()
         {
+            Logger.Debug("[{0}] :: ShowNormal", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWNOACTIVATE);
         }
 
         public void ShowMaximized()
         {
+            Logger.Debug("[{0}] :: ShowMaximized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMAXIMIZED);
         }
 
         public void ShowMinimized()
         {
+            Logger.Debug("[{0}] :: ShowMinimized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMINIMIZED);
         }
 
@@ -164,12 +171,13 @@ namespace Workspacer
 
         public void Close()
         {
+            Logger.Debug("[{0}] :: Close", this);
             Win32Helper.QuitApplication(_handle);
         }
 
         public override string ToString()
         {
-            return Title;
+            return $"[{Handle}][{Title}]";
         }
     }
 }
