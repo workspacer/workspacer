@@ -13,6 +13,7 @@ namespace Workspacer
 {
     public class WorkspaceManager : IManager, IWorkspaceManager
     {
+        private static Logger Logger = Logger.Create();
         public IEnumerable<IMonitor> Monitors => _monitors;
         public Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
         public Func<IWindow, bool> WindowFilterFunc { get; set; }
@@ -42,6 +43,7 @@ namespace Workspacer
 
         public void SwitchToWorkspace(int index)
         {
+            Logger.Debug("SwitchToWorkspace({0})", index);
             var currentWorkspace = FocusedWorkspace;
             var targetWorkspace = Container.GetWorkspaceAtIndex(currentWorkspace, index);
             SwitchToWorkspace(targetWorkspace);
@@ -49,6 +51,7 @@ namespace Workspacer
 
         private void SwitchToWorkspace(IWorkspace targetWorkspace)
         {
+            Logger.Debug("SwitchToWorkspace({0})", targetWorkspace);
             if (targetWorkspace != null)
             {
                 var destMonitor = Container.GetDesiredMonitorForWorkspace(targetWorkspace) ?? FocusedMonitor;
@@ -69,6 +72,7 @@ namespace Workspacer
 
         public void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex)
         {
+            Logger.Debug("SwitchMonitorToWorkspace(monitorIndex: {0}, workspaceIndex: {1})", monitorIndex, workspaceIndex);
             if (monitorIndex >= _monitors.Count)
                 return;
 
@@ -90,6 +94,7 @@ namespace Workspacer
 
         public void SwitchToNextWorkspace()
         {
+            Logger.Debug("SwitchToNextWorkspace");
             var destMonitor = FocusedMonitor;
             var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
             var targetWorkspace = Container.GetNextWorkspace(currentWorkspace);
@@ -108,6 +113,7 @@ namespace Workspacer
 
         public void SwitchToPreviousWorkspace()
         {
+            Logger.Debug("SwitchToPreviousWorkspace");
             var destMonitor = FocusedMonitor;
             var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
             var targetWorkspace = Container.GetPreviousWorkspace(currentWorkspace);
@@ -126,6 +132,7 @@ namespace Workspacer
 
         public void SwitchFocusedMonitor(int index)
         {
+            Logger.Debug("SwitchFocusedMonitor({0})", index);
             if (index < _monitors.Count && index >= 0)
             {
                 if (_focusedMonitor != index)
@@ -140,6 +147,7 @@ namespace Workspacer
 
         public void SwitchFocusedMonitorToMouseLocation()
         {
+            Logger.Debug("SwitchFocusedMonitorToMouseLocation");
             var loc = Control.MousePosition;
             var screen = Screen.FromPoint(new Point(loc.X, loc.Y));
             var monitor = _monitors.First(m => m.Name == screen.DeviceName);
@@ -157,6 +165,7 @@ namespace Workspacer
 
         public void MoveFocusedWindowToWorkspace(int index)
         {
+            Logger.Debug("MoveFocusedWindowToWorkspace({0})", index);
             var window = FocusedWorkspace.FocusedWindow;
             var targetWorkspace = Container.GetWorkspaceAtIndex(FocusedWorkspace, index);
 
@@ -183,6 +192,7 @@ namespace Workspacer
 
         public void MoveFocusedWindowToMonitor(int index)
         {
+            Logger.Debug("MoveFocusedWindowToMonitor({0})", index);
             if (index >= _monitors.Count)
                 return;
 
@@ -218,6 +228,7 @@ namespace Workspacer
 
         public void AddWindow(IWindow window, bool switchToWorkspace)
         {
+            Logger.Debug("AddWindow({0})", window.Handle);
             var shouldTrack = WindowFilterFunc?.Invoke(window) ?? true;
 
             if (!shouldTrack)
@@ -248,6 +259,7 @@ namespace Workspacer
 
         private void AddWindowToWorkspace(IWindow window, IWorkspace workspace)
         {
+            Logger.Debug("AddWindowToWorkspace({0}, {1})", window.Handle, workspace);
             workspace.AddWindow(window);
             _windowsToWorkspaces[window] = workspace;
 
@@ -264,6 +276,7 @@ namespace Workspacer
 
         public void RemoveWindow(IWindow window)
         {
+            Logger.Debug("RemoveWindow({0})", window);
             if (_windowsToWorkspaces.ContainsKey(window))
             {
                 var workspace = _windowsToWorkspaces[window];
@@ -275,6 +288,7 @@ namespace Workspacer
 
         public void UpdateWindow(IWindow window)
         {
+            Logger.Debug("UpdateWindow({0})", window);
             if (_windowsToWorkspaces.ContainsKey(window))
             {
                 var workspace = _windowsToWorkspaces[window];
