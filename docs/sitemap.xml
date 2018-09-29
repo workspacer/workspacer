@@ -3,14 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/docs/</loc>
-  </url>
-  
-  <url>
-    <loc>/quickstart/</loc>
-  </url>
-  
-  <url>
     <loc>/categories/</loc>
     <priority>0</priority>
   </url>
@@ -21,7 +13,19 @@
   </url>
   
   <url>
+    <loc>/config/</loc>
+  </url>
+  
+  <url>
     <loc>/</loc>
+  </url>
+  
+  <url>
+    <loc>/keybindings/</loc>
+  </url>
+  
+  <url>
+    <loc>/quickstart/</loc>
   </url>
   
 </urlset>

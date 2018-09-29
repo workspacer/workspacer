@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> | workspacer</title>
+    <title>quick start | workspacer</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
     <link rel="stylesheet" href="/css/theme-override.css">
@@ -23,6 +23,16 @@
         <a href="/">workspacer</a>
       </li>
       
+      
+      <li class="pull-left ">
+        <a href="/quickstart">quickstart</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/config">config</a>
+      </li>
+      
 
       
 
@@ -36,7 +46,7 @@
     <br/>
 
 <div class="article-meta">
-<h1><span class="title"></span></h1>
+<h1><span class="title">quick start</span></h1>
 
 
 <p class="terms">
@@ -53,7 +63,34 @@
 <main>
 
 
-<h1 id="test">test</h1>
+<h1 id="step-one-installing-launching-workspacer">step one - installing/launching workspacer</h1>
+
+<p><a href="https://github.com/rickbutton/workspacer/releases">download the latest installer from github</a> and install workspacer. The installer will put a shortcut in the Start Menu.</p>
+
+<h1 id="step-two-configuring-workspacer">step two - configuring workspacer</h1>
+
+<p>by default, workspacer will load the default configuration shipped inside the program, but you will likely want to customize the default configuration in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.</p>
+
+<p>in order to customize workspacer, a config file can be generated and used. Right clicking the &ldquo;workspacer&rdquo; system tray icon will allow you to create an example config file. By default, the workspacer config file will be created in:</p>
+
+<pre><code>C:\Users\&lt;username&gt;\.workspacer\workspacer.config.csx
+</code></pre>
+
+<p>workspacer is configured entirely using C#, using types and interfaces provided by workspacer itself. This means that while workspacer requires knowledge of programming to use, it&rsquo;s configuration is extremely powerful, and allows you to modify, or even replace, most functionality that drives workspacer. For example, a common use case is to implement a custom layout engine (just define a class that satisfies the interface <code>ILayoutEngine</code>) entirely inside the config file, and then use it to define completely custom layout behavior, without needing to modify workspacer itself.</p>
+
+<p>also, workspacer&rsquo;s config file allows for type checking / intellisense! Currently, only VSCode with the C# is supported. Opening the <code>.workspacer</code> folder in your home directory inside VSCode with the C# extension installed will automatically provide syntax highlighting, type checking, and autocomplete automatically because of the &ldquo;#r&rdquo; directives at the top of the config file (so don&rsquo;t remove those, or else this won&rsquo;t work!).</p>
+
+<p><a href="/config">the config page</a> lists a few examples and tips/tricks on how to customize your configuration to your liking.</p>
+
+<h1 id="step-three-learning-how-to-use-workspacer">step three - learning how to use workspacer</h1>
+
+<p>workspacer&rsquo;s default configuration behaves a lot like <code>xmonad</code> with <code>xmobar</code> in its default configuration, but not exactly where not possible due to limitations in <code>Win32</code> that prevent controlling windows in the same way a tiling window manager would be able to when controlling the actual management of windows like an X11 based window manager.</p>
+
+<p><a href="/keybindings">the keybindings page</a> describes the default set of keybindings.</p>
+
+<h1 id="step-three-submit-feedback">step three - submit feedback!</h1>
+
+<p>If you run into any bugs, or want to suggest a feature, please feel free to <a href="https://github.com/rickbutton/workspacer/issues">open an issue!</a></p>
 
 </main>
 

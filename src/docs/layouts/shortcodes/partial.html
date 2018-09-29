@@ -1,0 +1,2 @@
+{{$file := .Get "name"}}
+{{- $file | readFile | markdownify -}}

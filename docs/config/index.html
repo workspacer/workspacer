@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>configuring workspacer | workspacer</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/theme-override.css">
+    <header>
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="pull-left ">
+        <a href="/">workspacer</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/quickstart">quickstart</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/config">config</a>
+      </li>
+      
+
+      
+
+    </ul>
+  </nav>
+</header>
+
+  </head>
+
+  <body>
+    <br/>
+
+<div class="article-meta">
+<h1><span class="title">configuring workspacer</span></h1>
+
+
+<p class="terms">
+  
+  
+  
+  
+  
+</p>
+</div>
+
+
+
+<main>
+
+
+<p>configuring workspacer can be tricky, but the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.</p>
+
+<p>this configuration documentation assumes that you have already created the example configuration in the correct folder, if you haven&rsquo;t, check the <a href="/quickstart">quickstart guide</a>.</p>
+
+<h2 id="i-don-t-know-c-or-how-to-program-should-i-use-workspacer">I don&rsquo;t know C#, or how to program, should I use workspacer?</h2>
+
+<p>probably not, at least not yet. workspacer is intended to be on the extreme end of the power user spectrum. you can absolutely use workspacer without knowing how to program, but configuration will likely be challenging if you need to deviate outside of the examples and configurations of other users (although, almost certainly easier than learning Haskell in order to configure xmonad).</p>
+
+<h2 id="how-do-i-define-custom-workspaces">how do I define custom workspaces?</h2>
+
+<p>workspaces are created by calling the appropriate function on the IWorkspaceContainer you are using. in the default configuration, that is <code>CreateWorkspace</code> on the <code>workspacerContainer</code> object. for example:</p>
+
+<pre><code class="language-csharp">var container = new WorkspaceContainer(context);
+container.CreateWorkspace(&quot;workspace&quot;, createLayouts());
+container.CreateWorkspace(&quot;another&quot;, createLayouts());
+context.Workspaces.Container = container;
+</code></pre>
+
+<p>you can define as many workspaces as you want (given that the workspace container you are using supports it)</p>
+
+<h2 id="how-do-i-make-workspacer-ignore-some-windows">how do I make workspacer ignore some windows?</h2>
+
+<p>the default config includes some default ignore rules via the definition of <code>context.Workspaces.WindowFilterFunc</code> that you will likely find useful. if you assign a value to this function (or modify the existing one in the default config), workspacer will check it before deciding whether or not to keep track of a window. for example, if you wanted to make workspacer ignore windows with the title of &ldquo;Google Chrome&rdquo; you would do the following:</p>
+
+<pre><code class="language-csharp">context.Workspaces.WindowFilterFunc = (window) =&gt; 
+{
+    if (window.Title.Contains(&quot;Google Chrome&quot;))
+        return false;
+    return true;
+};
+</code></pre>
+
+<p>returning true from this function will mean workspacer will manage the widnow, while false means it won&rsquo;t.</p>
+
+<h2 id="how-do-i-make-some-windows-always-go-to-a-specific-workspace">how do I make some windows always go to a specific workspace?</h2>
+
+<p>you can assign a value to <code>context.Workspaces.WorkspaceSelectorFunc</code> in order to tell workspacer how to assign your windows to workspaces. without this function defined, workspacer will assign new windows to the currently focused workspace, but in order to override that you can do the following:</p>
+
+<pre><code class="language-csharp">context.Workspaces.WorkspaceSelectorFunc = (window) =&gt;
+{
+    if (window.Title.Contains(&quot;Google Chrome&quot;))
+        return container[&quot;web&quot;];
+    return null;
+}
+</code></pre>
+
+<p>which will make all instances of Google Chrome go to the &ldquo;web&rdquo; workspace, and the rest will be decided by the workspace container. *note that it is important that you return <code>null</code> if you don&rsquo;t want to force the window to a specific workspace, because returning null will allow the workspace container to decide where it should go.`</p>
+
+<h2 id="how-do-i-chose-different-layout-engines">how do I chose different layout engines?</h2>
+
+<p>layouts are usually passed as arguments to the <code>CreateWorkspace</code> function on the workspace container. In almost every case, you will want to create a new set layout engines for each workspace that you add to the container, so layout engines are usually defined by writing a function that generates them. for example:</p>
+
+<pre><code class="language-csharp">Func&lt;ILayoutEngine, ILayoutEngine&gt; wrapLayout = (ILayoutEngine inner) =&gt; new MenuBarLayoutEngine(inner, barTitle, barHeight);
+Func&lt;ILayoutEngine[]&gt; createLayouts = () =&gt; new ILayoutEngine[]
+{
+    wrapLayout(new TallLayoutEngine(1, 0.5, 0.03)),
+    wrapLayout(new FullLayoutEngine()),
+    wrapLayout(new VertLayoutEngine()),
+    wrapLayout(new HorzLayoutEngine()),
+};
+</code></pre>
+
+<p><code>createLayouts</code> when called will return an array of layouts that can be used to initialize a workspace (see the previous example for usage).</p>
+
+<h2 id="how-do-i-customize-the-menu-bar">how do I customize the menu bar?</h2>
+
+<p>the menu bar is implemented as a <code>workspacer plugin</code>, which is essentially just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:</p>
+
+<pre><code class="language-csharp">context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
+{
+    BarHeight = someBarHeightInt,
+    FontSize = someFontSizeInt,
+    DefaultWidgetForeground = Color.SomeColor,
+    DefaultWidgetBackground = Color.AnotherColor,
+    LeftWidgets = () =&gt; new IBarWidget[] { new WorkspaceWidget(), new TextWidget(&quot;: &quot;), new TitleWidget() },
+    RightWidgets = () =&gt; new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
+}));
+</code></pre>
+
+<p>the default workspacer configuration will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties.</p>
+
+<h2 id="how-do-i-register-custom-keybindings">how do I register custom keybindings?</h2>
+
+<p>the default workspacer config file includes a call that looks like this:</p>
+
+<pre><code class="language-csharp">context.Keybinds.SubscribeDefaults();
+</code></pre>
+
+<p>which subscribes to the <a href="/keybindings">default set of keybindings</a> automatically for you. if you want to add additional keybindings, or override an existing one, you can do the following:</p>
+
+<pre><code class="language-csharp">context.Keybinds.Subscribe(mod, Keys.Y, () =&gt; Console.WriteLine(&quot;Y was pressed&quot;))
+</code></pre>
+
+<p>where <code>mod</code> is a KeyModifiers value (<code>mod</code> is already defined as <code>KeyModifiers.Alt</code> in the default config, so you should be able to reuse it).</p>
+
+<p>if you want to remove a keybinding that already exists, you can unsubscribe from it:</p>
+
+<pre><code class="language-csharp">context.Keybindings.Unsubscribe(mod, Keys.Y);
+</code></pre>
+
+<p>finally, you can remove the entire call to <code>SubscribeDefaults</code> if you want to define the entire set of keybinds yourself.</p>
+
+</main>
+
+    <footer>
+      
+<script>
+(function() {
+  function center_el(tagName) {
+    var tags = document.getElementsByTagName(tagName), i, tag;
+    for (i = 0; i < tags.length; i++) {
+      tag = tags[i];
+      var parent = tag.parentElement;
+      
+      if (parent.childNodes.length === 1) {
+        
+        if (parent.nodeName === 'A') {
+          parent = parent.parentElement;
+          if (parent.childNodes.length != 1) continue;
+        }
+        if (parent.nodeName === 'P') parent.style.textAlign = 'center';
+      }
+    }
+  }
+  var tagNames = ['img', 'embed', 'object'];
+  for (var i = 0; i < tagNames.length; i++) {
+    center_el(tagNames[i]);
+  }
+})();
+</script>
+
+      
+      <hr/>
+      MIT Licensed | <a href="https://github.com/rickbutton/workspacer">github</a>
+      
+    </footer>
+  </body>
+</html>
+
