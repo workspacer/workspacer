@@ -14,7 +14,7 @@ currently, workspacer supports most default xmonad functionality, like custom la
 
 # installation
 
-[download the latest installer from github](https://github.com/rickbutton/workspacer/releases) and install it. workspacer will automatically check for updates, and automatically download them.
+[check out the quickstart guide](/quickstart), workspacer will automatically check for updates!
 
 # configuration
 
