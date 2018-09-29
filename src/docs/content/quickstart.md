@@ -28,6 +28,6 @@ workspacer's default configuration behaves a lot like `xmonad` with `xmobar` in 
 
 [the keybindings page](/keybindings) describes the default set of keybindings.
 
-# step three - submit feedback!
+# step four - submit feedback!
 
 If you run into any bugs, or want to suggest a feature, please feel free to [open an issue!](https://github.com/rickbutton/workspacer/issues)
