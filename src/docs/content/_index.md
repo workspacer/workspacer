@@ -8,55 +8,30 @@ title: home
 
 ### a tiling window manager for Windows
 
-Workspacer is a tiling window manager for Windows 10, that is similar in style and function to xmonad.
+workspacer is a tiling window manager for Windows 10, that is similar in style and function to xmonad.
 
-Currently, Workspacer supports most default xmonad functionality, like custom layout engines, workspace support, and powerful keybinds.
+currently, workspacer supports most default xmonad functionality, like custom layout engines, workspace support, and powerful keybinds.
 
-# Installation
+# installation
 
-[Download the latest installer from github](https://github.com/rickbutton/workspacer/releases) and install it. Workspacer will automatically check for updates, and automatically download them.
+[download the latest installer from github](https://github.com/rickbutton/workspacer/releases) and install it. workspacer will automatically check for updates, and automatically download them.
 
-# Configuration
+# configuration
 
-Workspacer is entirely configured in actual C# (which means that you can literally configure it however you want!). A full tutorial on how to configure Workspacer is coming soon!
+workspacer is entirely configured in actual C# (which means that you can literally configure it however you want!). a full tutorial on how to configure workspacer is coming soon!
 
-# Keybinds
+## a note on configuration compatibility
 
-Workspacer tries to mimic xmonad's keybindings wherever possible. The default keybindings are:
+because workspacer is a new project, I have not fully nailed down how I want the interfaces to look or behave, so everything in workspacer is subject to change. if you write a configuration file, be warned that I may make large changes that break backwards compatibility. i will announce when the configuration API is going to be stable. however, if your config breaks, feel free to let me know and I will be glad to help you modify it to work with a newer version.
 
-| keybind         | description     |
-| --------------- | --------------- |
-| alt-shift-e | toggle enabled/disabled |
-| alt-shift-c | close focused window |
-| alt-space | next layout engine |
-| alt-shift-space | previous layout engine |
-| alt-n | reset layout |
-| alt-j | focus next window |
-| alt-k | focus previous window |
-| alt-m | focus primary window |
-| alt-enter | swap focus and primary window |
-| alt-shift-j | swap focus and next window |
-| alt-shift-k | swap focus and previous window |
-| alt-h | shrink primary area |
-| alt-l | expand primary area |
-| alt-comma | increment number of primary windows |
-| alt-period | decrement number of primary windows |
-| alt-t | toggle tiling for focused window |
-| alt-shift-q | quit workspacer |
-| alt-q | restart workspacer |
-| alt-left | switch to left workspace |
-| alt-right | switch to right workspace |
-| alt-{1..9} | switch to workspace {1..9} |
-| alt-{wer} | focus monitor {123} |
-| alt-shift-{wer} | move focused window to monitor {123} |
-| alt-shift-{1..9} | move focused window to workspace {1..9} |
+# keybinds
 
+{{<partial name="/partials/_defaultkeys.md">}}
 
-# Is this ready for use yet?
+# is this ready for use yet?
 
-Kinda! See the [Installation](#installation). There are likely some major bugs in Workspacer that I have not fixed yet, but it is more or less functionally complete. I am using Workspacer 24/7 at home and at work at the moment, so it suites my needs (aside from the occasional hickup or crash). If you run into any problems, please open an issue!
+kinda! see the [installation](#installation). there are likely some major bugs in workspacer that I have not fixed yet, but it is more or less functionally complete. i am using workspacer 24/7 at home and at work at the moment, so it suites my needs (aside from the occasional hickup or crash). if you run into any problems, please open an issue!
 
-# Contributing
+# contributing
 
-Thanks for your interest in contributing! Submit a pull request!
-
+Thanks for your interest in contributing! Submit a pull request! Or if you just have a good idea (or even a bad one) [submit an issue!](https://github.com/rickutton/workspacer/issues) 
