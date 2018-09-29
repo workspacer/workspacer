@@ -33,5 +33,29 @@ namespace Workspacer.Bar
         public static readonly Color Navy =      new Color(0x00, 0x00, 0x80);
         public static readonly Color Fuchsia =   new Color(0xFF, 0x00, 0xFF);
         public static readonly Color Purple =    new Color(0x80, 0x00, 0x80);
+
+        public bool Equals(IColor other)
+        {
+            if (other == null)
+                return false;
+
+            return R == other.R &&
+                   G == other.G &&
+                   B == other.B;
+        }
+
+        public override bool Equals(object o)
+        {
+            return this.Equals(o as IColor);
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 13;
+            hash = (hash * 7) + R.GetHashCode();
+            hash = (hash * 7) + B.GetHashCode();
+            hash = (hash * 7) + G.GetHashCode();
+            return hash;
+        }
     }
 }

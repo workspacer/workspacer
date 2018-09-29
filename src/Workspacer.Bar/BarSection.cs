@@ -96,12 +96,12 @@ namespace Workspacer.Bar
                 label.ForeColor = ColorToColor(_defaultFore);
             }
 
-            if (part.BackgroundColor != null)
+            if (part.BackgroundColor != null && part.BackgroundColor != _defaultFore)
             {
                 label.BackColor = ColorToColor(part.BackgroundColor);
             } else
             {
-                label.BackColor = ColorToColor(_defaultBack);
+                label.BackColor = System.Drawing.Color.FromArgb(0, System.Drawing.Color.Black);
             }
 
             if (part.PartClicked != null)
