@@ -18,7 +18,7 @@ C:\Users\<username>\.workspacer\workspacer.config.csx
 
 workspacer is configured entirely using C#, using types and interfaces provided by workspacer itself. This means that while workspacer requires knowledge of programming to use, it's configuration is extremely powerful, and allows you to modify, or even replace, most functionality that drives workspacer. For example, a common use case is to implement a custom layout engine (just define a class that satisfies the interface `ILayoutEngine`) entirely inside the config file, and then use it to define completely custom layout behavior, without needing to modify workspacer itself.
 
-also, workspacer's config file allows for type checking / intellisense! Currently, only VSCode with the C# is supported. Opening the `.workspacer` folder in your home directory inside VSCode with the C# extension installed will automatically provide syntax highlighting, type checking, and autocomplete automatically because of the "#r" directives at the top of the config file (so don't remove those, or else this won't work!).
+also, workspacer's config file allows for type checking / intellisense! Currently, only VSCode with the C# extension is supported. Opening the `.workspacer` folder in your home directory inside VSCode with the C# extension installed will provide syntax highlighting, type checking, and autocomplete automatically because of the `#r` directives at the top of the config file (so don't remove those, or else this won't work!).
 
 [the config page](/config) lists a few examples and tips/tricks on how to customize your configuration to your liking.
 
