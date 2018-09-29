@@ -18,7 +18,10 @@ namespace Workspacer.Bar.Widgets
         public override IBarWidgetPart[] GetParts()
         {
             var currentWorkspace = Context.Workspaces.Container.GetWorkspaceForMonitor(Context.Monitor);
-            return Parts("[" + currentWorkspace.LayoutName + "]");
+            return Parts(Part("[" + currentWorkspace.LayoutName + "]", null, null, () =>
+            {
+                Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
+            }));
         }
 
         public override void Initialize()
