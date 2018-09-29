@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Workspacer.Bar
 {
-    public interface IColor
+    public interface IColor : IEquatable<IColor>
     {
         int R { get; }
         int G { get; }
