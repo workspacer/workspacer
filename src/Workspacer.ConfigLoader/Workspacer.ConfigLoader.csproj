@@ -179,7 +179,6 @@
     <Compile Include="ConfigHelper.cs" />
     <Compile Include="IConfig.cs" />
     <Compile Include="Layouts\FullLayoutEngine.cs" />
-    <Compile Include="Layouts\MenuBarLayoutEngine.cs" />
     <Compile Include="Layouts\TallLayoutEngine.cs" />
     <Compile Include="Layouts\PaneLayoutEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
