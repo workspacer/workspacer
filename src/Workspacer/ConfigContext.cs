@@ -50,6 +50,8 @@ namespace Workspacer
                 Action = LauncherAction.Quit,
             };
             SendResponse(response);
+
+            SystemTray.Destroy();
             Environment.Exit(0);
         }
 

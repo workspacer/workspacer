@@ -25,5 +25,10 @@ namespace Workspacer
         {
             _strip.Items.Add(text, null, (s, e) => handler());
         }
+
+        public void Destroy()
+        {
+            _icon.Visible = false;
+        }
     }
 }
