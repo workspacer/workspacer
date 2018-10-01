@@ -221,6 +221,24 @@ namespace Workspacer
             }
         }
 
+        public void MoveAllWindows(IWorkspace source, IWorkspace dest)
+        {
+            var toMove = source.Windows.ToList();
+            foreach (var window in toMove)
+            {
+                RemoveWindow(window);
+            }
+            foreach (var window in toMove)
+            {
+                AddWindowToWorkspace(window, dest);
+            }
+        }
+
+        public void ForceWorkspaceUpdate()
+        {
+            WorkspaceUpdated?.Invoke();
+        }
+
         public void AddWindow(IWindow window)
         {
             AddWindow(window, true);
@@ -228,30 +246,23 @@ namespace Workspacer
 
         public void AddWindow(IWindow window, bool switchToWorkspace)
         {
-            Logger.Debug("AddWindow({0})", window.Handle);
             var shouldTrack = WindowFilterFunc?.Invoke(window) ?? true;
-
             if (!shouldTrack)
                 return;
 
+            Logger.Debug("AddWindow({0})", window);
+
             if (!_windowsToWorkspaces.ContainsKey(window))
             {
-                if (WorkspaceSelectorFunc == null)
-                {
-                    AddWindowToWorkspace(window, FocusedWorkspace);
-                }
-                else
-                {
-                    var workspace = WorkspaceSelectorFunc(window);
+                var workspace = WorkspaceSelectorFunc?.Invoke(window) ?? FocusedWorkspace;
 
-                    if (workspace != null)
+                if (workspace != null)
+                {
+                    AddWindowToWorkspace(window, workspace);
+
+                    if (switchToWorkspace && window.CanLayout)
                     {
-                        AddWindowToWorkspace(window, workspace);
-
-                        if (switchToWorkspace)
-                        {
-                            SwitchToWorkspace(workspace);
-                        }
+                        SwitchToWorkspace(workspace);
                     }
                 }
             }
@@ -259,7 +270,7 @@ namespace Workspacer
 
         private void AddWindowToWorkspace(IWindow window, IWorkspace workspace)
         {
-            Logger.Debug("AddWindowToWorkspace({0}, {1})", window.Handle, workspace);
+            Logger.Debug("AddWindowToWorkspace({0}, {1})", window, workspace);
             workspace.AddWindow(window);
             _windowsToWorkspaces[window] = workspace;
 
@@ -276,9 +287,9 @@ namespace Workspacer
 
         public void RemoveWindow(IWindow window)
         {
-            Logger.Debug("RemoveWindow({0})", window);
             if (_windowsToWorkspaces.ContainsKey(window))
             {
+                Logger.Debug("RemoveWindow({0})", window);
                 var workspace = _windowsToWorkspaces[window];
                 _windowsToWorkspaces[window].RemoveWindow(window);
                 _windowsToWorkspaces.Remove(window);
@@ -288,9 +299,9 @@ namespace Workspacer
 
         public void UpdateWindow(IWindow window)
         {
-            Logger.Debug("UpdateWindow({0})", window);
             if (_windowsToWorkspaces.ContainsKey(window))
             {
+                Logger.Debug("UpdateWindow({0})", window);
                 var workspace = _windowsToWorkspaces[window];
                 if (window.IsFocused)
                 {

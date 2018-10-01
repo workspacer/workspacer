@@ -33,6 +33,9 @@ namespace Workspacer
         void SwitchFocusedMonitorToMouseLocation();
         void MoveFocusedWindowToWorkspace(int index);
         void MoveFocusedWindowToMonitor(int index);
+        void MoveAllWindows(IWorkspace source, IWorkspace dest);
+
+        void ForceWorkspaceUpdate();
 
         event WorkspaceUpdatedDelegate WorkspaceUpdated;
         event WindowAddedDelegate WindowAdded;

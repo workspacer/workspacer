@@ -17,9 +17,10 @@ namespace Workspacer.ActionMenu
         private IConfigContext _context;
         private ActionMenuPluginConfig _config;
 
-        public ActionMenuItem[] Items { get; set; }
-
         private IMatcher _matcher;
+        private string _message;
+        private bool _freeform;
+        private ActionMenuItem[] _items;
 
         public ActionMenuForm(IConfigContext context, ActionMenuPluginConfig config)
         {
@@ -35,6 +36,7 @@ namespace Workspacer.ActionMenu
             this.textBox.KeyDown += OnKeyDown;
             this.KeyDown += OnKeyDown;
             this.textBox.TextChanged += OnTextChanged;
+            this.listBox.GotFocus += OnGotFocus;
 
             this.TopMost = true;
             this.ControlBox = false;
@@ -47,6 +49,9 @@ namespace Workspacer.ActionMenu
             this.AutoSize = true;
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
+            this.label.Text = "";
+            this.label.BackColor = ColorToColor(config.Background);
+            this.label.ForeColor = ColorToColor(config.Foreground);
             this.textBox.BackColor = ColorToColor(config.Background); 
             this.textBox.ForeColor = ColorToColor(config.Foreground);
             this.listBox.BackColor = ColorToColor(config.Background);
@@ -54,19 +59,34 @@ namespace Workspacer.ActionMenu
 
             this.textBox.AutoSize = true;
             this.listBox.AutoSize = true;
+            this.listBox.IntegralHeight = true;
 
+            this.label.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.textBox.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.listBox.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
 
             this.listBox.DisplayMember = "Text";
             this.listBox.ValueMember = "Text";
+        }
 
-            var monitor = _context.Workspaces.FocusedMonitor;
-            var width = this.ClientRectangle.Width;
-            this.Location = new Point(monitor.X + (monitor.Width / 2) - (width / 2), 0);
-            this.textBox.Location = new Point(0, 0);
-            this.listBox.Location = new Point(0, this.textBox.Height);
-            this.listBox.Margin = new Padding(0, 0, 0, 10);
+        public void SetItems(string message, ActionMenuItem[] items)
+        {
+            this.textBox.Text = "";
+            _message = message;
+            _items = items;
+            _freeform = false;
+            ApplyFilter();
+        }
+
+        public void SetFreeForm(string message, Action<string> callback)
+        {
+            this.textBox.Text = "";
+            _message = message;
+            _items = new ActionMenuItem[] {
+                new ActionMenuItem(message, () => callback(this.textBox.Text))
+            };
+            _freeform = true;
+            ApplyFilter();
         }
 
         private System.Drawing.Color ColorToColor(Color color)
@@ -117,16 +137,17 @@ namespace Workspacer.ActionMenu
             this.textBox.LostFocus += OnLostFocus;
 
             ApplyFilter();
-
-            this.textBox.Location = new Point(0, 0);
-            this.listBox.Location = new Point(0, this.textBox.Height);
-            this.listBox.Margin = new Padding(0, 0, 0, 10);
             this.listBox.SelectedIndex = 0;
         }
 
         private void OnLostFocus(object sender, EventArgs e)
         {
             Cleanup();
+        }
+
+        private void OnGotFocus(object sender, EventArgs e)
+        {
+            FixLayout();
         }
         
         private void SelectNext()
@@ -143,7 +164,14 @@ namespace Workspacer.ActionMenu
 
         private void CommitSelection()
         {
-            var item = this.listBox.SelectedItem as ActionMenuItem;
+            ActionMenuItem item;
+            if (_freeform)
+            {
+                item = _items[0];
+            } else
+            {
+                item = this.listBox.SelectedItem as ActionMenuItem;
+            }
 
             Cleanup();
 
@@ -155,12 +183,17 @@ namespace Workspacer.ActionMenu
 
         private void ApplyFilter()
         {
-            if (Items == null)
-                return;
+            this.label.Text = _message;
 
+            if (_items == null || _freeform)
+            {
+                this.listBox.Items.Clear();
+                FixLayout();
+                return;
+            }
 
             var query = this.textBox.Text;
-            var matchedItems = Items.Where(item => _matcher.Match(query, item.Text) != null).ToList();
+            var matchedItems = _items.Where(item => _matcher.Match(query, item.Text) != null).ToList();
 
             int i;
             for (i = 0; i < matchedItems.Count; i++)
@@ -184,11 +217,25 @@ namespace Workspacer.ActionMenu
             {
                 this.listBox.SelectedIndex = 0;
             }
+            FixLayout();
+        }
+
+        private void FixLayout()
+        {
+            var labelHeight = this.label.Text != "" ? this.label.Height : 0;
+
+            var monitor = _context.Workspaces.FocusedMonitor;
+            var width = this.ClientRectangle.Width;
+            this.listBox.Height = this.listBox.ItemHeight * this.listBox.Items.Count;
+
+            this.textBox.Location = new Point(0, labelHeight);
+            this.listBox.Location = new Point(0, this.textBox.Height + labelHeight);
+            this.listBox.Visible = this.listBox.Items.Count > 0;
+            this.Location = new Point(monitor.X + (monitor.Width / 2) - (width / 2), 0);
         }
 
         private void Cleanup()
         {
-            this.textBox.Text = "";
             this.textBox.LostFocus -= OnLostFocus;
             ApplyFilter();
             Hide();

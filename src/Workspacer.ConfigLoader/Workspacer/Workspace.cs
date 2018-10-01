@@ -326,6 +326,11 @@ namespace Workspacer
             }
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         private void SwapWindows(IWindow left, IWindow right)
         {
             var leftIdx = _windows.FindIndex(w => w == left);

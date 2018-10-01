@@ -38,6 +38,11 @@ namespace Workspacer
             }
         }
 
+        public void CreateWorkspace(string name, params ILayoutEngine[] layouts)
+        {
+            CreateWorkspace(_context.Workspaces.FocusedMonitor, name, layouts);
+        }
+        
         public void CreateWorkspace(IMonitor monitor, string name, params ILayoutEngine[] layouts)
         {
             var workspace = new Workspace(_context, name, layouts);
@@ -45,6 +50,35 @@ namespace Workspacer
             _orderedWorkspaces[monitor].Add(workspace);
             _allWorkspaces.Add(workspace);
             _wtm[workspace] = monitor;
+            _context.Workspaces.ForceWorkspaceUpdate();
+        }
+
+        public void RemoveWorkspace(IWorkspace workspace)
+        {
+            VerifyExists(workspace);
+            var monitor = GetDesiredMonitorForWorkspace(workspace);
+            var dest = GetPreviousWorkspace(workspace);
+
+            var currentMonitor = GetCurrentMonitorForWorkspace(workspace);
+            if (currentMonitor != null)
+            {
+                var oldDestMonitor = GetCurrentMonitorForWorkspace(dest);
+                if (oldDestMonitor != null)
+                {
+                    var newWorkspace = GetWorkspaces(oldDestMonitor).First(w => GetCurrentMonitorForWorkspace(w) == null);
+                    AssignWorkspaceToMonitor(newWorkspace, oldDestMonitor);
+                }
+                AssignWorkspaceToMonitor(dest, monitor);
+            }
+
+            _context.Workspaces.MoveAllWindows(workspace, dest);
+
+            _workspaces[monitor].Remove(workspace);
+            _orderedWorkspaces[monitor].Remove(workspace);
+            _allWorkspaces.Remove(workspace);
+            _wtm.Remove(workspace);
+
+            _context.Workspaces.ForceWorkspaceUpdate();
         }
 
         public void AssignWorkspaceToMonitor(IWorkspace workspace, IMonitor monitor)
@@ -181,6 +215,14 @@ namespace Workspacer
             } else
             {
                 return _allWorkspaces;
+            }
+        }
+
+        public IWorkspace this[string name]
+        {
+            get
+            {
+                return _allWorkspaces.FirstOrDefault(w => w.Name == name);
             }
         }
 

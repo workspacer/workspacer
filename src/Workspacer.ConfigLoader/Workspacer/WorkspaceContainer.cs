@@ -30,6 +30,35 @@ namespace Workspacer
             var workspace = new Workspace(_context, name, layouts);
             _workspaces.Add(workspace);
             _workspaceMap[workspace] = _workspaces.Count - 1;
+            _context.Workspaces.ForceWorkspaceUpdate();
+        }
+
+        public void RemoveWorkspace(IWorkspace workspace)
+        {
+            var index = _workspaces.IndexOf(workspace);
+            var dest = GetPreviousWorkspace(workspace);
+
+            var monitor = GetCurrentMonitorForWorkspace(workspace);
+            if (monitor != null)
+            {
+                var oldDestMonitor = GetCurrentMonitorForWorkspace(dest);
+                if (oldDestMonitor != null)
+                {
+                    var newWorkspace = GetWorkspaces(oldDestMonitor).First(w => GetCurrentMonitorForWorkspace(w) == null);
+                    AssignWorkspaceToMonitor(newWorkspace, oldDestMonitor);
+                }
+                AssignWorkspaceToMonitor(dest, monitor);
+            }
+            _context.Workspaces.MoveAllWindows(workspace, dest);
+
+            for (var i = index + 1; i < _workspaces.Count; i++)
+            {
+                var w = _workspaces[i];
+                _workspaceMap[w]--;
+            }
+            _workspaces.RemoveAt(index);
+
+            _context.Workspaces.ForceWorkspaceUpdate();
         }
 
         public void AssignWorkspaceToMonitor(IWorkspace workspace, IMonitor monitor)
@@ -73,12 +102,6 @@ namespace Workspacer
             return _workspaces[index];
         }
 
-        public IWorkspace GetWorkspaceByName(IWorkspace currentWorkspace, string name)
-        {
-            VerifyExists(currentWorkspace);
-            return _workspaces.FirstOrDefault(w => w.Name == name);
-        }
-
         public IMonitor GetCurrentMonitorForWorkspace(IWorkspace workspace)
         {
             return _mtw.Keys.FirstOrDefault(m => _mtw[m] == workspace);
@@ -108,6 +131,14 @@ namespace Workspacer
         public IEnumerable<IWorkspace> GetAllWorkspaces()
         {
             return _workspaces;
+        }
+
+        public IWorkspace this[string name]
+        {
+            get
+            {
+                return _workspaces.FirstOrDefault(w => w.Name == name);
+            }
         }
 
         private void VerifyExists(IWorkspace workspace)
