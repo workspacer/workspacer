@@ -1,3 +1,8 @@
+# v0.7
+
+- cycle layouts via click on ActiveLayoutWidget 
+- added ActionMenu plugin!
+
 # v0.6
 
 - refactored IWorkspaceManager, moving most selection logic into IWorkspaceContainer, which is provided by the user config
