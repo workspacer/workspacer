@@ -58,15 +58,14 @@ which will make all instances of Google Chrome go to the "web" workspace, and th
 layouts are usually passed as arguments to the `CreateWorkspace` function on the workspace container. In almost every case, you will want to create a new set layout engines for each workspace that you add to the container, so layout engines are usually defined by writing a function that generates them. for example:
 
 ```csharp
-Func<ILayoutEngine, ILayoutEngine> wrapLayout = (ILayoutEngine inner) => new MenuBarLayoutEngine(inner, barTitle, barHeight);
 Func<ILayoutEngine[]> createLayouts = () => new ILayoutEngine[]
 {
-    wrapLayout(new TallLayoutEngine(1, 0.5, 0.03)),
-    wrapLayout(new FullLayoutEngine()),
-    wrapLayout(new VertLayoutEngine()),
-    wrapLayout(new HorzLayoutEngine()),
+    barConfig.CreateWrapperLayout(new TallLayoutEngine(1, 0.5, 0.03)),
+    barConfig.CreateWrapperLayout(new FullLayoutEngine()),
 };
 ```
+
+note that the above example assumes that you are using the `bar` plugin, and that you named the configuration `barConfig` (named as such in the default config).
 
 `createLayouts` when called will return an array of layouts that can be used to initialize a workspace (see the previous example for usage).
 
@@ -75,18 +74,32 @@ Func<ILayoutEngine[]> createLayouts = () => new ILayoutEngine[]
 the menu bar is implemented as a `workspacer plugin`, which is essentially just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:
 
 ```csharp
-context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
+var barConfig = new BarPluginConfig()
 {
-    BarHeight = someBarHeightInt,
-    FontSize = someFontSizeInt,
-    DefaultWidgetForeground = Color.SomeColor,
-    DefaultWidgetBackground = Color.AnotherColor,
     LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() },
     RightWidgets = () => new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
-}));
+};
+context.Plugins.RegisterPlugin(new BarPlugin(barConfig));
 ```
 
-the default workspacer configuration will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the `LeftWidgets` and `RightWidgets` properties.
+the default workspacer configuration will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the `LeftWidgets` and `RightWidgets` properties. the config object contains other properties you might want to change for styling purposes.
+
+## how do I customize the action menu?
+
+the action menu is implemented as a `workspace plugin`, (see the above `menu bar` section). the action menu can be installed like this:
+
+```csharp
+var actionMenu = new ActionMenuPlugin(new ActionMenuPluginConfig());
+context.Plugins.RegisterPlugin(actionMenu);
+
+var defaultMenu = actionMenu.CreateDefault(context);
+defaultMenu.AddMenu("do a thing", () => DoACoolThing());
+defaultMenu.AddMenu("open a menu", () => CreateAMenu(container, actionMenu));
+defaultMenu.AddFreeForm("write to console", (s) => Console.WriteLine(s));
+context.Keybinds.Subscribe(mod, Keys.P, () => actionMenu.ShowMenu(defaultMenu.Get()));
+```
+
+note that `CreateDefault` will return a menu with a useful set of defaults. if you don't want these defaults, or you want to create an menu for nesting, you can use `Create` instead. you can nest these menus as much as desired, so any set of menus can be created.
 
 ## how do I register custom keybindings?
 
