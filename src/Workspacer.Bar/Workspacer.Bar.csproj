@@ -70,11 +70,10 @@
     <Compile Include="BarWidgetBase.cs" />
     <Compile Include="BarWidgetContext.cs" />
     <Compile Include="BarWidgetPart.cs" />
-    <Compile Include="Color.cs" />
     <Compile Include="IBarWidget.cs" />
     <Compile Include="IBarWidgetContext.cs" />
     <Compile Include="IBarWidgetPart.cs" />
-    <Compile Include="IColor.cs" />
+    <Compile Include="Layouts\MenuBarLayoutEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Widgets\ActiveLayoutWidget.cs" />
     <Compile Include="Widgets\FocusedMonitorWidget.cs" />

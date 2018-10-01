@@ -18,5 +18,10 @@ namespace Workspacer.Bar
 
         public Func<IBarWidget[]> LeftWidgets { get; set; } = () => new IBarWidget[0];
         public Func<IBarWidget[]> RightWidgets { get; set; } = () => new IBarWidget[0];
+
+        public ILayoutEngine CreateWrapperLayout(ILayoutEngine inner)
+        {
+            return new MenuBarLayoutEngine(inner, BarTitle, BarHeight);
+        }
     }
 }

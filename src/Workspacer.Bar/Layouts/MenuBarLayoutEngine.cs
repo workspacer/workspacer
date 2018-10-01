@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer
+namespace Workspacer.Bar
 {
     public class MenuBarLayoutEngine : ILayoutEngine
     {

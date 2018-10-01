@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer.Bar
+namespace Workspacer
 {
     public class Color : IColor
     {

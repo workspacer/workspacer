@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D13FD20B-E571-438D-B122-E24BC5A1384F}</ProjectGuid>
+    <ProjectGuid>{96EFD655-F7D0-4365-AE52-CC424007A3C4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Workspacer.Shared</RootNamespace>
-    <AssemblyName>Workspacer.Shared</AssemblyName>
+    <RootNamespace>Workspacer.ActionMenu</RootNamespace>
+    <AssemblyName>Workspacer.ActionMenu</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,16 +49,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.4.5.10\lib\net45\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -68,36 +61,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Color.cs" />
-    <Compile Include="IColor.cs" />
-    <Compile Include="IConfigContext.cs" />
-    <Compile Include="IWindowsManager.cs" />
-    <Compile Include="IKeybindManager.cs" />
-    <Compile Include="IPlugin.cs" />
-    <Compile Include="IPluginManager.cs" />
-    <Compile Include="IWorkspaceManager.cs" />
-    <Compile Include="Keybind\MouseHandler.cs" />
-    <Compile Include="Keybind\KeybindHandler.cs" />
-    <Compile Include="Keybind\KeyModifiers.cs" />
-    <Compile Include="Keybind\Keys.cs" />
-    <Compile Include="Keybind\MouseEvent.cs" />
-    <Compile Include="LauncherResponse.cs" />
-    <Compile Include="Layout\ILayoutEngine.cs" />
-    <Compile Include="Logger.cs" />
+    <Compile Include="ActionMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionMenuForm.Designer.cs">
+      <DependentUpon>ActionMenuForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionMenuItem.cs" />
+    <Compile Include="ActionMenuItemBuilder.cs" />
+    <Compile Include="ActionMenuPlugin.cs" />
+    <Compile Include="ActionMenuPluginConfig.cs" />
+    <Compile Include="IMatcher.cs" />
+    <Compile Include="IMatch.cs" />
+    <Compile Include="IMatchPart.cs" />
+    <Compile Include="Match.cs" />
+    <Compile Include="MatchPart.cs" />
+    <Compile Include="PrefixMatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemTray\ISystemTrayManager.cs" />
-    <Compile Include="IWindowsDeferPosHandle.cs" />
-    <Compile Include="WorkspacerSharedHandle.cs" />
-    <Compile Include="Window\IWindow.cs" />
-    <Compile Include="Window\IWindowLocation.cs" />
-    <Compile Include="Window\WindowLocation.cs" />
-    <Compile Include="Window\WindowState.cs" />
-    <Compile Include="Workspace\IMonitor.cs" />
-    <Compile Include="Workspace\IWorkspace.cs" />
-    <Compile Include="Workspace\IWorkspaceContainer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <EmbeddedResource Include="ActionMenuForm.resx">
+      <DependentUpon>ActionMenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Workspacer.Shared\Workspacer.Shared.csproj">
+      <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
+      <Name>Workspacer.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
