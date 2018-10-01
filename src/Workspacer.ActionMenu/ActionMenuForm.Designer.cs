@@ -30,11 +30,13 @@
         {
             this.textBox = new System.Windows.Forms.TextBox();
             this.listBox = new System.Windows.Forms.ListBox();
+            this.label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox
             // 
-            this.textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox.Location = new System.Drawing.Point(0, 0);
             this.textBox.Margin = new System.Windows.Forms.Padding(0);
             this.textBox.Name = "textBox";
@@ -43,7 +45,8 @@
             // 
             // listBox
             // 
-            this.listBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox.FormattingEnabled = true;
             this.listBox.Location = new System.Drawing.Point(0, 20);
             this.listBox.Margin = new System.Windows.Forms.Padding(0);
@@ -51,12 +54,23 @@
             this.listBox.Size = new System.Drawing.Size(584, 4);
             this.listBox.TabIndex = 1;
             // 
+            // label
+            // 
+            this.label.AutoSize = true;
+            this.label.Location = new System.Drawing.Point(0, 0);
+            this.label.Margin = new System.Windows.Forms.Padding(0);
+            this.label.Name = "label";
+            this.label.Size = new System.Drawing.Size(35, 13);
+            this.label.TabIndex = 2;
+            this.label.Text = "label1";
+            // 
             // ActionMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(584, 31);
+            this.Controls.Add(this.label);
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.listBox);
             this.Name = "ActionMenuForm";
@@ -70,5 +84,6 @@
 
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.ListBox listBox;
+        private System.Windows.Forms.Label label;
     }
 }
