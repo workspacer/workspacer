@@ -62,7 +62,6 @@ namespace Workspacer.Config
             var defaultMenu = actionMenu.CreateDefault(context);
             defaultMenu.AddMenu("remove workspace", () => CreateRemoveWorkspaceMenu(container, actionMenu));
             defaultMenu.AddFreeForm("create workspace", (s) => container.CreateWorkspace(s, createLayouts()));
-
             context.Keybinds.Subscribe(mod, Keys.P, () => actionMenu.ShowMenu(defaultMenu.Get()));
         }
 

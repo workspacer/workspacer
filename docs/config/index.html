@@ -115,15 +115,14 @@ context.Workspaces.Container = container;
 
 <p>layouts are usually passed as arguments to the <code>CreateWorkspace</code> function on the workspace container. In almost every case, you will want to create a new set layout engines for each workspace that you add to the container, so layout engines are usually defined by writing a function that generates them. for example:</p>
 
-<pre><code class="language-csharp">Func&lt;ILayoutEngine, ILayoutEngine&gt; wrapLayout = (ILayoutEngine inner) =&gt; new MenuBarLayoutEngine(inner, barTitle, barHeight);
-Func&lt;ILayoutEngine[]&gt; createLayouts = () =&gt; new ILayoutEngine[]
+<pre><code class="language-csharp">Func&lt;ILayoutEngine[]&gt; createLayouts = () =&gt; new ILayoutEngine[]
 {
-    wrapLayout(new TallLayoutEngine(1, 0.5, 0.03)),
-    wrapLayout(new FullLayoutEngine()),
-    wrapLayout(new VertLayoutEngine()),
-    wrapLayout(new HorzLayoutEngine()),
+    barConfig.CreateWrapperLayout(new TallLayoutEngine(1, 0.5, 0.03)),
+    barConfig.CreateWrapperLayout(new FullLayoutEngine()),
 };
 </code></pre>
+
+<p>note that the above example assumes that you are using the <code>bar</code> plugin, and that you named the configuration <code>barConfig</code> (named as such in the default config).</p>
 
 <p><code>createLayouts</code> when called will return an array of layouts that can be used to initialize a workspace (see the previous example for usage).</p>
 
@@ -131,18 +130,31 @@ Func&lt;ILayoutEngine[]&gt; createLayouts = () =&gt; new ILayoutEngine[]
 
 <p>the menu bar is implemented as a <code>workspacer plugin</code>, which is essentially just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:</p>
 
-<pre><code class="language-csharp">context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
+<pre><code class="language-csharp">var barConfig = new BarPluginConfig()
 {
-    BarHeight = someBarHeightInt,
-    FontSize = someFontSizeInt,
-    DefaultWidgetForeground = Color.SomeColor,
-    DefaultWidgetBackground = Color.AnotherColor,
     LeftWidgets = () =&gt; new IBarWidget[] { new WorkspaceWidget(), new TextWidget(&quot;: &quot;), new TitleWidget() },
     RightWidgets = () =&gt; new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
-}));
+};
+context.Plugins.RegisterPlugin(new BarPlugin(barConfig));
 </code></pre>
 
-<p>the default workspacer configuration will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties.</p>
+<p>the default workspacer configuration will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties. the config object contains other properties you might want to change for styling purposes.</p>
+
+<h2 id="how-do-i-customize-the-action-menu">how do I customize the action menu?</h2>
+
+<p>the action menu is implemented as a <code>workspace plugin</code>, (see the above <code>menu bar</code> section). the action menu can be installed like this:</p>
+
+<pre><code class="language-csharp">var actionMenu = new ActionMenuPlugin(new ActionMenuPluginConfig());
+context.Plugins.RegisterPlugin(actionMenu);
+
+var defaultMenu = actionMenu.CreateDefault(context);
+defaultMenu.AddMenu(&quot;do a thing&quot;, () =&gt; DoACoolThing());
+defaultMenu.AddMenu(&quot;open a menu&quot;, () =&gt; CreateAMenu(container, actionMenu));
+defaultMenu.AddFreeForm(&quot;write to console&quot;, (s) =&gt; Console.WriteLine(s));
+context.Keybinds.Subscribe(mod, Keys.P, () =&gt; actionMenu.ShowMenu(defaultMenu.Get()));
+</code></pre>
+
+<p>note that <code>CreateDefault</code> will return a menu with a useful set of defaults. if you don&rsquo;t want these defaults, or you want to create an menu for nesting, you can use <code>Create</code> instead. you can nest these menus as much as desired, so any set of menus can be created.</p>
 
 <h2 id="how-do-i-register-custom-keybindings">how do I register custom keybindings?</h2>
 
