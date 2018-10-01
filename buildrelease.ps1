@@ -7,6 +7,7 @@ $platform ="x64"
 
 $buildDir = "src\Workspacer\bin\$platform\$config\"
 $barBuildDir = "src\Workspacer.Bar\bin\$platform\$config\"
+$menuBuildDir = "src\Workspacer.ActionMenu\bin\$platform\$config\"
 
 $infos = Get-ChildItem -Path . -Filter "AssemblyInfo.cs" -Recurse -ErrorAction SilentlyContinue -Force
 $version = Get-Content "VERSION"
@@ -23,7 +24,7 @@ foreach ($file in $infos)
 {
     "fixing version for $file"
     (Get-Content $file.PSPath) |
-    Foreach-Object { $_ -replace "AssemblyVersion\("".*""\)", "AssemblyVersion(""$version.*"")" } |
+    Foreach-Object { $_ -replace "AssemblyVersion\("".*""\)", "AssemblyVersion(""$version.0"")" } |
     Set-Content $file.PSPath
 }
 
@@ -40,8 +41,10 @@ foreach ($file in $setupProjs)
 
 heat dir $buildDir -o $setupDir\Workspacer.wxs -t $setupDir\Workspacer.xslt -scon -sfrag -srd -sreg -gg -cg Workspacer -dr INSTALLDIR -var var.SourceDir
 heat dir $barBuildDir -o $setupDir\Workspacer.Bar.wxs -t $setupDir\Workspacer.Bar.xslt -scon -sfrag -srd -sreg -gg -cg Workspacer.Bar -dr INSTALLDIR -var var.SourceDir
+heat dir $menuBuildDir -o $setupDir\Workspacer.ActionMenu.wxs -t $setupDir\Workspacer.ActionMenu.xslt -scon -sfrag -srd -sreg -gg -cg Workspacer.ActionMenu -dr INSTALLDIR -var var.SourceDir
 
 candle $setupDir\Product.wxs -ext WixUIExtension -o $outDir\Product.wixobj 
 candle $setupDir\Workspacer.wxs -ext WixUIExtension -o $outDir\Workspacer.wixobj -dSourceDir="$buildDir"
 candle $setupDir\Workspacer.Bar.wxs -ext WixUIExtension -o $outDir\Workspacer.Bar.wixobj -dSourceDir="$barBuildDir"
-light -out $outDir\Workspacer-$version.msi $outDir\Product.wixobj $outDir\Workspacer.wixobj $outDir\Workspacer.Bar.wixobj -ext WixUIExtension
+candle $setupDir\Workspacer.ActionMenu.wxs -ext WixUIExtension -o $outDir\Workspacer.ActionMenu.wixobj -dSourceDir="$menuBuildDir"
+light -out $outDir\Workspacer-$version.msi $outDir\Product.wixobj $outDir\Workspacer.wixobj $outDir\Workspacer.Bar.wixobj $outdir\Workspacer.ActionMenu.wixobj -ext WixUIExtension

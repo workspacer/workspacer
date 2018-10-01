@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLDIR">
+            <Component Id="cmp682C8853873B029562FB6084481F2DC1" Guid="{B0EAC626-1300-406D-926B-BD203E647BA1}">
+                <File Id="fil5EEDC98CDD768083404A9D045BFAE197" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.ActionMenu.dll" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="Workspacer.ActionMenu">
+            <ComponentRef Id="cmp682C8853873B029562FB6084481F2DC1" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>
