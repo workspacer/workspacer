@@ -9,5 +9,6 @@ namespace Workspacer
     public interface ISystemTrayManager
     {
         void AddToContextMenu(string text, Action handler);
+        void Destroy();
     }
 }
