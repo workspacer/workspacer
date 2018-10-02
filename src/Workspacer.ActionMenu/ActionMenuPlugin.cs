@@ -47,12 +47,31 @@ namespace Workspacer.ActionMenu
         {
             return new ActionMenuItemBuilder(this)
                 .Add("restart workspacer", () => context.Restart())
-                .Add("quit workspacer", () => context.Quit());
+                .Add("quit workspacer", () => context.Quit())
+                .AddMenu("switch to window", () => CreateSwitchToWindowMenu(context));
         }
 
         public ActionMenuItemBuilder Create()
         {
             return new ActionMenuItemBuilder(this);
+        }
+
+        private ActionMenuItemBuilder CreateSwitchToWindowMenu(IConfigContext context)
+        {
+            var builder = Create();
+            var workspaces = context.Workspaces.Container.GetAllWorkspaces();
+            foreach (var workspace in workspaces)
+            {
+                foreach (var window in workspace.Windows)
+                {
+                    if (window.CanLayout)
+                    {
+                        var text = $"[{workspace.Name}] {window.Title}";
+                        builder.Add(text, () => context.Workspaces.SwitchToWindow(window));
+                    }
+                }
+            }
+            return builder;
         }
     }
 }

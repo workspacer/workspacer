@@ -19,7 +19,6 @@ namespace Workspacer
 
             var windowList = windows.ToList();
             var noFocus = !windowList.Any(w => w.IsFocused);
-            Trace.WriteLine($"noFocus:${noFocus}");
 
             list.Add(new WindowLocation(0, 0, spaceWidth, spaceHeight, GetDesiredState(windowList[0], noFocus)));
 

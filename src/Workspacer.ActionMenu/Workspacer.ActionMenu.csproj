@@ -71,11 +71,13 @@
     <Compile Include="ActionMenuItemBuilder.cs" />
     <Compile Include="ActionMenuPlugin.cs" />
     <Compile Include="ActionMenuPluginConfig.cs" />
+    <Compile Include="OrMatcher.cs" />
     <Compile Include="IMatcher.cs" />
     <Compile Include="IMatch.cs" />
     <Compile Include="IMatchPart.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="MatchPart.cs" />
+    <Compile Include="ContiguousMatcher.cs" />
     <Compile Include="PrefixMatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
