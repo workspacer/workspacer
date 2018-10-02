@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="INSTALLDIR">
-            <Component Id="cmp682C8853873B029562FB6084481F2DC1" Guid="{B0EAC626-1300-406D-926B-BD203E647BA1}">
+            <Component Id="cmp682C8853873B029562FB6084481F2DC1" Guid="{AEFAF4B3-E99C-415A-A75A-3F59357421F8}">
                 <File Id="fil5EEDC98CDD768083404A9D045BFAE197" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.ActionMenu.dll" />
             </Component>
         </DirectoryRef>

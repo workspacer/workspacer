@@ -24,7 +24,7 @@ foreach ($file in $infos)
 {
     "fixing version for $file"
     (Get-Content $file.PSPath) |
-    Foreach-Object { $_ -replace "AssemblyVersion\("".*""\)", "AssemblyVersion(""$version.0"")" } |
+    Foreach-Object { $_ -replace "AssemblyVersion\("".*""\)", "AssemblyVersion(""$version"")" } |
     Set-Content $file.PSPath
 }
 
