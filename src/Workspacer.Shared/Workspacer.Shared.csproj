@@ -93,6 +93,7 @@
     <Compile Include="Window\WindowLocation.cs" />
     <Compile Include="Window\WindowState.cs" />
     <Compile Include="Workspace\IMonitor.cs" />
+    <Compile Include="Workspace\IWindowRouter.cs" />
     <Compile Include="Workspace\IWorkspace.cs" />
     <Compile Include="Workspace\IWorkspaceContainer.cs" />
   </ItemGroup>

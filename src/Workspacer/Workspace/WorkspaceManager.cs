@@ -15,8 +15,6 @@ namespace Workspacer
     {
         private static Logger Logger = Logger.Create();
         public IEnumerable<IMonitor> Monitors => _monitors;
-        public Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
-        public Func<IWindow, bool> WindowFilterFunc { get; set; }
 
         private int _focusedMonitor;
         public IMonitor FocusedMonitor => _monitors[_focusedMonitor];
@@ -26,6 +24,7 @@ namespace Workspacer
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
 
         public IWorkspaceContainer Container { get; set; }
+        public IWindowRouter Router { get; set; }
 
         public event WorkspaceUpdatedDelegate WorkspaceUpdated;
         public event WindowAddedDelegate WindowAdded;
@@ -257,15 +256,11 @@ namespace Workspacer
 
         public void AddWindow(IWindow window, bool switchToWorkspace)
         {
-            var shouldTrack = WindowFilterFunc?.Invoke(window) ?? true;
-            if (!shouldTrack)
-                return;
-
             Logger.Debug("AddWindow({0})", window);
 
             if (!_windowsToWorkspaces.ContainsKey(window))
             {
-                var workspace = WorkspaceSelectorFunc?.Invoke(window) ?? FocusedWorkspace;
+                var workspace = Router.RouteWindow(window);
 
                 if (workspace != null)
                 {
@@ -409,20 +404,21 @@ namespace Workspacer
 
             foreach (var w in windows)
             {
-                var shouldTrack = WindowFilterFunc?.Invoke(w) ?? true;
-                if (!shouldTrack)
+                var routedWorkspace = Router.RouteWindow(w);
+                if (routedWorkspace == null)
                     continue;
 
                 var handle = (int) w.Handle;
                 if (wtw.ContainsKey(handle) && wtw[handle] < allWorkspaces.Count)
                 {
+                    // ignoring the routed workspace here, as the user probably put this window into
+                    // the saved workspace on purpose
                     var workspace = allWorkspaces[wtw[handle]];
                     AddWindowToWorkspace(w, workspace);
                 }
                 else
                 {
-                    var destWorkspace = WorkspaceSelectorFunc?.Invoke(w) ?? FocusedWorkspace;
-                    AddWindowToWorkspace(w, destWorkspace);
+                    AddWindowToWorkspace(w, routedWorkspace);
                 }
 
                 if (state.FocusedWindow == handle)
@@ -453,23 +449,17 @@ namespace Workspacer
             
             foreach (var w in windows)
             {
-                var shouldTrack = WindowFilterFunc?.Invoke(w) ?? true;
-                if (!shouldTrack)
-                    continue;
+                var location = w.Location;
+                var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
+                var monitor = _monitors.First(m => m.Name == screen.DeviceName);
+                var locationWorkspace = Container.GetWorkspaceForMonitor(monitor);
+                var destWorkspace = Router.RouteWindow(w, locationWorkspace);
 
-                var destWorkspace = WorkspaceSelectorFunc?.Invoke(w);
-
-                if (destWorkspace == null)
+                if (destWorkspace != null)
                 {
-                    var location = w.Location;
-                    var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
-                    var monitor = _monitors.First(m => m.Name == screen.DeviceName);
-                    destWorkspace = Container.GetWorkspaceForMonitor(monitor);
+                    AddWindowToWorkspace(w, destWorkspace);
+                    AddWindow(w, false);
                 }
-
-                AddWindowToWorkspace(w, destWorkspace);
-
-                AddWindow(w, false);
             }
         }
     }

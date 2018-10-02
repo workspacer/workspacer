@@ -17,13 +17,11 @@ namespace Workspacer
     {
         IEnumerable<IMonitor> Monitors { get; }
 
-        Func<IWindow, IWorkspace> WorkspaceSelectorFunc { get; set; }
-        Func<IWindow, bool> WindowFilterFunc { get; set; }
-
         IWorkspace FocusedWorkspace { get; }
         IMonitor FocusedMonitor { get; }
 
         IWorkspaceContainer Container { get; set; }
+        IWindowRouter Router { get; set; }
 
         void SwitchToWindow(IWindow window);
         void SwitchToWorkspace(int index);

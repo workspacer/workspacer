@@ -37,18 +37,6 @@ namespace Workspacer.Config
                 barConfig.CreateWrapperLayout(new FullLayoutEngine()),
             };
 
-            context.Workspaces.WindowFilterFunc = (window) => 
-            {
-                if (window.Title.Contains("Task Manager"))
-                    return false;
-                if (window.Title.Contains("Program Manager"))
-                    return false;
-                if (window.Process.Id == Process.GetCurrentProcess().Id)
-                    return false;
-
-                return true;
-            };
-
             var container = new WorkspaceContainer(context);
             container.CreateWorkspace("one", createLayouts());
             container.CreateWorkspace("two", createLayouts());
@@ -57,12 +45,17 @@ namespace Workspacer.Config
             container.CreateWorkspace("five", createLayouts());
             context.Workspaces.Container = container;
 
-            context.Keybinds.SubscribeDefaults(context, mod);
+            var router = new WindowRouter(context);
+            router.AddDefaults();
+            context.Workspaces.Router = router;
+
 
             var defaultMenu = actionMenu.CreateDefault(context);
             defaultMenu.AddMenu("remove workspace", () => CreateRemoveWorkspaceMenu(container, actionMenu));
             defaultMenu.AddFreeForm("create workspace", (s) => container.CreateWorkspace(s, createLayouts()));
             context.Keybinds.Subscribe(mod, Keys.P, () => actionMenu.ShowMenu(defaultMenu.Get()));
+
+            context.Keybinds.SubscribeDefaults(context, mod);
         }
 
         private ActionMenuItemBuilder CreateRemoveWorkspaceMenu(IWorkspaceContainer container, ActionMenuPlugin actionMenu)
