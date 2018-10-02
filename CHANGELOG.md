@@ -1,3 +1,10 @@
+# v0.7.1
+
+- refactored WorkspaceSelectorFunc and WindowFilterFunc into IWindowRouter
+- added "switch to window" menu action
+- added better fuzzy find support to action menu
+- improved focus handling for out-of-view windows
+
 # v0.7
 
 - cycle layouts via click on ActiveLayoutWidget 
