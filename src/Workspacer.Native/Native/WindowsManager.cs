@@ -10,6 +10,7 @@ using System.Timers;
 namespace Workspacer
 {
     public delegate void WindowDelegate(IWindow window);
+    public delegate void WindowUpdateDelegate(IWindow window, WindowUpdateType type);
 
     public class WindowsManager : IWindowsManager
     {
@@ -19,7 +20,7 @@ namespace Workspacer
 
         public event WindowDelegate WindowCreated;
         public event WindowDelegate WindowDestroyed;
-        public event WindowDelegate WindowUpdated;
+        public event WindowUpdateDelegate WindowUpdated;
 
         public IEnumerable<IWindow> Windows => _windows.Values;
 
@@ -67,12 +68,22 @@ namespace Workspacer
                         UnregisterWindow(hwnd);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_OBJECT_CLOAKED:
+                        UpdateWindow(hwnd, WindowUpdateType.Hide);
+                        break;
                     case Win32.EVENT_CONSTANTS.EVENT_OBJECT_UNCLOAKED:
+                        UpdateWindow(hwnd, WindowUpdateType.Show);
+                        break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZESTART:
+                        UpdateWindow(hwnd, WindowUpdateType.Hide);
+                        break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZEEND:
+                        UpdateWindow(hwnd, WindowUpdateType.Show);
+                        break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND:
+                        UpdateWindow(hwnd, WindowUpdateType.Foreground);
+                        break;
                     case Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE:
-                        UpdateWindow(hwnd);
+                        UpdateWindow(hwnd, WindowUpdateType.TitleChange);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART:
                         break;
@@ -112,12 +123,12 @@ namespace Workspacer
             }
         }
 
-        private void UpdateWindow(IntPtr handle)
+        private void UpdateWindow(IntPtr handle, WindowUpdateType type)
         {
             if (_windows.ContainsKey(handle))
             {
                 var window = _windows[handle];
-                WindowUpdated?.Invoke(window);
+                WindowUpdated?.Invoke(window, type);
             }
         }
 
@@ -126,7 +137,7 @@ namespace Workspacer
             if (_windows.ContainsKey(handle))
             {
                 var window = _windows[handle];
-                WindowUpdated?.Invoke(window);
+                WindowUpdated?.Invoke(window, WindowUpdateType.MoveEnd);
             }
         }
     }
