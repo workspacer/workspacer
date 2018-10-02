@@ -1,3 +1,7 @@
+# v0.7.2
+
+- fixed WorkspaceWidget to allow actually overriding GetDisplayName
+
 # v0.7.1
 
 - refactored WorkspaceSelectorFunc and WindowFilterFunc into IWindowRouter
