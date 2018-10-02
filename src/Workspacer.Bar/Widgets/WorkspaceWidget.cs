@@ -53,7 +53,7 @@ namespace Workspacer.Bar.Widgets
             Context.MarkDirty();
         }
 
-        protected string GetDisplayName(IWorkspace workspace, int index, bool visible)
+        protected virtual string GetDisplayName(IWorkspace workspace, int index, bool visible)
         {
             return visible ? $"[{workspace.Name}]" : $" {workspace.Name} ";
         }
