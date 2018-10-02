@@ -85,31 +85,26 @@ context.Workspaces.Container = container;
 
 <h2 id="how-do-i-make-workspacer-ignore-some-windows">how do I make workspacer ignore some windows?</h2>
 
-<p>the default config includes some default ignore rules via the definition of <code>context.Workspaces.WindowFilterFunc</code> that you will likely find useful. if you assign a value to this function (or modify the existing one in the default config), workspacer will check it before deciding whether or not to keep track of a window. for example, if you wanted to make workspacer ignore windows with the title of &ldquo;Google Chrome&rdquo; you would do the following:</p>
-
-<pre><code class="language-csharp">context.Workspaces.WindowFilterFunc = (window) =&gt; 
-{
-    if (window.Title.Contains(&quot;Google Chrome&quot;))
-        return false;
-    return true;
-};
-</code></pre>
-
-<p>returning true from this function will mean workspacer will manage the widnow, while false means it won&rsquo;t.</p>
-
 <h2 id="how-do-i-make-some-windows-always-go-to-a-specific-workspace">how do I make some windows always go to a specific workspace?</h2>
 
-<p>you can assign a value to <code>context.Workspaces.WorkspaceSelectorFunc</code> in order to tell workspacer how to assign your windows to workspaces. without this function defined, workspacer will assign new windows to the currently focused workspace, but in order to override that you can do the following:</p>
+<p>by default, workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will by default route workspaces to the focused workspace on creation. as with most everything else, this is completely customizable via IWindowRouter.</p>
 
-<pre><code class="language-csharp">context.Workspaces.WorkspaceSelectorFunc = (window) =&gt;
-{
-    if (window.Title.Contains(&quot;Google Chrome&quot;))
-        return container[&quot;web&quot;];
-    return null;
-}
+<p>the default configuration provides the standard set of ignore/routing rules, but more can be added via calls to <code>AddFilter</code> and <code>AddRoute</code>.</p>
+
+<pre><code class="language-csharp"># default implementation in the standard configuration
+var router = new WindowRouter(context);
+router.AddDefaults();
+context.Workspaces.Router = router;
+
+# custom filter
+router.AddFilter((window) =&gt; !window.Title.Contains(&quot;my fun application&quot;));
+# custom route
+router.AddRoute((window) =&gt; window.Title.Contains(&quot;Google Chrome&quot;) ? container[&quot;web&quot;] : null));
 </code></pre>
 
-<p>which will make all instances of Google Chrome go to the &ldquo;web&rdquo; workspace, and the rest will be decided by the workspace container. *note that it is important that you return <code>null</code> if you don&rsquo;t want to force the window to a specific workspace, because returning null will allow the workspace container to decide where it should go.`</p>
+<p>the above call to <code>AddFilter</code> will ensure that any windows who&rsquo;s title contains the text &ldquo;my fun application&rdquo; will be ignored by workspacer. a <code>true</code> return value will allow the window to be managed, while a <code>false</code> value will force workspacer to ignore the window.</p>
+
+<p>the above call to <code>AddRoute</code> will ensure that any windows who&rsquo;s title contains the text &ldquo;Google Chrome&rdquo; will be automatically placed in the &ldquo;web&rdquo; workspace (assuming you have an IWorkspaceContainer in scoped named &ldquo;container&rdquo;). a null return value will signal to workspacer that the next route should be checked, while returing an actual workspace will ensure that the workspace manager will place the window in the returned workspace.</p>
 
 <h2 id="how-do-i-chose-different-layout-engines">how do I chose different layout engines?</h2>
 
