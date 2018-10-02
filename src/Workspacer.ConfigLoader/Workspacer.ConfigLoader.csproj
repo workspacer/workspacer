@@ -184,6 +184,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkspacerConfigLoaderHandle.cs" />
     <Compile Include="Workspacer\StickyWorkspaceContainer.cs" />
+    <Compile Include="Workspacer\WindowRouter.cs" />
     <Compile Include="Workspacer\Workspace.cs" />
     <Compile Include="Workspacer\WorkspaceContainer.cs" />
   </ItemGroup>
