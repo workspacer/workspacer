@@ -41,6 +41,17 @@ namespace Workspacer
             _focusedMonitor = 0;
         }
 
+        public void SwitchToWindow(IWindow window)
+        {
+            Logger.Debug("SwitchToWindow({0})", window);
+
+            if (_windowsToWorkspaces.ContainsKey(window))
+            {
+                var workspace = _windowsToWorkspaces[window];
+                SwitchToWorkspace(workspace);
+            }
+        }
+
         public void SwitchToWorkspace(int index)
         {
             Logger.Debug("SwitchToWorkspace({0})", index);

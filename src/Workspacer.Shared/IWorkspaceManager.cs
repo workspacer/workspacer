@@ -25,6 +25,7 @@ namespace Workspacer
 
         IWorkspaceContainer Container { get; set; }
 
+        void SwitchToWindow(IWindow window);
         void SwitchToWorkspace(int index);
         void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex);
         void SwitchToNextWorkspace();

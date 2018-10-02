@@ -17,7 +17,6 @@ namespace Workspacer.ActionMenu
         private IConfigContext _context;
         private ActionMenuPluginConfig _config;
 
-        private IMatcher _matcher;
         private string _message;
         private bool _freeform;
         private ActionMenuItem[] _items;
@@ -26,7 +25,6 @@ namespace Workspacer.ActionMenu
         {
             _context = context;
             _config = config;
-            _matcher = new PrefixMatcher();
 
             InitializeComponent();
 
@@ -46,6 +44,7 @@ namespace Workspacer.ActionMenu
             this.Text = config.MenuTitle;
             this.Width = config.MenuWidth;
             this.MinimumSize = new Size(config.MenuWidth, config.MenuHeight);
+            this.MaximumSize = new Size(config.MenuWidth, 100000);
             this.AutoSize = true;
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
@@ -193,7 +192,7 @@ namespace Workspacer.ActionMenu
             }
 
             var query = this.textBox.Text;
-            var matchedItems = _items.Where(item => _matcher.Match(query, item.Text) != null).ToList();
+            var matchedItems = _items.Where(item => _config.Matcher.Match(query, item.Text) != null).ToList();
 
             int i;
             for (i = 0; i < matchedItems.Count; i++)
