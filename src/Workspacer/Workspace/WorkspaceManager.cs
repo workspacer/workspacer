@@ -48,6 +48,7 @@ namespace Workspacer
             {
                 var workspace = _windowsToWorkspaces[window];
                 SwitchToWorkspace(workspace);
+                window.Focus();
             }
         }
 
@@ -303,7 +304,7 @@ namespace Workspacer
             }
         }
 
-        public void UpdateWindow(IWindow window)
+        public void UpdateWindow(IWindow window, WindowUpdateType type)
         {
             if (_windowsToWorkspaces.ContainsKey(window))
             {
@@ -315,6 +316,17 @@ namespace Workspacer
                     if (monitor != null)
                     {
                         _focusedMonitor = _monitors.IndexOf(monitor);
+                    } else
+                    {
+                        if (type == WindowUpdateType.Foreground)
+                        {
+                            var desiredMonitor = Container.GetDesiredMonitorForWorkspace(workspace);
+                            if (desiredMonitor != null)
+                            {
+                                _focusedMonitor = _monitors.IndexOf(desiredMonitor);
+                            }
+                            SwitchToWorkspace(workspace);
+                        }
                     }
                 }
 
