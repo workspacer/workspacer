@@ -56,13 +56,15 @@
             // 
             // label
             // 
-            this.label.AutoSize = true;
+            this.label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label.Location = new System.Drawing.Point(0, 0);
             this.label.Margin = new System.Windows.Forms.Padding(0);
             this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(35, 13);
+            this.label.Size = new System.Drawing.Size(584, 13);
             this.label.TabIndex = 2;
             this.label.Text = "label1";
+            this.label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ActionMenuForm
             // 
