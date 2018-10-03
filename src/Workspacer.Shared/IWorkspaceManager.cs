@@ -25,6 +25,7 @@ namespace Workspacer
 
         void SwitchToWindow(IWindow window);
         void SwitchToWorkspace(int index);
+        void SwitchToWorkspace(IWorkspace workspace);
         void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex);
         void SwitchToNextWorkspace();
         void SwitchToPreviousWorkspace();

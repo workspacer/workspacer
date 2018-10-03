@@ -60,7 +60,7 @@ namespace Workspacer
             SwitchToWorkspace(targetWorkspace);
         }
 
-        private void SwitchToWorkspace(IWorkspace targetWorkspace)
+        public void SwitchToWorkspace(IWorkspace targetWorkspace)
         {
             Logger.Debug("SwitchToWorkspace({0})", targetWorkspace);
             if (targetWorkspace != null)
