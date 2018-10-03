@@ -24,24 +24,15 @@ namespace Workspacer.Bar.Widgets
             int index = 0;
             foreach (var workspace in workspaces)
             {
-                var hasWindows = workspace.Windows.Any(w => w.CanLayout);
-
-                var monitor = Context.Workspaces.Container.GetCurrentMonitorForWorkspace(workspace);
-                if (monitor == Context.Monitor)
-                {
-                    parts.Add(CreatePart(workspace, index, true, WorkspaceHasFocusColor));
-                } else
-                {
-                    parts.Add(CreatePart(workspace, index, false, hasWindows ? null : WorkspaceEmptyColor));
-                }
+                parts.Add(CreatePart(workspace, index));
                 index++;
             }
             return parts.ToArray();
         }
 
-        private IBarWidgetPart CreatePart(IWorkspace workspace, int index, bool visible, Color color)
+        private IBarWidgetPart CreatePart(IWorkspace workspace, int index)
         {
-            return Part(GetDisplayName(workspace, index, visible), color, null, () =>
+            return Part(GetDisplayName(workspace, index), GetDisplayColor(workspace, index), null, () =>
             {
                 var monitorIndex = Context.Workspaces.Monitors.ToList().IndexOf(Context.Monitor);
                 Context.Workspaces.SwitchMonitorToWorkspace(monitorIndex, index);
@@ -53,9 +44,24 @@ namespace Workspacer.Bar.Widgets
             Context.MarkDirty();
         }
 
-        protected virtual string GetDisplayName(IWorkspace workspace, int index, bool visible)
+        protected virtual string GetDisplayName(IWorkspace workspace, int index)
         {
+            var monitor = Context.Workspaces.Container.GetCurrentMonitorForWorkspace(workspace);
+            var visible = Context.Monitor == monitor;
+
             return visible ? $"[{workspace.Name}]" : $" {workspace.Name} ";
+        }
+
+        protected virtual Color GetDisplayColor(IWorkspace workspace, int index)
+        {
+            var monitor = Context.Workspaces.Container.GetCurrentMonitorForWorkspace(workspace);
+            if (Context.Monitor == monitor)
+            {
+                return WorkspaceHasFocusColor;
+            }
+
+            var hasWindows = workspace.Windows.Any(w => w.CanLayout);
+            return hasWindows ? null : WorkspaceEmptyColor;
         }
     }
 }
