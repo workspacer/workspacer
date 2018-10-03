@@ -35,6 +35,7 @@ namespace Workspacer.ActionMenu
             this.KeyDown += OnKeyDown;
             this.textBox.TextChanged += OnTextChanged;
             this.listBox.GotFocus += OnGotFocus;
+            this.textBox.LostFocus += OnLostFocus;
 
             this.TopMost = true;
             this.ControlBox = false;
@@ -133,7 +134,6 @@ namespace Workspacer.ActionMenu
             this.TopMost = true;
             this.ActiveControl = this.textBox;
             this.textBox.Focus();
-            this.textBox.LostFocus += OnLostFocus;
 
             ApplyFilter();
             this.listBox.SelectedIndex = 0;
@@ -221,12 +221,17 @@ namespace Workspacer.ActionMenu
 
         private void FixLayout()
         {
+            var width = this.ClientRectangle.Width;
+            this.label.Width = width;
+            this.label.Height = this.textBox.Height;
+            this.label.Visible = this.label.Text != "";
+
+
             var labelHeight = this.label.Text != "" ? this.label.Height : 0;
 
             var monitor = _context.Workspaces.FocusedMonitor;
-            var width = this.ClientRectangle.Width;
             this.listBox.Height = this.listBox.ItemHeight * this.listBox.Items.Count;
-
+            
             this.textBox.Location = new Point(0, labelHeight);
             this.listBox.Location = new Point(0, this.textBox.Height + labelHeight);
             this.listBox.Visible = this.listBox.Items.Count > 0;
@@ -235,7 +240,6 @@ namespace Workspacer.ActionMenu
 
         private void Cleanup()
         {
-            this.textBox.LostFocus -= OnLostFocus;
             ApplyFilter();
             Hide();
         }
