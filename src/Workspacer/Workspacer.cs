@@ -72,8 +72,7 @@ namespace Workspacer
 
             _workspaces.InitializeMonitors();
 
-            var config = GetConfig();
-            config.Configure(_context);
+            ConfigHelper.DoConfig(_context);
 
             var state = stateManager.LoadState();
 
@@ -109,11 +108,6 @@ namespace Workspacer
             while(true) { }
         }
 
-        private IConfig GetConfig()
-        {
-            return ConfigHelper.GetConfig(_plugins.AvailablePlugins);
-        }
-
         private void SendResponse(LauncherResponse response)
         {
             var str = JsonConvert.SerializeObject(response);
@@ -144,8 +138,6 @@ namespace Workspacer
             }
             return null;
         }
-
-        
 
         private void CreateExampleConfig()
         {

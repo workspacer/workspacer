@@ -9,20 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Emit;
+using Microsoft.CodeAnalysis.Scripting;
 using Workspacer.Shared;
 
 namespace Workspacer.ConfigLoader
 {
     public static class ConfigHelper
     {
-        public static IConfig GetConfig(IEnumerable<Type> referenceTypes)
-        {
-            var type = CompileConfig(referenceTypes);
-
-            return (IConfig) Activator.CreateInstance(type);
-        }
-
         public static bool CanCreateExampleConfig()
         {
             return !File.Exists(GetConfigFilePath());
@@ -73,41 +68,17 @@ namespace Workspacer.ConfigLoader
             {
                 file = GetConfigTemplate();
             }
-
-            file = file.Replace("#r ", "//#r ");
             return file;
         }
 
-        private static Type CompileConfig(IEnumerable<Type> referenceTypes)
+        public static void DoConfig(IConfigContext context)
         {
-            var name = "Workspacer.Config.dll";
             var config = LoadConfig();
 
-            var references = new List<MetadataReference>();
-            references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(Process).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(WorkspacerConfigLoaderHandle).Assembly.Location));
-            references.Add(MetadataReference.CreateFromFile(typeof(WorkspacerSharedHandle).Assembly.Location));
-            references.AddRange(referenceTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
-
-            var tree = CSharpSyntaxTree.ParseText(config);
-            var compilation = CSharpCompilation.Create(name)
-                .AddSyntaxTrees(tree).AddReferences(references).WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-            EmitResult emitResult;
-            byte[] result;
-            using (var stream = new MemoryStream())
-            {
-                emitResult = compilation.Emit(stream);
-                result = stream.ToArray();
-            }
-            if (!emitResult.Success)
-            {
-                throw new Exception(string.Join("\n", emitResult.Diagnostics.Select(d => d.ToString())));
-            }
-            var assembly = Assembly.Load(result);
-            return assembly.GetTypes().First(t => t.Name == "Config");
+            var options = ScriptOptions.Default;
+            var task = CSharpScript.EvaluateAsync<Action<IConfigContext>>(config, options);
+            var func = task.Result;
+            func(context);
         }
 
         public static string GetConfigDirPath()
