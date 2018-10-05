@@ -41,6 +41,12 @@ namespace Workspacer.ActionMenu
             return this;
         }
 
+        public ActionMenuItemBuilder AddMenu(string text, Func<ActionMenuItemBuilder> builder)
+        {
+            Add(text, () => _plugin.ShowMenu(text, builder()));
+            return this;
+        }
+
         public ActionMenuItem[] Get()
         {
             return _items.ToArray();

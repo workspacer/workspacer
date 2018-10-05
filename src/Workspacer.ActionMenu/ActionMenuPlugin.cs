@@ -71,7 +71,7 @@ namespace Workspacer.ActionMenu
             return new ActionMenuItemBuilder(this)
                 .Add("restart workspacer", () => _context.Restart())
                 .Add("quit workspacer", () => _context.Quit())
-                .AddMenu("switch to window", CreateSwitchToWindowMenu(_context));
+                .AddMenu("switch to window", () => CreateSwitchToWindowMenu(_context));
         }
 
         private ActionMenuItemBuilder CreateSwitchToWindowMenu(IConfigContext context)
