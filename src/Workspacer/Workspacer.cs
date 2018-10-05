@@ -39,8 +39,7 @@ namespace Workspacer
             _timer.Enabled = true;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
-            var stateManager = new StateManager(_workspaces);
-            _context = new ConfigContext(_pipeServer, stateManager);
+            _context = new ConfigContext(_pipeServer);
 
             _context.Plugins = _plugins = new PluginManager();
             _context.SystemTray = _systemTray = new SystemTrayManager();
@@ -64,8 +63,6 @@ namespace Workspacer
 
             ConfigHelper.DoConfig(_context);
 
-            var state = stateManager.LoadState();
-
             _windows.Initialize();
 
             var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
@@ -75,6 +72,7 @@ namespace Workspacer
                 throw new Exception("you must specify at least enough workspaces to cover all monitors");
             }
 
+            var state = _context.LoadState();
             if (state != null)
             {
                 _workspaces.InitializeWithState(state.WorkspaceState, _windows.Windows);

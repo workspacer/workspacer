@@ -97,6 +97,8 @@
     <Compile Include="Workspace\IWindowRouter.cs" />
     <Compile Include="Workspace\IWorkspace.cs" />
     <Compile Include="Workspace\IWorkspaceContainer.cs" />
+    <Compile Include="WorkspacerState.cs" />
+    <Compile Include="Workspace\WorkspaceState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

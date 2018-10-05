@@ -413,6 +413,17 @@ namespace Workspacer
             var wtw = state.WindowsToWorkspaces;
             var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
 
+            _focusedMonitor = state.FocusedMonitor;
+
+            var mtw = state.MonitorsToWorkspaces;
+            for (var i = 0; i < _monitors.Count; i++)
+            {
+                var workspaceIdx = mtw[i];
+                var workspace = allWorkspaces[workspaceIdx];
+                var monitor = _monitors[i];
+                _context.WorkspaceContainer.AssignWorkspaceToMonitor(workspace, monitor);
+            }
+
             foreach (var w in windows)
             {
                 var routedWorkspace = _context.WindowRouter.RouteWindow(w);
@@ -436,15 +447,6 @@ namespace Workspacer
                 {
                     w.Focus();
                 }
-            }
-
-            var mtw = state.MonitorsToWorkspaces;
-            for (var i = 0; i < _monitors.Count; i++)
-            {
-                var workspaceIdx = mtw[i];
-                var workspace = allWorkspaces[workspaceIdx];
-                var monitor = _monitors[i];
-                _context.WorkspaceContainer.AssignWorkspaceToMonitor(workspace, monitor);
             }
         }
 
