@@ -146,12 +146,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="State\StateManager.cs" />
-    <Compile Include="State\WorkspacerState.cs" />
     <Compile Include="SystemTray\SystemTrayManager.cs" />
     <Compile Include="Workspacer.cs" />
     <Compile Include="Workspace\Monitor.cs" />
-    <Compile Include="Workspace\WorkspaceState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Workspace\WorkspaceManager.cs" />
@@ -202,6 +199,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="State\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
