@@ -1,3 +1,12 @@
+# v0.8.0
+
+- allow override of WorkspaceWidget color selection logic via GetDisplayColor
+- made SwitchToWorkspace(IWorkspace) public
+- improved styling of action menu
+- refactored configuration API, now using proper CSX scripting
+- fixed bug in state saving
+- restarts now persist window order inside a workspace
+
 # v0.7.2
 
 - fixed WorkspaceWidget to allow actually overriding GetDisplayName
