@@ -1,23 +1,22 @@
 # the StickyWorkspaceContainer is useful if you want to emulate workspace modes in awesome/dwm
 # where workspaces are specifically assigned to monitors
 
+var defaultLayouts = () => bar.WrapLayouts(new TallLayoutEngine(), new FullLayoutEngine());
+
 # the container has two modes:
-var container = new StickyWorkspaceContainer(context, StickyWorkspaceIndexMode.Local);
+context.WorkspaceContainer = new StickyWorkspaceContainer(context, defaultLayouts, StickyWorkspaceIndexMode.Local);
 
 # or:
-var container = new StickyWorkspaceContainer(context, StickyWorkspaceIndexMode.Global);
+context.WorkspaceContainer = new StickyWorkspaceContainer(context, defaultLayouts, StickyWorkspaceIndexMode.Global);
 # you can also not specify a mode, because "Global" is the default
-var container = new StickyWorkspaceContainer(context);
+context.WorkspaceContainer = new StickyWorkspaceContainer(context);
 
 # Global index mode means that index based actions acts on the global set of workspaces
 # Local index mode means that index based actions act on the set of workspaces local to the focused monitor
 
 var monitors = context.Workspaces.Monitors.ToList();
-container.CreateWorkspace(monitors[0], "one", createLayouts());
-container.CreateWorkspace(monitors[0], "two", createLayouts());
-container.CreateWorkspace(monitors[1], "three", createLayouts());
-container.CreateWorkspace(monitors[1], "four", createLayouts());
-context.Workspaces.Container = container;
+context.WorkspaceContainer.CreateWorkspaces(monitors[0], "one", "two");
+context.WorkspaceContainer.CreateWorkspace(monitors[1], "three", "four");
 
 # when using the default keybindings, this will happen in Global mode:
 

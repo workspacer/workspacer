@@ -40,9 +40,9 @@ namespace Workspacer.Bar
 
         public void Initialize(IBarWidget[] left, IBarWidget[] right, IConfigContext context)
         {
-            _left = new BarSection(false, leftPanel, left, _monitor, context.Workspaces, 
+            _left = new BarSection(false, leftPanel, left, _monitor, context, 
                 _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontSize);
-            _right = new BarSection(true, rightPanel, right, _monitor, context.Workspaces,
+            _right = new BarSection(true, rightPanel, right, _monitor, context,
                 _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontSize);
         }
 

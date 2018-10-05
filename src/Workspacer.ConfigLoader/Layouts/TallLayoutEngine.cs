@@ -15,6 +15,8 @@ namespace Workspacer
         private int _numInPrimaryOffset = 0;
         private double _primaryPercentOffset = 0;
 
+        public TallLayoutEngine() : this(1, 0.5, 0.03) { }
+
         public TallLayoutEngine(int numInPrimary, double primaryPercent, double primaryPercentIncrement)
         {
             _numInPrimary = numInPrimary;

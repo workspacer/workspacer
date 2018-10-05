@@ -35,15 +35,10 @@ namespace Workspacer.ActionMenu
             return this;
         }
 
-        public ActionMenuItemBuilder AddMenu(string text, Func<ActionMenuItem[]> menu)
+        public ActionMenuItemBuilder AddMenu(string text, ActionMenuItemBuilder builder)
         {
-            Add(text, () => _plugin.ShowMenu(text, menu()));
+            Add(text, () => _plugin.ShowMenu(text, builder));
             return this;
-        }
-
-        public ActionMenuItemBuilder AddMenu(string text, Func<ActionMenuItemBuilder> builder)
-        {
-            return AddMenu(text, () => builder().Get());
         }
 
         public ActionMenuItem[] Get()

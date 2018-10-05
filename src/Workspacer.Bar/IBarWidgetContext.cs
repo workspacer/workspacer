@@ -10,6 +10,7 @@ namespace Workspacer.Bar
     {
         IMonitor Monitor { get; }
         IWorkspaceManager Workspaces { get; }
+        IWorkspaceContainer WorkspaceContainer { get; }
         void MarkDirty();
     }
 }

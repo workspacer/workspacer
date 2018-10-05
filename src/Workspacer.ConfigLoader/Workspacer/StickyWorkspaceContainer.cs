@@ -15,17 +15,19 @@ namespace Workspacer
     public class StickyWorkspaceContainer : IWorkspaceContainer
     {
         private IConfigContext _context;
+        private Func<ILayoutEngine[]> _defaultLayouts;
         private StickyWorkspaceIndexMode _indexMode;
         private Dictionary<IMonitor, List<IWorkspace>> _workspaces;
         private Dictionary<IMonitor, List<IWorkspace>> _orderedWorkspaces;
         private List<IWorkspace> _allWorkspaces;
         private Dictionary<IWorkspace, IMonitor> _wtm;
 
-        public StickyWorkspaceContainer(IConfigContext context) : this(context, StickyWorkspaceIndexMode.Global) { }
+        public StickyWorkspaceContainer(IConfigContext context, Func<ILayoutEngine[]> defaultLayouts) : this(context, defaultLayouts, StickyWorkspaceIndexMode.Global) { }
 
-        public StickyWorkspaceContainer(IConfigContext context, StickyWorkspaceIndexMode indexMode)
+        public StickyWorkspaceContainer(IConfigContext context, Func<ILayoutEngine[]> defaultLayouts, StickyWorkspaceIndexMode indexMode)
         {
             _context = context;
+            _defaultLayouts = defaultLayouts;
             _indexMode = indexMode;
             _workspaces = new Dictionary<IMonitor, List<IWorkspace>>();
             _orderedWorkspaces = new Dictionary<IMonitor, List<IWorkspace>>();
@@ -38,6 +40,22 @@ namespace Workspacer
             }
         }
 
+        public void CreateWorkspaces(params string[] names)
+        {
+            foreach (var name in names)
+            {
+                CreateWorkspace(name, _defaultLayouts());
+            }
+        }
+
+        public void CreateWorkspaces(IMonitor monitor, params string[] names)
+        {
+            foreach (var name in names)
+            {
+                CreateWorkspace(monitor, name, _defaultLayouts());
+            }
+        }
+
         public void CreateWorkspace(string name, params ILayoutEngine[] layouts)
         {
             CreateWorkspace(_context.Workspaces.FocusedMonitor, name, layouts);
@@ -45,6 +63,7 @@ namespace Workspacer
         
         public void CreateWorkspace(IMonitor monitor, string name, params ILayoutEngine[] layouts)
         {
+            layouts = layouts.Length > 0 ? layouts : _defaultLayouts();
             var workspace = new Workspace(_context, name, layouts);
             _workspaces[monitor].Add(workspace);
             _orderedWorkspaces[monitor].Add(workspace);

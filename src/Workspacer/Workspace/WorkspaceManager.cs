@@ -16,15 +16,13 @@ namespace Workspacer
         private static Logger Logger = Logger.Create();
         public IEnumerable<IMonitor> Monitors => _monitors;
 
+        private IConfigContext _context;
         private int _focusedMonitor;
         public IMonitor FocusedMonitor => _monitors[_focusedMonitor];
-        public IWorkspace FocusedWorkspace => Container.GetWorkspaceForMonitor(FocusedMonitor);
+        public IWorkspace FocusedWorkspace => _context.WorkspaceContainer.GetWorkspaceForMonitor(FocusedMonitor);
 
         private List<IMonitor> _monitors;
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
-
-        public IWorkspaceContainer Container { get; set; }
-        public IWindowRouter Router { get; set; }
 
         public event WorkspaceUpdatedDelegate WorkspaceUpdated;
         public event WindowAddedDelegate WindowAdded;
@@ -33,8 +31,9 @@ namespace Workspacer
         public event WindowMovedDelegate WindowMoved;
         public event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
 
-        public WorkspaceManager()
+        public WorkspaceManager(IConfigContext context)
         {
+            _context = context;
             _monitors = new List<IMonitor>();
             _windowsToWorkspaces = new Dictionary<IWindow, IWorkspace>();
             _focusedMonitor = 0;
@@ -56,7 +55,7 @@ namespace Workspacer
         {
             Logger.Debug("SwitchToWorkspace({0})", index);
             var currentWorkspace = FocusedWorkspace;
-            var targetWorkspace = Container.GetWorkspaceAtIndex(currentWorkspace, index);
+            var targetWorkspace = _context.WorkspaceContainer.GetWorkspaceAtIndex(currentWorkspace, index);
             SwitchToWorkspace(targetWorkspace);
         }
 
@@ -65,12 +64,12 @@ namespace Workspacer
             Logger.Debug("SwitchToWorkspace({0})", targetWorkspace);
             if (targetWorkspace != null)
             {
-                var destMonitor = Container.GetDesiredMonitorForWorkspace(targetWorkspace) ?? FocusedMonitor;
-                var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
-                var sourceMonitor = Container.GetCurrentMonitorForWorkspace(targetWorkspace);
+                var destMonitor = _context.WorkspaceContainer.GetDesiredMonitorForWorkspace(targetWorkspace) ?? FocusedMonitor;
+                var currentWorkspace = _context.WorkspaceContainer.GetWorkspaceForMonitor(destMonitor);
+                var sourceMonitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(targetWorkspace);
 
-                Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
-                Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
+                _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+                _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
                 currentWorkspace.DoLayout();
                 targetWorkspace.DoLayout();
@@ -88,12 +87,12 @@ namespace Workspacer
                 return;
 
             var destMonitor = _monitors[monitorIndex];
-            var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
-            var targetWorkspace = Container.GetWorkspaceAtIndex(currentWorkspace, workspaceIndex);
-            var sourceMonitor = Container.GetCurrentMonitorForWorkspace(targetWorkspace);
+            var currentWorkspace = _context.WorkspaceContainer.GetWorkspaceForMonitor(destMonitor);
+            var targetWorkspace = _context.WorkspaceContainer.GetWorkspaceAtIndex(currentWorkspace, workspaceIndex);
+            var sourceMonitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(targetWorkspace);
 
-            Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
-            Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
+            _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+            _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
             currentWorkspace.DoLayout();
             targetWorkspace.DoLayout();
@@ -107,12 +106,12 @@ namespace Workspacer
         {
             Logger.Debug("SwitchToNextWorkspace");
             var destMonitor = FocusedMonitor;
-            var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
-            var targetWorkspace = Container.GetNextWorkspace(currentWorkspace);
-            var sourceMonitor = Container.GetCurrentMonitorForWorkspace(targetWorkspace);
+            var currentWorkspace = _context.WorkspaceContainer.GetWorkspaceForMonitor(destMonitor);
+            var targetWorkspace = _context.WorkspaceContainer.GetNextWorkspace(currentWorkspace);
+            var sourceMonitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(targetWorkspace);
 
-            Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
-            Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
+            _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+            _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
             currentWorkspace.DoLayout();
             targetWorkspace.DoLayout();
@@ -126,12 +125,12 @@ namespace Workspacer
         {
             Logger.Debug("SwitchToPreviousWorkspace");
             var destMonitor = FocusedMonitor;
-            var currentWorkspace = Container.GetWorkspaceForMonitor(destMonitor);
-            var targetWorkspace = Container.GetPreviousWorkspace(currentWorkspace);
-            var sourceMonitor = Container.GetCurrentMonitorForWorkspace(targetWorkspace);
+            var currentWorkspace = _context.WorkspaceContainer.GetWorkspaceForMonitor(destMonitor);
+            var targetWorkspace = _context.WorkspaceContainer.GetPreviousWorkspace(currentWorkspace);
+            var sourceMonitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(targetWorkspace);
 
-            Container.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
-            Container.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
+            _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+            _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
             currentWorkspace.DoLayout();
             targetWorkspace.DoLayout();
@@ -178,7 +177,7 @@ namespace Workspacer
         {
             Logger.Debug("MoveFocusedWindowToWorkspace({0})", index);
             var window = FocusedWorkspace.FocusedWindow;
-            var targetWorkspace = Container.GetWorkspaceAtIndex(FocusedWorkspace, index);
+            var targetWorkspace = _context.WorkspaceContainer.GetWorkspaceAtIndex(FocusedWorkspace, index);
 
             if (window != null && targetWorkspace != null)
             {
@@ -209,7 +208,7 @@ namespace Workspacer
 
             var window = FocusedWorkspace.FocusedWindow;
             var targetMonitor = _monitors[index];
-            var targetWorkspace = Container.GetWorkspaceForMonitor(targetMonitor);
+            var targetWorkspace = _context.WorkspaceContainer.GetWorkspaceForMonitor(targetMonitor);
 
             if (window != null && targetWorkspace != null)
             {
@@ -261,7 +260,7 @@ namespace Workspacer
 
             if (!_windowsToWorkspaces.ContainsKey(window))
             {
-                var workspace = Router.RouteWindow(window);
+                var workspace = _context.WindowRouter.RouteWindow(window);
 
                 if (workspace != null)
                 {
@@ -283,7 +282,7 @@ namespace Workspacer
 
             if (window.IsFocused)
             {
-                var monitor = Container.GetCurrentMonitorForWorkspace(workspace);
+                var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(workspace);
                 if (monitor != null)
                 {
                     _focusedMonitor = _monitors.IndexOf(monitor);
@@ -312,7 +311,7 @@ namespace Workspacer
                 var workspace = _windowsToWorkspaces[window];
                 if (window.IsFocused)
                 {
-                    var monitor = Container.GetCurrentMonitorForWorkspace(workspace);
+                    var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(workspace);
                     if (monitor != null)
                     {
                         _focusedMonitor = _monitors.IndexOf(monitor);
@@ -320,7 +319,7 @@ namespace Workspacer
                     {
                         if (type == WindowUpdateType.Foreground)
                         {
-                            var desiredMonitor = Container.GetDesiredMonitorForWorkspace(workspace);
+                            var desiredMonitor = _context.WorkspaceContainer.GetDesiredMonitorForWorkspace(workspace);
                             if (desiredMonitor != null)
                             {
                                 _focusedMonitor = _monitors.IndexOf(desiredMonitor);
@@ -338,7 +337,7 @@ namespace Workspacer
         public List<IntPtr> GetActiveHandles()
         {
             var list = new List<IntPtr>();
-            foreach (var ws in Container.GetAllWorkspaces())
+            foreach (var ws in _context.WorkspaceContainer.GetAllWorkspaces())
             {
                 foreach (var w in ws.Windows.Where(w => w.CanLayout))
                 {
@@ -353,7 +352,7 @@ namespace Workspacer
             var windowsToWorkspaces = new Dictionary<int, int>();
             var monitorsToWorkspaces = new Dictionary<int, int>();
 
-            var allWorkspaces = Container.GetAllWorkspaces().ToList();
+            var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
 
             int focusedWindow = 0;
             foreach (var kv in _windowsToWorkspaces)
@@ -374,7 +373,7 @@ namespace Workspacer
                     var monitor = _monitors[i];
                     var workspace = allWorkspaces[j];
 
-                    if (Container.GetCurrentMonitorForWorkspace(workspace) == monitor)
+                    if (_context.WorkspaceContainer.GetCurrentMonitorForWorkspace(workspace) == monitor)
                     {
                         monitorsToWorkspaces[i] = j;
                     }
@@ -412,11 +411,11 @@ namespace Workspacer
         public void InitializeWithState(WorkspaceState state, IEnumerable<IWindow> windows)
         {
             var wtw = state.WindowsToWorkspaces;
-            var allWorkspaces = Container.GetAllWorkspaces().ToList();
+            var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
 
             foreach (var w in windows)
             {
-                var routedWorkspace = Router.RouteWindow(w);
+                var routedWorkspace = _context.WindowRouter.RouteWindow(w);
                 if (routedWorkspace == null)
                     continue;
 
@@ -445,18 +444,18 @@ namespace Workspacer
                 var workspaceIdx = mtw[i];
                 var workspace = allWorkspaces[workspaceIdx];
                 var monitor = _monitors[i];
-                Container.AssignWorkspaceToMonitor(workspace, monitor);
+                _context.WorkspaceContainer.AssignWorkspaceToMonitor(workspace, monitor);
             }
         }
 
         public void Initialize(IEnumerable<IWindow> windows)
         {
-            var allWorkspaces = Container.GetAllWorkspaces().ToList();
+            var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
             for (var i = 0; i < _monitors.Count; i++)
             {
                 var m = _monitors[i];
                 var w = allWorkspaces[i];
-                Container.AssignWorkspaceToMonitor(w, m);
+                _context.WorkspaceContainer.AssignWorkspaceToMonitor(w, m);
             }
             
             foreach (var w in windows)
@@ -464,8 +463,8 @@ namespace Workspacer
                 var location = w.Location;
                 var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
                 var monitor = _monitors.First(m => m.Name == screen.DeviceName);
-                var locationWorkspace = Container.GetWorkspaceForMonitor(monitor);
-                var destWorkspace = Router.RouteWindow(w, locationWorkspace);
+                var locationWorkspace = _context.WorkspaceContainer.GetWorkspaceForMonitor(monitor);
+                var destWorkspace = _context.WindowRouter.RouteWindow(w, locationWorkspace);
 
                 if (destWorkspace != null)
                 {

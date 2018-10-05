@@ -1,9 +1,5 @@
-var barConfig = new BarPluginConfig() { .... };
-context.Plugins.RegisterPlugin(new BarPlugin(barConfig));
+var bar = context.Plugins.RegisterPlugin(new BarPlugin());
 
-# barConfig.CreateWrapperLayout returns a layout engine that will ensure that the menu bar doesn't interfere with the layout
-Func<ILayoutEngine[]> createLayouts = () => new ILayoutEngine[]
-{
-    barConfig.CreateWrapperLayout(new TallLayoutEngine(1, 0.5, 0.03)),
-    barConfig.CreateWrapperLayout(new FullLayoutEngine()),
-};
+# bar.WrapLayouts returns an array of layout engines that will ensure that the menu bar doesn't interfere with the inner layout engines.
+context.WorkspaceContainer = new WorkspaceContainer(context, 
+    () => bar.WrapLayouts(new TallLayoutEngine(), new FullLayoutEngine()));

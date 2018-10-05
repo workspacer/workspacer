@@ -13,6 +13,11 @@ namespace Workspacer.Bar
         private List<BarForm> _bars;
         private BarPluginConfig _config;
 
+        public BarPlugin()
+        {
+            _config = new BarPluginConfig();
+        }
+
         public BarPlugin(BarPluginConfig config)
         {
             _config = config;
@@ -48,6 +53,11 @@ namespace Workspacer.Bar
                 Application.EnableVisualStyles();
                 Application.Run(new MyAppContext(_config, context));
             });
+        }
+
+        public ILayoutEngine[] WrapLayouts(params ILayoutEngine[] inners)
+        {
+            return inners.Select(i => new MenuBarLayoutEngine(i, _config.BarTitle, _config.BarHeight)).ToArray();
         }
     }
 }

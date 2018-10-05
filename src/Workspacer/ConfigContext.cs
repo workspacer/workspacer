@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Workspacer.ConfigLoader;
-using Workspacer.Shared;
 
 namespace Workspacer
 {
@@ -17,6 +16,9 @@ namespace Workspacer
         public ISystemTrayManager SystemTray { get; set; }
         public IWindowsManager Windows { get; set; }
 
+        public IWorkspaceContainer WorkspaceContainer { get; set; }
+        public IWindowRouter WindowRouter { get; set; }
+
         private PipeServer _pipeClient;
         private StateManager _state;
 
@@ -24,6 +26,8 @@ namespace Workspacer
         {
             _pipeClient = pipeClient;
             _state = state;
+
+            WindowRouter = new WindowRouter(this);
         }
 
         private void SendResponse(LauncherResponse response)

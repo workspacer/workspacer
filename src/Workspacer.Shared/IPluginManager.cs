@@ -8,7 +8,7 @@ namespace Workspacer
 {
     public interface IPluginManager
     {
-        void RegisterPlugin<T>(T plugin) where T : IPlugin;
+        T RegisterPlugin<T>(T plugin) where T : IPlugin;
         IEnumerable<Type> AvailablePlugins { get; }
         void AfterConfig(IConfigContext context);
     }

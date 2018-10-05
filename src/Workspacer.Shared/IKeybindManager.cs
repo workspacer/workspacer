@@ -13,6 +13,6 @@ namespace Workspacer
         void Unsubscribe(MouseEvent evt);
 
         bool KeyIsPressed(Keys key);
-        void SubscribeDefaults(IConfigContext context, KeyModifiers mod);
+        void UnsubscribeAll();
     }
 }
