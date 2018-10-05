@@ -73,12 +73,14 @@
 
 <h2 id="how-do-i-define-custom-workspaces">how do I define custom workspaces?</h2>
 
-<p>workspaces are created by calling the appropriate function on the IWorkspaceContainer you are using. in the default configuration, that is <code>CreateWorkspace</code> on the <code>workspacerContainer</code> object. for example:</p>
+<p>workspaces are created by calling the appropriate function on the IWorkspaceContainer you are using. in the default configuration, that is <code>CreateWorkspace</code> on the <code>context.WorkspaceContainer</code> object. for example:</p>
 
-<pre><code class="language-csharp">var container = new WorkspaceContainer(context);
-container.CreateWorkspace(&quot;workspace&quot;, createLayouts());
-container.CreateWorkspace(&quot;another&quot;, createLayouts());
-context.Workspaces.Container = container;
+<pre><code class="language-csharp">context.WorkspaceContainer.CreateWorkspace(&quot;workspace&quot;);
+context.WorkspaceContainer.CreateWorkspace(&quot;another&quot;);
+context.WorkspaceContainer.CreateWorkspaces(&quot;more&quot;, &quot;than&quot;, &quot;one&quot;);
+
+# you can even define custom layouts for a specific workspace
+context.WorkspaceContainer.CreateWorkspace(&quot;layouts!&quot;, new FullLayoutEngine(), new TallLayoutEngine());
 </code></pre>
 
 <p>you can define as many workspaces as you want (given that the workspace container you are using supports it)</p>
@@ -91,46 +93,34 @@ context.Workspaces.Container = container;
 
 <p>the default configuration provides the standard set of ignore/routing rules, but more can be added via calls to <code>AddFilter</code> and <code>AddRoute</code>.</p>
 
-<pre><code class="language-csharp"># default implementation in the standard configuration
-var router = new WindowRouter(context);
-router.AddDefaults();
-context.Workspaces.Router = router;
-
-# custom filter
-router.AddFilter((window) =&gt; !window.Title.Contains(&quot;my fun application&quot;));
+<pre><code class="language-csharp"># custom filter
+context.WindowRouter.AddFilter((window) =&gt; !window.Title.Contains(&quot;my fun application&quot;));
 # custom route
-router.AddRoute((window) =&gt; window.Title.Contains(&quot;Google Chrome&quot;) ? container[&quot;web&quot;] : null));
+context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(&quot;Google Chrome&quot;) ? context.WorkspaceContainer[&quot;web&quot;] : null));
 </code></pre>
 
 <p>the above call to <code>AddFilter</code> will ensure that any windows who&rsquo;s title contains the text &ldquo;my fun application&rdquo; will be ignored by workspacer. a <code>true</code> return value will allow the window to be managed, while a <code>false</code> value will force workspacer to ignore the window.</p>
 
-<p>the above call to <code>AddRoute</code> will ensure that any windows who&rsquo;s title contains the text &ldquo;Google Chrome&rdquo; will be automatically placed in the &ldquo;web&rdquo; workspace (assuming you have an IWorkspaceContainer in scoped named &ldquo;container&rdquo;). a null return value will signal to workspacer that the next route should be checked, while returing an actual workspace will ensure that the workspace manager will place the window in the returned workspace.</p>
+<p>the above call to <code>AddRoute</code> will ensure that any windows who&rsquo;s title contains the text &ldquo;Google Chrome&rdquo; will be automatically placed in the &ldquo;web&rdquo; workspace. a null return value will signal to workspacer that the next route should be checked, while returing an actual workspace will ensure that the workspace manager will place the window in the returned workspace.</p>
 
 <h2 id="how-do-i-chose-different-layout-engines">how do I chose different layout engines?</h2>
 
-<p>layouts are usually passed as arguments to the <code>CreateWorkspace</code> function on the workspace container. In almost every case, you will want to create a new set layout engines for each workspace that you add to the container, so layout engines are usually defined by writing a function that generates them. for example:</p>
+<p>layouts are usually passed as arguments to the constructor of the IWorkspaceContainer implementation that you are using. This means that the implementation will take care of creating new layouts for you. If you want to manually specify them for a specific workspace, you can pass them as parameters to <code>CreateWorkspace</code> (or equivalent)</p>
 
-<pre><code class="language-csharp">Func&lt;ILayoutEngine[]&gt; createLayouts = () =&gt; new ILayoutEngine[]
-{
-    barConfig.CreateWrapperLayout(new TallLayoutEngine(1, 0.5, 0.03)),
-    barConfig.CreateWrapperLayout(new FullLayoutEngine()),
-};
+<pre><code class="language-csharp">context.WorkspaceContainer.CreateWorkspace(&quot;layouts!&quot;, bar.WrapLayouts(new FullLayoutEngine(), new TallLayoutEngine()));
 </code></pre>
 
-<p>note that the above example assumes that you are using the <code>bar</code> plugin, and that you named the configuration <code>barConfig</code> (named as such in the default config).</p>
-
-<p><code>createLayouts</code> when called will return an array of layouts that can be used to initialize a workspace (see the previous example for usage).</p>
+<p>note that the above example assumes that you are using the <code>bar</code> plugin, and that you named the plugin <code>bar</code> (named as such in the default config).</p>
 
 <h2 id="how-do-i-customize-the-menu-bar">how do I customize the menu bar?</h2>
 
 <p>the menu bar is implemented as a <code>workspacer plugin</code>, which is essentially just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:</p>
 
-<pre><code class="language-csharp">var barConfig = new BarPluginConfig()
+<pre><code class="language-csharp">var bar = context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
 {
     LeftWidgets = () =&gt; new IBarWidget[] { new WorkspaceWidget(), new TextWidget(&quot;: &quot;), new TitleWidget() },
     RightWidgets = () =&gt; new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
-};
-context.Plugins.RegisterPlugin(new BarPlugin(barConfig));
+}));
 </code></pre>
 
 <p>the default workspacer configuration will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties. the config object contains other properties you might want to change for styling purposes.</p>
@@ -139,26 +129,18 @@ context.Plugins.RegisterPlugin(new BarPlugin(barConfig));
 
 <p>the action menu is implemented as a <code>workspace plugin</code>, (see the above <code>menu bar</code> section). the action menu can be installed like this:</p>
 
-<pre><code class="language-csharp">var actionMenu = new ActionMenuPlugin(new ActionMenuPluginConfig());
-context.Plugins.RegisterPlugin(actionMenu);
+<pre><code class="language-csharp">var actionMenu = context.Plugins.RegisterPLugin(new ActionMenuPlugin());
 
-var defaultMenu = actionMenu.CreateDefault(context);
-defaultMenu.AddMenu(&quot;do a thing&quot;, () =&gt; DoACoolThing());
-defaultMenu.AddMenu(&quot;open a menu&quot;, () =&gt; CreateAMenu(container, actionMenu));
-defaultMenu.AddFreeForm(&quot;write to console&quot;, (s) =&gt; Console.WriteLine(s));
-context.Keybinds.Subscribe(mod, Keys.P, () =&gt; actionMenu.ShowMenu(defaultMenu.Get()));
+actionMenu.DefaultMenu.AddMenu(&quot;do a thing&quot;, () =&gt; DoACoolThing());
+actionMenu.DefaultMenu.AddMenu(&quot;open a menu&quot;, () =&gt; CreateAMenu(container, actionMenu));
+actionMenu.DefaultMenu.AddFreeForm(&quot;write to console&quot;, (s) =&gt; Console.WriteLine(s));
 </code></pre>
 
-<p>note that <code>CreateDefault</code> will return a menu with a useful set of defaults. if you don&rsquo;t want these defaults, or you want to create an menu for nesting, you can use <code>Create</code> instead. you can nest these menus as much as desired, so any set of menus can be created.</p>
+<p>note that <code>DefaultMenu</code> contains a useful set of default items. if you don&rsquo;t want these defaults, or you want to create an menu for nesting, you can use the <code>Clear</code> method. you can nest these menus as much as desired, so any set of menus can be created.</p>
 
 <h2 id="how-do-i-register-custom-keybindings">how do I register custom keybindings?</h2>
 
-<p>the default workspacer config file includes a call that looks like this:</p>
-
-<pre><code class="language-csharp">context.Keybinds.SubscribeDefaults();
-</code></pre>
-
-<p>which subscribes to the <a href="/keybindings">default set of keybindings</a> automatically for you. if you want to add additional keybindings, or override an existing one, you can do the following:</p>
+<p>workspacer subscribes to the <a href="/keybindings">default set of keybindings</a> automatically for you. if you want to add additional keybindings, or override an existing one, you can do the following:</p>
 
 <pre><code class="language-csharp">context.Keybinds.Subscribe(mod, Keys.Y, () =&gt; Console.WriteLine(&quot;Y was pressed&quot;))
 </code></pre>
@@ -170,7 +152,10 @@ context.Keybinds.Subscribe(mod, Keys.P, () =&gt; actionMenu.ShowMenu(defaultMenu
 <pre><code class="language-csharp">context.Keybindings.Unsubscribe(mod, Keys.Y);
 </code></pre>
 
-<p>finally, you can remove the entire call to <code>SubscribeDefaults</code> if you want to define the entire set of keybinds yourself.</p>
+<p>finally, you can remove all of the default keybindings via:</p>
+
+<pre><code class="language-csharp">context.Keybindings.UnsubscribeAll();
+</code></pre>
 
 </main>
 

@@ -20,7 +20,7 @@ namespace Workspacer.Bar.Widgets
         public override IBarWidgetPart[] GetParts()
         {
             var parts = new List<IBarWidgetPart>();
-            var workspaces = Context.Workspaces.Container.GetWorkspaces(Context.Monitor);
+            var workspaces = Context.WorkspaceContainer.GetWorkspaces(Context.Monitor);
             int index = 0;
             foreach (var workspace in workspaces)
             {
@@ -46,7 +46,7 @@ namespace Workspacer.Bar.Widgets
 
         protected virtual string GetDisplayName(IWorkspace workspace, int index)
         {
-            var monitor = Context.Workspaces.Container.GetCurrentMonitorForWorkspace(workspace);
+            var monitor = Context.WorkspaceContainer.GetCurrentMonitorForWorkspace(workspace);
             var visible = Context.Monitor == monitor;
 
             return visible ? $"[{workspace.Name}]" : $" {workspace.Name} ";
@@ -54,7 +54,7 @@ namespace Workspacer.Bar.Widgets
 
         protected virtual Color GetDisplayColor(IWorkspace workspace, int index)
         {
-            var monitor = Context.Workspaces.Container.GetCurrentMonitorForWorkspace(workspace);
+            var monitor = Context.WorkspaceContainer.GetCurrentMonitorForWorkspace(workspace);
             if (Context.Monitor == monitor)
             {
                 return WorkspaceHasFocusColor;

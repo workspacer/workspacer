@@ -5,7 +5,6 @@ using Workspacer.ConfigLoader;
 using Timer = System.Timers.Timer;
 using System.Reflection;
 using System.IO;
-using Workspacer.Shared;
 
 namespace Workspacer
 {
@@ -40,27 +39,18 @@ namespace Workspacer
             _timer.Enabled = true;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
-            _keybinds = new KeybindManager();
-            _plugins = new PluginManager();
-            _systemTray = new SystemTrayManager();
-            _workspaces = new WorkspaceManager();
-            _windows = new WindowsManager();
+            var stateManager = new StateManager(_workspaces);
+            _context = new ConfigContext(_pipeServer, stateManager);
+
+            _context.Plugins = _plugins = new PluginManager();
+            _context.SystemTray = _systemTray = new SystemTrayManager();
+            _context.Workspaces = _workspaces = new WorkspaceManager(_context);
+            _context.Windows = _windows = new WindowsManager();
+            _context.Keybinds = _keybinds = new KeybindManager(_context);
 
             _windows.WindowCreated += _workspaces.AddWindow;
             _windows.WindowDestroyed += _workspaces.RemoveWindow;
             _windows.WindowUpdated += _workspaces.UpdateWindow;
-
-            var stateManager = new StateManager(_workspaces);
-
-            _context = new ConfigContext(_pipeServer, stateManager)
-            {
-                Keybinds = _keybinds,
-                Workspaces = _workspaces,
-                Plugins = _plugins,
-                SystemTray = _systemTray,
-                Windows = _windows,
-            };
-
 
             _systemTray.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
             _systemTray.AddToContextMenu("Quit Workspacer", () => _context.Quit());
@@ -78,7 +68,7 @@ namespace Workspacer
 
             _windows.Initialize();
 
-            var allWorkspaces = _workspaces.Container.GetAllWorkspaces().ToList();
+            var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
             // check to make sure there are enough workspaces for the monitors
             if (_workspaces.Monitors.Count() > allWorkspaces.Count)
             {
@@ -97,7 +87,7 @@ namespace Workspacer
                 _workspaces.SwitchToWorkspace(0);
             }
 
-            foreach (var workspace in _workspaces.Container.GetAllWorkspaces())
+            foreach (var workspace in _context.WorkspaceContainer.GetAllWorkspaces())
             {
                 workspace.DoLayout();
             }

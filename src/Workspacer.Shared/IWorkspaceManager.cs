@@ -20,9 +20,6 @@ namespace Workspacer
         IWorkspace FocusedWorkspace { get; }
         IMonitor FocusedMonitor { get; }
 
-        IWorkspaceContainer Container { get; set; }
-        IWindowRouter Router { get; set; }
-
         void SwitchToWindow(IWindow window);
         void SwitchToWorkspace(int index);
         void SwitchToWorkspace(IWorkspace workspace);

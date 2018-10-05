@@ -9,15 +9,17 @@ namespace Workspacer
     public class WorkspaceContainer : IWorkspaceContainer
     {
         private IConfigContext _context;
+        private Func<ILayoutEngine[]> _defaultLayouts;
 
         private List<IWorkspace> _workspaces;
         private Dictionary<IWorkspace, int> _workspaceMap;
 
         private Dictionary<IMonitor, IWorkspace> _mtw;
- 
-        public WorkspaceContainer(IConfigContext context)
+    
+        public WorkspaceContainer(IConfigContext context, Func<ILayoutEngine[]> defaultLayouts)
         {
             _context = context;
+            _defaultLayouts = defaultLayouts;
 
             _workspaces = new List<IWorkspace>();
             _workspaceMap = new Dictionary<IWorkspace, int>();
@@ -25,8 +27,17 @@ namespace Workspacer
             _mtw = new Dictionary<IMonitor, IWorkspace>();
         }
 
+        public void CreateWorkspaces(params string[] names)
+        {
+            foreach (var name in names)
+            {
+                CreateWorkspace(name, _defaultLayouts());
+            }
+        }
+
         public void CreateWorkspace(string name, params ILayoutEngine[] layouts)
         {
+            layouts = layouts.Length > 0 ? layouts : _defaultLayouts();
             var workspace = new Workspace(_context, name, layouts);
             _workspaces.Add(workspace);
             _workspaceMap[workspace] = _workspaces.Count - 1;

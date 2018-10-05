@@ -18,6 +18,10 @@ namespace Workspacer
             _context = context;
             _filters = new List<Func<IWindow, bool>>();
             _routes = new List<Func<IWindow, IWorkspace>>();
+
+            _filters.Add((window) => !window.Title.Contains("Task Manager"));
+            _filters.Add((window) => !window.Title.Contains("Program Manager"));
+            _filters.Add((window) => !(window.Process.Id == Process.GetCurrentProcess().Id));
         }
 
         public IWorkspace RouteWindow(IWindow window, IWorkspace defaultWorkspace = null)
@@ -37,11 +41,14 @@ namespace Workspacer
             return defaultWorkspace ?? _context.Workspaces.FocusedWorkspace;
         }
 
-        public void AddDefaults()
+        public void ClearFilters()
         {
-            _filters.Add((window) => !window.Title.Contains("Task Manager"));
-            _filters.Add((window) => !window.Title.Contains("Program Manager"));
-            _filters.Add((window) => !(window.Process.Id == Process.GetCurrentProcess().Id));
+            _filters.Clear();
+        }
+
+        public void ClearRoutes()
+        {
+            _routes.Clear();
         }
 
         public void AddFilter(Func<IWindow, bool> filter)

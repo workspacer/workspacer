@@ -21,9 +21,10 @@ namespace Workspacer
 
         public void AfterConfig(IConfigContext context) { _plugins.ForEach(p => p.AfterConfig(context)); }
 
-        public void RegisterPlugin<T>(T plugin) where T : IPlugin
+        public T RegisterPlugin<T>(T plugin) where T : IPlugin
         {
             _plugins.Add(plugin);
+            return plugin;
         }
 
         public IEnumerable<Type> AvailablePlugins => _availablePlugins;

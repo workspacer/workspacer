@@ -8,6 +8,10 @@ namespace Workspacer.ActionMenu
 {
     public class ActionMenuPluginConfig
     {
+        public bool RegisterKeybind { get; set; } = true;
+        public KeyModifiers KeybindMod { get; set; } = KeyModifiers.LAlt;
+        public Keys KeybindKey { get; set; } = Keys.P;
+
         public string MenuTitle { get; set; } = "Workspacer.ActionMenu";
         public int MenuHeight { get; set; } = 50;
         public int MenuWidth { get; set; } = 500;

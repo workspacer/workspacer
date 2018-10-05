@@ -10,6 +10,7 @@ namespace Workspacer
     {
         void AssignWorkspaceToMonitor(IWorkspace workspace, IMonitor monitor);
 
+        void CreateWorkspaces(params string[] names);
         void CreateWorkspace(string name, params ILayoutEngine[] layouts);
         void RemoveWorkspace(IWorkspace workspace);
 

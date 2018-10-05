@@ -1,11 +1,8 @@
 # creating and deleting workspaces is provided through the ActionMenu plugin here
 # you can of course implement any method of calling CreateWorkspace/RemoveWorkspace
 
-var defaultMenu = actionMenu.CreateDefault(context);
-defaultMenu.AddMenu("remove workspace", () => CreateRemoveWorkspaceMenu(container, actionMenu));
-defaultMenu.AddFreeForm("create workspace", (s) => container.CreateWorkspace(s, createLayouts()));
-context.Keybinds.Subscribe(mod, Keys.P, () => actionMenu.ShowMenu(defaultMenu.Get()));
-
+actionMenu.DefaultMenu.AddMenu("remove workspace", CreateRemoveWorkspaceMenu(container, actionMenu));
+actionMenu.DefaultMenu.AddFreeForm("create workspace", (s) => context.WorkspaceContainer.CreateWorkspace(s, createLayouts()));
 ......
 
 # a function defined elsewhere in the file

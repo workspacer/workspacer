@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Workspacer.Bar.Widgets;
 
 namespace Workspacer.Bar
 {
@@ -16,12 +17,9 @@ namespace Workspacer.Bar
         public Color DefaultWidgetBackground { get; set; } = Color.Black;
         public Color Background { get; set; } = Color.Black;
 
-        public Func<IBarWidget[]> LeftWidgets { get; set; } = () => new IBarWidget[0];
-        public Func<IBarWidget[]> RightWidgets { get; set; } = () => new IBarWidget[0];
-
-        public ILayoutEngine CreateWrapperLayout(ILayoutEngine inner)
-        {
-            return new MenuBarLayoutEngine(inner, BarTitle, BarHeight);
-        }
+        public Func<IBarWidget[]> LeftWidgets { get; set; } = () => 
+            new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() };
+        public Func<IBarWidget[]> RightWidgets { get; set; } = () => 
+            new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() };
     }
 }

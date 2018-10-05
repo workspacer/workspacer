@@ -11,7 +11,7 @@ namespace Workspacer.Bar
         private FlowLayoutPanel _panel;
         private IBarWidget[] _widgets;
         private IMonitor _monitor;
-        private IWorkspaceManager _workspaceManager;
+        private IConfigContext _configContext;
         private int _fontSize;
 
         private Color _defaultFore;
@@ -23,13 +23,13 @@ namespace Workspacer.Bar
 
         private IDictionary<Label, Action> _clickedHandlers;
 
-        public BarSection(bool reverse, FlowLayoutPanel panel, IBarWidget[] widgets, IMonitor monitor, IWorkspaceManager workspaceManager, 
+        public BarSection(bool reverse, FlowLayoutPanel panel, IBarWidget[] widgets, IMonitor monitor, IConfigContext context, 
             Color defaultFore, Color defaultBack, int fontSize)
         {
             _panel = panel;
             _widgets = widgets;
             _monitor = monitor;
-            _workspaceManager = workspaceManager;
+            _configContext = context;
             _fontSize = fontSize;
             _dirty = true;
             _reverse = reverse;
@@ -39,7 +39,7 @@ namespace Workspacer.Bar
 
             _clickedHandlers = new Dictionary<Label, Action>();
 
-            _context = new BarWidgetContext(this, _monitor, _workspaceManager);
+            _context = new BarWidgetContext(this, _monitor, _configContext);
             InitializeWidgets(widgets, _context);
         }
 

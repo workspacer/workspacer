@@ -293,7 +293,7 @@ namespace Workspacer
 
             if (_context.Enabled)
             {
-                var monitor = _context.Workspaces.Container.GetCurrentMonitorForWorkspace(this);
+                var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
                 if (monitor != null)
                 {
                     windows.ForEach(w => w.ShowInCurrentState());

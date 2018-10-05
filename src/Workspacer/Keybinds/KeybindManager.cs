@@ -4,26 +4,40 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Workspacer.ConfigLoader;
 
 namespace Workspacer
 {
     public partial class KeybindManager : IKeybindManager
     {
-        private Win32.HookProc _hook;
+        private Win32.HookProc _kbdHook;
+        private Win32.HookProc _mouseHook;
 
+        private IConfigContext _context;
         private IDictionary<Sub, KeybindHandler> _kbdSubs;
         private IDictionary<MouseEvent, MouseHandler> _mouseSubs;
 
-        public KeybindManager()
+        public KeybindManager(IConfigContext context)
         {
-            _hook = Hook;
-            Win32.SetWindowsHookEx(Win32.WH_KEYBOARD_LL, _hook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
-            Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, _hook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
-
+            _context = context;
+            _kbdHook = KbdHook;
+            _mouseHook = MouseHook;
             _kbdSubs = new Dictionary<Sub, KeybindHandler>(new Sub.SubEqualityComparer());
             _mouseSubs = new Dictionary<MouseEvent, MouseHandler>();
+
+            SubscribeDefaults();
+
+            var thread = new Thread(() =>
+            {
+                Win32.SetWindowsHookEx(Win32.WH_KEYBOARD_LL, _kbdHook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
+                Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, _mouseHook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
+                Application.Run();
+            });
+            thread.Name = "KeybindManager";
+            thread.Start();
         }
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler)
@@ -57,12 +71,18 @@ namespace Workspacer
                 _mouseSubs.Remove(evt);
         }
 
+        public void UnsubscribeAll()
+        {
+            _kbdSubs.Clear();
+            _mouseSubs.Clear();
+        }
+
         public bool KeyIsPressed(Keys key)
         {
              return (Win32.GetKeyState(KeysToKeys(key)) & 0x8000) == 0x8000;
         }
 
-        private IntPtr Hook(int nCode, UIntPtr wParam, IntPtr lParam)
+        private IntPtr KbdHook(int nCode, UIntPtr wParam, IntPtr lParam)
         {
             if (nCode == 0 && ((uint)wParam == Win32.WM_KEYDOWN || (uint)wParam == Win32.WM_SYSKEYDOWN))
             {
@@ -113,14 +133,18 @@ namespace Workspacer
                     }
                 }
             }
-            else if (nCode == 0 && (uint)wParam == Win32.WM_LBUTTONDOWN) { if (DoMouseEvent(MouseEvent.LButtonDown)) return new IntPtr(1); }
+            return Win32.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+        }
+
+        private IntPtr MouseHook(int nCode, UIntPtr wParam, IntPtr lParam)
+        {
+            if (nCode == 0 && (uint)wParam == Win32.WM_LBUTTONDOWN) { if (DoMouseEvent(MouseEvent.LButtonDown)) return new IntPtr(1); }
             else if (nCode == 0 && (uint)wParam == Win32.WM_LBUTTONUP) { if (DoMouseEvent(MouseEvent.LButtonUp)) return new IntPtr(1); }
             else if (nCode == 0 && (uint)wParam == Win32.WM_MOUSEMOVE) { if (DoMouseEvent(MouseEvent.MouseMove)) return new IntPtr(1); }
             else if (nCode == 0 && (uint)wParam == Win32.WM_MOUSEWHEEL) { if (DoMouseEvent(MouseEvent.MouseWheel)) return new IntPtr(1); }
             else if (nCode == 0 && (uint)wParam == Win32.WM_MOUSEHWHEEL) { if (DoMouseEvent(MouseEvent.MouseHWheel)) return new IntPtr(1); }
             else if (nCode == 0 && (uint)wParam == Win32.WM_RBUTTONDOWN) { if (DoMouseEvent(MouseEvent.RButtonDown)) return new IntPtr(1); }
             else if (nCode == 0 && (uint)wParam == Win32.WM_RBUTTONUP) { if (DoMouseEvent(MouseEvent.RButtonUp)) return new IntPtr(1); }
-
             return Win32.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
         }
 
@@ -152,140 +176,140 @@ namespace Workspacer
             return (System.Windows.Forms.Keys)keys;
         }
 
-        public void SubscribeDefaults(IConfigContext context, KeyModifiers mod)
+        public void SubscribeDefaults(KeyModifiers mod = KeyModifiers.LAlt)
         {
             Subscribe(MouseEvent.LButtonDown,
-                () => context.Workspaces.SwitchFocusedMonitorToMouseLocation());
+                () => _context.Workspaces.SwitchFocusedMonitorToMouseLocation());
 
             Subscribe(mod | KeyModifiers.LShift, Keys.E,
-                () => context.Enabled = !context.Enabled);
+                () => _context.Enabled = !_context.Enabled);
 
             Subscribe(mod | KeyModifiers.LShift, Keys.C,
-                () => context.Workspaces.FocusedWorkspace.CloseFocusedWindow());
+                () => _context.Workspaces.FocusedWorkspace.CloseFocusedWindow());
 
             Subscribe(mod, Keys.Space,
-                () => context.Workspaces.FocusedWorkspace.NextLayoutEngine());
+                () => _context.Workspaces.FocusedWorkspace.NextLayoutEngine());
 
             Subscribe(mod | KeyModifiers.LShift, Keys.Space,
-                () => context.Workspaces.FocusedWorkspace.PreviousLayoutEngine());
+                () => _context.Workspaces.FocusedWorkspace.PreviousLayoutEngine());
 
             Subscribe(mod, Keys.N,
-                () => context.Workspaces.FocusedWorkspace.ResetLayout());
+                () => _context.Workspaces.FocusedWorkspace.ResetLayout());
 
             Subscribe(mod, Keys.J,
-                () => context.Workspaces.FocusedWorkspace.FocusNextWindow());
+                () => _context.Workspaces.FocusedWorkspace.FocusNextWindow());
 
             Subscribe(mod, Keys.K,
-                () => context.Workspaces.FocusedWorkspace.FocusPreviousWindow());
+                () => _context.Workspaces.FocusedWorkspace.FocusPreviousWindow());
 
             Subscribe(mod, Keys.M,
-                () => context.Workspaces.FocusedWorkspace.FocusPrimaryWindow());
+                () => _context.Workspaces.FocusedWorkspace.FocusPrimaryWindow());
 
             Subscribe(mod, Keys.Enter,
-                () => context.Workspaces.FocusedWorkspace.SwapFocusAndPrimaryWindow());
+                () => _context.Workspaces.FocusedWorkspace.SwapFocusAndPrimaryWindow());
 
             Subscribe(mod | KeyModifiers.LShift, Keys.J,
-                () => context.Workspaces.FocusedWorkspace.SwapFocusAndNextWindow());
+                () => _context.Workspaces.FocusedWorkspace.SwapFocusAndNextWindow());
 
             Subscribe(mod | KeyModifiers.LShift, Keys.K,
-                () => context.Workspaces.FocusedWorkspace.SwapFocusAndPreviousWindow());
+                () => _context.Workspaces.FocusedWorkspace.SwapFocusAndPreviousWindow());
 
             Subscribe(mod, Keys.H,
-                () => context.Workspaces.FocusedWorkspace.ShrinkPrimaryArea());
+                () => _context.Workspaces.FocusedWorkspace.ShrinkPrimaryArea());
 
             Subscribe(mod, Keys.L,
-                () => context.Workspaces.FocusedWorkspace.ExpandPrimaryArea());
+                () => _context.Workspaces.FocusedWorkspace.ExpandPrimaryArea());
 
             Subscribe(mod, Keys.Oemcomma,
-                () => context.Workspaces.FocusedWorkspace.IncrementNumberOfPrimaryWindows());
+                () => _context.Workspaces.FocusedWorkspace.IncrementNumberOfPrimaryWindows());
 
             Subscribe(mod, Keys.OemPeriod,
-                () => context.Workspaces.FocusedWorkspace.DecrementNumberOfPrimaryWindows());
+                () => _context.Workspaces.FocusedWorkspace.DecrementNumberOfPrimaryWindows());
 
             Subscribe(mod, Keys.T,
-                () => context.Workspaces.FocusedWorkspace.ToggleFocusedWindowTiling());
+                () => _context.Workspaces.FocusedWorkspace.ToggleFocusedWindowTiling());
 
-            Subscribe(mod | KeyModifiers.LShift, Keys.Q, context.Quit);
+            Subscribe(mod | KeyModifiers.LShift, Keys.Q, _context.Quit);
 
-            Subscribe(mod, Keys.Q, context.Restart);
+            Subscribe(mod, Keys.Q, _context.Restart);
 
             Subscribe(mod, Keys.D1,
-                () => context.Workspaces.SwitchToWorkspace(0));
+                () => _context.Workspaces.SwitchToWorkspace(0));
 
             Subscribe(mod, Keys.D2,
-                () => context.Workspaces.SwitchToWorkspace(1));
+                () => _context.Workspaces.SwitchToWorkspace(1));
 
             Subscribe(mod, Keys.D3,
-                () => context.Workspaces.SwitchToWorkspace(2));
+                () => _context.Workspaces.SwitchToWorkspace(2));
 
             Subscribe(mod, Keys.D4,
-                () => context.Workspaces.SwitchToWorkspace(3));
+                () => _context.Workspaces.SwitchToWorkspace(3));
 
             Subscribe(mod, Keys.D5,
-                () => context.Workspaces.SwitchToWorkspace(4));
+                () => _context.Workspaces.SwitchToWorkspace(4));
 
             Subscribe(mod, Keys.D6,
-                () => context.Workspaces.SwitchToWorkspace(5));
+                () => _context.Workspaces.SwitchToWorkspace(5));
 
             Subscribe(mod, Keys.D7,
-                () => context.Workspaces.SwitchToWorkspace(6));
+                () => _context.Workspaces.SwitchToWorkspace(6));
 
             Subscribe(mod, Keys.D8,
-                () => context.Workspaces.SwitchToWorkspace(7));
+                () => _context.Workspaces.SwitchToWorkspace(7));
 
             Subscribe(mod, Keys.D9,
-                () => context.Workspaces.SwitchToWorkspace(8));
+                () => _context.Workspaces.SwitchToWorkspace(8));
 
             Subscribe(mod, Keys.Left,
-                () => context.Workspaces.SwitchToPreviousWorkspace());
+                () => _context.Workspaces.SwitchToPreviousWorkspace());
 
             Subscribe(mod, Keys.Right,
-                () => context.Workspaces.SwitchToNextWorkspace());
+                () => _context.Workspaces.SwitchToNextWorkspace());
 
             Subscribe(mod, Keys.W,
-                () => context.Workspaces.SwitchFocusedMonitor(0));
+                () => _context.Workspaces.SwitchFocusedMonitor(0));
 
             Subscribe(mod, Keys.E,
-                () => context.Workspaces.SwitchFocusedMonitor(1));
+                () => _context.Workspaces.SwitchFocusedMonitor(1));
 
             Subscribe(mod, Keys.R,
-                () => context.Workspaces.SwitchFocusedMonitor(2));
+                () => _context.Workspaces.SwitchFocusedMonitor(2));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.W,
-                () => context.Workspaces.MoveFocusedWindowToMonitor(0));
+                () => _context.Workspaces.MoveFocusedWindowToMonitor(0));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.E,
-                () => context.Workspaces.MoveFocusedWindowToMonitor(1));
+                () => _context.Workspaces.MoveFocusedWindowToMonitor(1));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.R,
-                () => context.Workspaces.MoveFocusedWindowToMonitor(2));
+                () => _context.Workspaces.MoveFocusedWindowToMonitor(2));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D1,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(0));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(0));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D2,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(1));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(1));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D3,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(2));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(2));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D4,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(3));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(3));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D5,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(4));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(4));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D6,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(5));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(5));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D7,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(6));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(6));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D8,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(7));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(7));
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D9,
-                () => context.Workspaces.MoveFocusedWindowToWorkspace(8));
+                () => _context.Workspaces.MoveFocusedWindowToWorkspace(8));
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Workspacer.Bar.Widgets
 
         private IWindow GetWindow()
         {
-            var currentWorkspace = Context.Workspaces.Container.GetWorkspaceForMonitor(Context.Monitor);
+            var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             return currentWorkspace.FocusedWindow ??
                    currentWorkspace.LastFocusedWindow ??
                    currentWorkspace.Windows.FirstOrDefault(w => w.CanLayout);
@@ -44,7 +44,7 @@ namespace Workspacer.Bar.Widgets
 
         private void RefreshAddRemove(IWindow window, IWorkspace workspace)
         {
-            var currentWorkspace = Context.Workspaces.Container.GetWorkspaceForMonitor(Context.Monitor);
+            var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             if (workspace == currentWorkspace)
             {
                 Context.MarkDirty();
@@ -53,7 +53,7 @@ namespace Workspacer.Bar.Widgets
 
         private void RefreshUpdated(IWindow window, IWorkspace workspace)
         {
-            var currentWorkspace = Context.Workspaces.Container.GetWorkspaceForMonitor(Context.Monitor);
+            var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             if (workspace == currentWorkspace && window == GetWindow())
             {
                 Context.MarkDirty();

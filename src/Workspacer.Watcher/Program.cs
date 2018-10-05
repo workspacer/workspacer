@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Workspacer.Shared;
 
 namespace Workspacer.Watcher
 {

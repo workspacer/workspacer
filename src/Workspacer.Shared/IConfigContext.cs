@@ -14,6 +14,9 @@ namespace Workspacer
         ISystemTrayManager SystemTray { get; }
         IWindowsManager Windows { get; }
 
+        IWorkspaceContainer WorkspaceContainer { get; set; }
+        IWindowRouter WindowRouter { get; set; }
+
         bool Enabled { get; set; }
         void Quit();
         void Restart();
