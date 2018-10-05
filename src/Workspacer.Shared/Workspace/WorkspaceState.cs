@@ -8,7 +8,7 @@ namespace Workspacer
 {
     public class WorkspaceState
     {
-        public Dictionary<int, int> WindowsToWorkspaces { get; set; }
+        public List<List<int>> WorkspacesToWindows { get; set; }
         public Dictionary<int, int> MonitorsToWorkspaces { get; set; }
         public int FocusedMonitor { get; set; }
         public int FocusedWindow { get; set; }

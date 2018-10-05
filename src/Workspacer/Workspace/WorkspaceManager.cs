@@ -349,21 +349,25 @@ namespace Workspacer
 
         public WorkspaceState GetState()
         {
-            var windowsToWorkspaces = new Dictionary<int, int>();
+            var workspacesToWindows = new List<List<int>>();
             var monitorsToWorkspaces = new Dictionary<int, int>();
 
             var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
 
             int focusedWindow = 0;
-            foreach (var kv in _windowsToWorkspaces)
+            foreach (var workspace in allWorkspaces)
             {
-                var index = allWorkspaces.IndexOf(kv.Value);
-                windowsToWorkspaces[(int) kv.Key.Handle] = index;
-
-                if (kv.Key.IsFocused)
+                var windows = new List<int>();
+                foreach (var window in workspace.Windows)
                 {
-                    focusedWindow = (int)kv.Key.Handle;
+                    windows.Add((int)window.Handle);
+
+                    if (window.IsFocused)
+                    {
+                        focusedWindow = (int)window.Handle;
+                    }
                 }
+                workspacesToWindows.Add(windows);
             }
 
             for (var i = 0; i < _monitors.Count; i++)
@@ -384,7 +388,7 @@ namespace Workspacer
 
             return new WorkspaceState()
             {
-                WindowsToWorkspaces = windowsToWorkspaces,
+                WorkspacesToWindows = workspacesToWindows,
                 MonitorsToWorkspaces = monitorsToWorkspaces,
                 FocusedMonitor = monitorIndex,
                 FocusedWindow = focusedWindow
@@ -408,9 +412,9 @@ namespace Workspacer
             
         }
 
-        public void InitializeWithState(WorkspaceState state, IEnumerable<IWindow> windows)
+        public void InitializeWithState(WorkspaceState state, IEnumerable<IWindow> allWindows)
         {
-            var wtw = state.WindowsToWorkspaces;
+            var wtw = state.WorkspacesToWindows;
             var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
 
             _focusedMonitor = state.FocusedMonitor;
@@ -424,28 +428,37 @@ namespace Workspacer
                 _context.WorkspaceContainer.AssignWorkspaceToMonitor(workspace, monitor);
             }
 
-            foreach (var w in windows)
+            for (var i = 0; i < wtw.Count; i++)
             {
-                var routedWorkspace = _context.WindowRouter.RouteWindow(w);
-                if (routedWorkspace == null)
-                    continue;
+                var workspaceWindows = wtw[i];
+                for (var j = 0; j < wtw[i].Count; j++)
+                {
+                    var handle = workspaceWindows[j];
+                    var window = allWindows.FirstOrDefault(w => (int)w.Handle == handle);
 
-                var handle = (int) w.Handle;
-                if (wtw.ContainsKey(handle) && wtw[handle] < allWorkspaces.Count)
-                {
-                    // ignoring the routed workspace here, as the user probably put this window into
-                    // the saved workspace on purpose
-                    var workspace = allWorkspaces[wtw[handle]];
-                    AddWindowToWorkspace(w, workspace);
-                }
-                else
-                {
-                    AddWindowToWorkspace(w, routedWorkspace);
-                }
+                    if (window == null)
+                        continue;
 
-                if (state.FocusedWindow == handle)
-                {
-                    w.Focus();
+                    var routedWorkspace = _context.WindowRouter.RouteWindow(window);
+                    if (routedWorkspace == null)
+                        continue;
+
+                    if (i < allWorkspaces.Count)
+                    {
+                        // ignoring the routed workspace here, as the user probably put this window into
+                        // the saved workspace on purpose
+                        var workspace = allWorkspaces[i];
+                        AddWindowToWorkspace(window, workspace);
+                    }
+                    else
+                    {
+                        AddWindowToWorkspace(window, routedWorkspace);
+                    }
+
+                    if (state.FocusedWindow == handle)
+                    {
+                        window.Focus();
+                    }
                 }
             }
         }
