@@ -14,7 +14,7 @@ namespace Workspacer
 
     public class WindowsManager : IWindowsManager
     {
-        private IDictionary<IntPtr, IWindow> _windows;
+        private IDictionary<IntPtr, WindowsWindow> _windows;
 
         private WinEventDelegate _hookDelegate;
 
@@ -26,7 +26,7 @@ namespace Workspacer
 
         public WindowsManager()
         {
-            _windows = new Dictionary<IntPtr, IWindow>();
+            _windows = new Dictionary<IntPtr, WindowsWindow>();
             _hookDelegate = new WinEventDelegate(WindowHook);
         }
 
@@ -125,7 +125,27 @@ namespace Workspacer
 
         private void UpdateWindow(IntPtr handle, WindowUpdateType type)
         {
-            if (_windows.ContainsKey(handle))
+            if (type == WindowUpdateType.Show  && _windows.ContainsKey(handle))
+            {
+                var window = _windows[handle];
+                WindowUpdated?.Invoke(window, type);
+            }
+            else if (type == WindowUpdateType.Show)
+            {
+                RegisterWindow(handle);
+            }
+            else if (type == WindowUpdateType.Hide && _windows.ContainsKey(handle))
+            {
+                var window = _windows[handle];
+                if (!window.DidManualHide)
+                {
+                    UnregisterWindow(handle);
+                } else
+                {
+                    WindowUpdated?.Invoke(window, type);
+                }
+            }
+            else if (_windows.ContainsKey(handle))
             {
                 var window = _windows[handle];
                 WindowUpdated?.Invoke(window, type);
