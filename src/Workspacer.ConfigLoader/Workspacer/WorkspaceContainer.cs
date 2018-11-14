@@ -15,6 +15,7 @@ namespace Workspacer
         private Dictionary<IWorkspace, int> _workspaceMap;
 
         private Dictionary<IMonitor, IWorkspace> _mtw;
+        private Dictionary<IWorkspace, IMonitor> _lastMonitor;
     
         public WorkspaceContainer(IConfigContext context, Func<ILayoutEngine[]> defaultLayouts)
         {
@@ -25,6 +26,7 @@ namespace Workspacer
             _workspaceMap = new Dictionary<IWorkspace, int>();
 
             _mtw = new Dictionary<IMonitor, IWorkspace>();
+            _lastMonitor = new Dictionary<IWorkspace, IMonitor>();
         }
 
         public void CreateWorkspaces(params string[] names)
@@ -76,6 +78,10 @@ namespace Workspacer
         {
             if (monitor != null)
             {
+                if (workspace != null)
+                {
+                    _lastMonitor[workspace] = GetCurrentMonitorForWorkspace(workspace);
+                }
                 _mtw[monitor] = workspace;
             }
         }
@@ -120,6 +126,13 @@ namespace Workspacer
 
         public IMonitor GetDesiredMonitorForWorkspace(IWorkspace workspace)
         {
+            if (workspace != null)
+            {
+                if (_lastMonitor.ContainsKey(workspace))
+                {
+                    return _lastMonitor[workspace];
+                }
+            }
             return null;
         }
 
