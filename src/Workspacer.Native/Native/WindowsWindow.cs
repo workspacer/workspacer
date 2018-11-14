@@ -17,12 +17,14 @@ namespace Workspacer
         private static Logger Logger = Logger.Create();
 
         private IntPtr _handle;
-        private bool _layoutOverride;
+        private bool _didManualHide;
 
         public WindowsWindow(IntPtr handle)
         {
             _handle = handle;
         }
+
+        public bool DidManualHide => _didManualHide;
 
         public string Title
         {
@@ -93,7 +95,7 @@ namespace Workspacer
         {
             get
             {
-                return _layoutOverride || 
+                return _didManualHide || 
                     (!Win32Helper.IsCloaked(_handle) &&
                        Win32Helper.IsAppWindow(_handle) &&
                        Win32Helper.IsAltTabWindow(_handle));
@@ -116,25 +118,28 @@ namespace Workspacer
             Logger.Debug("[{0}] :: Hide", this);
             if (CanLayout)
             {
-                _layoutOverride = true;
+                _didManualHide = true;
             }
             Win32.ShowWindow(_handle, Win32.SW.SW_HIDE);
         }
 
         public void ShowNormal()
         {
+            _didManualHide = false;
             Logger.Debug("[{0}] :: ShowNormal", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWNOACTIVATE);
         }
 
         public void ShowMaximized()
         {
+            _didManualHide = false;
             Logger.Debug("[{0}] :: ShowMaximized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMAXIMIZED);
         }
 
         public void ShowMinimized()
         {
+            _didManualHide = false;
             Logger.Debug("[{0}] :: ShowMinimized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMINIMIZED);
         }
