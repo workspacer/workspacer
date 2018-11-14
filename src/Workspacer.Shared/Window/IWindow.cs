@@ -21,7 +21,6 @@ namespace Workspacer
         bool IsFocused { get; }
         bool IsMinimized { get; }
         bool IsMaximized { get; }
-        bool CanResize { get; set; }
 
         void Focus();
         void Hide();
