@@ -1,3 +1,7 @@
+# v0.8.2
+
+- fixed broken FullLayoutEngine broken by previous changes
+
 # v0.8.1
 
 - workspaces are now slightly sticky-er in their default configuration
