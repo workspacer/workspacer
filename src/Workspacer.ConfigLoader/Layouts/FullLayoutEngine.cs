@@ -20,11 +20,9 @@ namespace Workspacer
             var windowList = windows.ToList();
             var noFocus = !windowList.Any(w => w.IsFocused);
 
-            list.Add(new WindowLocation(0, 0, spaceWidth, spaceHeight, GetDesiredState(windowList[0], noFocus)));
-
-            for (var i = 1; i < numWindows; i++)
+            for (var i = 0; i < numWindows; i++)
             {
-                list.Add(new WindowLocation(0, 0, spaceWidth, spaceHeight, GetDesiredState(windowList[i])));
+                list.Add(new WindowLocation(0, 0, spaceWidth, spaceHeight, WindowState.Normal));
             }
             return list;
         }
@@ -36,16 +34,5 @@ namespace Workspacer
         public void ResetPrimaryArea() { }
         public void IncrementNumInPrimary() { }
         public void DecrementNumInPrimary() { }
-
-        private WindowState GetDesiredState(IWindow window, bool noFocus = false)
-        {
-            if (window.IsFocused || noFocus)
-            {
-                return WindowState.Normal;
-            } else
-            {
-                return WindowState.Minimized;
-            }
-        }
     }
 }
