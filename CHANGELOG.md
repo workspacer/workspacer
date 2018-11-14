@@ -1,3 +1,9 @@
+# v0.8.1
+
+- workspaces are now slightly sticky-er in their default configuration
+  - WorkspaceContainer will now remember the last monitor assigned to a workspace, and will try to use that monitor when focusing a window on said workspace
+- better handling of windows that don't emit proper events for window hiding
+
 # v0.8.0
 
 - allow override of WorkspaceWidget color selection logic via GetDisplayColor
