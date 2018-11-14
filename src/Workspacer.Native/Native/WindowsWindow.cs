@@ -105,20 +105,6 @@ namespace Workspacer
         public bool IsMinimized => Win32.IsIconic(_handle);
         public bool IsMaximized => Win32.IsZoomed(_handle);
 
-        public bool CanResize
-        {
-            get
-            {
-                return Win32.GetWindowStyleLongPtr(_handle).HasFlag(Win32.WS.WS_SIZEBOX);
-            }
-            set
-            {
-                var style = Win32.GetWindowStyleLongPtr(_handle);
-                style = value ? style | Win32.WS.WS_SIZEBOX : style & ~Win32.WS.WS_SIZEBOX;
-                Win32.SetWindowLongPtr(_handle, Win32.GWL_STYLE, (uint)style);
-            }
-        }
-
         public void Focus()
         {
             Logger.Debug("[{0}] :: Focus", this);
