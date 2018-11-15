@@ -17,7 +17,7 @@ namespace Workspacer
 
         void AddWindow(IWindow window);
         void RemoveWindow(IWindow window);
-        void UpdateWindow(IWindow window);
+        void UpdateWindow(IWindow window, WindowUpdateType type);
 
         void CloseFocusedWindow(); // mod-shift-c
         void PreviousLayoutEngine(); // mod-space

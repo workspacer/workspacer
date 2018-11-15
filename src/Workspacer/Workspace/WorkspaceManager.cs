@@ -76,7 +76,7 @@ namespace Workspacer
 
                 WorkspaceUpdated?.Invoke();
 
-                targetWorkspace.FocusPrimaryWindow();
+                targetWorkspace.FocusLastFocusedWindow();
             }
         }
 
@@ -99,7 +99,7 @@ namespace Workspacer
 
             WorkspaceUpdated?.Invoke();
 
-            targetWorkspace.FocusPrimaryWindow();
+            targetWorkspace.FocusLastFocusedWindow();
         }
 
         public void SwitchToNextWorkspace()
@@ -118,7 +118,7 @@ namespace Workspacer
 
             WorkspaceUpdated?.Invoke();
 
-            targetWorkspace.FocusPrimaryWindow();
+            targetWorkspace.FocusLastFocusedWindow();
         }
 
         public void SwitchToPreviousWorkspace()
@@ -137,7 +137,7 @@ namespace Workspacer
 
             WorkspaceUpdated?.Invoke();
 
-            targetWorkspace.FocusPrimaryWindow();
+            targetWorkspace.FocusLastFocusedWindow();
         }
 
         public void SwitchFocusedMonitor(int index)
@@ -319,17 +319,12 @@ namespace Workspacer
                     {
                         if (type == WindowUpdateType.Foreground)
                         {
-                            var desiredMonitor = _context.WorkspaceContainer.GetDesiredMonitorForWorkspace(workspace);
-                            if (desiredMonitor != null)
-                            {
-                                _focusedMonitor = _monitors.IndexOf(desiredMonitor);
-                            }
-                            SwitchToWorkspace(workspace);
+                            // TODO: show flash for workspace (in bar?)
                         }
                     }
                 }
 
-                _windowsToWorkspaces[window].UpdateWindow(window);
+                _windowsToWorkspaces[window].UpdateWindow(window, type);
                 WindowUpdated?.Invoke(window, workspace);
             }
         }

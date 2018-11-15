@@ -74,10 +74,10 @@ namespace Workspacer
                         UpdateWindow(hwnd, WindowUpdateType.Show);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZESTART:
-                        UpdateWindow(hwnd, WindowUpdateType.Hide);
+                        UpdateWindow(hwnd, WindowUpdateType.MinimizeStart);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZEEND:
-                        UpdateWindow(hwnd, WindowUpdateType.Show);
+                        UpdateWindow(hwnd, WindowUpdateType.MinimizeEnd);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND:
                         UpdateWindow(hwnd, WindowUpdateType.Foreground);
