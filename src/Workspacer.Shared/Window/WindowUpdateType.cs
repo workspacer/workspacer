@@ -10,6 +10,8 @@ namespace Workspacer
     {
         Show,
         Hide,
+        MinimizeStart,
+        MinimizeEnd,
         Foreground,
         TitleChange,
         MoveEnd,

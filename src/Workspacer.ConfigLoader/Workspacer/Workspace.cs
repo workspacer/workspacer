@@ -62,9 +62,9 @@ namespace Workspacer
             DoLayout();
         }
 
-        public void UpdateWindow(IWindow window)
+        public void UpdateWindow(IWindow window, WindowUpdateType type)
         {
-            if (window.IsFocused)
+            if (type == WindowUpdateType.Foreground)
                 _lastFocused = window;
 
             DoLayout();
@@ -113,6 +113,9 @@ namespace Workspacer
             if (_lastFocused != null)
             {
                 _lastFocused.Focus();
+            } else
+            {
+                FocusPrimaryWindow();
             }
         }
 

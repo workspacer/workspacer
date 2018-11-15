@@ -9,6 +9,8 @@ namespace Workspacer
 {
     public class FullLayoutEngine : ILayoutEngine
     {
+        private IWindow _lastFull;
+
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)
         {
             var list = new List<IWindowLocation>();
@@ -22,7 +24,15 @@ namespace Workspacer
 
             for (var i = 0; i < numWindows; i++)
             {
-                list.Add(new WindowLocation(0, 0, spaceWidth, spaceHeight, WindowState.Normal));
+                var window = windowList[i];
+                var forceNormal = (noFocus && window == _lastFull) || window.IsFocused;
+
+                if (forceNormal)
+                {
+                    _lastFull = window;
+                }
+
+                list.Add(new WindowLocation(0, 0, spaceWidth, spaceHeight, GetDesiredState(windowList[i], forceNormal)));
             }
             return list;
         }
@@ -34,5 +44,16 @@ namespace Workspacer
         public void ResetPrimaryArea() { }
         public void IncrementNumInPrimary() { }
         public void DecrementNumInPrimary() { }
+
+        private WindowState GetDesiredState(IWindow window, bool forceNormal = false)
+        {
+            if (window.IsFocused || forceNormal)
+            {
+                return WindowState.Normal;
+            } else
+            {
+                return WindowState.Minimized;
+            }
+        }
     }
 }
