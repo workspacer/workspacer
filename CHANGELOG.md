@@ -1,3 +1,11 @@
+# v0.8.3
+
+- further improved stability of FullLayoutEngine
+- added ability for workspaces to flash in the menu bar when a window in the workspace wants to obtain focus
+- exposed the window class for use during routing and filtering
+- added more default filters to improve compat with taskbar
+- added new debug keybinds (alt-o && alt-shift-o) to dump debug metadata for all windows, and the window under the cursor, respectively
+
 # v0.8.2
 
 - fixed broken FullLayoutEngine broken by previous changes
