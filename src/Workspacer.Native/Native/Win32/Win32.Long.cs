@@ -69,7 +69,6 @@ namespace Workspacer
 
         public static int GWL_STYLE = -16;
         public static int GWL_EXSTYLE = -20;
-
         [DllImport("user32.dll", EntryPoint="SetWindowLongPtr")]
         public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, uint dwNewLong);
 

@@ -11,6 +11,7 @@ namespace Workspacer
     {
         IntPtr Handle { get; }
         string Title { get; }
+        string Class { get; }
         IWindowLocation Location { get; }
 
         Process Process { get; }

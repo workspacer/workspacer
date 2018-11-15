@@ -38,6 +38,15 @@ namespace Workspacer
 
         public IntPtr Handle => _handle;
 
+        public string Class
+        {
+            get
+            {
+                var buffer = new StringBuilder(255);
+                Win32.GetClassName(_handle, buffer, buffer.Capacity + 1);
+                return buffer.ToString();            }
+        }
+
         public IWindowLocation Location
         {
             get
