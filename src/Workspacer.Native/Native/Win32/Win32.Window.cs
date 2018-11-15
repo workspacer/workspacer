@@ -38,6 +38,9 @@ namespace Workspacer
         [DllImport("user32.dll", EntryPoint = "GetWindowText", ExactSpelling = false, CharSet = CharSet.Auto, SetLastError = true)]
         public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpWindowText, int nMaxCount);
 
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName,int nMaxCount);
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWindowVisible(IntPtr hWnd);
