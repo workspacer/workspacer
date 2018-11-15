@@ -15,6 +15,8 @@ namespace Workspacer
         IWindow FocusedWindow { get; }
         IWindow LastFocusedWindow { get; }
 
+        bool IsIndicating { get; set; }
+
         void AddWindow(IWindow window);
         void RemoveWindow(IWindow window);
         void UpdateWindow(IWindow window, WindowUpdateType type);

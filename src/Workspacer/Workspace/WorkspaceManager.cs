@@ -320,6 +320,8 @@ namespace Workspacer
                         if (type == WindowUpdateType.Foreground)
                         {
                             // TODO: show flash for workspace (in bar?)
+                            workspace.IsIndicating = true;
+                            WorkspaceUpdated?.Invoke();
                         }
                     }
                 }

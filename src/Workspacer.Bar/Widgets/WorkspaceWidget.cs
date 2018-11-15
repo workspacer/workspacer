@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Workspacer.Bar.Widgets
 {
@@ -10,11 +12,22 @@ namespace Workspacer.Bar.Widgets
     {
         public Color WorkspaceHasFocusColor { get; set; } = Color.Red;
         public Color WorkspaceEmptyColor { get; set; } = Color.Gray;
+        public Color WorkspaceIndicatingBackColor { get; set; } = Color.Teal;
+        public int BlinkPeriod { get; set; } = 1000;
+
+        private Timer _blinkTimer;
+        private ConcurrentDictionary<IWorkspace, bool> _blinkingWorkspaces;
 
         public override void Initialize()
         {
             Context.Workspaces.WorkspaceUpdated += () => UpdateWorkspaces();
             Context.Workspaces.WindowMoved += (w, o, n) => UpdateWorkspaces();
+
+            _blinkingWorkspaces = new ConcurrentDictionary<IWorkspace, bool>();
+
+            _blinkTimer = new Timer(BlinkPeriod);
+            _blinkTimer.Elapsed += (s, e) => BlinkIndicatingWorkspaces();
+            _blinkTimer.Enabled = true;
         }
 
         public override IBarWidgetPart[] GetParts()
@@ -30,12 +43,36 @@ namespace Workspacer.Bar.Widgets
             return parts.ToArray();
         }
 
+        private bool WorkspaceIsIndicating(IWorkspace workspace)
+        {
+            if (workspace.IsIndicating)
+            {
+                if (_blinkingWorkspaces.ContainsKey(workspace))
+                {
+                    _blinkingWorkspaces.TryGetValue(workspace, out bool value);
+                    return value;
+                } else
+                {
+                    _blinkingWorkspaces.TryAdd(workspace, true);
+                    return true;
+                }
+            }
+            else if (_blinkingWorkspaces.ContainsKey(workspace))
+            {
+                _blinkingWorkspaces.TryRemove(workspace, out bool _);
+            }
+            return false;
+        }
+
         private IBarWidgetPart CreatePart(IWorkspace workspace, int index)
         {
-            return Part(GetDisplayName(workspace, index), GetDisplayColor(workspace, index), null, () =>
+            var backColor = WorkspaceIsIndicating(workspace) ? WorkspaceIndicatingBackColor : null;
+
+            return Part(GetDisplayName(workspace, index), GetDisplayColor(workspace, index), backColor, () =>
             {
                 var monitorIndex = Context.Workspaces.Monitors.ToList().IndexOf(Context.Monitor);
                 Context.Workspaces.SwitchMonitorToWorkspace(monitorIndex, index);
+                workspace.IsIndicating = false;
             });
         }
 
@@ -62,6 +99,26 @@ namespace Workspacer.Bar.Widgets
 
             var hasWindows = workspace.Windows.Any(w => w.CanLayout);
             return hasWindows ? null : WorkspaceEmptyColor;
+        }
+
+        private void BlinkIndicatingWorkspaces()
+        {
+            var workspaces = _blinkingWorkspaces.Keys;
+
+            var didFlip = false;
+            foreach (var workspace in workspaces)
+            {
+                if (_blinkingWorkspaces.TryGetValue(workspace, out bool value))
+                {
+                    _blinkingWorkspaces.TryUpdate(workspace, !value, value);
+                    didFlip = true;
+                }
+            }
+
+            if (didFlip)
+            {
+                Context.MarkDirty();
+            }
         }
     }
 }
