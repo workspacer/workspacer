@@ -22,7 +22,9 @@ namespace Workspacer
             _filters.Add((window) => !window.Title.Contains("Task Manager"));
             _filters.Add((window) => !window.Title.Contains("Program Manager"));
             _filters.Add((window) => !window.Class.Contains("MSCTFIME UI"));
-            _filters.Add((window) => !window.Class.Contains("Windows.UI.Core.CoreWindow"));
+            _filters.Add((window) => window.Class != "SHELLDLL_DefView");
+            _filters.Add((window) => window.Process.ProcessName != "SearchUI");
+            _filters.Add((window) => window.Process.ProcessName != "ShellExperienceHost");
             _filters.Add((window) => !(window.Process.Id == Process.GetCurrentProcess().Id));
         }
 
