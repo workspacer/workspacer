@@ -96,12 +96,12 @@ namespace Workspacer
             var builder = new StringBuilder();
 
             builder.AppendLine("#############################");
-            builder.AppendLine($"Handle            = {window.Handle}");
-            builder.AppendLine($"Title             = \"{window.Title}\"");
-            builder.AppendLine($"Class             = \"{window.Class}\"");
-            builder.AppendLine($"ProcessId         = {window.Process.Id}");
-            builder.AppendLine($"ProcessName       = \"{window.Process.ProcessName}\"");
-            builder.AppendLine($"ProcessFileName   = \"{window.ProcessFileName}\"");
+            builder.AppendLine($"window.Handle                    = {window.Handle}");
+            builder.AppendLine($"window.Title                     = \"{window.Title}\"");
+            builder.AppendLine($"window.Class                     = \"{window.Class}\"");
+            builder.AppendLine($"window.Process.Id                = {window.Process.Id}");
+            builder.AppendLine($"window.Process.ProcessName       = \"{window.Process.ProcessName}\"");
+            builder.AppendLine($"window.ProcessFileName           = \"{window.ProcessFileName}\"");
             builder.AppendLine("#############################");
 
             return builder.ToString();
