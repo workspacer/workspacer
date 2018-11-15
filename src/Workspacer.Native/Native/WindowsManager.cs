@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Configuration;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace Workspacer
 {
@@ -14,6 +18,8 @@ namespace Workspacer
 
     public class WindowsManager : IWindowsManager
     {
+        private Logger Logger = Logger.Create();
+
         private IDictionary<IntPtr, WindowsWindow> _windows;
 
         private WinEventDelegate _hookDelegate;
@@ -53,6 +59,52 @@ namespace Workspacer
         {
             var info = Win32.BeginDeferWindowPos(count);
             return new WindowsDeferPosHandle(info);
+        }
+
+        public void DumpWindowDebugOutput()
+        {
+            var output = "";
+            foreach (var window in Windows)
+            {
+                output += GenerateWindowDebugOutput(window) + "\r\n\r\n";
+            }
+            OpenDebugOutput(output);
+        }
+
+        public void DumpWindowUnderCursorDebugOutput()
+        {
+            var location = Control.MousePosition;
+            var handle = Win32.WindowFromPoint(location);
+            if (_windows.ContainsKey(handle))
+            {
+                var window = _windows[handle];
+                var output = GenerateWindowDebugOutput(window);
+                OpenDebugOutput(output);
+            }
+        }
+
+        private void OpenDebugOutput(string output)
+        {
+            Logger.Trace(output);
+            var tmp = Path.GetTempFileName();
+            File.WriteAllText(tmp, output);
+            Process.Start("notepad.exe", tmp);
+        }
+
+        private string GenerateWindowDebugOutput(IWindow window)
+        {
+            var builder = new StringBuilder();
+
+            builder.AppendLine("#############################");
+            builder.AppendLine($"Handle            = {window.Handle}");
+            builder.AppendLine($"Title             = \"{window.Title}\"");
+            builder.AppendLine($"Class             = \"{window.Class}\"");
+            builder.AppendLine($"ProcessId         = {window.Process.Id}");
+            builder.AppendLine($"ProcessName       = \"{window.Process.ProcessName}\"");
+            builder.AppendLine($"ProcessFileName   = \"{window.ProcessFileName}\"");
+            builder.AppendLine("#############################");
+
+            return builder.ToString();
         }
 
         private void WindowHook(IntPtr hWinEventHook, Win32.EVENT_CONSTANTS eventType, IntPtr hwnd, Win32.OBJID idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
