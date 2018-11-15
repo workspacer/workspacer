@@ -13,6 +13,8 @@ namespace Workspacer
 {
     public partial class KeybindManager : IKeybindManager
     {
+        private Logger Logger = Logger.Create();
+
         private Win32.HookProc _kbdHook;
         private Win32.HookProc _mouseHook;
 
@@ -310,6 +312,12 @@ namespace Workspacer
 
             Subscribe(mod | KeyModifiers.LShift, Keys.D9,
                 () => _context.Workspaces.MoveFocusedWindowToWorkspace(8));
+
+            Subscribe(mod, Keys.O,
+                () => _context.Windows.DumpWindowDebugOutput());
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.O,
+                () => _context.Windows.DumpWindowUnderCursorDebugOutput());
         }
     }
 }
