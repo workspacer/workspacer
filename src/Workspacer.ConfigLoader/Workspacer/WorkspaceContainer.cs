@@ -80,6 +80,7 @@ namespace Workspacer
             {
                 if (workspace != null)
                 {
+                    workspace.IsIndicating = false;
                     _lastMonitor[workspace] = GetCurrentMonitorForWorkspace(workspace);
                 }
                 _mtw[monitor] = workspace;

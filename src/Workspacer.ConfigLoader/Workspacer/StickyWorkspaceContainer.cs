@@ -109,6 +109,7 @@ namespace Workspacer
 
                 if (workspaces.Contains(workspace))
                 {
+                    workspace.IsIndicating = false;
                     workspaces.Remove(workspace);
                     workspaces.Insert(0, workspace);
                 }
