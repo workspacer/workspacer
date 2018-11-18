@@ -72,7 +72,6 @@ namespace Workspacer.Bar.Widgets
             {
                 var monitorIndex = Context.Workspaces.Monitors.ToList().IndexOf(Context.Monitor);
                 Context.Workspaces.SwitchMonitorToWorkspace(monitorIndex, index);
-                workspace.IsIndicating = false;
             });
         }
 
