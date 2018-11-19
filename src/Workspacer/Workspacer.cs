@@ -95,7 +95,6 @@ namespace Workspacer
             _plugins.AfterConfig(_context);
 
             FocusStealer.Initialize();
-            while(true) { }
         }
 
         private void SendResponse(LauncherResponse response)
