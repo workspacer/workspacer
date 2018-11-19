@@ -326,8 +326,39 @@ namespace Workspacer
                     }
                 }
 
+                if (type == WindowUpdateType.Move)
+                {
+                    TrySwapWindowToMouse(window);
+                }
+
                 _windowsToWorkspaces[window].UpdateWindow(window, type);
                 WindowUpdated?.Invoke(window, workspace);
+            }
+        }
+
+        private void TrySwapWindowToMouse(IWindow window)
+        {
+            var point = Control.MousePosition;
+            int x = point.X;
+            int y = point.Y;
+
+            var currentWorkspace = _windowsToWorkspaces[window];
+
+            if (currentWorkspace.IsPointInside(x, y))
+            {
+                currentWorkspace.SwapWindowToPoint(window, x, y);
+            } else
+            {
+                foreach (var workspace in _context.WorkspaceContainer.GetAllWorkspaces())
+                {
+                    var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(workspace);
+                    if (monitor != null && workspace.IsPointInside(x, y))
+                    {
+                        currentWorkspace.RemoveWindow(window);
+                        workspace.AddWindow(window);
+                        workspace.SwapWindowToPoint(window, x, y);
+                    }
+                }
             }
         }
 

@@ -24,6 +24,11 @@ namespace Workspacer
         public int Height { get; private set;}
         public WindowState State { get; private set;}
 
+        public bool IsPointInside(int x, int y)
+        {
+            return this.X <= x && x <= (this.X + this.Width) && this.Y <= y && y <= (this.Y + this.Height);
+        }
+
         public override string ToString()
         {
             return $"{State} - {X}:{Y}/{Width}:{Height}";

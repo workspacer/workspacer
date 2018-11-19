@@ -45,6 +45,9 @@ namespace Workspacer
 
         void DoLayout();
 
+        void SwapWindowToPoint(IWindow window, int x, int y);
+        bool IsPointInside(int x, int y);
+
         // probably via SetLayoutEngine?
 
         // non workspace, storing these for a second

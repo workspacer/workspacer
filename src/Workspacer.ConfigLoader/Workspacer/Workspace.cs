@@ -12,6 +12,8 @@ namespace Workspacer
 {
     public class Workspace : IWorkspace
     {
+        private static Logger Logger = Logger.Create();
+
         public IEnumerable<IWindow> Windows => _windows;
         public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
         public IWindow LastFocusedWindow => _lastFocused;
@@ -291,6 +293,60 @@ namespace Workspacer
             }
         }
 
+        public void SwapWindowToPoint(IWindow window, int x, int y)
+        {
+            if (_windows.Contains(window))
+            {
+                var index = GetLayoutSlotIndexForPoint(x, y);
+                var destWindow = _windows.Count > index ? _windows[index] : null;
+
+                if (destWindow != null && window != destWindow)
+                {
+                    SwapWindows(window, destWindow);
+                }
+            }
+        }
+
+        public bool IsPointInside(int x, int y)
+        {
+            var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
+
+            if (monitor != null)
+            {
+                return monitor.X <= x && x <= (monitor.X + monitor.Width) && monitor.Y <= y && y <= (monitor.Y + monitor.Height);
+            } else
+            {
+                return false;
+            }
+        }
+
+        private int GetLayoutSlotIndexForPoint(int x, int y)
+        {
+            var locations = CalcLayout();
+            if (locations == null)
+                return -1;
+            var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
+            if (monitor == null)
+                return -1;
+
+            var adjustedLocations = locations.Select(loc => new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y,
+                                loc.Width, loc.Height, loc.State)).ToList();
+
+            var firstFit = adjustedLocations.FindIndex(l => l.IsPointInside(x, y));
+            return firstFit;
+        }
+
+        private IEnumerable<IWindowLocation> CalcLayout()
+        {
+            var windows = this.Windows.Where(w => w.CanLayout && !_floating.ContainsKey(w)).ToList();
+            var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
+            if (monitor != null)
+            {
+                return GetLayoutEngine().CalcLayout(windows, monitor.Width, monitor.Height);
+            }
+            return null;
+        }
+
         public void DoLayout()
         {
             var windows = this.Windows.Where(w => w.CanLayout && !_floating.ContainsKey(w)).ToList();
@@ -315,7 +371,10 @@ namespace Workspacer
                             var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y, 
                                 loc.Width, loc.Height, loc.State);
 
-                            handle.DeferWindowPos(window, adjustedLoc);
+                            if (!window.IsMouseMoving)
+                            {
+                                handle.DeferWindowPos(window, adjustedLoc);
+                            }
                         }
                     }
                 }
@@ -337,6 +396,7 @@ namespace Workspacer
 
         private void SwapWindows(IWindow left, IWindow right)
         {
+            Logger.Trace("SwapWindows[{0},{1}]", left, right);
             var leftIdx = _windows.FindIndex(w => w == left);
             var rightIdx = _windows.FindIndex(w => w == right);
 
@@ -350,7 +410,5 @@ namespace Workspacer
         {
             return _layoutEngines[_layoutIndex];
         }
-
-        
     }
 }
