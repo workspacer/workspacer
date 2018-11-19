@@ -318,6 +318,9 @@ namespace Workspacer
 
             Subscribe(mod | KeyModifiers.LShift, Keys.O,
                 () => _context.Windows.DumpWindowUnderCursorDebugOutput());
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.I,
+                () => _context.ToggleConsoleWindow());
         }
     }
 }

@@ -85,10 +85,7 @@ namespace Workspacer
 
         private void OpenDebugOutput(string output)
         {
-            Logger.Trace(output);
-            var tmp = Path.GetTempFileName();
-            File.WriteAllText(tmp, output);
-            Process.Start("notepad.exe", tmp);
+            Logger.Debug(output);
         }
 
         private string GenerateWindowDebugOutput(IWindow window)

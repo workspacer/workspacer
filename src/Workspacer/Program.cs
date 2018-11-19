@@ -14,6 +14,8 @@ namespace Workspacer
 {
     class Program
     {
+        private static Logger Logger = Logger.Create();
+
         [STAThread]
         public static void Main(string[] args)
         {
@@ -40,7 +42,10 @@ namespace Workspacer
             _app = new Workspacer();
             Thread.GetDomain().UnhandledException += ((s, e) =>
                 {
-                    var message = ((Exception)e.ExceptionObject).ToString() + "\n\npress ctrl-c to copy this";
+                    var exceptionMessage = ((Exception)e.ExceptionObject).ToString();
+                    Logger.Fatal(exceptionMessage);
+
+                    var message = exceptionMessage + "\n\npress ctrl-c to copy this";
                     MessageHelper.ShowMessage("unhandled exception!", message);
                     _app.Quit();
                 });

@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigContext.cs" />
+    <Compile Include="ConsoleHelper.cs" />
     <Compile Include="IManager.cs" />
     <Compile Include="Keybinds\KeybindManager.cs" />
     <Compile Include="Keybinds\Sub.cs" />
