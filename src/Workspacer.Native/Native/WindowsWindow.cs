@@ -133,7 +133,7 @@ namespace Workspacer
 
         public void Hide()
         {
-            Logger.Debug("[{0}] :: Hide", this);
+            Logger.Trace("[{0}] :: Hide", this);
             if (CanLayout)
             {
                 _didManualHide = true;
@@ -144,21 +144,21 @@ namespace Workspacer
         public void ShowNormal()
         {
             _didManualHide = false;
-            Logger.Debug("[{0}] :: ShowNormal", this);
+            Logger.Trace("[{0}] :: ShowNormal", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWNOACTIVATE);
         }
 
         public void ShowMaximized()
         {
             _didManualHide = false;
-            Logger.Debug("[{0}] :: ShowMaximized", this);
+            Logger.Trace("[{0}] :: ShowMaximized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMAXIMIZED);
         }
 
         public void ShowMinimized()
         {
             _didManualHide = false;
-            Logger.Debug("[{0}] :: ShowMinimized", this);
+            Logger.Trace("[{0}] :: ShowMinimized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMINIMIZED);
         }
 

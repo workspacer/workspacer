@@ -50,7 +50,7 @@ namespace Workspacer
             LogManager.Configuration = _config;
 
 #if DEBUG
-            ConsoleLogLevel = LogLevel.Trace;
+            ConsoleLogLevel = LogLevel.Debug;
             FileLogLevel = LogLevel.Off;
 #elif !DEBUG
             ConsoleLogLevel = LogLevel.Info;

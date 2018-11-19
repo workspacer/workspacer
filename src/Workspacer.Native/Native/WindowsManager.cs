@@ -215,7 +215,7 @@ namespace Workspacer
                 var window = _windows[handle];
                 _mouseMoveWindow = window;
                 window.IsMouseMoving = true;
-                Logger.Trace("StartWindowMove[{0}]", window);
+                Logger.Debug("StartWindowMove[{0}]", window);
                 WindowUpdated?.Invoke(window, WindowUpdateType.MoveStart);
             }
         }
@@ -227,7 +227,7 @@ namespace Workspacer
                 var window = _windows[handle];
                 _mouseMoveWindow = null;
                 window.IsMouseMoving = false;
-                Logger.Trace("EndWindowMove[{0}]", window);
+                Logger.Debug("EndWindowMove[{0}]", window);
                 WindowUpdated?.Invoke(window, WindowUpdateType.MoveEnd);
             }
         }
