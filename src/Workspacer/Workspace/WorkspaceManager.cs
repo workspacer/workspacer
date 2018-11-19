@@ -354,9 +354,12 @@ namespace Workspacer
                     var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(workspace);
                     if (monitor != null && workspace.IsPointInside(x, y))
                     {
-                        currentWorkspace.RemoveWindow(window);
-                        workspace.AddWindow(window);
+                        currentWorkspace.RemoveWindow(window, false);
+                        workspace.AddWindow(window, false);
+                        _windowsToWorkspaces[window] = workspace;
+
                         workspace.SwapWindowToPoint(window, x, y);
+                        currentWorkspace.DoLayout();
                     }
                 }
             }

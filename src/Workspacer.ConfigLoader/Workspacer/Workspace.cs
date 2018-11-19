@@ -41,7 +41,7 @@ namespace Workspacer
             Name = name;
         }
 
-        public void AddWindow(IWindow window)
+        public void AddWindow(IWindow window, bool layout = true)
         {
             if (_lastFocused == null && window.IsFocused)
             {
@@ -49,10 +49,12 @@ namespace Workspacer
             }
 
             _windows.Add(window);
-            DoLayout();
+
+            if (layout)
+                DoLayout();
         }
 
-        public void RemoveWindow(IWindow window)
+        public void RemoveWindow(IWindow window, bool layout = true)
         {
             if (_lastFocused == window)
             {
@@ -62,15 +64,18 @@ namespace Workspacer
             }
 
             _windows.Remove(window);
-            DoLayout();
+
+            if (layout)
+                DoLayout();
         }
 
-        public void UpdateWindow(IWindow window, WindowUpdateType type)
+        public void UpdateWindow(IWindow window, WindowUpdateType type, bool layout = true)
         {
             if (type == WindowUpdateType.Foreground)
                 _lastFocused = window;
 
-            DoLayout();
+            if (layout)
+                DoLayout();
         }
 
         public void CloseFocusedWindow()
@@ -295,10 +300,11 @@ namespace Workspacer
 
         public void SwapWindowToPoint(IWindow window, int x, int y)
         {
-            if (_windows.Contains(window))
+            var windows = GetWindowsForLayout();
+            if (windows.Contains(window))
             {
                 var index = GetLayoutSlotIndexForPoint(x, y);
-                var destWindow = _windows.Count > index ? _windows[index] : null;
+                var destWindow = index != -1 && windows.Count > index ? windows[index] : null;
 
                 if (destWindow != null && window != destWindow)
                 {
@@ -338,7 +344,7 @@ namespace Workspacer
 
         private IEnumerable<IWindowLocation> CalcLayout()
         {
-            var windows = this.Windows.Where(w => w.CanLayout && !_floating.ContainsKey(w)).ToList();
+            var windows = GetWindowsForLayout();
             var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
             if (monitor != null)
             {
@@ -349,8 +355,7 @@ namespace Workspacer
 
         public void DoLayout()
         {
-            var windows = this.Windows.Where(w => w.CanLayout && !_floating.ContainsKey(w)).ToList();
-
+            var windows = GetWindowsForLayout();
             if (_context.Enabled)
             {
                 var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
@@ -374,7 +379,7 @@ namespace Workspacer
                             if (!window.IsMouseMoving)
                             {
                                 handle.DeferWindowPos(window, adjustedLoc);
-                            }
+                            } 
                         }
                     }
                 }
@@ -387,6 +392,11 @@ namespace Workspacer
             {
                 windows.ForEach(w => w.ShowInCurrentState());
             }
+        }
+
+        private List<IWindow> GetWindowsForLayout()
+        {
+            return this.Windows.Where(w => w.CanLayout && !_floating.ContainsKey(w)).ToList();
         }
 
         public override string ToString()
