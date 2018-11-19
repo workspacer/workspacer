@@ -1,3 +1,7 @@
+# v0.9.1
+
+- fixed broken FocusStealer
+
 # v0.9.0
 
 - fixed bug where workspace indicator was not properly turned off
