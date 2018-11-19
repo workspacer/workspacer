@@ -17,9 +17,9 @@ namespace Workspacer
 
         bool IsIndicating { get; set; }
 
-        void AddWindow(IWindow window);
-        void RemoveWindow(IWindow window);
-        void UpdateWindow(IWindow window, WindowUpdateType type);
+        void AddWindow(IWindow window, bool layout = true);
+        void RemoveWindow(IWindow window, bool layout = true);
+        void UpdateWindow(IWindow window, WindowUpdateType type, bool layout = true);
 
         void CloseFocusedWindow(); // mod-shift-c
         void PreviousLayoutEngine(); // mod-space

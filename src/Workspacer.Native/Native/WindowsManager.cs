@@ -239,7 +239,6 @@ namespace Workspacer
                 var window = _windows[handle];
                 if (_mouseMoveWindow == window)
                 {
-                    Logger.Trace("WindowMove[{0}]", window);
                     WindowUpdated?.Invoke(window, WindowUpdateType.Move);
                 }
             }
