@@ -84,6 +84,7 @@
     <Compile Include="LauncherResponse.cs" />
     <Compile Include="Layout\ILayoutEngine.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="LogLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemTray\ISystemTrayManager.cs" />
     <Compile Include="IWindowsDeferPosHandle.cs" />

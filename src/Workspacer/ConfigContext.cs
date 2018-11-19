@@ -20,6 +20,35 @@ namespace Workspacer
         public IWorkspaceContainer WorkspaceContainer { get; set; }
         public IWindowRouter WindowRouter { get; set; }
 
+        public LogLevel ConsoleLogLevel
+        {
+            get
+            {
+                return Logger.ConsoleLogLevel;
+            }
+            set
+            {
+                Logger.ConsoleLogLevel = value;
+            }
+        }
+
+        public LogLevel FileLogLevel
+        {
+            get
+            {
+                return Logger.FileLogLevel;
+            }
+            set
+            {
+                Logger.FileLogLevel = value;
+            }
+        }
+
+        public void ToggleConsoleWindow()
+        {
+            ConsoleHelper.ToggleConsoleWindow();
+        }
+
         private PipeServer _pipeClient;
 
         public ConfigContext(PipeServer pipeClient)

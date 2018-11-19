@@ -33,6 +33,8 @@ namespace Workspacer
 
         public void Start()
         {
+            ConsoleHelper.Initialize();
+            Logger.Initialize(Console.Out);
             Logger.Debug("starting Workspacer");
 
             _pipeServer.Start();

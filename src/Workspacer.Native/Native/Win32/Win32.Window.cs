@@ -137,6 +137,8 @@ namespace Workspacer
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool ShowWindowAsync(IntPtr hWnd, SW nCmdShow);
 
+        public static IntPtr HWND_TOPMOST = new IntPtr(-1);
+
 		public enum SW
 		{
 			SW_FORCEMINIMIZE = 11,

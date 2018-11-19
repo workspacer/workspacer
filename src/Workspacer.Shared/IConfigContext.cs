@@ -17,6 +17,10 @@ namespace Workspacer
         IWorkspaceContainer WorkspaceContainer { get; set; }
         IWindowRouter WindowRouter { get; set; }
 
+        LogLevel ConsoleLogLevel { get; set; }
+        LogLevel FileLogLevel { get; set; }
+        void ToggleConsoleWindow();
+
         bool Enabled { get; set; }
         void Quit();
         void Restart();

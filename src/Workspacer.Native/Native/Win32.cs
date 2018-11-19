@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -71,5 +72,34 @@ namespace Workspacer
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+        [DllImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllocConsole();
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetConsoleWindow();
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GetStdHandle(int nStdHandle);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool SetStdHandle(int nStdHandle, IntPtr hHandle);
+
+        public const int STD_OUTPUT_HANDLE = -11;
+        public const int STD_INPUT_HANDLE = -10;
+        public const int STD_ERROR_HANDLE = -12;
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPTStr)] string filename,
+                                               [MarshalAs(UnmanagedType.U4)]     uint access,
+                                               [MarshalAs(UnmanagedType.U4)]     FileShare share,
+                                                                                 IntPtr securityAttributes,
+                                               [MarshalAs(UnmanagedType.U4)]     FileMode creationDisposition,
+                                               [MarshalAs(UnmanagedType.U4)]     FileAttributes flagsAndAttributes,
+                                                                                 IntPtr templateFile);
+
+        public const uint GENERIC_WRITE = 0x40000000;
+        public const uint GENERIC_READ = 0x80000000;
     }
 }
