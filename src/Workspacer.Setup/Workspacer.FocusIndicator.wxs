@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="INSTALLDIR">
-            <Component Id="cmp256F12D86FE2284DB2842AA8C90434D8" Guid="{EF98EBC5-F1F0-4CC4-B887-367638D77812}">
+            <Component Id="cmp256F12D86FE2284DB2842AA8C90434D8" Guid="{5DB296F7-E8D6-4A14-8640-04D4C0289FBD}">
                 <File Id="filA8A18000F3928CBCEE8C23BCD6AD8F3D" KeyPath="yes" Source="$(var.SourceDir)\Workspacer.FocusIndicator.dll" />
             </Component>
         </DirectoryRef>

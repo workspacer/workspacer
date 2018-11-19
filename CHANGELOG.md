@@ -1,3 +1,10 @@
+# v0.9.0
+
+- fixed bug where workspace indicator was not properly turned off
+- added better support for console output, and added log file
+- added FocusIndicator plugin, see the default config for usage
+- added ability to drag/drop windows into locations in the layout
+
 # v0.8.3
 
 - further improved stability of FullLayoutEngine
