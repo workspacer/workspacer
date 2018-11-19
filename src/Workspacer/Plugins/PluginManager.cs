@@ -10,6 +10,7 @@ namespace Workspacer
 {
     public class PluginManager : IPluginManager
     {
+        private static Logger Logger = Logger.Create();
         private List<Type> _availablePlugins;
         private List<IPlugin> _plugins;
 
@@ -23,6 +24,7 @@ namespace Workspacer
 
         public T RegisterPlugin<T>(T plugin) where T : IPlugin
         {
+            Logger.Info("RegisterPlugin[{0}]", plugin.GetType().Name);
             _plugins.Add(plugin);
             return plugin;
         }
