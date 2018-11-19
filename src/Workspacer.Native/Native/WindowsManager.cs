@@ -21,8 +21,8 @@ namespace Workspacer
         private Logger Logger = Logger.Create();
 
         private IDictionary<IntPtr, WindowsWindow> _windows;
-
         private WinEventDelegate _hookDelegate;
+        private IWindow _mouseMoveWindow; 
 
         public event WindowDelegate WindowCreated;
         public event WindowDelegate WindowDestroyed;
@@ -45,6 +45,7 @@ namespace Workspacer
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZEEND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE, Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE, IntPtr.Zero, _hookDelegate, 0, 0, 0);
+            Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE, Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, _hookDelegate, 0, 0, 0);
 
             Win32.EnumWindows((handle, param) =>
             {
@@ -136,9 +137,13 @@ namespace Workspacer
                         UpdateWindow(hwnd, WindowUpdateType.TitleChange);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART:
+                        StartWindowMove(hwnd);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZEEND:
                         EndWindowMove(hwnd);
+                        break;
+                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE:
+                        WindowMove(hwnd);
                         break;
                 }
             }
@@ -203,12 +208,40 @@ namespace Workspacer
             }
         }
 
+        private void StartWindowMove(IntPtr handle)
+        {
+            if (_windows.ContainsKey(handle))
+            {
+                var window = _windows[handle];
+                _mouseMoveWindow = window;
+                window.IsMouseMoving = true;
+                Logger.Trace("StartWindowMove[{0}]", window);
+                WindowUpdated?.Invoke(window, WindowUpdateType.MoveStart);
+            }
+        }
+
         private void EndWindowMove(IntPtr handle)
         {
             if (_windows.ContainsKey(handle))
             {
                 var window = _windows[handle];
+                _mouseMoveWindow = null;
+                window.IsMouseMoving = false;
+                Logger.Trace("EndWindowMove[{0}]", window);
                 WindowUpdated?.Invoke(window, WindowUpdateType.MoveEnd);
+            }
+        }
+
+        private void WindowMove(IntPtr handle)
+        {
+            if (_mouseMoveWindow != null && _windows.ContainsKey(handle))
+            {
+                var window = _windows[handle];
+                if (_mouseMoveWindow == window)
+                {
+                    Logger.Trace("WindowMove[{0}]", window);
+                    WindowUpdated?.Invoke(window, WindowUpdateType.Move);
+                }
             }
         }
 

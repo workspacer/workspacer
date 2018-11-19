@@ -22,6 +22,7 @@ namespace Workspacer
         bool IsFocused { get; }
         bool IsMinimized { get; }
         bool IsMaximized { get; }
+        bool IsMouseMoving { get; }
 
         void Focus();
         void Hide();

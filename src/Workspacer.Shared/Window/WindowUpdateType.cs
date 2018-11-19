@@ -14,6 +14,8 @@ namespace Workspacer
         MinimizeEnd,
         Foreground,
         TitleChange,
+        MoveStart,
         MoveEnd,
+        Move,
     }
 }

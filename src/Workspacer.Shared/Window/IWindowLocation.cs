@@ -14,5 +14,7 @@ namespace Workspacer
         int Height { get; }
 
         WindowState State { get; }
+
+        bool IsPointInside(int x, int y);
     }
 }
