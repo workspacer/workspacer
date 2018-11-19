@@ -27,6 +27,7 @@ namespace Workspacer
         public event WindowDelegate WindowCreated;
         public event WindowDelegate WindowDestroyed;
         public event WindowUpdateDelegate WindowUpdated;
+        public event WindowFocusDelegate WindowFocused;
 
         public IEnumerable<IWindow> Windows => _windows.Values;
 
@@ -153,6 +154,7 @@ namespace Workspacer
             if (!_windows.ContainsKey(handle))
             {
                 var window = new WindowsWindow(handle);
+                window.WindowFocused += () => HandleWindowFocused(window);
                 _windows[handle] = window;
 
                 if (emitEvent)
@@ -208,6 +210,11 @@ namespace Workspacer
                 var window = _windows[handle];
                 WindowUpdated?.Invoke(window, WindowUpdateType.MoveEnd);
             }
+        }
+
+        private void HandleWindowFocused(IWindow window)
+        {
+            WindowFocused?.Invoke(window);
         }
     }
 }

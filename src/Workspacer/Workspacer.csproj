@@ -206,11 +206,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir /p "$(TargetDir)plugins\Workspacer.Bar"
-xcopy "$(SolutionDir)\src\Workspacer.Bar\$(OutDir)*.*" "$(TargetDir)plugins\Workspacer.Bar\"  /E /Y /R
+    <PostBuildEvent>if not exist "$(TargetDir)plugins\Workspacer.Bar" mkdir "$(TargetDir)plugins\Workspacer.Bar"
+copy /b/y/v "$(SolutionDir)\src\Workspacer.Bar\$(OutDir)Workspacer.Bar.dll" "$(TargetDir)plugins\Workspacer.Bar\"
 
-mkdir /p "$(TargetDir)plugins\Workspacer.ActionMenu"
-xcopy "$(SolutionDir)\src\Workspacer.ActionMenu\$(OutDir)*.*" "$(TargetDir)plugins\Workspacer.ActionMenu\"  /E /Y /R</PostBuildEvent>
+if not exist "$(TargetDir)plugins\Workspacer.ActionMenu" mkdir "$(TargetDir)plugins\Workspacer.ActionMenu"
+copy /b/y/v "$(SolutionDir)\src\Workspacer.ActionMenu\$(OutDir)Workspacer.ActionMenu.dll" "$(TargetDir)plugins\Workspacer.ActionMenu\"
+
+if not exist "$(TargetDir)plugins\Workspacer.FocusIndicator" mkdir "$(TargetDir)plugins\Workspacer.FocusIndicator"
+copy /b/y/v "$(SolutionDir)\src\Workspacer.FocusIndicator\$(OutDir)Workspacer.FocusIndicator.dll" "$(TargetDir)plugins\Workspacer.FocusIndicator\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

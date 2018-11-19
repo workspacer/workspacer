@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Workspacer
 {
+    public delegate void WindowFocusDelegate(IWindow window);
+
     public interface IWindowsManager
     {
         IWindowsDeferPosHandle DeferWindowsPos(int count);
         void DumpWindowDebugOutput();
         void DumpWindowUnderCursorDebugOutput();
 
+        event WindowFocusDelegate WindowFocused;
     }
 }
