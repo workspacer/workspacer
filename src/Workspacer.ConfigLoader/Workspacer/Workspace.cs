@@ -308,6 +308,7 @@ namespace Workspacer
 
                 if (destWindow != null && window != destWindow)
                 {
+                    Logger.Debug("SwapWindowToPoint[{0},{1} - {2}]", x, y, window);
                     SwapWindows(window, destWindow);
                 }
             }

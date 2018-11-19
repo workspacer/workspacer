@@ -307,7 +307,7 @@ namespace Workspacer
         {
             if (_windowsToWorkspaces.ContainsKey(window))
             {
-                Logger.Debug("UpdateWindow({0})", window);
+                Logger.Trace("UpdateWindow({0})", window);
                 var workspace = _windowsToWorkspaces[window];
                 if (window.IsFocused)
                 {
