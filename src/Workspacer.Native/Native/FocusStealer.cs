@@ -22,7 +22,7 @@ namespace Workspacer
         private static int _id = 0;
 
         private static Keys _key = Keys.F12;
-        private static uint _modifiers = 0x1 | 0x2 | 0x4;
+        private static uint _modifiers = 0x2 | 0x4;
 
         private static IntPtr _windowToFocus = IntPtr.Zero;
         private static InputSimulator _inputSim = new InputSimulator();
@@ -42,11 +42,9 @@ namespace Workspacer
         {
             _windowToFocus = windowToFocus;
             _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.SHIFT);
-            _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.MENU);
             _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.CONTROL);
             _inputSim.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.F12);
             _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.SHIFT);
-            _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.MENU);
             _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.CONTROL);
         }
 
