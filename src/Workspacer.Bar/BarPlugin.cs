@@ -48,11 +48,13 @@ namespace Workspacer.Bar
 
         public void AfterConfig(IConfigContext context)
         {
-            Task.Run(() =>
+            var thread = new Thread(() =>
             {
                 Application.EnableVisualStyles();
                 Application.Run(new MyAppContext(_config, context));
             });
+            thread.Name = "BarPlugin";
+            thread.Start();
         }
 
         public ILayoutEngine[] WrapLayouts(params ILayoutEngine[] inners)
