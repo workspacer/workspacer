@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Configuration;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
@@ -22,7 +23,9 @@ namespace Workspacer
 
         private IDictionary<IntPtr, WindowsWindow> _windows;
         private WinEventDelegate _hookDelegate;
-        private WindowsWindow _mouseMoveWindow; 
+
+        private WindowsWindow _mouseMoveWindow;
+        private readonly object _mouseMoveLock = new object();
         private Win32.HookProc _mouseHook;
 
         public event WindowDelegate WindowCreated;
@@ -49,7 +52,6 @@ namespace Workspacer
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE, Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, _hookDelegate, 0, 0, 0);
 
             _mouseHook = MouseHook;
-            Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, _mouseHook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
 
             Win32.EnumWindows((handle, param) =>
             {
@@ -59,6 +61,14 @@ namespace Workspacer
                 }
                 return true;
             }, IntPtr.Zero);
+
+            var thread = new Thread(() =>
+            {
+                Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, _mouseHook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
+                Application.Run();
+            });
+            thread.Name = "WindowsManager";
+            thread.Start();
         }
 
         public IWindowsDeferPosHandle DeferWindowsPos(int count)
@@ -275,10 +285,13 @@ namespace Workspacer
 
         private void HandleWindowMoveEnd()
         {
-            if (_mouseMoveWindow != null)
+            lock (_mouseMoveLock)
             {
-                _mouseMoveWindow.IsMouseMoving = false;
-                _mouseMoveWindow = null;
+                if (_mouseMoveWindow != null)
+                {
+                    _mouseMoveWindow.IsMouseMoving = false;
+                    _mouseMoveWindow = null;
+                }
             }
         }
     }
