@@ -22,7 +22,8 @@ namespace Workspacer
 
         private IDictionary<IntPtr, WindowsWindow> _windows;
         private WinEventDelegate _hookDelegate;
-        private IWindow _mouseMoveWindow; 
+        private WindowsWindow _mouseMoveWindow; 
+        private Win32.HookProc _mouseHook;
 
         public event WindowDelegate WindowCreated;
         public event WindowDelegate WindowDestroyed;
@@ -46,6 +47,9 @@ namespace Workspacer
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE, Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE, Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, _hookDelegate, 0, 0, 0);
+
+            _mouseHook = MouseHook;
+            Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, _mouseHook, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
 
             Win32.EnumWindows((handle, param) =>
             {
@@ -83,6 +87,15 @@ namespace Workspacer
                 var output = GenerateWindowDebugOutput(window);
                 OpenDebugOutput(output);
             }
+        }
+
+        private IntPtr MouseHook(int nCode, UIntPtr wParam, IntPtr lParam)
+        {
+            if (nCode == 0 && (uint)wParam == Win32.WM_LBUTTONUP) {
+                Logger.Debug("MouseHook - WM_LBUTTONUP");
+                HandleWindowMoveEnd();
+            }
+            return Win32.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
         }
 
         private void OpenDebugOutput(string output)
@@ -213,9 +226,9 @@ namespace Workspacer
             if (_windows.ContainsKey(handle))
             {
                 var window = _windows[handle];
-                _mouseMoveWindow = window;
-                window.IsMouseMoving = true;
                 Logger.Debug("StartWindowMove[{0}]", window);
+
+                HandleWindowMoveStart(window);
                 WindowUpdated?.Invoke(window, WindowUpdateType.MoveStart);
             }
         }
@@ -225,9 +238,9 @@ namespace Workspacer
             if (_windows.ContainsKey(handle))
             {
                 var window = _windows[handle];
-                _mouseMoveWindow = null;
-                window.IsMouseMoving = false;
                 Logger.Debug("EndWindowMove[{0}]", window);
+
+                HandleWindowMoveEnd();
                 WindowUpdated?.Invoke(window, WindowUpdateType.MoveEnd);
             }
         }
@@ -247,6 +260,26 @@ namespace Workspacer
         private void HandleWindowFocused(IWindow window)
         {
             WindowFocused?.Invoke(window);
+        }
+
+        private void HandleWindowMoveStart(WindowsWindow window)
+        {
+            if (_mouseMoveWindow != null)
+            {
+                _mouseMoveWindow.IsMouseMoving = false;
+            }
+
+            _mouseMoveWindow = window;
+            window.IsMouseMoving = true;
+        }
+
+        private void HandleWindowMoveEnd()
+        {
+            if (_mouseMoveWindow != null)
+            {
+                _mouseMoveWindow.IsMouseMoving = false;
+                _mouseMoveWindow = null;
+            }
         }
     }
 }
