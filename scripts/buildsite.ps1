@@ -2,7 +2,12 @@ git checkout gh-pages
 git checkout master -- docs
 git reset HEAD .
 
-hugo --config docs/config.toml -s docs
+$toolsPath = "$PSScriptRoot\tools\"
+
+$oldPath = $env:PATH
+$env:PATH="$toolsPath:$oldPath"
+
+hugo.exe --config docs/config.toml -s docs
 
 remove-item -force -recurse docs
 
