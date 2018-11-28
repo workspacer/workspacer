@@ -1,5 +1,7 @@
+$sourceCommit = (git rev-parse HEAD) | Out-String
+
 git checkout gh-pages
-git checkout master -- docs
+git checkout $sourceCommit -- docs
 git reset HEAD .
 
 $toolsPath = "$PSScriptRoot\tools\"
