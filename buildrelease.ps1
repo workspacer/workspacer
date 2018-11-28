@@ -10,7 +10,6 @@ $barBuildDir = "src\Workspacer.Bar\bin\$platform\$config\"
 $menuBuildDir = "src\Workspacer.ActionMenu\bin\$platform\$config\"
 $focusBuildDir = "src\Workspacer.FocusIndicator\bin\$platform\$config\"
 
-$infos = Get-ChildItem -Path . -Filter "AssemblyInfo.cs" -Recurse -ErrorAction SilentlyContinue -Force
 $version = Get-Content "VERSION"
 
 $outDir = "out"
@@ -19,23 +18,6 @@ if (!(Test-Path $outDir)) {
     mkdir $outDir
 } else {
     del out/*
-}
-
-foreach ($file in $infos)
-{
-    "fixing version for $file"
-    (Get-Content $file.PSPath) |
-    Foreach-Object { $_ -replace "AssemblyVersion\("".*""\)", "AssemblyVersion(""$version"")" } |
-    Set-Content $file.PSPath
-}
-
-$setupProjs = Get-ChildItem -Path . -Filter "Product.wxs" -Recurse -ErrorAction SilentlyContinue -Force
-foreach ($file in $setupProjs)
-{
-    "fixing version for $file"
-    (Get-Content $file.PSPath) |
-    Foreach-Object { $_ -replace "Version="".*"" Manu", "Version=""$version"" Manu" } |
-    Set-Content $file.PSPath
 }
 
 & $msbuild Workspacer.sln /t:Clean,Build /p:Configuration=Release /p:Platform=x64
