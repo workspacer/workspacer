@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+	<meta name="generator" content="Hugo 0.48" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>home | workspacer</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/theme-override.css">
+    <header>
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="pull-left ">
+        <a href="/">workspacer</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/quickstart">quickstart</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/config">config</a>
+      </li>
+      
+
+      
+
+    </ul>
+  </nav>
+</header>
+
+  </head>
+
+  <body>
+    <br/>
+
+
+
+
+
+
+<p><a href="https://github.com/rickbutton/workspacer"><img src="/images/logo-128x128.png" style="max-width:15%;min-width:40px;float:right;" alt="logo" /></a></p>
+
+<h1 id="workspacer">workspacer</h1>
+
+<h3 id="a-tiling-window-manager-for-windows">a tiling window manager for Windows</h3>
+
+<p>workspacer is a tiling window manager for Windows 10, that is similar in style and function to xmonad.</p>
+
+<p>currently, workspacer supports most default xmonad functionality, like custom layout engines, workspace support, and powerful keybinds.</p>
+
+<h1 id="installation">installation</h1>
+
+<p><a href="/quickstart">check out the quickstart guide</a>, workspacer will automatically check for updates!</p>
+
+<h1 id="configuration">configuration</h1>
+
+<p>workspacer is entirely configured in actual C# (which means that you can literally configure it however you want!). a full tutorial on how to configure workspacer is coming soon!</p>
+
+<h2 id="a-note-on-configuration-compatibility">a note on configuration compatibility</h2>
+
+<p>because workspacer is a new project, I have not fully nailed down how I want the interfaces to look or behave, so everything in workspacer is subject to change. if you write a configuration file, be warned that I may make large changes that break backwards compatibility. i will announce when the configuration API is going to be stable. however, if your config breaks, feel free to let me know and I will be glad to help you modify it to work with a newer version.</p>
+
+<h1 id="keybinds">keybinds</h1>
+
+workspacer tries to mimic xmonad&rsquo;s keybindings wherever possible. the default keybindings are:</p>
+
+<table>
+<thead>
+<tr>
+<th>keybind</th>
+<th>description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>alt-shift-e</td>
+<td>toggle enabled/disabled</td>
+</tr>
+
+<tr>
+<td>alt-shift-c</td>
+<td>close focused window</td>
+</tr>
+
+<tr>
+<td>alt-space</td>
+<td>next layout engine</td>
+</tr>
+
+<tr>
+<td>alt-shift-space</td>
+<td>previous layout engine</td>
+</tr>
+
+<tr>
+<td>alt-n</td>
+<td>reset layout</td>
+</tr>
+
+<tr>
+<td>alt-j</td>
+<td>focus next window</td>
+</tr>
+
+<tr>
+<td>alt-k</td>
+<td>focus previous window</td>
+</tr>
+
+<tr>
+<td>alt-m</td>
+<td>focus primary window</td>
+</tr>
+
+<tr>
+<td>alt-enter</td>
+<td>swap focus and primary window</td>
+</tr>
+
+<tr>
+<td>alt-shift-j</td>
+<td>swap focus and next window</td>
+</tr>
+
+<tr>
+<td>alt-shift-k</td>
+<td>swap focus and previous window</td>
+</tr>
+
+<tr>
+<td>alt-h</td>
+<td>shrink primary area</td>
+</tr>
+
+<tr>
+<td>alt-l</td>
+<td>expand primary area</td>
+</tr>
+
+<tr>
+<td>alt-comma</td>
+<td>increment number of primary windows</td>
+</tr>
+
+<tr>
+<td>alt-period</td>
+<td>decrement number of primary windows</td>
+</tr>
+
+<tr>
+<td>alt-t</td>
+<td>toggle tiling for focused window</td>
+</tr>
+
+<tr>
+<td>alt-p</td>
+<td>open action menu</td>
+</tr>
+
+<tr>
+<td>alt-shift-q</td>
+<td>quit workspacer</td>
+</tr>
+
+<tr>
+<td>alt-q</td>
+<td>restart workspacer</td>
+</tr>
+
+<tr>
+<td>alt-left</td>
+<td>switch to left workspace</td>
+</tr>
+
+<tr>
+<td>alt-right</td>
+<td>switch to right workspace</td>
+</tr>
+
+<tr>
+<td>alt-{1..9}</td>
+<td>switch to workspace {1..9}</td>
+</tr>
+
+<tr>
+<td>alt-{wer}</td>
+<td>focus monitor {123}</td>
+</tr>
+
+<tr>
+<td>alt-shift-{wer}</td>
+<td>move focused window to monitor {123}</td>
+</tr>
+
+<tr>
+<td>alt-shift-{1..9}</td>
+<td>move focused window to workspace {1..9}</td>
+</tr>
+</tbody>
+</table>
+
+
+<h1 id="is-this-ready-for-use-yet">is this ready for use yet?</h1>
+
+<p>kinda! see the <a href="#installation">installation</a>. there are likely some major bugs in workspacer that I have not fixed yet, but it is more or less functionally complete. i am using workspacer <sup>24</sup>&frasl;<sub>7</sub> at home and at work at the moment, so it suites my needs (aside from the occasional hickup or crash). if you run into any problems, please open an issue!</p>
+
+<h1 id="contributing">contributing</h1>
+
+<p>Thanks for your interest in contributing! Submit a pull request! Or if you just have a good idea (or even a bad one) <a href="https://github.com/rickutton/workspacer/issues">submit an issue!</a></p>
+
+
+<ul>
+  
+</ul>
+
+    <footer>
+      
+<script>
+(function() {
+  function center_el(tagName) {
+    var tags = document.getElementsByTagName(tagName), i, tag;
+    for (i = 0; i < tags.length; i++) {
+      tag = tags[i];
+      var parent = tag.parentElement;
+      
+      if (parent.childNodes.length === 1) {
+        
+        if (parent.nodeName === 'A') {
+          parent = parent.parentElement;
+          if (parent.childNodes.length != 1) continue;
+        }
+        if (parent.nodeName === 'P') parent.style.textAlign = 'center';
+      }
+    }
+  }
+  var tagNames = ['img', 'embed', 'object'];
+  for (var i = 0; i < tagNames.length; i++) {
+    center_el(tagNames[i]);
+  }
+})();
+</script>
+
+      
+      <hr/>
+      MIT Licensed | <a href="https://github.com/rickbutton/workspacer">github</a>
+      
+    </footer>
+  </body>
+</html>
+

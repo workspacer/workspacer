@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>key bindings | workspacer</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/theme-override.css">
+    <header>
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="pull-left ">
+        <a href="/">workspacer</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/quickstart">quickstart</a>
+      </li>
+      
+      
+      <li class="pull-left ">
+        <a href="/config">config</a>
+      </li>
+      
+
+      
+
+    </ul>
+  </nav>
+</header>
+
+  </head>
+
+  <body>
+    <br/>
+
+<div class="article-meta">
+<h1><span class="title">key bindings</span></h1>
+
+
+<p class="terms">
+  
+  
+  
+  
+  
+</p>
+</div>
+
+
+
+<main>
+workspacer tries to mimic xmonad&rsquo;s keybindings wherever possible. the default keybindings are:</p>
+
+<table>
+<thead>
+<tr>
+<th>keybind</th>
+<th>description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>alt-shift-e</td>
+<td>toggle enabled/disabled</td>
+</tr>
+
+<tr>
+<td>alt-shift-c</td>
+<td>close focused window</td>
+</tr>
+
+<tr>
+<td>alt-space</td>
+<td>next layout engine</td>
+</tr>
+
+<tr>
+<td>alt-shift-space</td>
+<td>previous layout engine</td>
+</tr>
+
+<tr>
+<td>alt-n</td>
+<td>reset layout</td>
+</tr>
+
+<tr>
+<td>alt-j</td>
+<td>focus next window</td>
+</tr>
+
+<tr>
+<td>alt-k</td>
+<td>focus previous window</td>
+</tr>
+
+<tr>
+<td>alt-m</td>
+<td>focus primary window</td>
+</tr>
+
+<tr>
+<td>alt-enter</td>
+<td>swap focus and primary window</td>
+</tr>
+
+<tr>
+<td>alt-shift-j</td>
+<td>swap focus and next window</td>
+</tr>
+
+<tr>
+<td>alt-shift-k</td>
+<td>swap focus and previous window</td>
+</tr>
+
+<tr>
+<td>alt-h</td>
+<td>shrink primary area</td>
+</tr>
+
+<tr>
+<td>alt-l</td>
+<td>expand primary area</td>
+</tr>
+
+<tr>
+<td>alt-comma</td>
+<td>increment number of primary windows</td>
+</tr>
+
+<tr>
+<td>alt-period</td>
+<td>decrement number of primary windows</td>
+</tr>
+
+<tr>
+<td>alt-t</td>
+<td>toggle tiling for focused window</td>
+</tr>
+
+<tr>
+<td>alt-p</td>
+<td>open action menu</td>
+</tr>
+
+<tr>
+<td>alt-shift-q</td>
+<td>quit workspacer</td>
+</tr>
+
+<tr>
+<td>alt-q</td>
+<td>restart workspacer</td>
+</tr>
+
+<tr>
+<td>alt-left</td>
+<td>switch to left workspace</td>
+</tr>
+
+<tr>
+<td>alt-right</td>
+<td>switch to right workspace</td>
+</tr>
+
+<tr>
+<td>alt-{1..9}</td>
+<td>switch to workspace {1..9}</td>
+</tr>
+
+<tr>
+<td>alt-{wer}</td>
+<td>focus monitor {123}</td>
+</tr>
+
+<tr>
+<td>alt-shift-{wer}</td>
+<td>move focused window to monitor {123}</td>
+</tr>
+
+<tr>
+<td>alt-shift-{1..9}</td>
+<td>move focused window to workspace {1..9}</td>
+</tr>
+</tbody>
+</table>
+
+
+</main>
+
+    <footer>
+      
+<script>
+(function() {
+  function center_el(tagName) {
+    var tags = document.getElementsByTagName(tagName), i, tag;
+    for (i = 0; i < tags.length; i++) {
+      tag = tags[i];
+      var parent = tag.parentElement;
+      
+      if (parent.childNodes.length === 1) {
+        
+        if (parent.nodeName === 'A') {
+          parent = parent.parentElement;
+          if (parent.childNodes.length != 1) continue;
+        }
+        if (parent.nodeName === 'P') parent.style.textAlign = 'center';
+      }
+    }
+  }
+  var tagNames = ['img', 'embed', 'object'];
+  for (var i = 0; i < tagNames.length; i++) {
+    center_el(tagNames[i]);
+  }
+})();
+</script>
+
+      
+      <hr/>
+      MIT Licensed | <a href="https://github.com/rickbutton/workspacer">github</a>
+      
+    </footer>
+  </body>
+</html>
+

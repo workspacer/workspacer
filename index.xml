@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>home on workspacer</title>
+    <link>/</link>
+    <description>Recent content in home on workspacer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>configuring workspacer</title>
+      <link>/config/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/config/</guid>
+      <description>configuring workspacer can be tricky, but the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
+this configuration documentation assumes that you have already created the example configuration in the correct folder, if you haven&amp;rsquo;t, check the quickstart guide.
+I don&amp;rsquo;t know C#, or how to program, should I use workspacer? probably not, at least not yet. workspacer is intended to be on the extreme end of the power user spectrum.</description>
+    </item>
+    
+    <item>
+      <title>key bindings</title>
+      <link>/keybindings/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/keybindings/</guid>
+      <description>workspacer tries to mimic xmonad&amp;rsquo;s keybindings wherever possible. the default keybindings are:
+   keybind description     alt-shift-e toggle enabled/disabled   alt-shift-c close focused window   alt-space next layout engine   alt-shift-space previous layout engine   alt-n reset layout   alt-j focus next window   alt-k focus previous window   alt-m focus primary window   alt-enter swap focus and primary window   alt-shift-j swap focus and next window   alt-shift-k swap focus and previous window   alt-h shrink primary area   alt-l expand primary area   alt-comma increment number of primary windows   alt-period decrement number of primary windows   alt-t toggle tiling for focused window   alt-p open action menu   alt-shift-q quit workspacer   alt-q restart workspacer   alt-left switch to left workspace   alt-right switch to right workspace   alt-{1.</description>
+    </item>
+    
+    <item>
+      <title>quick start</title>
+      <link>/quickstart/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/quickstart/</guid>
+      <description>step one - installing/launching workspacer download the latest installer from github and install workspacer. The installer will put a shortcut in the Start Menu.
+step two - configuring workspacer by default, workspacer will load the default configuration shipped inside the program, but you will likely want to customize the default configuration in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.</description>
+    </item>
+    
+  </channel>
+</rss>
