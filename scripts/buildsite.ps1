@@ -6,7 +6,7 @@ git checkout gh-pages
 git checkout $sourceCommit -- docs
 git reset HEAD .
 
-$toolsPath = "$PSScriptRoot\tools\"
+$toolsPath = "$PSScriptRoot\tools\hugo\"
 $oldPath = $env:PATH
 
 $env:PATH="$toolsPath;$oldPath"
