@@ -1,6 +1,6 @@
  param (
     [string]$config,
-    [string]$platform,
+    [string]$platform
  )
 
 $setupDir = "src\Workspacer.Setup"
