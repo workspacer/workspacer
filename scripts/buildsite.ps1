@@ -5,7 +5,7 @@ git reset HEAD .
 $toolsPath = "$PSScriptRoot\tools\"
 
 $oldPath = $env:PATH
-$env:PATH="$toolsPath:$oldPath"
+$env:PATH="${$toolsPath}:${$oldPath}"
 
 hugo.exe --config docs/config.toml -s docs
 
