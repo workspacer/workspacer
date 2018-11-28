@@ -6,7 +6,7 @@ title: home
 
 # workspacer
 
-### a tiling window manager for Windows
+### a tiling window manager for Windows 10
 
 workspacer is a tiling window manager for Windows 10, that is similar in style and function to xmonad.
 
