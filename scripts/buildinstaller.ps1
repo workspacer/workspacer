@@ -1,9 +1,9 @@
-$msbuild = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe"
+ param (
+    [string]$config,
+    [string]$platform,
+ )
 
 $setupDir = "src\Workspacer.Setup"
-$config = "Release"
-$platform ="x64"
-
 
 $buildDir = "src\Workspacer\bin\$platform\$config\"
 $barBuildDir = "src\Workspacer.Bar\bin\$platform\$config\"
@@ -19,8 +19,6 @@ if (!(Test-Path $outDir)) {
 } else {
     del out/*
 }
-
-& $msbuild Workspacer.sln /t:Clean,Build /p:Configuration=Release /p:Platform=x64
 
 heat dir $buildDir -o $setupDir\Workspacer.wxs -t $setupDir\Workspacer.xslt -scon -sfrag -srd -sreg -gg -cg Workspacer -dr INSTALLDIR -var var.SourceDir
 heat dir $barBuildDir -o $setupDir\Workspacer.Bar.wxs -t $setupDir\Workspacer.Bar.xslt -scon -sfrag -srd -sreg -gg -cg Workspacer.Bar -dr INSTALLDIR -var var.SourceDir
