@@ -11,7 +11,7 @@ $oldPath = $env:PATH
 
 $env:PATH="$toolsPath;$oldPath"
 
-hugo.exe --config docs/config.toml -s docs
+hugo --config docs/config.toml -s docs
 
 remove-item -force -recurse docs
 
