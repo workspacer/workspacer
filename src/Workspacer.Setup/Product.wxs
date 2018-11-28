@@ -8,7 +8,6 @@
 
     <Feature Id="ProductFeature" Title="Workspacer" Level="1">
 			<ComponentGroupRef Id="Workspacer" />
-			<ComponentGroupRef Id="Workspacer.Bar" />
 		</Feature>
 
 		<UI>
