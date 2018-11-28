@@ -7,7 +7,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 preserveTaxonomyNames = true
 enableEmoji = true
 footnotereturnlinkcontents = "↩"
-publishDir = "../../docs"
+publishDir = "../"
 
 [permalinks]
     post = "/post/:year/:month/:day/:slug/"
