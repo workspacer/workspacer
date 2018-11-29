@@ -21,16 +21,27 @@ namespace Workspacer
         {
             Win32.SetProcessDPIAware();
 
-            var xmlUrl = "http://workspacer.org/releases.xml";
-            AutoUpdater.ApplicationExitEvent += QuitForUpdate;
-
-            System.Timers.Timer timer = new System.Timers.Timer(1000 * 60 * 60);
-            timer.Elapsed += (s, e) =>
+#if BRANCH_unstable
+            var branch = "unstable";
+#elif BRANCH_stable 
+            var branch = "stable";
+#else
+            string branch = null;
+#endif
+            if (branch != null)
             {
+                var xmlUrl = $"https://workspacer.blob.core.windows.net/installers/{branch}.xml";
+
+                AutoUpdater.ApplicationExitEvent += QuitForUpdate;
+
+                System.Timers.Timer timer = new System.Timers.Timer(1000 * 60 * 60);
+                timer.Elapsed += (s, e) =>
+                {
+                    AutoUpdater.Start(xmlUrl);
+                };
+                timer.Enabled = true;
                 AutoUpdater.Start(xmlUrl);
-            };
-            timer.Enabled = true;
-            AutoUpdater.Start(xmlUrl);
+            }
 
             Run();
         }
