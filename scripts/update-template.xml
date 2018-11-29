@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>REPLACE_VERSION.REPLACE_BUILD</version>
+    <version>REPLACE_VERSION</version>
     <url>REPLACE_URL</url>
     <changelog>https://raw.githubusercontent.com/rickbutton/workspacer/master/CHANGELOG.md</changelog>
     <mandatory>false</mandatory>
