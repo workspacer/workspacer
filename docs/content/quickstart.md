@@ -4,7 +4,7 @@ title: quick start
 
 # step one - installing/launching workspacer
 
-[download the latest installer from github](https://github.com/rickbutton/workspacer/releases) and install workspacer. The installer will put a shortcut in the Start Menu.
+[Download the latest installer](https://workspacer.blob.core.windows.net/installers/stable/workspacer-latest.msi) and install it. Workspacer will automatically check for updates, and automatically download them.
 
 # step two - configuring workspacer
 
