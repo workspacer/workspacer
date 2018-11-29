@@ -1,3 +1,9 @@
+# v0.9.2
+
+- improved build process, now using Azure Pipelines!
+
+There are now two tracks of releases, `unstable` and `stable`. `unstable` is build and published on every update to the `master` branch, while `stable` releases are created less often.
+
 # v0.9.1
 
 - fixed broken FocusStealer
