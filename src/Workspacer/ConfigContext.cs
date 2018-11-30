@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Workspacer.ConfigLoader;
 
@@ -19,6 +21,28 @@ namespace Workspacer
 
         public IWorkspaceContainer WorkspaceContainer { get; set; }
         public IWindowRouter WindowRouter { get; set; }
+
+        private Timer _timer;
+        private PipeServer _pipeServer;
+
+        public ConfigContext()
+        {
+            _timer = new Timer();
+            _timer.Elapsed += (s, e) => UpdateActiveHandles();
+            _timer.Interval = 5000;
+            _timer.Enabled = true;
+
+            _pipeServer = new PipeServer();
+
+            SystemEvents.DisplaySettingsChanged += HandleDisplaySettingsChanged;
+
+            WindowRouter = new WindowRouter(this);
+        }
+
+        public void ConnectToWatcher()
+        {
+            _pipeServer.Start();
+        }
 
         public LogLevel ConsoleLogLevel
         {
@@ -49,19 +73,10 @@ namespace Workspacer
             ConsoleHelper.ToggleConsoleWindow();
         }
 
-        private PipeServer _pipeClient;
-
-        public ConfigContext(PipeServer pipeClient)
-        {
-            _pipeClient = pipeClient;
-
-            WindowRouter = new WindowRouter(this);
-        }
-
         private void SendResponse(LauncherResponse response)
         {
             var str = JsonConvert.SerializeObject(response);
-            _pipeClient.SendResponse(str);
+            _pipeServer.SendResponse(str);
         }
         
         public void Restart()
@@ -70,6 +85,18 @@ namespace Workspacer
             var response = new LauncherResponse()
             {
                 Action = LauncherAction.Restart,
+            };
+            SendResponse(response);
+            Environment.Exit(0);
+        }
+
+        public void RestartAndPrompt(string message)
+        {
+            SaveState();
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.RestartAndPrompt,
+                Message = message,
             };
             SendResponse(response);
             Environment.Exit(0);
@@ -85,6 +112,35 @@ namespace Workspacer
 
             SystemTray.Destroy();
             Environment.Exit(0);
+        }
+
+        private void UpdateActiveHandles()
+        {
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.UpdateHandles,
+                ActiveHandles = GetActiveHandles().Select(h => h.ToInt64()).ToList(),
+            };
+            SendResponse(response);
+        }
+
+        private List<IntPtr> GetActiveHandles()
+        {
+            var list = new List<IntPtr>();
+            foreach (var ws in WorkspaceContainer.GetAllWorkspaces())
+            {
+                foreach (var w in ws.Windows.Where(w => w.CanLayout))
+                {
+                    list.Add(w.Handle);
+                }
+            }
+            return list;
+        }
+
+        private void HandleDisplaySettingsChanged(object sender, EventArgs e)
+        {
+            var message = "The display settings have changed. Workspacer will resume when you press Ok.";
+            RestartAndPrompt(message);
         }
 
         public bool Enabled

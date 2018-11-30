@@ -365,19 +365,6 @@ namespace Workspacer
             }
         }
 
-        public List<IntPtr> GetActiveHandles()
-        {
-            var list = new List<IntPtr>();
-            foreach (var ws in _context.WorkspaceContainer.GetAllWorkspaces())
-            {
-                foreach (var w in ws.Windows.Where(w => w.CanLayout))
-                {
-                    list.Add(w.Handle);
-                }
-            }
-            return list;
-        }
-
         public WorkspaceState GetState()
         {
             var workspacesToWindows = new List<List<int>>();

@@ -13,9 +13,7 @@ namespace Workspacer
         private static Logger Logger = Logger.Create();
         public static bool Enabled { get; set; }
 
-        private PipeServer _pipeServer;
         private ConfigContext _context;
-        private Timer _timer;
 
         private KeybindManager _keybinds;
         private WorkspaceManager _workspaces;
@@ -23,36 +21,23 @@ namespace Workspacer
         private SystemTrayManager _systemTray;
         private WindowsManager _windows;
 
-        public Workspacer()
-        {
-            _pipeServer = new PipeServer();
-            _timer = new Timer();
-            _timer.Elapsed += (s, e) => UpdateActiveHandles();
-            _timer.Interval = 5000;
-        }
-
         public void Start()
         {
+            // init logging
             ConsoleHelper.Initialize();
             Logger.Initialize(Console.Out);
             Logger.Debug("starting Workspacer");
 
-            _pipeServer.Start();
-            _timer.Enabled = true;
+            // init plugin assembly resolver
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
-            _context = new ConfigContext(_pipeServer);
+            // init context and managers
+            SetupContext();
 
-            _context.Plugins = _plugins = new PluginManager();
-            _context.SystemTray = _systemTray = new SystemTrayManager();
-            _context.Workspaces = _workspaces = new WorkspaceManager(_context);
-            _context.Windows = _windows = new WindowsManager();
-            _context.Keybinds = _keybinds = new KeybindManager(_context);
+            // connect to watcher
+            _context.ConnectToWatcher();
 
-            _windows.WindowCreated += _workspaces.AddWindow;
-            _windows.WindowDestroyed += _workspaces.RemoveWindow;
-            _windows.WindowUpdated += _workspaces.UpdateWindow;
-
+            // init system tray
             _systemTray.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
             _systemTray.AddToContextMenu("Quit Workspacer", () => _context.Quit());
             _systemTray.AddToContextMenu("Restart Workspacer", () => _context.Restart());
@@ -61,12 +46,16 @@ namespace Workspacer
                 _systemTray.AddToContextMenu("Create example Workspacer.config.csx", CreateExampleConfig);
             }
 
+            // init monitors
             _workspaces.InitializeMonitors();
 
+            // init config
             ConfigHelper.DoConfig(_context);
 
+            // init windows
             _windows.Initialize();
 
+            // verify config
             var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
             // check to make sure there are enough workspaces for the monitors
             if (_workspaces.Monitors.Count() > allWorkspaces.Count)
@@ -74,6 +63,7 @@ namespace Workspacer
                 throw new Exception("you must specify at least enough workspaces to cover all monitors");
             }
 
+            // init workspaces
             var state = _context.LoadState();
             if (state != null)
             {
@@ -87,35 +77,37 @@ namespace Workspacer
                 _workspaces.SwitchToWorkspace(0);
             }
 
+            // force first layout
             foreach (var workspace in _context.WorkspaceContainer.GetAllWorkspaces())
             {
                 workspace.DoLayout();
             }
 
+            // notify plugins that config is done
             _plugins.AfterConfig(_context);
 
+            // start focus stealer
             FocusStealer.Initialize();
         }
 
-        private void SendResponse(LauncherResponse response)
+        private void SetupContext()
         {
-            var str = JsonConvert.SerializeObject(response);
-            _pipeServer.SendResponse(str);
+            _context = new ConfigContext();
+
+            _context.Plugins = _plugins = new PluginManager();
+            _context.SystemTray = _systemTray = new SystemTrayManager();
+            _context.Workspaces = _workspaces = new WorkspaceManager(_context);
+            _context.Windows = _windows = new WindowsManager();
+            _context.Keybinds = _keybinds = new KeybindManager(_context);
+
+            _windows.WindowCreated += _workspaces.AddWindow;
+            _windows.WindowDestroyed += _workspaces.RemoveWindow;
+            _windows.WindowUpdated += _workspaces.UpdateWindow;
         }
 
         public void Quit()
         {
             _context.Quit();
-        }
-
-        private void UpdateActiveHandles()
-        {
-            var response = new LauncherResponse()
-            {
-                Action = LauncherAction.UpdateHandles,
-                ActiveHandles = _workspaces.GetActiveHandles().Select(h => h.ToInt64()).ToList(),
-            };
-            SendResponse(response);
         }
 
         private Assembly ResolveAssembly(object sender, ResolveEventArgs args)

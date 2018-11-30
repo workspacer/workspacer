@@ -10,13 +10,15 @@ namespace Workspacer
     {
         Quit,
         Restart,
-        UpdateHandles
+        RestartAndPrompt,
+        UpdateHandles,
     }
 
     public class LauncherResponse
     {
         public LauncherAction Action { get; set; } 
         
+        public string Message { get; set; }
         public List<long> ActiveHandles { get; set; }
     }
 }
