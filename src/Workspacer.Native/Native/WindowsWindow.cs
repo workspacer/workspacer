@@ -191,7 +191,7 @@ namespace Workspacer
 
         public override string ToString()
         {
-            return $"[{Handle}][{Title}]";
+            return $"[{Handle}][{Title}][{Class}][{Process.ProcessName}]";
         }
     }
 }
