@@ -28,6 +28,8 @@ namespace Workspacer
         private readonly object _mouseMoveLock = new object();
         private Win32.HookProc _mouseHook;
 
+        private Dictionary<WindowsWindow, bool> _floating;
+
         public event WindowDelegate WindowCreated;
         public event WindowDelegate WindowDestroyed;
         public event WindowUpdateDelegate WindowUpdated;
@@ -38,6 +40,7 @@ namespace Workspacer
         public WindowsManager()
         {
             _windows = new Dictionary<IntPtr, WindowsWindow>();
+            _floating = new Dictionary<WindowsWindow, bool>();
             _hookDelegate = new WinEventDelegate(WindowHook);
         }
 
@@ -57,7 +60,7 @@ namespace Workspacer
             {
                 if (Win32Helper.IsAppWindow(handle))
                 {
-                    RegisterWindow(handle, false);
+                    var window = RegisterWindow(handle, false);
                 }
                 return true;
             }, IntPtr.Zero);
@@ -96,6 +99,27 @@ namespace Workspacer
                 var window = _windows[handle];
                 var output = GenerateWindowDebugOutput(window);
                 OpenDebugOutput(output);
+            }
+        }
+
+        public void ToggleFocusedWindowTiling()
+        {
+            var window = _windows.Values.FirstOrDefault(w => w.IsFocused);
+
+            if (window != null)
+            {
+                if (_floating.ContainsKey(window))
+                {
+                    _floating.Remove(window);
+                    HandleWindowAdd(window);
+                }
+                else
+                {
+                    _floating[window] = true;
+                    HandleWindowRemove(window);
+                    window.BringToTop();
+                }
+                window.Focus();
             }
         }
 
@@ -177,7 +201,7 @@ namespace Workspacer
             return idChild == Win32.CHILDID_SELF && idObject == Win32.OBJID.OBJID_WINDOW && hwnd != IntPtr.Zero;
         }
         
-        private void RegisterWindow(IntPtr handle, bool emitEvent = true)
+        private WindowsWindow RegisterWindow(IntPtr handle, bool emitEvent = true)
         {
             if (!_windows.ContainsKey(handle))
             {
@@ -187,8 +211,13 @@ namespace Workspacer
 
                 if (emitEvent)
                 {
-                    WindowCreated?.Invoke(window);
+                    HandleWindowAdd(window);
                 }
+
+                return window;
+            } else
+            {
+                return _windows[handle];
             }
         }
 
@@ -198,7 +227,7 @@ namespace Workspacer
             {
                 var window = _windows[handle];
                 _windows.Remove(handle);
-                WindowDestroyed?.Invoke(window);
+                HandleWindowRemove(window);
             }
         }
 
@@ -267,7 +296,7 @@ namespace Workspacer
             }
         }
 
-        private void HandleWindowFocused(IWindow window)
+        private void HandleWindowFocused(WindowsWindow window)
         {
             WindowFocused?.Invoke(window);
         }
@@ -293,6 +322,16 @@ namespace Workspacer
                     _mouseMoveWindow = null;
                 }
             }
+        }
+
+        private void HandleWindowAdd(WindowsWindow window)
+        {
+            WindowCreated?.Invoke(window);
+        }
+
+        private void HandleWindowRemove(WindowsWindow window)
+        {
+            WindowDestroyed?.Invoke(window);
         }
     }
 }

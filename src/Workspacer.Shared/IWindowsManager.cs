@@ -15,5 +15,7 @@ namespace Workspacer
         void DumpWindowUnderCursorDebugOutput();
 
         event WindowFocusDelegate WindowFocused;
+
+        void ToggleFocusedWindowTiling(); // mod-t
     }
 }

@@ -229,7 +229,7 @@ namespace Workspacer
                 () => _context.Workspaces.FocusedWorkspace.DecrementNumberOfPrimaryWindows());
 
             Subscribe(mod, Keys.T,
-                () => _context.Workspaces.FocusedWorkspace.ToggleFocusedWindowTiling());
+                () => _context.Windows.ToggleFocusedWindowTiling());
 
             Subscribe(mod | KeyModifiers.LShift, Keys.Q, _context.Quit);
 

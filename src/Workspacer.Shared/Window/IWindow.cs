@@ -31,6 +31,8 @@ namespace Workspacer
         void ShowMinimized();
         void ShowInCurrentState();
 
+        void BringToTop();
+
         void Close();
     }
 }
