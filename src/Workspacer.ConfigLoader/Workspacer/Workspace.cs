@@ -27,8 +27,6 @@ namespace Workspacer
         private int _layoutIndex;
         private IWindow _lastFocused;
 
-        private Dictionary<IWindow, bool> _floating;
-
         public Workspace(IConfigContext context, string name, ILayoutEngine[] layoutEngines)
         {
             _context = context;
@@ -37,7 +35,6 @@ namespace Workspacer
             _windows = new List<IWindow>();
 
             _lastFocused = null;
-            _floating = new Dictionary<IWindow, bool>();
             Name = name;
         }
 
@@ -284,20 +281,6 @@ namespace Workspacer
             DoLayout();
         }
 
-        public void ToggleFocusedWindowTiling()
-        {
-            var window = FocusedWindow;
-
-            if (window != null)
-            {
-                if (_floating.ContainsKey(window))
-                    _floating.Remove(window);
-                else
-                    _floating[window] = true;
-                DoLayout();
-            }
-        }
-
         public void SwapWindowToPoint(IWindow window, int x, int y)
         {
             var windows = GetWindowsForLayout();
@@ -397,7 +380,7 @@ namespace Workspacer
 
         private List<IWindow> GetWindowsForLayout()
         {
-            return this.Windows.Where(w => w.CanLayout && !_floating.ContainsKey(w)).ToList();
+            return this.Windows.Where(w => w.CanLayout).ToList();
         }
 
         public override string ToString()

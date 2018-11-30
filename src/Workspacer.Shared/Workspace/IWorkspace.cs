@@ -41,8 +41,6 @@ namespace Workspacer
         void IncrementNumberOfPrimaryWindows(); // mod-comma
         void DecrementNumberOfPrimaryWindows(); // mod-period
 
-        void ToggleFocusedWindowTiling(); // mod-t
-
         void DoLayout();
 
         void SwapWindowToPoint(IWindow window, int x, int y);

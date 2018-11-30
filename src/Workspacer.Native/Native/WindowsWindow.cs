@@ -178,6 +178,11 @@ namespace Workspacer
             }
         }
 
+        public void BringToTop()
+        {
+            Win32.BringWindowToTop(_handle);
+        }
+
         public void Close()
         {
             Logger.Debug("[{0}] :: Close", this);
