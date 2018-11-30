@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Newtonsoft.Json;
 
 namespace Workspacer.Watcher
@@ -36,10 +35,6 @@ namespace Workspacer.Watcher
                             case LauncherAction.Restart:
                                 CleanupWindowHandles(activeHandles);
                                 Restart();
-                                break;
-                            case LauncherAction.RestartAndPrompt:
-                                CleanupWindowHandles(activeHandles);
-                                RestartAndPrompt(response.Message);
                                 break;
                             case LauncherAction.UpdateHandles:
                                 activeHandles = response.ActiveHandles;
@@ -88,13 +83,8 @@ namespace Workspacer.Watcher
             process.StartInfo.FileName = "Workspacer.exe";
             process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
             process.Start();
-            Environment.Exit(0);
-        }
 
-        static void RestartAndPrompt(string message)
-        {
-            MessageBox.Show(message, "workspacer", MessageBoxButtons.OK);
-            Restart();
+            Quit();
         }
     }
 }
