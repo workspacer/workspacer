@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Workspacer.ConfigLoader;
@@ -13,21 +14,31 @@ namespace Workspacer
 {
     public class ConfigContext : IConfigContext
     {
-        public IKeybindManager Keybinds { get; set; }
-        public IWorkspaceManager Workspaces { get; set; }
-        public IPluginManager Plugins { get; set; }
-        public ISystemTrayManager SystemTray { get; set; }
-        public IWindowsManager Windows { get; set; }
+        public KeybindManager Keybinds { get; set; }
+        IKeybindManager IConfigContext.Keybinds { get { return Keybinds; } }
+
+        public WorkspaceManager Workspaces { get; set; }
+        IWorkspaceManager IConfigContext.Workspaces { get { return Workspaces; } }
+
+        public PluginManager Plugins { get; set; }
+        IPluginManager IConfigContext.Plugins { get { return Plugins; } }
+
+        public SystemTrayManager SystemTray { get; set; }
+        ISystemTrayManager IConfigContext.SystemTray { get { return SystemTray; } }
+
+        public WindowsManager Windows { get; set; }
+        IWindowsManager IConfigContext.Windows { get { return Windows; } }
 
         public IWorkspaceContainer WorkspaceContainer { get; set; }
+
         public IWindowRouter WindowRouter { get; set; }
 
-        private Timer _timer;
+        private System.Timers.Timer _timer;
         private PipeServer _pipeServer;
 
         public ConfigContext()
         {
-            _timer = new Timer();
+            _timer = new System.Timers.Timer();
             _timer.Elapsed += (s, e) => UpdateActiveHandles();
             _timer.Interval = 5000;
             _timer.Enabled = true;
@@ -36,7 +47,17 @@ namespace Workspacer
 
             SystemEvents.DisplaySettingsChanged += HandleDisplaySettingsChanged;
 
+            Plugins = new PluginManager();
+            SystemTray = new SystemTrayManager();
+            Workspaces = new WorkspaceManager(this);
+            Windows = new WindowsManager();
+            Keybinds = new KeybindManager(this);
+
             WindowRouter = new WindowRouter(this);
+
+            Windows.WindowCreated += Workspaces.AddWindow;
+            Windows.WindowDestroyed += Workspaces.RemoveWindow;
+            Windows.WindowUpdated += Workspaces.UpdateWindow;
         }
 
         public void ConnectToWatcher()
@@ -87,19 +108,8 @@ namespace Workspacer
                 Action = LauncherAction.Restart,
             };
             SendResponse(response);
-            Environment.Exit(0);
-        }
 
-        public void RestartAndPrompt(string message)
-        {
-            SaveState();
-            var response = new LauncherResponse()
-            {
-                Action = LauncherAction.RestartAndPrompt,
-                Message = message,
-            };
-            SendResponse(response);
-            Environment.Exit(0);
+            CleanupAndExit();
         }
 
         public void Quit()
@@ -110,7 +120,12 @@ namespace Workspacer
             };
             SendResponse(response);
 
-            SystemTray.Destroy();
+            CleanupAndExit();
+        }
+
+        public void CleanupAndExit()
+        {
+            Application.Exit();
             Environment.Exit(0);
         }
 
@@ -139,8 +154,7 @@ namespace Workspacer
 
         private void HandleDisplaySettingsChanged(object sender, EventArgs e)
         {
-            var message = "The display settings have changed. Workspacer will resume when you press Ok.";
-            RestartAndPrompt(message);
+            Restart();
         }
 
         public bool Enabled

@@ -10,7 +10,6 @@ namespace Workspacer
     {
         Quit,
         Restart,
-        RestartAndPrompt,
         UpdateHandles,
     }
 

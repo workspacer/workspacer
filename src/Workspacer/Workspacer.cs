@@ -15,12 +15,6 @@ namespace Workspacer
 
         private ConfigContext _context;
 
-        private KeybindManager _keybinds;
-        private WorkspaceManager _workspaces;
-        private PluginManager _plugins;
-        private SystemTrayManager _systemTray;
-        private WindowsManager _windows;
-
         public void Start()
         {
             // init logging
@@ -32,33 +26,33 @@ namespace Workspacer
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
             // init context and managers
-            SetupContext();
+            _context = new ConfigContext();
 
             // connect to watcher
             _context.ConnectToWatcher();
 
             // init system tray
-            _systemTray.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
-            _systemTray.AddToContextMenu("Quit Workspacer", () => _context.Quit());
-            _systemTray.AddToContextMenu("Restart Workspacer", () => _context.Restart());
+            _context.SystemTray.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
+            _context.SystemTray.AddToContextMenu("Quit Workspacer", () => _context.Quit());
+            _context.SystemTray.AddToContextMenu("Restart Workspacer", () => _context.Restart());
             if (ConfigHelper.CanCreateExampleConfig())
             {
-                _systemTray.AddToContextMenu("Create example Workspacer.config.csx", CreateExampleConfig);
+                _context.SystemTray.AddToContextMenu("Create example Workspacer.config.csx", CreateExampleConfig);
             }
 
             // init monitors
-            _workspaces.InitializeMonitors();
+            _context.Workspaces.InitializeMonitors();
 
             // init config
             ConfigHelper.DoConfig(_context);
 
             // init windows
-            _windows.Initialize();
+            _context.Windows.Initialize();
 
             // verify config
             var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
             // check to make sure there are enough workspaces for the monitors
-            if (_workspaces.Monitors.Count() > allWorkspaces.Count)
+            if (_context.Workspaces.Monitors.Count() > allWorkspaces.Count)
             {
                 throw new Exception("you must specify at least enough workspaces to cover all monitors");
             }
@@ -67,14 +61,14 @@ namespace Workspacer
             var state = _context.LoadState();
             if (state != null)
             {
-                _workspaces.InitializeWithState(state.WorkspaceState, _windows.Windows);
+                _context.Workspaces.InitializeWithState(state.WorkspaceState, _context.Windows.Windows);
                 Enabled = true;
             }
             else
             {
-                _workspaces.Initialize(_windows.Windows);
+                _context.Workspaces.Initialize(_context.Windows.Windows);
                 Enabled = true;
-                _workspaces.SwitchToWorkspace(0);
+                _context.Workspaces.SwitchToWorkspace(0);
             }
 
             // force first layout
@@ -84,25 +78,10 @@ namespace Workspacer
             }
 
             // notify plugins that config is done
-            _plugins.AfterConfig(_context);
+            _context.Plugins.AfterConfig(_context);
 
             // start focus stealer
             FocusStealer.Initialize();
-        }
-
-        private void SetupContext()
-        {
-            _context = new ConfigContext();
-
-            _context.Plugins = _plugins = new PluginManager();
-            _context.SystemTray = _systemTray = new SystemTrayManager();
-            _context.Workspaces = _workspaces = new WorkspaceManager(_context);
-            _context.Windows = _windows = new WindowsManager();
-            _context.Keybinds = _keybinds = new KeybindManager(_context);
-
-            _windows.WindowCreated += _workspaces.AddWindow;
-            _windows.WindowDestroyed += _workspaces.RemoveWindow;
-            _windows.WindowUpdated += _workspaces.UpdateWindow;
         }
 
         public void Quit()
@@ -112,7 +91,7 @@ namespace Workspacer
 
         private Assembly ResolveAssembly(object sender, ResolveEventArgs args)
         {
-            var match = _plugins.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
+            var match = _context.Plugins.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
             if (match != null)
             {
                 return Assembly.LoadFile(match.Location);

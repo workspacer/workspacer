@@ -51,15 +51,22 @@ namespace Workspacer
         private static int Run()
         {
             _app = new Workspacer();
+
+#if !DEBUG
             Thread.GetDomain().UnhandledException += ((s, e) =>
                 {
-                    var exceptionMessage = ((Exception)e.ExceptionObject).ToString();
-                    Logger.Fatal(exceptionMessage);
+                    if (!(e.ExceptionObject is ThreadAbortException))
+                    {
+                        var exceptionMessage = ((Exception)e.ExceptionObject).ToString();
 
-                    var message = exceptionMessage + "\n\npress ctrl-c to copy this";
-                    MessageHelper.ShowMessage("unhandled exception!", message);
-                    _app.Quit();
+                        Logger.Fatal(exceptionMessage);
+
+                        var message = exceptionMessage + "\n\npress ctrl-c to copy this";
+                        MessageHelper.ShowMessage("unhandled exception!", message);
+                        _app.Quit();
+                    }
                 });
+#endif
 
             _app.Start();
             return 0;
