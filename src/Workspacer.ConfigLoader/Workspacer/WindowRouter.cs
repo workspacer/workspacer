@@ -19,12 +19,14 @@ namespace Workspacer
             _filters = new List<Func<IWindow, bool>>();
             _routes = new List<Func<IWindow, IWorkspace>>();
 
-            _filters.Add((window) => !window.Title.Contains("Task Manager"));
-            _filters.Add((window) => !window.Title.Contains("Program Manager"));
-            _filters.Add((window) => !window.Class.Contains("MSCTFIME UI"));
+            _filters.Add((window) => window.Class != "TaskManagerWindow");
+            _filters.Add((window) => window.Class != "MSCTFIME UI");
             _filters.Add((window) => window.Class != "SHELLDLL_DefView");
             _filters.Add((window) => window.Process.ProcessName != "SearchUI");
             _filters.Add((window) => window.Process.ProcessName != "ShellExperienceHost");
+            _filters.Add((window) => window.Process.ProcessName != "LockApp");
+            _filters.Add((window) => window.Class != "LockScreenBackstopFrame");
+            _filters.Add((window) => window.Process.ProcessName != "PeopleExperienceHost");
             _filters.Add((window) => !(window.Process.Id == Process.GetCurrentProcess().Id));
         }
 
