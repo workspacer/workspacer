@@ -1,1 +1,1 @@
-hugo serve --config src/docs/config.toml -s src/docs
+hugo serve --config docs/config.toml -s docs
