@@ -24,7 +24,10 @@
 
   <xsl:template match='wix:Component[contains(wix:File/@Source, "workspacer.exe") and not(contains(wix:File/@Source, "workspacer.exe.config"))]'> 
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()"/>
+      <xsl:apply-templates select="@*" />
+      <!-- Adding the Win64-attribute as we have a x64 application -->
+      <xsl:attribute name="Win64">yes</xsl:attribute>
+
       <xsl:comment> added shortcut under Component with File that has Source with workspacer.exe </xsl:comment>
       <Shortcut 
         Id="workspacerExeShortcut" 
@@ -37,6 +40,26 @@
         Id="workspacerExeShortcut_ProgramMenuFolder_ApplicationProgramsFolder"  
         Directory="ApplicationProgramsFolder" 
         On="uninstall" />
+
+      <!-- Now take the rest of the inner tag -->
+      <xsl:apply-templates select="node()" />
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="wix:Component">
+    <xsl:copy>
+      <xsl:apply-templates select="@*" />
+      <!-- Adding the Win64-attribute as we have a x64 application -->
+      <xsl:attribute name="Win64">yes</xsl:attribute>
+
+      <!-- Now take the rest of the inner tag -->
+      <xsl:apply-templates select="node()" />
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="@*|node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" />
     </xsl:copy>
   </xsl:template>
 </xsl:stylesheet>
