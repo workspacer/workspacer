@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Workspacer.ActionMenu
+namespace workspacer.ActionMenu
 {
     public partial class ActionMenuForm : Form
     {

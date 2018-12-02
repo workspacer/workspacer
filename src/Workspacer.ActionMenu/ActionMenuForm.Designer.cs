@@ -1,4 +1,4 @@
-﻿namespace Workspacer.ActionMenu
+﻿namespace workspacer.ActionMenu
 {
     partial class ActionMenuForm
     {
@@ -76,7 +76,7 @@
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.listBox);
             this.Name = "ActionMenuForm";
-            this.Text = "Workspacer.ActionMenu";
+            this.Text = "workspacer.ActionMenu";
             this.ResumeLayout(false);
             this.PerformLayout();
 

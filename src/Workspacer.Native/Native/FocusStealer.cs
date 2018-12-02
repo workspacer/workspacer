@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsInput;
 
-namespace Workspacer
+namespace workspacer
 {
     public static class FocusStealer
     {

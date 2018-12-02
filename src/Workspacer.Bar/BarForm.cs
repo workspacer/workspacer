@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
-namespace Workspacer.Bar
+namespace workspacer.Bar
 {
     public partial class BarForm : Form
     {

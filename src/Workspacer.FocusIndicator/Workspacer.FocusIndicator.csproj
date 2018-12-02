@@ -7,8 +7,8 @@
     <ProjectGuid>{E7F2E1A7-2771-4924-A8D8-20761188D6F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Workspacer.FocusIndicator</RootNamespace>
-    <AssemblyName>Workspacer.FocusIndicator</AssemblyName>
+    <RootNamespace>workspacer.FocusIndicator</RootNamespace>
+    <AssemblyName>workspacer.FocusIndicator</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -72,9 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Workspacer.Shared\Workspacer.Shared.csproj">
+    <ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj">
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
-      <Name>Workspacer.Shared</Name>
+      <Name>workspacer.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

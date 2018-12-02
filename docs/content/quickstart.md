@@ -4,7 +4,7 @@ title: quick start
 
 # step one - installing/launching workspacer
 
-[Download the latest installer](https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi) and install it. Workspacer will automatically check for updates, and automatically download them.
+[Download the latest installer](https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi) and install it. workspacer will automatically check for updates, and automatically download them.
 
 # step two - configuring workspacer
 

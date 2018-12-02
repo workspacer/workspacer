@@ -2,11 +2,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Workspacer")]
+[assembly: AssemblyTitle("workspacer")]
 [assembly: AssemblyDescription("a tiling window manager for Windows")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rick Button")]
-[assembly: AssemblyProduct("Workspacer")]
+[assembly: AssemblyProduct("workspacer")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

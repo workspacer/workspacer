@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D89294E0-EB76-440E-835C-CCD1E4CF6933}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Workspacer</RootNamespace>
-    <AssemblyName>Workspacer</AssemblyName>
+    <RootNamespace>workspacer</RootNamespace>
+    <AssemblyName>workspacer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -148,7 +148,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SystemTray\SystemTrayManager.cs" />
-    <Compile Include="Workspacer.cs" />
+    <Compile Include="workspacer.cs" />
     <Compile Include="Workspace\Monitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -160,21 +160,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Workspacer.ConfigLoader\Workspacer.ConfigLoader.csproj">
+    <ProjectReference Include="..\workspacer.ConfigLoader\workspacer.ConfigLoader.csproj">
       <Project>{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}</Project>
-      <Name>Workspacer.ConfigLoader</Name>
+      <Name>workspacer.ConfigLoader</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Workspacer.Native\Workspacer.Native.csproj">
+    <ProjectReference Include="..\workspacer.Native\workspacer.Native.csproj">
       <Project>{60d4aad0-104c-4820-b141-88fca2da0e6c}</Project>
-      <Name>Workspacer.Native</Name>
+      <Name>workspacer.Native</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Workspacer.Shared\Workspacer.Shared.csproj">
+    <ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj">
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
-      <Name>Workspacer.Shared</Name>
+      <Name>workspacer.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Workspacer.Watcher\Workspacer.Watcher.csproj">
+    <ProjectReference Include="..\workspacer.Watcher\workspacer.Watcher.csproj">
       <Project>{020bffa1-e131-44df-9b57-c1284dc80c8a}</Project>
-      <Name>Workspacer.Watcher</Name>
+      <Name>workspacer.Watcher</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -206,14 +206,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(TargetDir)plugins\Workspacer.Bar" mkdir "$(TargetDir)plugins\Workspacer.Bar"
-copy /b/y/v "$(SolutionDir)\src\Workspacer.Bar\$(OutDir)Workspacer.Bar.dll" "$(TargetDir)plugins\Workspacer.Bar\"
+    <PostBuildEvent>if not exist "$(TargetDir)plugins\workspacer.Bar" mkdir "$(TargetDir)plugins\workspacer.Bar"
+copy /b/y/v "$(SolutionDir)\src\workspacer.Bar\$(OutDir)workspacer.Bar.dll" "$(TargetDir)plugins\workspacer.Bar\"
 
-if not exist "$(TargetDir)plugins\Workspacer.ActionMenu" mkdir "$(TargetDir)plugins\Workspacer.ActionMenu"
-copy /b/y/v "$(SolutionDir)\src\Workspacer.ActionMenu\$(OutDir)Workspacer.ActionMenu.dll" "$(TargetDir)plugins\Workspacer.ActionMenu\"
+if not exist "$(TargetDir)plugins\workspacer.ActionMenu" mkdir "$(TargetDir)plugins\workspacer.ActionMenu"
+copy /b/y/v "$(SolutionDir)\src\workspacer.ActionMenu\$(OutDir)workspacer.ActionMenu.dll" "$(TargetDir)plugins\workspacer.ActionMenu\"
 
-if not exist "$(TargetDir)plugins\Workspacer.FocusIndicator" mkdir "$(TargetDir)plugins\Workspacer.FocusIndicator"
-copy /b/y/v "$(SolutionDir)\src\Workspacer.FocusIndicator\$(OutDir)Workspacer.FocusIndicator.dll" "$(TargetDir)plugins\Workspacer.FocusIndicator\"</PostBuildEvent>
+if not exist "$(TargetDir)plugins\workspacer.FocusIndicator" mkdir "$(TargetDir)plugins\workspacer.FocusIndicator"
+copy /b/y/v "$(SolutionDir)\src\workspacer.FocusIndicator\$(OutDir)workspacer.FocusIndicator.dll" "$(TargetDir)plugins\workspacer.FocusIndicator\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

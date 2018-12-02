@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
-namespace Workspacer
+namespace workspacer
 {
     public delegate void WindowDelegate(IWindow window);
     public delegate void WindowUpdateDelegate(IWindow window, WindowUpdateType type);

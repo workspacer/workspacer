@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace Workspacer.Bar.Widgets
+namespace workspacer.Bar.Widgets
 {
     public class TimeWidget : BarWidgetBase
     {

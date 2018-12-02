@@ -7,8 +7,8 @@
     <ProjectGuid>{D13FD20B-E571-438D-B122-E24BC5A1384F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Workspacer.Shared</RootNamespace>
-    <AssemblyName>Workspacer.Shared</AssemblyName>
+    <RootNamespace>workspacer.Shared</RootNamespace>
+    <AssemblyName>workspacer.Shared</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -89,7 +89,7 @@
     <Compile Include="SystemTray\ISystemTrayManager.cs" />
     <Compile Include="IWindowsDeferPosHandle.cs" />
     <Compile Include="Window\WindowUpdateType.cs" />
-    <Compile Include="WorkspacerSharedHandle.cs" />
+    <Compile Include="workspacerSharedHandle.cs" />
     <Compile Include="Window\IWindow.cs" />
     <Compile Include="Window\IWindowLocation.cs" />
     <Compile Include="Window\WindowLocation.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="Workspace\IWindowRouter.cs" />
     <Compile Include="Workspace\IWorkspace.cs" />
     <Compile Include="Workspace\IWorkspaceContainer.cs" />
-    <Compile Include="WorkspacerState.cs" />
+    <Compile Include="workspacerState.cs" />
     <Compile Include="Workspace\WorkspaceState.cs" />
   </ItemGroup>
   <ItemGroup>

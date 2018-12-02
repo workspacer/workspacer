@@ -1,4 +1,4 @@
-﻿namespace Workspacer.ActionMenu
+﻿namespace workspacer.ActionMenu
 {
     public interface IMatchPart
     {

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{020BFFA1-E131-44DF-9B57-C1284DC80C8A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Workspacer.Watcher</RootNamespace>
-    <AssemblyName>Workspacer.Watcher</AssemblyName>
+    <RootNamespace>workspacer.Watcher</RootNamespace>
+    <AssemblyName>workspacer.Watcher</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -79,13 +79,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Workspacer.Native\Workspacer.Native.csproj">
+    <ProjectReference Include="..\workspacer.Native\workspacer.Native.csproj">
       <Project>{60d4aad0-104c-4820-b141-88fca2da0e6c}</Project>
-      <Name>Workspacer.Native</Name>
+      <Name>workspacer.Native</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Workspacer.Shared\Workspacer.Shared.csproj">
+    <ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj">
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
-      <Name>Workspacer.Shared</Name>
+      <Name>workspacer.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

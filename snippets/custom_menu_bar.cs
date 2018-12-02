@@ -1,6 +1,6 @@
 var bar = context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
 {
-    BarTitle = "Workspacer.Bar",
+    BarTitle = "workspacer.Bar",
     BarHeight = 50,
     FontSize = 16,
     DefaultWidgetForeground = Color.White,

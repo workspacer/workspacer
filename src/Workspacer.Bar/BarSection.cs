@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Workspacer.Bar
+namespace workspacer.Bar
 {
     public class BarSection
     {

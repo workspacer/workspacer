@@ -2,21 +2,21 @@
 
 ### a tiling window manager for Windows
 
-Workspacer is a tiling window manager for Windows 10, that is similar in style and function to xmonad.
+workspacer is a tiling window manager for Windows 10, that is similar in style and function to xmonad.
 
-Currently, Workspacer supports most default xmonad functionality, like custom layout engines, workspace support, and powerful keybinds.
+Currently, workspacer supports most default xmonad functionality, like custom layout engines, workspace support, and powerful keybinds.
 
 # Installation
 
-[Download the latest installer](https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi) and install it. Workspacer will automatically check for updates, and automatically download them.
+[Download the latest installer](https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi) and install it. workspacer will automatically check for updates, and automatically download them.
 
 # Configuration
 
-Workspacer is entirely configured in actual C# (which means that you can literally configure it however you want!). A full tutorial on how to configure Workspacer is coming soon!
+workspacer is entirely configured in actual C# (which means that you can literally configure it however you want!). A full tutorial on how to configure workspacer is coming soon!
 
 # Keybinds
 
-Workspacer tries to mimic xmonad's keybindings wherever possible. The default keybindings are:
+workspacer tries to mimic xmonad's keybindings wherever possible. The default keybindings are:
 
 | keybind         | description     |
 | --------------- | --------------- |
@@ -49,7 +49,7 @@ Workspacer tries to mimic xmonad's keybindings wherever possible. The default ke
 
 # Is this ready for use yet?
 
-Kinda! See the [Installation](#installation). There are likely some major bugs in Workspacer that I have not fixed yet, but it is more or less functionally complete. I am using Workspacer 24/7 at home and at work at the moment, so it suites my needs (aside from the occasional hickup or crash). If you run into any problems, please open an issue!
+Kinda! See the [Installation](#installation). There are likely some major bugs in workspacer that I have not fixed yet, but it is more or less functionally complete. I am using workspacer 24/7 at home and at work at the moment, so it suites my needs (aside from the occasional hickup or crash). If you run into any problems, please open an issue!
 
 # Contributing
 
