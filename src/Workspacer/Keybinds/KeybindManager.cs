@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Workspacer.ConfigLoader;
+using workspacer.ConfigLoader;
 
-namespace Workspacer
+namespace workspacer
 {
     public partial class KeybindManager : IKeybindManager
     {

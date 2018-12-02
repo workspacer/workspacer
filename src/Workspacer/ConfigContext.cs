@@ -8,9 +8,9 @@ using System.Timers;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using Workspacer.ConfigLoader;
+using workspacer.ConfigLoader;
 
-namespace Workspacer
+namespace workspacer
 {
     public class ConfigContext : IConfigContext
     {
@@ -159,29 +159,29 @@ namespace Workspacer
 
         public bool Enabled
         {
-            get => Workspacer.Enabled;
+            get => workspacer.Enabled;
             set
             {
-                Workspacer.Enabled = value;
+                workspacer.Enabled = value;
             }
         }
 
         private void SaveState()
         {
-            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Workspacer.State.json");
+            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "workspacer.State.json");
             var json = JsonConvert.SerializeObject(GetState());
 
             File.WriteAllText(filePath, json);
         }
 
-        public WorkspacerState LoadState()
+        public workspacerState LoadState()
         {
-            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Workspacer.State.json");
+            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "workspacer.State.json");
 
             if (File.Exists(filePath))
             {
                 var json = File.ReadAllText(filePath);
-                var state = JsonConvert.DeserializeObject<WorkspacerState>(json);
+                var state = JsonConvert.DeserializeObject<workspacerState>(json);
                 File.Delete(filePath);
                 return state;
             }
@@ -193,7 +193,7 @@ namespace Workspacer
 
         private object GetState()
         {
-            var state = new WorkspacerState()
+            var state = new workspacerState()
             {
                 WorkspaceState = Workspaces.GetState()
             };

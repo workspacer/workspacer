@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer
+namespace workspacer
 {
-    public class WorkspacerState
+    public class workspacerState
     {
         public WorkspaceState WorkspaceState { get; set; }
     }

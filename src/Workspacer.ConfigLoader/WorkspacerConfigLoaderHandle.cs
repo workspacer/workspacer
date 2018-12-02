@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer.ConfigLoader
+namespace workspacer.ConfigLoader
 {
-    public static class WorkspacerConfigLoaderHandle { }
+    public static class workspacerConfigLoaderHandle { }
 }

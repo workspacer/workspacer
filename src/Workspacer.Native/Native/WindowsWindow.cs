@@ -10,7 +10,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer
+namespace workspacer
 {
     public delegate void WindowFocusedDelegate();
 

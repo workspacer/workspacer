@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Workspacer
+namespace workspacer
 {
     class Program
     {
@@ -46,11 +46,11 @@ namespace Workspacer
             Run();
         }
 
-        private static Workspacer _app;
+        private static workspacer _app;
 
         private static int Run()
         {
-            _app = new Workspacer();
+            _app = new workspacer();
 
 #if !DEBUG
             Thread.GetDomain().UnhandledException += ((s, e) =>

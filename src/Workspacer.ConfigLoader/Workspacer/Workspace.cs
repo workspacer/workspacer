@@ -8,7 +8,7 @@ using System.Windows.Automation;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace Workspacer
+namespace workspacer
 {
     public class Workspace : IWorkspace
     {

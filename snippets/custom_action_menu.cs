@@ -4,7 +4,7 @@ var actionMenu = context.Plugins.RegisterPlugin(new ActionMenuPlugin(new ActionM
     KeybindMod = KeyModifiers.LAlt,
     KeybindKey = Keys.P,
 
-    MenuTitle = "Workspacer.ActionMenu",
+    MenuTitle = "workspacer.ActionMenu",
     MenuHeight = 50,
     MenuWidth = 500,
     FontSize = 16,

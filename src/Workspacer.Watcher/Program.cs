@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Workspacer.Watcher
+namespace workspacer.Watcher
 {
     class Program
     {
@@ -41,7 +41,7 @@ namespace Workspacer.Watcher
                                 break;
                             default:
                                 throw new Exception(
-                                    $"unknown Workspacer response action {response.Action.ToString()}");
+                                    $"unknown workspacer response action {response.Action.ToString()}");
                         }
                     }
                     catch (Exception e)
@@ -72,15 +72,15 @@ namespace Workspacer.Watcher
 
         static void Restart()
         {
-            Process[] processes = Process.GetProcessesByName("Workspacer");
+            Process[] processes = Process.GetProcessesByName("workspacer");
             while (processes.Length > 0)
             {
                 Thread.Sleep(100);
-                processes = Process.GetProcessesByName("Workspacer");
+                processes = Process.GetProcessesByName("workspacer");
             }
 
             Process process = new Process();
-            process.StartInfo.FileName = "Workspacer.exe";
+            process.StartInfo.FileName = "workspacer.exe";
             process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
             process.Start();
 

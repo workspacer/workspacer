@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Workspacer.ActionMenu
+namespace workspacer.ActionMenu
 {
     public class ActionMenuPlugin : IPlugin
     {

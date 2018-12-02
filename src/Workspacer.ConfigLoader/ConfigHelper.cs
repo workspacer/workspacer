@@ -13,7 +13,7 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Scripting;
 
-namespace Workspacer.ConfigLoader
+namespace workspacer.ConfigLoader
 {
     public static class ConfigHelper
     {
@@ -41,7 +41,7 @@ namespace Workspacer.ConfigLoader
         {
             var assembly = Assembly.GetAssembly(typeof(ConfigHelper));
             var templateName = assembly.GetManifestResourceNames()
-                .First(n => n.EndsWith("Workspacer.config.template.csx"));
+                .First(n => n.EndsWith("workspacer.config.template.csx"));
 
             using (var stream = assembly.GetManifestResourceStream(templateName))
             using (var reader = new StreamReader(stream))
@@ -87,7 +87,7 @@ namespace Workspacer.ConfigLoader
 
         public static string GetConfigFilePath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer", "Workspacer.config.csx");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer", "workspacer.config.csx");
         }
     }
 }

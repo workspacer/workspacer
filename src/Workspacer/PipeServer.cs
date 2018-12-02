@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer
+namespace workspacer
 {
     public class PipeServer : IDisposable
     {
@@ -16,7 +16,7 @@ namespace Workspacer
         public PipeServer()
         {
             _process = new Process();
-            _process.StartInfo.FileName = "Workspacer.Watcher.exe";
+            _process.StartInfo.FileName = "workspacer.Watcher.exe";
             _process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
         }
 

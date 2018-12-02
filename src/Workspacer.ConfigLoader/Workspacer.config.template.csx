@@ -1,14 +1,14 @@
-﻿#r "WORKSPACER_PATH\Workspacer.Shared.dll"
-#r "WORKSPACER_PATH\Workspacer.ConfigLoader.dll"
-#r "WORKSPACER_PATH\plugins\Workspacer.Bar\Workspacer.Bar.dll"
-#r "WORKSPACER_PATH\plugins\Workspacer.ActionMenu\Workspacer.ActionMenu.dll"
-#r "WORKSPACER_PATH\plugins\Workspacer.FocusIndicator\Workspacer.FocusIndicator.dll"
+﻿#r "WORKSPACER_PATH\workspacer.Shared.dll"
+#r "WORKSPACER_PATH\workspacer.ConfigLoader.dll"
+#r "WORKSPACER_PATH\plugins\workspacer.Bar\workspacer.Bar.dll"
+#r "WORKSPACER_PATH\plugins\workspacer.ActionMenu\workspacer.ActionMenu.dll"
+#r "WORKSPACER_PATH\plugins\workspacer.FocusIndicator\workspacer.FocusIndicator.dll"
 
 using System;
-using Workspacer;
-using Workspacer.Bar;
-using Workspacer.ActionMenu;
-using Workspacer.FocusIndicator;
+using workspacer;
+using workspacer.Bar;
+using workspacer.ActionMenu;
+using workspacer.FocusIndicator;
 
 Action<IConfigContext> doConfig = (IConfigContext context) =>
 {

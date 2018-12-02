@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Workspacer.Bar
+namespace workspacer.Bar
 {
     public class BarPlugin : IPlugin
     {

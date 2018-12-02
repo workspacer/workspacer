@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
-namespace Workspacer.FocusIndicator
+namespace workspacer.FocusIndicator
 {
     public partial class FocusIndicatorForm : Form
     {

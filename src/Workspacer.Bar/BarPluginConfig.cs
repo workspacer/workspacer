@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Workspacer.Bar.Widgets;
+using workspacer.Bar.Widgets;
 
-namespace Workspacer.Bar
+namespace workspacer.Bar
 {
     public class BarPluginConfig
     {
-        public string BarTitle { get; set; } = "Workspacer.Bar";
+        public string BarTitle { get; set; } = "workspacer.Bar";
         public int BarHeight { get; set; } = 30;
         public int FontSize { get; set; } = 16;
 

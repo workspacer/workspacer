@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Workspacer
+namespace workspacer
 {
     [Flags]
     public enum KeyModifiers

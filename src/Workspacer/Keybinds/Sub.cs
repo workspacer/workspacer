@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Workspacer
+namespace workspacer
 {
     public class Sub
     {

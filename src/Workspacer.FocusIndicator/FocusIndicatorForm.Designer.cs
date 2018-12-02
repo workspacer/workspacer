@@ -1,4 +1,4 @@
-﻿namespace Workspacer.FocusIndicator
+﻿namespace workspacer.FocusIndicator
 {
     partial class FocusIndicatorForm
     {

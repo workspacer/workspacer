@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Workspacer
+namespace workspacer
 {
     public static class MessageHelper
     {

@@ -81,8 +81,8 @@ There are now two tracks of releases, `unstable` and `stable`. `unstable` is bui
 
 # v0.2
 
-- Added support for colors in Workspacer.Bar
-- Renamed to Workspacer
+- Added support for colors in workspacer.Bar
+- Renamed to workspacer
 
 
 # v0.1

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json;
-using Workspacer.ConfigLoader;
+using workspacer.ConfigLoader;
 using Timer = System.Timers.Timer;
 using System.Reflection;
 using System.IO;
 
-namespace Workspacer
+namespace workspacer
 {
-    public class Workspacer
+    public class workspacer
     {
         private static Logger Logger = Logger.Create();
         public static bool Enabled { get; set; }
@@ -20,7 +20,7 @@ namespace Workspacer
             // init logging
             ConsoleHelper.Initialize();
             Logger.Initialize(Console.Out);
-            Logger.Debug("starting Workspacer");
+            Logger.Debug("starting workspacer");
 
             // init plugin assembly resolver
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
@@ -33,11 +33,11 @@ namespace Workspacer
 
             // init system tray
             _context.SystemTray.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
-            _context.SystemTray.AddToContextMenu("Quit Workspacer", () => _context.Quit());
-            _context.SystemTray.AddToContextMenu("Restart Workspacer", () => _context.Restart());
+            _context.SystemTray.AddToContextMenu("Quit workspacer", () => _context.Quit());
+            _context.SystemTray.AddToContextMenu("Restart workspacer", () => _context.Restart());
             if (ConfigHelper.CanCreateExampleConfig())
             {
-                _context.SystemTray.AddToContextMenu("Create example Workspacer.config.csx", CreateExampleConfig);
+                _context.SystemTray.AddToContextMenu("Create example workspacer.config.csx", CreateExampleConfig);
             }
 
             // init monitors
@@ -103,11 +103,11 @@ namespace Workspacer
         {
             if (!ConfigHelper.CanCreateExampleConfig())
             {
-                DisplayMessage("Workspacer.config.csx already exists, so one cannot be created.");
+                DisplayMessage("workspacer.config.csx already exists, so one cannot be created.");
             } else
             {
                 ConfigHelper.CreateExampleConfig();
-                DisplayMessage($"Workspacer.config.csx created in: [${ConfigHelper.GetConfigDirPath()}]");
+                DisplayMessage($"workspacer.config.csx created in: [${ConfigHelper.GetConfigDirPath()}]");
             }
         }
 

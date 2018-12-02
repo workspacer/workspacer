@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer
+namespace workspacer
 {
     public interface IWorkspace
     {
@@ -52,7 +52,7 @@ namespace Workspacer
 
         //void ResetLayoutToDefault(); // mod-shift-space
 
-        //void ReloadWorkspacer(); // mod-q
+        //void Reloadworkspacer(); // mod-q
         //void MoveFocusedWindowToWorkspace(int index); // mod-shift-[1..9]
     }
 }

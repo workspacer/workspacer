@@ -7,8 +7,8 @@
     <ProjectGuid>{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Workspacer.ConfigLoader</RootNamespace>
-    <AssemblyName>Workspacer.ConfigLoader</AssemblyName>
+    <RootNamespace>workspacer.ConfigLoader</RootNamespace>
+    <AssemblyName>workspacer.ConfigLoader</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -189,20 +189,20 @@
     <Compile Include="Layouts\TallLayoutEngine.cs" />
     <Compile Include="Layouts\PaneLayoutEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkspacerConfigLoaderHandle.cs" />
-    <Compile Include="Workspacer\StickyWorkspaceContainer.cs" />
-    <Compile Include="Workspacer\WindowRouter.cs" />
-    <Compile Include="Workspacer\Workspace.cs" />
-    <Compile Include="Workspacer\WorkspaceContainer.cs" />
+    <Compile Include="workspacerConfigLoaderHandle.cs" />
+    <Compile Include="workspacer\StickyWorkspaceContainer.cs" />
+    <Compile Include="workspacer\WindowRouter.cs" />
+    <Compile Include="workspacer\Workspace.cs" />
+    <Compile Include="workspacer\WorkspaceContainer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Workspacer.Shared\Workspacer.Shared.csproj">
+    <ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj">
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
-      <Name>Workspacer.Shared</Name>
+      <Name>workspacer.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Workspacer.config.template.csx" />
+    <EmbeddedResource Include="workspacer.config.template.csx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

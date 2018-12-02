@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer.Bar.Widgets
+namespace workspacer.Bar.Widgets
 {
     public class TitleWidget : BarWidgetBase
     {

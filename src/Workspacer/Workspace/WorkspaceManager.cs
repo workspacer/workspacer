@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Workspacer.ConfigLoader;
+using workspacer.ConfigLoader;
 
-namespace Workspacer
+namespace workspacer
 {
     public class WorkspaceManager : IManager, IWorkspaceManager
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Workspacer.ActionMenu
+namespace workspacer.ActionMenu
 {
     public class ActionMenuPluginConfig
     {
@@ -12,7 +12,7 @@ namespace Workspacer.ActionMenu
         public KeyModifiers KeybindMod { get; set; } = KeyModifiers.LAlt;
         public Keys KeybindKey { get; set; } = Keys.P;
 
-        public string MenuTitle { get; set; } = "Workspacer.ActionMenu";
+        public string MenuTitle { get; set; } = "workspacer.ActionMenu";
         public int MenuHeight { get; set; } = 50;
         public int MenuWidth { get; set; } = 500;
         public int FontSize { get; set; } = 16;
