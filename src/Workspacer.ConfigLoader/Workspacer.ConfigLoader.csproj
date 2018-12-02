@@ -189,7 +189,7 @@
     <Compile Include="Layouts\TallLayoutEngine.cs" />
     <Compile Include="Layouts\PaneLayoutEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="workspacerConfigLoaderHandle.cs" />
+    <Compile Include="WorkspacerConfigLoaderHandle.cs" />
     <Compile Include="workspacer\StickyWorkspaceContainer.cs" />
     <Compile Include="workspacer\WindowRouter.cs" />
     <Compile Include="workspacer\Workspace.cs" />

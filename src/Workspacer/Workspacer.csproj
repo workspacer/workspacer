@@ -148,7 +148,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SystemTray\SystemTrayManager.cs" />
-    <Compile Include="workspacer.cs" />
+    <Compile Include="Workspacer.cs" />
     <Compile Include="Workspace\Monitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
