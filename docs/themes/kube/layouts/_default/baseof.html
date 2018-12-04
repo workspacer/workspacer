@@ -8,8 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ block "title" . }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 
-  {{ with .Description }}
-  <meta name="description" content="{{ . }}"> {{ end }}
+  <meta name="description" content="a tiling window manager for Windows 10">
   <!-- noindex meta -->
   {{ $default_noindex_kinds := slice "section" "taxonomy" "taxonomyTerm" }}
   {{ $noindex_kinds := .Site.Params.noindex_kinds | default $default_noindex_kinds }}
