@@ -8,8 +8,8 @@
     <p>{{.Description}}</p>
   </div>
   <div id="action-buttons">
-    <a class="button primary big" href="https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi" onclick="_gaq.push(['_trackEvent', 'workspacer', 'download', '1.0']);">Download</a> 
-    <a class="button outline big" href="https://github.com/rickbutton/workspacer" onclick="_gaq.push(['_trackEvent', 'workspacer', 'github', '1.0.0']);">View on Github</a>
+    <a class="button primary big" href="https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi" onclick="gtag('event', 'workspacer', 'download-cta')">Download</a> 
+    <a class="button outline big" href="https://github.com/rickbutton/workspacer" onclick="gtag('event', 'workspacer', 'github-cta')">View on Github</a>
     <p>msi installer - workspacer automatically checks for updates</p>
   </div>
   <div id="kube-features">

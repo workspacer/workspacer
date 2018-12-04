@@ -23,8 +23,15 @@
   {{ partial "meta/ogimage" . }}
   <!-- Site verification -->
   {{ if .IsHome }} {{ partial "site-verification" . }} {{ end }}
-  <!-- add googleAnalytics in config.toml -->
   {{ template "_internal/google_analytics_async.html" . }}
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130291662-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-130291662-1');
+  </script>
   {{ if .RSSLink }}
   <link href="{{ .RSSLink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" /> {{ end }}
 
