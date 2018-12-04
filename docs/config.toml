@@ -3,8 +3,6 @@ languageCode = "en-us"
 title = "workspacer"
 theme = "kube"
 
-googleAnalytics = "UA-130291662-1"
-
 publishDir = "../out/docs/"
 
 [[menu.main]]
