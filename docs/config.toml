@@ -1,21 +1,11 @@
 baseurl = "/"
 languageCode = "en-us"
 title = "workspacer"
-theme = "hugo-classic"
-googleAnalytics = ""
-ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
-preserveTaxonomyNames = true
-enableEmoji = true
-footnotereturnlinkcontents = "↩"
+theme = "kube"
+
+googleAnalytics = "UA-130291662-1"
+
 publishDir = "../out/docs/"
-
-[permalinks]
-    post = "/post/:year/:month/:day/:slug/"
-
-[[menu.main]]
-    name = "workspacer"
-    url = "/"
-    weight = 1
 
 [[menu.main]]
     name = "quickstart"
@@ -27,7 +17,16 @@ publishDir = "../out/docs/"
     url = "/config"
     weight = 3
 
-[params]
-    description = "a tiling window Manager for Windows"
-    footer = "MIT Licensed | [github](https://github.com/rickbutton/workspacer)"
-    custom_css = ["css/theme-override.css"]
+[[menu.main]]
+    name = "keybinds"
+    url = "/keybindings"
+    weight = 4
+
+[[menu.main]]
+    name = "changelog"
+    url = "/changelog"
+    weight = 5
+
+[[menu.extra]]
+    name = "submit an issue"
+    url = "https://github.com/rickbutton/workspacer/issues/new"

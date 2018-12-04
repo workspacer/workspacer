@@ -1,10 +1,16 @@
 ---
 title: configuring workspacer
+description:  "use workspacer like a pro!"
+type: faq
 ---
 
 configuring workspacer can be tricky, but the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
 
 this configuration documentation assumes that you have already created the example configuration in the correct folder, if you haven't, check the [quickstart guide](/quickstart).
+
+## a quick note on configuration compatibility
+
+because workspacer is a new project, I have not fully nailed down how I want the interfaces to look or behave, so everything in workspacer is subject to change. if you write a configuration file, be warned that I may make large changes that break backwards compatibility. i will announce when the configuration API is going to be stable. however, if your config breaks, feel free to let me know and I will be glad to help you modify it to work with a newer version.
 
 ## I don't know C#, or how to program, should I use workspacer?
 

@@ -2,6 +2,6 @@
 <item>
     <version>REPLACE_VERSION</version>
     <url>REPLACE_URL</url>
-    <changelog>https://raw.githubusercontent.com/rickbutton/workspacer/master/CHANGELOG.md</changelog>
+    <changelog>https://www.workspacer.org/changelog</changelog>
     <mandatory>false</mandatory>
 </item>

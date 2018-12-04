@@ -1,0 +1,28 @@
+<div class="show-sm">
+    <div id="nav-toggle-box">
+      <div id="nav-toggle-brand">
+        <a href="/">workspacer</a>
+      </div><a data-component="toggleme" data-target="#top" href="#" id="nav-toggle"><i class="kube-menu"></i></a>
+    </div>
+  </div>
+  <div class="hide-sm" id="top">
+    <div id="top-brand">
+      <a href="/" title="home">workspacer</a>
+    </div>
+    <nav id="top-nav-main">
+      <ul>
+       {{ $currentPage := . }}
+       {{ range .Site.Menus.main }}
+    <li><a href="{{ .URL }}" {{if  $currentPage.IsMenuCurrent "main" . }} class="active"{{end}}>{{ .Name }}</a></li>
+    {{end}}
+      </ul>
+    </nav>
+    <nav id="top-nav-extra">
+      <ul>
+       {{ $currentPage := . }}
+       {{ range .Site.Menus.extra }}
+    <li><a href="{{ .URL }}" {{if  $currentPage.IsMenuCurrent "extra" . }} class="active"{{end}}>{{ .Name }}</a></li>
+    {{end}}
+      </ul>
+    </nav>
+  </div>

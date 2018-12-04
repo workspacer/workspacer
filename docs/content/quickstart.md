@@ -1,12 +1,14 @@
 ---
 title: quick start
+description: "start here!"
+type: docs
 ---
 
-# step one - installing/launching workspacer
+# installing
 
-[Download the latest installer](https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi) and install it. workspacer will automatically check for updates, and automatically download them.
+[download the latest installer.](https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi) workspacer automatically checks for updates.
 
-# step two - configuring workspacer
+# configuring
 
 by default, workspacer will load the default configuration shipped inside the program, but you will likely want to customize the default configuration in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.
 
@@ -22,12 +24,12 @@ also, workspacer's config file allows for type checking / intellisense! Currentl
 
 [the config page](/config) lists a few examples and tips/tricks on how to customize your configuration to your liking.
 
-# step three - learning how to use workspacer
+# learning
 
 workspacer's default configuration behaves a lot like `xmonad` with `xmobar` in its default configuration, but not exactly where not possible due to limitations in `Win32` that prevent controlling windows in the same way a tiling window manager would be able to when controlling the actual management of windows like an X11 based window manager.
 
 [the keybindings page](/keybindings) describes the default set of keybindings.
 
-# step four - submit feedback!
+# submit feedback!
 
 If you run into any bugs, or want to suggest a feature, please feel free to [open an issue!](https://github.com/rickbutton/workspacer/issues)
