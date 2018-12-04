@@ -15,6 +15,7 @@ using System.Windows.Forms;
 namespace workspacer
 {
     public delegate void WindowDelegate(IWindow window);
+    public delegate void WindowCreateDelegate(IWindow window, bool firstCreate);
     public delegate void WindowUpdateDelegate(IWindow window, WindowUpdateType type);
 
     public class WindowsManager : IWindowsManager
@@ -30,7 +31,7 @@ namespace workspacer
 
         private Dictionary<WindowsWindow, bool> _floating;
 
-        public event WindowDelegate WindowCreated;
+        public event WindowCreateDelegate WindowCreated;
         public event WindowDelegate WindowDestroyed;
         public event WindowUpdateDelegate WindowUpdated;
         public event WindowFocusDelegate WindowFocused;
@@ -111,7 +112,7 @@ namespace workspacer
                 if (_floating.ContainsKey(window))
                 {
                     _floating.Remove(window);
-                    HandleWindowAdd(window);
+                    HandleWindowAdd(window, false);
                 }
                 else
                 {
@@ -211,7 +212,7 @@ namespace workspacer
 
                 if (emitEvent)
                 {
-                    HandleWindowAdd(window);
+                    HandleWindowAdd(window, true);
                 }
 
                 return window;
@@ -324,9 +325,9 @@ namespace workspacer
             }
         }
 
-        private void HandleWindowAdd(WindowsWindow window)
+        private void HandleWindowAdd(WindowsWindow window, bool firstCreate)
         {
-            WindowCreated?.Invoke(window);
+            WindowCreated?.Invoke(window, firstCreate);
         }
 
         private void HandleWindowRemove(WindowsWindow window)

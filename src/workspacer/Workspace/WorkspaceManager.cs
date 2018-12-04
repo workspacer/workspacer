@@ -249,18 +249,18 @@ namespace workspacer
             WorkspaceUpdated?.Invoke();
         }
 
-        public void AddWindow(IWindow window)
+        public void AddWindow(IWindow window, bool firstCreate)
         {
-            AddWindow(window, true);
+            AddWindow(window, true, firstCreate);
         }
 
-        public void AddWindow(IWindow window, bool switchToWorkspace)
+        private void AddWindow(IWindow window, bool switchToWorkspace, bool firstCreate)
         {
             Logger.Debug("AddWindow({0})", window);
 
             if (!_windowsToWorkspaces.ContainsKey(window))
             {
-                var workspace = _context.WindowRouter.RouteWindow(window);
+                var workspace = firstCreate ? _context.WindowRouter.RouteWindow(window) : GetWorkspaceForWindowLocation(window);
 
                 if (workspace != null)
                 {
@@ -363,6 +363,14 @@ namespace workspacer
                     }
                 }
             }
+        }
+
+        private IWorkspace GetWorkspaceForWindowLocation(IWindow window)
+        {
+            var location = window.Location;
+            var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
+            var monitor = _monitors.First(m => m.Name == screen.DeviceName);
+            return _context.WorkspaceContainer.GetWorkspaceForMonitor(monitor);
         }
 
         public WorkspaceState GetState()
@@ -494,10 +502,7 @@ namespace workspacer
             foreach (var w in windows)
             {
                 var location = w.Location;
-                var screen = Screen.FromRectangle(new Rectangle(location.X, location.Y, location.Width, location.Height));
-                var monitor = _monitors.First(m => m.Name == screen.DeviceName);
-                var locationWorkspace = _context.WorkspaceContainer.GetWorkspaceForMonitor(monitor);
-                var destWorkspace = _context.WindowRouter.RouteWindow(w, locationWorkspace);
+                var destWorkspace = GetWorkspaceForWindowLocation(w);
 
                 if (destWorkspace != null)
                 {
