@@ -41,14 +41,23 @@ namespace workspacer
 
         public static void Steal(IntPtr windowToFocus)
         {
-            _windowToFocus = windowToFocus;
-            _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.SHIFT);
-            _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.MENU);
-            _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.CONTROL);
-            _inputSim.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.F12);
-            _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.SHIFT);
-            _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.MENU);
-            _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.CONTROL);
+            try
+            {
+                _windowToFocus = windowToFocus;
+                _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.SHIFT);
+                _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.MENU);
+                _inputSim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.CONTROL);
+                _inputSim.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.F12);
+                _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.SHIFT);
+                _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.MENU);
+                _inputSim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.CONTROL);
+            } catch (Exception e)
+            {
+                // this sucks but sometimes we lose permission to
+                // send keyboard input because the system is locked or in a UAC dialog
+                Logger.Error(e, "failed to steal focus");
+                _windowToFocus = IntPtr.Zero;
+            }
         }
 
         private static void RegisterHotKeyInternal(IntPtr hwnd, int id, uint modifiers, uint key)
