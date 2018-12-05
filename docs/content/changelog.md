@@ -4,6 +4,17 @@ description: "a log of changes"
 type: docs
 ---
 
+# {{<stable-installer-link version="0.9.3">}}
+
+- new and shiny website, you are looking at it now (unless you are looking at a newer and shiny-er website, in which case hello from the past! how is the future?) 
+- added extra default filters for lock screen / win10 explorer windows
+- reduced mouse-lag from expensive mouse hooks
+- s/Workspacer/workspacer/g
+  - this was done to keep everything consistent. if you are using a custom config, you will need to fix your "workspacer" namespaces, sorry!
+- improved upgrade detection for MSI installer, and moved to x64 "Program Files" folder
+- by default, when re-tiling a previously un-tiled window, place window in the workspace that is closest-by-location, rather than routing it
+- improved handling for UAC/lock screen related SendKeys exceptions
+
 # {{<stable-installer-link version="0.9.2">}}
 
 - improved build process, now using Azure Pipelines!
