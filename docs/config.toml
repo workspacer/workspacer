@@ -22,9 +22,14 @@ publishDir = "../out/docs/"
     weight = 4
 
 [[menu.main]]
+    name = "screenshots"
+    url = "/screenshots"
+    weight = 5
+
+[[menu.main]]
     name = "changelog"
     url = "/changelog"
-    weight = 5
+    weight = 6
 
 [[menu.extra]]
     name = "submit an issue"
