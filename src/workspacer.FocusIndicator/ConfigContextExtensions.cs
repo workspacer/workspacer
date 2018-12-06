@@ -8,9 +8,9 @@ namespace workspacer.FocusIndicator
 {
     public static class ConfigContextExtensions
     {
-        public static FocusIndicatorPlugin AddFocusIndicator(this IConfigContext context, FocusIndicatorPluginConfig config = null)
+        public static void AddFocusIndicator(this IConfigContext context, FocusIndicatorPluginConfig config = null)
         {
-            return context.Plugins.RegisterPlugin(new FocusIndicatorPlugin(config ?? new FocusIndicatorPluginConfig()));
+            context.Plugins.RegisterPlugin(new FocusIndicatorPlugin(config ?? new FocusIndicatorPluginConfig()));
         }
     }
 }
