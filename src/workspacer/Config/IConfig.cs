@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace workspacer.ConfigLoader
+namespace workspacer
 {
     public interface IConfig
     {

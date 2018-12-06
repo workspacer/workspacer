@@ -40,7 +40,5 @@ namespace workspacer
         event WindowRemovedDelegate WindowRemoved;
         event WindowMovedDelegate WindowMoved;
         event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
-
-        WorkspaceState GetState();
     }
 }

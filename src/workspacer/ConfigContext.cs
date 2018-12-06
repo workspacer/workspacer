@@ -8,7 +8,6 @@ using System.Timers;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using workspacer.ConfigLoader;
 
 namespace workspacer
 {
@@ -208,14 +207,14 @@ namespace workspacer
             File.WriteAllText(filePath, json);
         }
 
-        public workspacerState LoadState()
+        public WorkspacerState LoadState()
         {
             var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "workspacer.State.json");
 
             if (File.Exists(filePath))
             {
                 var json = File.ReadAllText(filePath);
-                var state = JsonConvert.DeserializeObject<workspacerState>(json);
+                var state = JsonConvert.DeserializeObject<WorkspacerState>(json);
                 File.Delete(filePath);
                 return state;
             }
@@ -227,7 +226,7 @@ namespace workspacer
 
         private object GetState()
         {
-            var state = new workspacerState()
+            var state = new WorkspacerState()
             {
                 WorkspaceState = Workspaces.GetState()
             };

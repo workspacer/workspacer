@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace workspacer
 {
-    public class workspacerState
+    public class WorkspacerState
     {
         public WorkspaceState WorkspaceState { get; set; }
     }
