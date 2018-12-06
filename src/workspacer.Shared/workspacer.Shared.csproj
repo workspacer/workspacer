@@ -69,13 +69,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Color.cs" />
-    <Compile Include="IColor.cs" />
     <Compile Include="IConfigContext.cs" />
-    <Compile Include="IWindowsManager.cs" />
-    <Compile Include="IKeybindManager.cs" />
-    <Compile Include="IPlugin.cs" />
-    <Compile Include="IPluginManager.cs" />
-    <Compile Include="IWorkspaceManager.cs" />
+    <Compile Include="Layout\FullLayoutEngine.cs" />
+    <Compile Include="Layout\PaneLayoutEngine.cs" />
+    <Compile Include="Layout\TallLayoutEngine.cs" />
+    <Compile Include="Window\IWindowsDeferPosHandle.cs" />
+    <Compile Include="Window\IWindowsManager.cs" />
+    <Compile Include="Keybind\IKeybindManager.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\IPluginManager.cs" />
+    <Compile Include="Workspace\IWorkspaceManager.cs" />
     <Compile Include="Keybind\MouseHandler.cs" />
     <Compile Include="Keybind\KeybindHandler.cs" />
     <Compile Include="Keybind\KeyModifiers.cs" />
@@ -87,9 +90,7 @@
     <Compile Include="LogLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemTray\ISystemTrayManager.cs" />
-    <Compile Include="IWindowsDeferPosHandle.cs" />
     <Compile Include="Window\WindowUpdateType.cs" />
-    <Compile Include="WorkspacerSharedHandle.cs" />
     <Compile Include="Window\IWindow.cs" />
     <Compile Include="Window\IWindowLocation.cs" />
     <Compile Include="Window\WindowLocation.cs" />
@@ -99,6 +100,10 @@
     <Compile Include="Workspace\IWorkspace.cs" />
     <Compile Include="Workspace\IWorkspaceContainer.cs" />
     <Compile Include="WorkspacerState.cs" />
+    <Compile Include="Workspace\StickyWorkspaceContainer.cs" />
+    <Compile Include="Workspace\WindowRouter.cs" />
+    <Compile Include="Workspace\Workspace.cs" />
+    <Compile Include="Workspace\WorkspaceContainer.cs" />
     <Compile Include="Workspace\WorkspaceState.cs" />
   </ItemGroup>
   <ItemGroup>

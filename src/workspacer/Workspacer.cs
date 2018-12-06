@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json;
-using workspacer.ConfigLoader;
 using Timer = System.Timers.Timer;
 using System.Reflection;
 using System.IO;

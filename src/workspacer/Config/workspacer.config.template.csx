@@ -1,5 +1,4 @@
 ﻿#r "WORKSPACER_PATH\workspacer.Shared.dll"
-#r "WORKSPACER_PATH\workspacer.ConfigLoader.dll"
 #r "WORKSPACER_PATH\plugins\workspacer.Bar\workspacer.Bar.dll"
 #r "WORKSPACER_PATH\plugins\workspacer.ActionMenu\workspacer.ActionMenu.dll"
 #r "WORKSPACER_PATH\plugins\workspacer.FocusIndicator\workspacer.FocusIndicator.dll"

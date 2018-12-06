@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace workspacer
 {
-    public class Color : IColor
+    public class Color : IEquatable<Color>
     {
         public int R { get; }
         public int G { get; }
@@ -34,7 +34,7 @@ namespace workspacer
         public static readonly Color Fuchsia =   new Color(0xFF, 0x00, 0xFF);
         public static readonly Color Purple =    new Color(0x80, 0x00, 0x80);
 
-        public bool Equals(IColor other)
+        public bool Equals(Color other)
         {
             if (other == null)
                 return false;
@@ -46,7 +46,7 @@ namespace workspacer
 
         public override bool Equals(object o)
         {
-            return this.Equals(o as IColor);
+            return this.Equals(o as Color);
         }
 
         public override int GetHashCode()

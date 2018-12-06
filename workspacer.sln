@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Shared", "src\wo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Bar", "src\workspacer.Bar\workspacer.Bar.csproj", "{A593B7C4-750D-44EE-8617-134B53C83D5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.ConfigLoader", "src\workspacer.ConfigLoader\workspacer.ConfigLoader.csproj", "{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Native", "src\workspacer.Native\workspacer.Native.csproj", "{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Watcher", "src\workspacer.Watcher\workspacer.Watcher.csproj", "{020BFFA1-E131-44DF-9B57-C1284DC80C8A}"
@@ -70,18 +68,6 @@ Global
 		{A593B7C4-750D-44EE-8617-134B53C83D5D}.Release|x64.Build.0 = Release|x64
 		{A593B7C4-750D-44EE-8617-134B53C83D5D}.Release|x86.ActiveCfg = Release|Any CPU
 		{A593B7C4-750D-44EE-8617-134B53C83D5D}.Release|x86.Build.0 = Release|Any CPU
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Debug|x64.ActiveCfg = Debug|x64
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Debug|x64.Build.0 = Debug|x64
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Debug|x86.Build.0 = Debug|Any CPU
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Release|x64.ActiveCfg = Release|x64
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Release|x64.Build.0 = Release|x64
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Release|x86.ActiveCfg = Release|Any CPU
-		{22CF40A7-6830-4FBB-A3A3-FEF8CCB2E381}.Release|x86.Build.0 = Release|Any CPU
 		{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60D4AAD0-104C-4820-B141-88FCA2DA0E6C}.Debug|x64.ActiveCfg = Debug|x64
