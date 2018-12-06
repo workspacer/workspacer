@@ -26,7 +26,7 @@ also, workspacer's config file allows for type checking / intellisense! Currentl
 
 # learning
 
-workspacer's default configuration behaves a lot like `xmonad` with `xmobar` in its default configuration, but not exactly where not possible due to limitations in `Win32` that prevent controlling windows in the same way a tiling window manager would be able to when controlling the actual management of windows like an X11 based window manager.
+workspacer's default configuration behaves like other tiling window managers in its default configuration, but deviates where not possible due to limitations in `Win32` that prevent controlling windows in the same way a tiling window manager would be able to when controlling the actual management of windows like an X11 based window manager.
 
 [the keybindings page](/keybindings) describes the default set of keybindings.
 
