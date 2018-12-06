@@ -1,4 +1,4 @@
-var bar = context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
+var bar = context.AddBar(new BarPluginConfig()
 {
     BarTitle = "workspacer.Bar",
     BarHeight = 50,
@@ -8,4 +8,4 @@ var bar = context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
     Background = Color.Black,
     LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() },
     RightWidgets = () => new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
-}));
+});

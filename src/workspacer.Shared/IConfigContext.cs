@@ -17,6 +17,10 @@ namespace workspacer
         IWorkspaceContainer WorkspaceContainer { get; set; }
         IWindowRouter WindowRouter { get; set; }
 
+        Func<ILayoutEngine[]> DefaultLayouts { get; set; }
+        void AddLayoutProxy(Func<ILayoutEngine, ILayoutEngine> proxy);
+        IEnumerable<ILayoutEngine> ProxyLayouts(IEnumerable<ILayoutEngine> layouts);
+
         LogLevel ConsoleLogLevel { get; set; }
         LogLevel FileLogLevel { get; set; }
         void ToggleConsoleWindow();

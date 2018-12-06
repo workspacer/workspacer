@@ -12,12 +12,10 @@ using workspacer.FocusIndicator;
 
 Action<IConfigContext> doConfig = (IConfigContext context) =>
 {
-    var bar = context.Plugins.RegisterPlugin(new BarPlugin());
-    var actionMenu = context.Plugins.RegisterPlugin(new ActionMenuPlugin());
-    var focusIndicator = context.Plugins.RegisterPlugin(new FocusIndicatorPlugin());
+    var bar = context.AddBar();
+    var actionMenu = context.AddActionMenu();
+    var focusIndicator = context.AddFocusIndicator();
 
-    context.WorkspaceContainer = new WorkspaceContainer(context,
-        () => bar.WrapLayouts(new TallLayoutEngine(), new FullLayoutEngine()));
     context.WorkspaceContainer.CreateWorkspaces("one", "two", "three", "four", "five");
 };
 return doConfig;

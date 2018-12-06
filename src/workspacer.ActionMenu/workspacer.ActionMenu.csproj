@@ -71,6 +71,7 @@
     <Compile Include="ActionMenuItemBuilder.cs" />
     <Compile Include="ActionMenuPlugin.cs" />
     <Compile Include="ActionMenuPluginConfig.cs" />
+    <Compile Include="ConfigContextExtensions.cs" />
     <Compile Include="OrMatcher.cs" />
     <Compile Include="IMatcher.cs" />
     <Compile Include="IMatch.cs" />

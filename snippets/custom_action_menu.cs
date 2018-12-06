@@ -1,5 +1,5 @@
 # config options
-var actionMenu = context.Plugins.RegisterPlugin(new ActionMenuPlugin(new ActionMenuPluginConfig() {
+var actionMenu = context.AddActionMenu(new ActionMenuPluginConfig() {
     RegisterKeybind = true,
     KeybindMod = KeyModifiers.LAlt,
     KeybindKey = Keys.P,
@@ -11,7 +11,7 @@ var actionMenu = context.Plugins.RegisterPlugin(new ActionMenuPlugin(new ActionM
     Matcher = new OrMatcher(new PrefixMatcher(), new ContiguousMatcher()),
     Background = Color.Black,
     Foreground = Color.White,
-}));
+});
 
 # adding items to the default menu
 var subMenu = actionMenu.Create();
@@ -25,4 +25,4 @@ actionMenu.DefaultMenu.AddMenu("make sub menu", subMenu)
 var newMenu = actionMenu.Create();
 newMenu.Add("fun!", () => FUN());
 #                           V---- mod-y 
- context.Keybinds.Subscribe(mod, Keys.Y, () => actionMenu.ShowMenu(newMenu));
+context.Keybinds.Subscribe(mod, Keys.Y, () => actionMenu.ShowMenu(newMenu));

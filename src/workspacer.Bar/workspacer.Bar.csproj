@@ -70,6 +70,7 @@
     <Compile Include="BarWidgetBase.cs" />
     <Compile Include="BarWidgetContext.cs" />
     <Compile Include="BarWidgetPart.cs" />
+    <Compile Include="ConfigContextExtensions.cs" />
     <Compile Include="IBarWidget.cs" />
     <Compile Include="IBarWidgetContext.cs" />
     <Compile Include="IBarWidgetPart.cs" />
