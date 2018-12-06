@@ -502,7 +502,8 @@ namespace workspacer
             foreach (var w in windows)
             {
                 var location = w.Location;
-                var destWorkspace = GetWorkspaceForWindowLocation(w);
+                var locationWorkspace = GetWorkspaceForWindowLocation(w);
+                var destWorkspace = _context.WindowRouter.RouteWindow(w, locationWorkspace);
 
                 if (destWorkspace != null)
                 {
