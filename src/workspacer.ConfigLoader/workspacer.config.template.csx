@@ -10,11 +10,11 @@ using workspacer.Bar;
 using workspacer.ActionMenu;
 using workspacer.FocusIndicator;
 
-Action<IConfigContext> doConfig = (IConfigContext context) =>
+Action<IConfigContext> doConfig = (context) =>
 {
-    var bar = context.AddBar();
+    context.AddBar();
+    context.AddFocusIndicator();
     var actionMenu = context.AddActionMenu();
-    var focusIndicator = context.AddFocusIndicator();
 
     context.WorkspaceContainer.CreateWorkspaces("one", "two", "three", "four", "five");
 };
