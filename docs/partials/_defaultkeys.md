@@ -1,4 +1,4 @@
-workspacer tries to mimic xmonad's keybindings wherever possible. the default keybindings are:
+the default keybindings are:
 
 | keybind         | description     |
 | --------------- | --------------- |

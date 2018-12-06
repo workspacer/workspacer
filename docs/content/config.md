@@ -14,7 +14,7 @@ because workspacer is a new project, I have not fully nailed down how I want the
 
 ## I don't know C#, or how to program, should I use workspacer?
 
-probably not, at least not yet. workspacer is intended to be on the extreme end of the power user spectrum. you can absolutely use workspacer without knowing how to program, but configuration will likely be challenging if you need to deviate outside of the examples and configurations of other users (although, almost certainly easier than learning Haskell in order to configure xmonad).
+probably not, at least not yet. workspacer is intended to be on the extreme end of the power user spectrum. you can absolutely use workspacer without knowing how to program, but configuration will likely be challenging if you need to deviate outside of the examples and configurations of other users.
 
 ## how do I define custom workspaces?
 
