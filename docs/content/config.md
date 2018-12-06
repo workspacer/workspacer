@@ -4,9 +4,9 @@ description:  "use workspacer like a pro!"
 type: faq
 ---
 
-configuring workspacer can be tricky, but the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
+workspacer is configured with the C# programming language. the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
 
-this configuration documentation assumes that you have already created the example configuration in the correct folder, if you haven't, check the [quickstart guide](/quickstart).
+this configuration documentation assumes that you have already created the example config in the correct folder, if you haven't, check the [quickstart guide](/quickstart).
 
 ## a quick note on configuration compatibility
 
@@ -14,7 +14,7 @@ because workspacer is a new project, I have not fully nailed down how I want the
 
 ## I don't know C#, or how to program, should I use workspacer?
 
-probably not, at least not yet. workspacer is intended to be on the extreme end of the power user spectrum. you can absolutely use workspacer without knowing how to program, but configuration will likely be challenging if you need to deviate outside of the examples and configurations of other users.
+workspacer is intended to be on the extreme end of the power user spectrum. you can use workspacer without knowing how to program, but extreme configuration will be challenging if you need to deviate outside of the examples and configurations of other users.
 
 ## how do I define custom workspaces?
 
@@ -29,12 +29,9 @@ context.WorkspaceContainer.CreateWorkspaces("more", "than", "one");
 context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), new TallLayoutEngine());
 ```
 
-you can define as many workspaces as you want (given that the workspace container you are using supports it)
+## how do I make workspacer ignore some windows? <br/> how do I make some windows always go to a specific workspace?
 
-## how do I make workspacer ignore some windows?
-## how do I make some windows always go to a specific workspace?
-
-by default, workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will by default route workspaces to the focused workspace on creation. as with most everything else, this is completely customizable via IWindowRouter.
+workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will by route workspaces to the focused workspace when they are opened. as with most everything else, this is completely customizable via IWindowRouter.
 
 the default configuration provides the standard set of ignore/routing rules, but more can be added via calls to `AddFilter` and `AddRoute`.
 
@@ -45,13 +42,19 @@ context.WindowRouter.AddFilter((window) => !window.Title.Contains("my fun applic
 context.WindowRouter.AddRoute((window) => window.Title.Contains("Google Chrome") ? context.WorkspaceContainer["web"] : null));
 ```
 
-the above call to `AddFilter` will ensure that any windows who's title contains the text "my fun application" will be ignored by workspacer. a `true` return value will allow the window to be managed, while a `false` value will force workspacer to ignore the window. 
+the `AddFilter` call will ensure that any windows who's title contains the text "my fun application" will be ignored by workspacer. a `true` return value will allow the window to be managed, while a `false` value will force workspacer to ignore the window. 
 
-the above call to `AddRoute` will ensure that any windows who's title contains the text "Google Chrome" will be automatically placed in the "web" workspace. a null return value will signal to workspacer that the next route should be checked, while returing an actual workspace will ensure that the workspace manager will place the window in the returned workspace.
+the `AddRoute` call will ensure that any windows who's title contains the text "Google Chrome" will be automatically placed in the "web" workspace. a null return value will signal to workspacer that the next route should be checked, while returing an actual workspace will ensure that the workspace manager will place the window in the returned workspace.
 
 ## how do I chose different layout engines? 
 
-layouts are usually passed as arguments to the constructor of the IWorkspaceContainer implementation that you are using. This means that the implementation will take care of creating new layouts for you. If you want to manually specify them for a specific workspace, you can pass them as parameters to `CreateWorkspace` (or equivalent)
+you can change the set of "default" layout engines via:
+
+```csharp
+context.DefaultLayouts = () => new ILayoutEngine[] { new FullLayoutEngine() };
+```
+
+if you want to manually specify them for a specific workspace, you can pass them as parameters to `CreateWorkspace` (or equivalent)
 
 ```csharp
 context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), new TallLayoutEngine());
@@ -59,21 +62,17 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
 
 ## how do I customize the menu bar?
 
-the menu bar is implemented as a `workspacer plugin`, which is essentially just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:
+the menu bar is implemented as a `plugin`, which is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:
 
 ```csharp
-var bar = context.AddBar(new BarPlugin(new BarPluginConfig()
-{
-    LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() },
-    RightWidgets = () => new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
-}));
+var bar = context.AddBar();
 ```
 
-the default workspacer configuration will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the `LeftWidgets` and `RightWidgets` properties. the config object contains other properties you might want to change for styling purposes.
+the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the `LeftWidgets` and `RightWidgets` properties on the `config` optional parameter.
 
 ## how do I customize the action menu?
 
-the action menu is implemented as a `workspace plugin`, (see the above `menu bar` section). the action menu can be installed like this:
+the action menu is implemented as a `plugin`, (see the above `menu bar` section). the action menu can be installed like this:
 
 ```csharp
 var actionMenu = context.AddActionMenu();
