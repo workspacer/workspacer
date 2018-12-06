@@ -1,40 +1,40 @@
-# the StickyWorkspaceContainer is useful if you want to emulate workspace modes in awesome/dwm
-# where workspaces are specifically assigned to monitors
+//g the StickyWorkspaceContainer is useful if you want to emulate workspace modes in awesome/dwm
+//g where workspaces are specifically assigned to monitors
 
 var defaultLayouts = () => bar.WrapLayouts(new TallLayoutEngine(), new FullLayoutEngine());
 
-# the container has two modes:
+//g the container has two modes:
 context.WorkspaceContainer = new StickyWorkspaceContainer(context, defaultLayouts, StickyWorkspaceIndexMode.Local);
 
-# or:
+//g or:
 context.WorkspaceContainer = new StickyWorkspaceContainer(context, defaultLayouts, StickyWorkspaceIndexMode.Global);
-# you can also not specify a mode, because "Global" is the default
+//g you can also not specify a mode, because "Global" is the default
 context.WorkspaceContainer = new StickyWorkspaceContainer(context);
 
-# Global index mode means that index based actions acts on the global set of workspaces
-# Local index mode means that index based actions act on the set of workspaces local to the focused monitor
+//g Global index mode means that index based actions acts on the global set of workspaces
+//g Local index mode means that index based actions act on the set of workspaces local to the focused monitor
 
 var monitors = context.Workspaces.Monitors.ToList();
 context.WorkspaceContainer.CreateWorkspaces(monitors[0], "one", "two");
 context.WorkspaceContainer.CreateWorkspace(monitors[1], "three", "four");
 
-# when using the default keybindings, this will happen in Global mode:
+//g when using the default keybindings, this will happen in Global mode:
 
-# alt-0 => switch to workspace "one"
-# alt-1 => switch to workspace "two"
-# alt-2 => switch to workspace "three"
-# alt-3 => switch to workspace "four"
+//g alt-0 => switch to workspace "one"
+//g alt-1 => switch to workspace "two"
+//g alt-2 => switch to workspace "three"
+//g alt-3 => switch to workspace "four"
 
-# when using the default keybindings, this will happen in Local mode:
+//g when using the default keybindings, this will happen in Local mode:
 
-# when focusing the first monitor
-# alt-0 => switch to workspace "one"
-# alt-1 => switch to workspace "two"
-# alt-2 => nothing
-# alt-3 => nothing
+//g when focusing the first monitor
+//g alt-0 => switch to workspace "one"
+//g alt-1 => switch to workspace "two"
+//g alt-2 => nothing
+//g alt-3 => nothing
 
-# when focusing the second monitor
-# alt-0 => switch to workspace "three"
-# alt-1 => switch to workspace "four"
-# alt-2 => nothing
-# alt-3 => nothing
+//g when focusing the second monitor
+//g alt-0 => switch to workspace "three"
+//g alt-1 => switch to workspace "four"
+//g alt-2 => nothing
+//g alt-3 => nothing

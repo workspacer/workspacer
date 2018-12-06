@@ -15,19 +15,17 @@ namespace workspacer
     public class StickyWorkspaceContainer : IWorkspaceContainer
     {
         private IConfigContext _context;
-        private Func<ILayoutEngine[]> _defaultLayouts;
         private StickyWorkspaceIndexMode _indexMode;
         private Dictionary<IMonitor, List<IWorkspace>> _workspaces;
         private Dictionary<IMonitor, List<IWorkspace>> _orderedWorkspaces;
         private List<IWorkspace> _allWorkspaces;
         private Dictionary<IWorkspace, IMonitor> _wtm;
 
-        public StickyWorkspaceContainer(IConfigContext context, Func<ILayoutEngine[]> defaultLayouts) : this(context, defaultLayouts, StickyWorkspaceIndexMode.Global) { }
+        public StickyWorkspaceContainer(IConfigContext context) : this(context, StickyWorkspaceIndexMode.Global) { }
 
-        public StickyWorkspaceContainer(IConfigContext context, Func<ILayoutEngine[]> defaultLayouts, StickyWorkspaceIndexMode indexMode)
+        public StickyWorkspaceContainer(IConfigContext context, StickyWorkspaceIndexMode indexMode)
         {
             _context = context;
-            _defaultLayouts = defaultLayouts;
             _indexMode = indexMode;
             _workspaces = new Dictionary<IMonitor, List<IWorkspace>>();
             _orderedWorkspaces = new Dictionary<IMonitor, List<IWorkspace>>();
@@ -44,7 +42,7 @@ namespace workspacer
         {
             foreach (var name in names)
             {
-                CreateWorkspace(name, _defaultLayouts());
+                CreateWorkspace(name, _context.DefaultLayouts());
             }
         }
 
@@ -52,7 +50,7 @@ namespace workspacer
         {
             foreach (var name in names)
             {
-                CreateWorkspace(monitor, name, _defaultLayouts());
+                CreateWorkspace(monitor, name, _context.DefaultLayouts());
             }
         }
 
@@ -63,7 +61,7 @@ namespace workspacer
         
         public void CreateWorkspace(IMonitor monitor, string name, params ILayoutEngine[] layouts)
         {
-            layouts = layouts.Length > 0 ? layouts : _defaultLayouts();
+            layouts = layouts.Length > 0 ? layouts : _context.DefaultLayouts();
             var workspace = new Workspace(_context, name, layouts);
             _workspaces[monitor].Add(workspace);
             _orderedWorkspaces[monitor].Add(workspace);

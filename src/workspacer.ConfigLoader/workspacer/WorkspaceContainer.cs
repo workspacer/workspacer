@@ -9,18 +9,16 @@ namespace workspacer
     public class WorkspaceContainer : IWorkspaceContainer
     {
         private IConfigContext _context;
-        private Func<ILayoutEngine[]> _defaultLayouts;
-
         private List<IWorkspace> _workspaces;
         private Dictionary<IWorkspace, int> _workspaceMap;
 
         private Dictionary<IMonitor, IWorkspace> _mtw;
         private Dictionary<IWorkspace, IMonitor> _lastMonitor;
-    
-        public WorkspaceContainer(IConfigContext context, Func<ILayoutEngine[]> defaultLayouts)
+
+
+        public WorkspaceContainer(IConfigContext context)
         {
             _context = context;
-            _defaultLayouts = defaultLayouts;
 
             _workspaces = new List<IWorkspace>();
             _workspaceMap = new Dictionary<IWorkspace, int>();
@@ -33,13 +31,14 @@ namespace workspacer
         {
             foreach (var name in names)
             {
-                CreateWorkspace(name, _defaultLayouts());
+                CreateWorkspace(name, _context.DefaultLayouts());
             }
         }
 
         public void CreateWorkspace(string name, params ILayoutEngine[] layouts)
         {
-            layouts = layouts.Length > 0 ? layouts : _defaultLayouts();
+            layouts = layouts.Length > 0 ? layouts : _context.DefaultLayouts();
+
             var workspace = new Workspace(_context, name, layouts);
             _workspaces.Add(workspace);
             _workspaceMap[workspace] = _workspaces.Count - 1;

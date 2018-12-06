@@ -54,17 +54,15 @@ the above call to `AddRoute` will ensure that any windows who's title contains t
 layouts are usually passed as arguments to the constructor of the IWorkspaceContainer implementation that you are using. This means that the implementation will take care of creating new layouts for you. If you want to manually specify them for a specific workspace, you can pass them as parameters to `CreateWorkspace` (or equivalent)
 
 ```csharp
-context.WorkspaceContainer.CreateWorkspace("layouts!", bar.WrapLayouts(new FullLayoutEngine(), new TallLayoutEngine()));
+context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), new TallLayoutEngine());
 ```
-
-note that the above example assumes that you are using the `bar` plugin, and that you named the plugin `bar` (named as such in the default config).
 
 ## how do I customize the menu bar?
 
 the menu bar is implemented as a `workspacer plugin`, which is essentially just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:
 
 ```csharp
-var bar = context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
+var bar = context.AddBar(new BarPlugin(new BarPluginConfig()
 {
     LeftWidgets = () => new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() },
     RightWidgets = () => new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
@@ -78,7 +76,7 @@ the default workspacer configuration will do this for you automatically, so the 
 the action menu is implemented as a `workspace plugin`, (see the above `menu bar` section). the action menu can be installed like this:
 
 ```csharp
-var actionMenu = context.Plugins.RegisterPLugin(new ActionMenuPlugin());
+var actionMenu = context.AddActionMenu();
 
 actionMenu.DefaultMenu.AddMenu("do a thing", () => DoACoolThing());
 actionMenu.DefaultMenu.AddMenu("open a menu", () => CreateAMenu(container, actionMenu));

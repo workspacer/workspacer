@@ -56,10 +56,5 @@ namespace workspacer.Bar
             thread.Name = "BarPlugin";
             thread.Start();
         }
-
-        public ILayoutEngine[] WrapLayouts(params ILayoutEngine[] inners)
-        {
-            return inners.Select(i => new MenuBarLayoutEngine(i, _config.BarTitle, _config.BarHeight)).ToArray();
-        }
     }
 }

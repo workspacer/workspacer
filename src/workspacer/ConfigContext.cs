@@ -30,11 +30,12 @@ namespace workspacer
         IWindowsManager IConfigContext.Windows { get { return Windows; } }
 
         public IWorkspaceContainer WorkspaceContainer { get; set; }
-
         public IWindowRouter WindowRouter { get; set; }
 
         private System.Timers.Timer _timer;
         private PipeServer _pipeServer;
+        private Func<ILayoutEngine[]> _defaultLayouts;
+        private List<Func<ILayoutEngine, ILayoutEngine>> _layoutProxies;
 
         public ConfigContext()
         {
@@ -45,6 +46,12 @@ namespace workspacer
 
             _pipeServer = new PipeServer();
 
+            _defaultLayouts = () => new ILayoutEngine[] {
+                new TallLayoutEngine(),
+                new FullLayoutEngine()
+            };
+            _layoutProxies = new List<Func<ILayoutEngine, ILayoutEngine>>();
+
             SystemEvents.DisplaySettingsChanged += HandleDisplaySettingsChanged;
 
             Plugins = new PluginManager();
@@ -53,6 +60,7 @@ namespace workspacer
             Windows = new WindowsManager();
             Keybinds = new KeybindManager(this);
 
+            WorkspaceContainer = new WorkspaceContainer(this);
             WindowRouter = new WindowRouter(this);
 
             Windows.WindowCreated += Workspaces.AddWindow;
@@ -87,6 +95,32 @@ namespace workspacer
             {
                 Logger.FileLogLevel = value;
             }
+        }
+
+        public Func<ILayoutEngine[]> DefaultLayouts
+        {
+            get
+            {
+                return () => ProxyLayouts(_defaultLayouts()).ToArray();
+            }
+            set
+            {
+                _defaultLayouts = value;
+            }
+        }
+
+        public void AddLayoutProxy(Func<ILayoutEngine, ILayoutEngine> proxy)
+        {
+            _layoutProxies.Add(proxy);
+        }
+
+        public IEnumerable<ILayoutEngine> ProxyLayouts(IEnumerable<ILayoutEngine> layouts)
+        {
+            for (var i = 0; i < _layoutProxies.Count; i++)
+            {
+                layouts = layouts.Select(layout => _layoutProxies[i](layout)).ToArray();
+            }
+            return layouts;
         }
 
         public void ToggleConsoleWindow()
