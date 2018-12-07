@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="workspacer" Language="1033" Version="0.9.3" Manufacturer="Rick Button" UpgradeCode="c153340a-624e-40fc-bfc3-4cb29ca7f267">
+	<Product Id="*" Name="workspacer" Language="1033" Version="0.9.4" Manufacturer="Rick Button" UpgradeCode="c153340a-624e-40fc-bfc3-4cb29ca7f267">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64" />
 
 		<Upgrade Id="c153340a-624e-40fc-bfc3-4cb29ca7f267"/>
