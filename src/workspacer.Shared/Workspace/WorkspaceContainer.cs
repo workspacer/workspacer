@@ -31,7 +31,7 @@ namespace workspacer
         {
             foreach (var name in names)
             {
-                CreateWorkspace(name, _context.DefaultLayouts());
+                CreateWorkspace(name, new ILayoutEngine[0]);
             }
         }
 

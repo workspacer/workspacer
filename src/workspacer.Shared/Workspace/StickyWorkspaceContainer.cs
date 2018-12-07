@@ -42,7 +42,7 @@ namespace workspacer
         {
             foreach (var name in names)
             {
-                CreateWorkspace(name, _context.DefaultLayouts());
+                CreateWorkspace(name, new ILayoutEngine[0]);
             }
         }
 
@@ -50,7 +50,7 @@ namespace workspacer
         {
             foreach (var name in names)
             {
-                CreateWorkspace(monitor, name, _context.DefaultLayouts());
+                CreateWorkspace(monitor, name, new ILayoutEngine[0]);
             }
         }
 
