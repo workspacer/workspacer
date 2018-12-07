@@ -61,8 +61,9 @@ namespace workspacer
         
         public void CreateWorkspace(IMonitor monitor, string name, params ILayoutEngine[] layouts)
         {
-            layouts = layouts.Length > 0 ? layouts : _context.DefaultLayouts();
-            var workspace = new Workspace(_context, name, layouts);
+            var newLayouts = layouts.Length > 0 ? _context.ProxyLayouts(layouts) : _context.DefaultLayouts();
+
+            var workspace = new Workspace(_context, name, newLayouts.ToArray());
             _workspaces[monitor].Add(workspace);
             _orderedWorkspaces[monitor].Add(workspace);
             _allWorkspaces.Add(workspace);
