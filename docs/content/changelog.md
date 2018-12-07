@@ -4,6 +4,13 @@ description: "a log of changes"
 type: docs
 ---
 
+# {{<stable-installer-link version="0.9.4">}}
+
+- more general codebase refactoring, cleaned up a lot of default config boilerplate
+- workspacer.ConfigLoader has been merged into workspacer, so you will need to remove the reference from your config
+- plugin usage has been simplified, see the example config, or the example snippets for usage
+- cleaned up website copy
+
 # {{<stable-installer-link version="0.9.3">}}
 
 - new and shiny website, you are looking at it now (unless you are looking at a newer and shiny-er website, in which case hello from the past! how is the future?) 
