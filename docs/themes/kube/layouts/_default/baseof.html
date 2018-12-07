@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ block "title" . }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 
-  <meta name="description" content="a tiling window manager for Windows 10">
+  {{ with .Site.Params.Description }}
+  <meta name="description" content="{{ . }}"> {{ end }}
+
   <!-- noindex meta -->
   {{ $default_noindex_kinds := slice "section" "taxonomy" "taxonomyTerm" }}
   {{ $noindex_kinds := .Site.Params.noindex_kinds | default $default_noindex_kinds }}
@@ -37,8 +39,6 @@
   <link rel="canonical" href="{{ .Permalink }}"> {{ if (isset .Params "prev") }}
   <link rel="prev" href="{{ .Params.prev }}"> {{ end }} {{ if (isset .Params "next") }}
   <link rel="next" href="{{ .Params.next }}"> {{ end }}
-
-  {{ partial "favicon" . }}
 
   <link href="/css/font.css" rel="stylesheet" type="text/css">
   <link href="/css/kube.min.css" rel="stylesheet" type="text/css">
