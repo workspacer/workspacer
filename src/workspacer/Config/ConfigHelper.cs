@@ -16,23 +16,29 @@ namespace workspacer
 {
     public static class ConfigHelper
     {
+        private static readonly string ConfigFileName = "workspacer.config.csx";
+
+        private static string GetPathInUserFolder(string file)
+        {
+            return Path.Combine(FileHelper.GetUserWorkspacerPath(), file);
+        }
+
         public static bool CanCreateExampleConfig()
         {
-            return !File.Exists(GetConfigFilePath());
+            return !File.Exists(GetPathInUserFolder(ConfigFileName));
         }
 
         public static bool CreateExampleConfig()
         {
-            if (File.Exists(GetConfigFilePath()))
+            if (File.Exists(GetPathInUserFolder(ConfigFileName)))
                 return false;
 
-            Directory.CreateDirectory(GetConfigDirPath());
 
-            var projectJson = Path.Combine(GetConfigDirPath(), "project.json");
+            var projectJson = GetPathInUserFolder("project.json");
             if (!File.Exists(projectJson))
                 File.WriteAllText(projectJson, "{}");
 
-            File.WriteAllText(GetConfigFilePath(), GetConfigTemplate());
+            File.WriteAllText(GetPathInUserFolder(ConfigFileName), GetConfigTemplate());
             return true;
         }
 
@@ -56,7 +62,7 @@ namespace workspacer
 
         private static string LoadConfig()
         {
-            var path = GetConfigFilePath();
+            var path = GetPathInUserFolder(ConfigFileName);
             string file;
             if (File.Exists(path))
             {
@@ -77,16 +83,6 @@ namespace workspacer
             var task = CSharpScript.EvaluateAsync<Action<IConfigContext>>(config, options);
             var func = task.Result;
             func(context);
-        }
-
-        public static string GetConfigDirPath()
-        {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer");
-        }
-
-        public static string GetConfigFilePath()
-        {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer", "workspacer.config.csx");
         }
     }
 }

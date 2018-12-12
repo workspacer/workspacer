@@ -24,6 +24,13 @@ namespace workspacer.Watcher
                 {
                     string line;
                     line = client.ReadLine();
+
+                    if (line == null)
+                    {
+                        IsRunning = false;
+                        continue;
+                    }
+
                     LauncherResponse response = null;
                     try
                     {
@@ -61,6 +68,7 @@ namespace workspacer.Watcher
                     }
                 }
             }
+            CleanupWindowHandles(activeHandles);
         }
 
         static void CleanupWindowHandles(List<long> handles)
