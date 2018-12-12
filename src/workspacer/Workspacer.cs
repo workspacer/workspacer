@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Timer = System.Timers.Timer;
 using System.Reflection;
 using System.IO;
+using System.Windows.Forms;
 
 namespace workspacer
 {
@@ -16,9 +17,12 @@ namespace workspacer
 
         public void Start()
         {
+            // init user folder
+            FileHelper.EnsureUserWorkspacerPathExists();
+
             // init logging
             ConsoleHelper.Initialize();
-            Logger.Initialize(Console.Out);
+            Logger.Initialize(FileHelper.GetUserWorkspacerPath(), Console.Out);
             Logger.Debug("starting workspacer");
 
             // init plugin assembly resolver
@@ -111,14 +115,13 @@ namespace workspacer
             } else
             {
                 ConfigHelper.CreateExampleConfig();
-                DisplayMessage($"workspacer.config.csx created in: [${ConfigHelper.GetConfigDirPath()}]");
+                DisplayMessage($"workspacer.config.csx created in: [${FileHelper.GetUserWorkspacerPath()}]");
             }
         }
 
         public void DisplayMessage(string message)
         {
-            var title = GetType().Name.Replace("Verb", "");
-            MessageHelper.ShowMessage(title, message);
+            MessageBox.Show(message, "workspacer");
         }
     }
 }

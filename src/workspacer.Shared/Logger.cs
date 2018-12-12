@@ -35,12 +35,12 @@ namespace workspacer
 
         private ILogger _logger;
 
-        public static void Initialize(TextWriter writer) {
+        public static void Initialize(string path, TextWriter writer) {
             _config = new LoggingConfiguration();
             _console = new TextWriterTarget(writer);
 
             _file = new FileTarget();
-            _file.FileName = "workspacer.log";
+            _file.FileName = Path.Combine(path, "workspacer.log");
             _file.CreateDirs = true;
             _file.ArchiveEvery = FileArchivePeriod.Day;
             _file.ArchiveNumbering = ArchiveNumberingMode.DateAndSequence;
