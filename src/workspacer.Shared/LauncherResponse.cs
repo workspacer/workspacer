@@ -9,6 +9,7 @@ namespace workspacer
     public enum LauncherAction
     {
         Quit,
+        QuitWithException,
         Restart,
         UpdateHandles,
     }
@@ -17,7 +18,7 @@ namespace workspacer
     {
         public LauncherAction Action { get; set; } 
         
-        public string Message { get; set; }
+        public string ExceptionMessage { get; set; }
         public List<long> ActiveHandles { get; set; }
     }
 }

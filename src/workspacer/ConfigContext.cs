@@ -156,6 +156,19 @@ namespace workspacer
             CleanupAndExit();
         }
 
+        public void QuitWithException(Exception e)
+        {
+            var message = e.ToString();
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.QuitWithException,
+                ExceptionMessage = message,
+            };
+            SendResponse(response);
+
+            CleanupAndExit();
+        }
+
         public void CleanupAndExit()
         {
             Application.Exit();

@@ -88,6 +88,11 @@ namespace workspacer
             _context.Quit();
         }
 
+        public void QuitWithException(Exception e)
+        {
+            _context.QuitWithException(e);
+        }
+
         private Assembly ResolveAssembly(object sender, ResolveEventArgs args)
         {
             var match = _context.Plugins.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);

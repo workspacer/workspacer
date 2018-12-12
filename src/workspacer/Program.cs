@@ -57,13 +57,8 @@ namespace workspacer
                 {
                     if (!(e.ExceptionObject is ThreadAbortException))
                     {
-                        var exceptionMessage = ((Exception)e.ExceptionObject).ToString();
-
-                        Logger.Fatal(exceptionMessage);
-
-                        var message = exceptionMessage + "\n\npress ctrl-c to copy this";
-                        MessageHelper.ShowMessage("unhandled exception!", message);
-                        _app.Quit();
+                        Logger.Fatal(e.ExceptionObject as Exception, "exception occurred, quiting workspacer: " + (e.ExceptionObject as Exception).ToString());
+                        _app.QuitWithException(e.ExceptionObject as Exception);
                     }
                 });
 #endif
