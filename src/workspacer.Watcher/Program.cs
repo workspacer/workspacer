@@ -5,19 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 
 namespace workspacer.Watcher
 {
     class Program
     {
+        static bool IsRunning = true;
+
         static void Main(string[] args)
         {
             List<long> activeHandles = null;
 
             using (var client = new PipeClient())
             {
-                while (true)
+                while (IsRunning)
                 {
                     string line;
                     line = client.ReadLine();
@@ -29,10 +32,17 @@ namespace workspacer.Watcher
                         switch (response.Action)
                         {
                             case LauncherAction.Quit:
+                                IsRunning = false;
                                 CleanupWindowHandles(activeHandles);
                                 Quit();
                                 break;
+                            case LauncherAction.QuitWithException:
+                                IsRunning = false;
+                                CleanupWindowHandles(activeHandles);
+                                ShowExceptionMessage(response.ExceptionMessage);
+                                break;
                             case LauncherAction.Restart:
+                                IsRunning = false;
                                 CleanupWindowHandles(activeHandles);
                                 Restart();
                                 break;
@@ -47,7 +57,7 @@ namespace workspacer.Watcher
                     catch (Exception e)
                     {
                         CleanupWindowHandles(activeHandles);
-                        Quit();
+                        ShowExceptionMessage(e.ToString());
                     }
                 }
             }
@@ -67,7 +77,7 @@ namespace workspacer.Watcher
 
         static void Quit()
         {
-            Environment.Exit(0);
+            Application.Exit();
         }
 
         static void Restart()
@@ -85,6 +95,16 @@ namespace workspacer.Watcher
             process.Start();
 
             Quit();
+        }
+
+        static void ShowExceptionMessage(string message)
+        {
+            var form = new ExceptionMessage(message);
+
+            form.QuitSelected += Quit;
+            form.RestartSelected += Restart;
+
+            form.ShowDialog();
         }
     }
 }

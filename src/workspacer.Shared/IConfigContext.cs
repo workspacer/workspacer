@@ -27,6 +27,7 @@ namespace workspacer
 
         bool Enabled { get; set; }
         void Quit();
+        void QuitWithException(Exception e);
         void Restart();
     }
 }
