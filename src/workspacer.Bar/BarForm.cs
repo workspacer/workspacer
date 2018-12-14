@@ -38,6 +38,17 @@ namespace workspacer.Bar
             InitializeComponent();
         }
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                // turn on WS_EX_TOOLWINDOW style bit
+                cp.ExStyle |= 0x80;
+                return cp;
+            }
+        }
+
         public void Initialize(IBarWidget[] left, IBarWidget[] right, IConfigContext context)
         {
             _left = new BarSection(false, leftPanel, left, _monitor, context, 
