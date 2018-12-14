@@ -4,6 +4,14 @@ description: "a log of changes"
 type: docs
 ---
 
+# {{<stable-installer-link version="0.9.5">}}
+
+- fixed bug that prevented windows from being fixed after workspacer restarts or quits
+- added better exception message dialog
+- added new keybind to show list of active keybinds (alt-shift-/)
+- moved workspacer.log to the .workspacer folder
+- fixed bug where workspacer.Bar bars would show up in alt-tab
+
 # {{<stable-installer-link version="0.9.4">}}
 
 - more general codebase refactoring, cleaned up a lot of default config boilerplate

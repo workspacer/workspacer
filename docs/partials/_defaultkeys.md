@@ -27,3 +27,7 @@ the default keybindings are:
 | alt-{wer} | focus monitor {123} |
 | alt-shift-{wer} | move focused window to monitor {123} |
 | alt-shift-{1..9} | move focused window to workspace {1..9} |
+| alt-o | dump window debug output for all windows |
+| alt-shift-o | dump window debug output for window under the cursor |
+| alt-shift-i | toggle debug window |
+| alt-shift-/ | toggle keybind dialog |
