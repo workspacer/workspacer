@@ -319,6 +319,7 @@ namespace workspacer
                         if (type == WindowUpdateType.Foreground)
                         {
                             // TODO: show flash for workspace (in bar?)
+                            Logger.Trace("workspace.IsIndicating = true for workspace {0}", workspace);
                             workspace.IsIndicating = true;
                             WorkspaceUpdated?.Invoke();
                         }
