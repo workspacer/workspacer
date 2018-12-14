@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
-namespace workspacer.Watcher
+namespace workspacer.atcher
 {
     class Program
     {
@@ -107,10 +107,11 @@ namespace workspacer.Watcher
 
         static void ShowExceptionMessage(string message)
         {
-            var form = new ExceptionMessage(message);
-
-            form.QuitSelected += Quit;
-            form.RestartSelected += Restart;
+            var form = new TextBlockMessage("workspacer exception", "an exception occurred while running workspacer", message, new List<Tuple<string, Action>>()
+            {
+                new Tuple<string, Action>("quit workspacer", Quit),
+                new Tuple<string, Action>("restart workspacer", Restart),
+            });
 
             form.ShowDialog();
         }
