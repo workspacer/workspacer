@@ -4,67 +4,67 @@ namespace workspacer
 {
     public class Sub
     {
-        private KeyModifiers _mod;
-        private Keys _key;
+        public KeyModifiers Modifiers { get; private set; }
+        public Keys Keys { get; private set; }
 
         public Sub(KeyModifiers mod, Keys key)
         {
-            _mod = mod;
-            _key = key;
+            Modifiers = mod;
+            Keys = key;
         }
 
         public sealed class SubEqualityComparer : IEqualityComparer<Sub>
         {
             bool IEqualityComparer<Sub>.Equals(Sub x, Sub y)
             {
-                if (((x._mod & KeyModifiers.Alt) != KeyModifiers.None ||
-                     (y._mod & KeyModifiers.Alt) != KeyModifiers.None) &&
-                    (x._mod & KeyModifiers.Alt & y._mod) == KeyModifiers.None)
+                if (((x.Modifiers & KeyModifiers.Alt) != KeyModifiers.None ||
+                     (y.Modifiers & KeyModifiers.Alt) != KeyModifiers.None) &&
+                    (x.Modifiers & KeyModifiers.Alt & y.Modifiers) == KeyModifiers.None)
                 {
                     return false;
                 }
-                if (((x._mod & KeyModifiers.Control) != KeyModifiers.None ||
-                     (y._mod & KeyModifiers.Control) != KeyModifiers.None) &&
-                    (x._mod & KeyModifiers.Control & y._mod) == KeyModifiers.None)
+                if (((x.Modifiers & KeyModifiers.Control) != KeyModifiers.None ||
+                     (y.Modifiers & KeyModifiers.Control) != KeyModifiers.None) &&
+                    (x.Modifiers & KeyModifiers.Control & y.Modifiers) == KeyModifiers.None)
                 {
                     return false;
                 }
-                if (((x._mod & KeyModifiers.Shift) != KeyModifiers.None ||
-                     (y._mod & KeyModifiers.Shift) != KeyModifiers.None) &&
-                    (x._mod & KeyModifiers.Shift & y._mod) == KeyModifiers.None)
+                if (((x.Modifiers & KeyModifiers.Shift) != KeyModifiers.None ||
+                     (y.Modifiers & KeyModifiers.Shift) != KeyModifiers.None) &&
+                    (x.Modifiers & KeyModifiers.Shift & y.Modifiers) == KeyModifiers.None)
                 {
                     return false;
                 }
-                if (((x._mod & KeyModifiers.Win) != KeyModifiers.None ||
-                     (y._mod & KeyModifiers.Win) != KeyModifiers.None) &&
-                    (x._mod & KeyModifiers.Win & y._mod) == KeyModifiers.None)
+                if (((x.Modifiers & KeyModifiers.Win) != KeyModifiers.None ||
+                     (y.Modifiers & KeyModifiers.Win) != KeyModifiers.None) &&
+                    (x.Modifiers & KeyModifiers.Win & y.Modifiers) == KeyModifiers.None)
                 {
                     return false;
                 }
-                return x._key == y._key;
+                return x.Keys == y.Keys;
             }
 
             int IEqualityComparer<Sub>.GetHashCode(Sub obj)
             {
                 var modifiers = 0;
-                if ((obj._mod & KeyModifiers.Alt) != KeyModifiers.None)
+                if ((obj.Modifiers & KeyModifiers.Alt) != KeyModifiers.None)
                 {
                     modifiers += 1;
                 }
-                if ((obj._mod & KeyModifiers.Control) != KeyModifiers.None)
+                if ((obj.Modifiers & KeyModifiers.Control) != KeyModifiers.None)
                 {
                     modifiers += 2;
                 }
-                if ((obj._mod & KeyModifiers.Shift) != KeyModifiers.None)
+                if ((obj.Modifiers & KeyModifiers.Shift) != KeyModifiers.None)
                 {
                     modifiers += 4;
                 }
-                if ((obj._mod & KeyModifiers.Win) != KeyModifiers.None)
+                if ((obj.Modifiers & KeyModifiers.Win) != KeyModifiers.None)
                 {
                     modifiers += 8;
                 }
 
-                return modifiers + 256 + (int)obj._key;
+                return modifiers + 256 + (int)obj.Keys;
             }
         }
     }

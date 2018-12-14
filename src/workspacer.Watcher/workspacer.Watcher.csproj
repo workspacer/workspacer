@@ -71,12 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExceptionMessage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExceptionMessage.Designer.cs">
-      <DependentUpon>ExceptionMessage.cs</DependentUpon>
-    </Compile>
     <Compile Include="PipeClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,11 +88,6 @@
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
       <Name>workspacer.Shared</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ExceptionMessage.resx">
-      <DependentUpon>ExceptionMessage.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

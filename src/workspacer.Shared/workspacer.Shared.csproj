@@ -55,6 +55,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -73,6 +74,12 @@
     <Compile Include="Layout\FullLayoutEngine.cs" />
     <Compile Include="Layout\PaneLayoutEngine.cs" />
     <Compile Include="Layout\TallLayoutEngine.cs" />
+    <Compile Include="TextBlockMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextBlockMessage.Designer.cs">
+      <DependentUpon>TextBlockMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\IWindowsDeferPosHandle.cs" />
     <Compile Include="Window\IWindowsManager.cs" />
     <Compile Include="Keybind\IKeybindManager.cs" />
@@ -107,7 +114,14 @@
     <Compile Include="Workspace\WorkspaceState.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TextBlockMessage.resx">
+      <DependentUpon>TextBlockMessage.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
