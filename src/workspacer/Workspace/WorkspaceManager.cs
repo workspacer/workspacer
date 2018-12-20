@@ -67,15 +67,18 @@ namespace workspacer
                 var currentWorkspace = _context.WorkspaceContainer.GetWorkspaceForMonitor(destMonitor);
                 var sourceMonitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(targetWorkspace);
 
-                _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
-                _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
+                if (targetWorkspace != currentWorkspace)
+                {
+                    _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
+                    _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
-                currentWorkspace.DoLayout();
-                targetWorkspace.DoLayout();
+                    currentWorkspace.DoLayout();
+                    targetWorkspace.DoLayout();
 
-                WorkspaceUpdated?.Invoke();
+                    WorkspaceUpdated?.Invoke();
 
-                targetWorkspace.FocusLastFocusedWindow();
+                    targetWorkspace.FocusLastFocusedWindow();
+                }
             }
         }
 
@@ -324,15 +327,14 @@ namespace workspacer
                             WorkspaceUpdated?.Invoke();
                         }
                     }
-                }
 
-                if (type == WindowUpdateType.Move)
-                {
-                    TrySwapWindowToMouse(window);
+                    if (type == WindowUpdateType.Move)
+                    {
+                        TrySwapWindowToMouse(window);
+                    }
+                    _windowsToWorkspaces[window].UpdateWindow(window, type);
+                    WindowUpdated?.Invoke(window, workspace);
                 }
-
-                _windowsToWorkspaces[window].UpdateWindow(window, type);
-                WindowUpdated?.Invoke(window, workspace);
             }
         }
 

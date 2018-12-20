@@ -41,7 +41,7 @@ namespace workspacer
             }
             foreach (var w in _toNormal)
             {
-                Win32.ShowWindow(w.Handle, Win32.SW.SW_RESTORE);
+                Win32.ShowWindow(w.Handle, Win32.SW.SW_SHOWNOACTIVATE);
             }
 
             Win32.EndDeferWindowPos(_info);
