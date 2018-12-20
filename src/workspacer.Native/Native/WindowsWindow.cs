@@ -123,9 +123,9 @@ namespace workspacer
 
         public void Focus()
         {
-            Logger.Debug("[{0}] :: Focus", this);
             if (!IsFocused)
             {
+                Logger.Debug("[{0}] :: Focus", this);
                 Win32Helper.ForceForegroundWindow(_handle);
                 WindowFocused?.Invoke();
             }
