@@ -27,6 +27,7 @@ namespace workspacer
             _filters.Add((window) => window.Process.ProcessName != "LockApp");
             _filters.Add((window) => window.Class != "LockScreenBackstopFrame");
             _filters.Add((window) => window.Process.ProcessName != "PeopleExperienceHost");
+            _filters.Add((window) => window.Class != "Progman");
             _filters.Add((window) => !(window.Process.Id == Process.GetCurrentProcess().Id));
         }
 
