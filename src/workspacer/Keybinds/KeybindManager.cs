@@ -363,7 +363,7 @@ namespace workspacer
             return string.Join("-", parts);
         }
 
-        private void ShowKeybindDialog()
+        public void ShowKeybindDialog()
         {
             if (_keybindDialog == null)
             {
