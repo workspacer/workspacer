@@ -9,6 +9,10 @@ namespace workspacer
     /// <summary>
     /// provides interfaces and methods that allow interaction and configuration of workspacer
     /// </summary>
+    /// <remarks>
+    /// IConfigContext is the center point around which user configuration is written. most
+    /// actions and behaviors that are user customizable are accessed through the config context
+    /// </remarks>
     public interface IConfigContext
     {
         IKeybindManager Keybinds { get; }
