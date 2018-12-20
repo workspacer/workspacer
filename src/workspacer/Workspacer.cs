@@ -35,12 +35,13 @@ namespace workspacer
             _context.ConnectToWatcher();
 
             // init system tray
-            _context.SystemTray.AddToContextMenu("Toggle Enabled/Disabled", () => _context.Enabled = !_context.Enabled);
-            _context.SystemTray.AddToContextMenu("Quit workspacer", () => _context.Quit());
-            _context.SystemTray.AddToContextMenu("Restart workspacer", () => _context.Restart());
+            _context.SystemTray.AddToContextMenu("enable/disable workspacer", () => _context.Enabled = !_context.Enabled);
+            _context.SystemTray.AddToContextMenu("quit workspacer", () => _context.Quit());
+            _context.SystemTray.AddToContextMenu("restart workspacer", () => _context.Restart());
+            _context.SystemTray.AddToContextMenu("show/hide keybind help", () => _context.Keybinds.ShowKeybindDialog());
             if (ConfigHelper.CanCreateExampleConfig())
             {
-                _context.SystemTray.AddToContextMenu("Create example workspacer.config.csx", CreateExampleConfig);
+                _context.SystemTray.AddToContextMenu("create example workspacer.config.csx", CreateExampleConfig);
             }
 
             // init monitors
