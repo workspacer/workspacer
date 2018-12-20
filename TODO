@@ -1,5 +1,0 @@
-- preserve layout state on restart
-- directional focus change?
-- docs on configuration (inline autogen'd docs)
-- tutorial on creating a plugin
-  - workspacer.shared needs to be moved to a nuget package?

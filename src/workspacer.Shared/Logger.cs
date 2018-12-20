@@ -13,7 +13,7 @@ namespace workspacer
 {
     public class Logger
     {
-        public class TextWriterTarget : TargetWithLayout
+        internal class TextWriterTarget : TargetWithLayout
         {
             private TextWriter _writer;
 
@@ -99,6 +99,10 @@ namespace workspacer
             _logger = logger;
         }
 
+        /// <summary>
+        /// create an instance of Logger, using the current class as context
+        /// </summary>
+        /// <returns></returns>
         public static Logger Create()
         {
             var trace = new StackTrace();
