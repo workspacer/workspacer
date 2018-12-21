@@ -16,6 +16,7 @@ namespace workspacer
 
         Process Process { get; }
         string ProcessFileName { get; }
+        string ProcessName { get; }
 
         bool CanLayout { get; }
 
