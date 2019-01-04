@@ -70,8 +70,7 @@ namespace workspacer.Bar.Widgets
 
             return Part(GetDisplayName(workspace, index), GetDisplayColor(workspace, index), backColor, () =>
             {
-                var monitorIndex = Context.Workspaces.Monitors.ToList().IndexOf(Context.Monitor);
-                Context.Workspaces.SwitchMonitorToWorkspace(monitorIndex, index);
+                Context.Workspaces.SwitchMonitorToWorkspace(Context.Monitor.Index, index);
             });
         }
 

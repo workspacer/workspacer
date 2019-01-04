@@ -10,7 +10,7 @@ namespace workspacer.Bar.Widgets
     {
         public override IBarWidgetPart[] GetParts()
         {
-            if (Context.Workspaces.FocusedMonitor == Context.Monitor)
+            if (Context.MonitorContainer.FocusedMonitor == Context.Monitor)
             {
                 return Parts("**********");
             } else

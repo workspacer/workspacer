@@ -44,9 +44,6 @@ namespace workspacer
                 _context.SystemTray.AddToContextMenu("create example workspacer.config.csx", CreateExampleConfig);
             }
 
-            // init monitors
-            _context.Workspaces.InitializeMonitors();
-
             // init config
             ConfigHelper.DoConfig(_context);
 
@@ -56,7 +53,7 @@ namespace workspacer
             // verify config
             var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
             // check to make sure there are enough workspaces for the monitors
-            if (_context.Workspaces.Monitors.Count() > allWorkspaces.Count)
+            if (_context.MonitorContainer.NumMonitors > allWorkspaces.Count)
             {
                 throw new Exception("you must specify at least enough workspaces to cover all monitors");
             }

@@ -24,6 +24,8 @@ namespace workspacer
         IWorkspaceContainer WorkspaceContainer { get; set; }
         IWindowRouter WindowRouter { get; set; }
 
+        IMonitorContainer MonitorContainer { get; set; }
+
         /// <summary>
         /// the default layout Func is used to generate layouts for workspaces that do not
         /// specify custom layouts when created

@@ -65,6 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Native\FocusStealer.cs" />
+    <Compile Include="Native\Monitor.cs" />
+    <Compile Include="Native\NativeMonitorContainer.cs" />
     <Compile Include="Native\Win32.cs" />
     <Compile Include="Native\Win32Helper.cs" />
     <Compile Include="Native\Win32\Win32.Long.cs" />

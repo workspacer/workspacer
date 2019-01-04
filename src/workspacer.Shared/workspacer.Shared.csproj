@@ -74,6 +74,7 @@
     <Compile Include="Layout\FullLayoutEngine.cs" />
     <Compile Include="Layout\PaneLayoutEngine.cs" />
     <Compile Include="Layout\TallLayoutEngine.cs" />
+    <Compile Include="Monitor\IMonitorContainer.cs" />
     <Compile Include="TextBlockMessage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,7 +103,7 @@
     <Compile Include="Window\IWindowLocation.cs" />
     <Compile Include="Window\WindowLocation.cs" />
     <Compile Include="Window\WindowState.cs" />
-    <Compile Include="Workspace\IMonitor.cs" />
+    <Compile Include="Monitor\IMonitor.cs" />
     <Compile Include="Workspace\IWindowRouter.cs" />
     <Compile Include="Workspace\IWorkspace.cs" />
     <Compile Include="Workspace\IWorkspaceContainer.cs" />

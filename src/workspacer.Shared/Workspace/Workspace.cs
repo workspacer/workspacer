@@ -54,7 +54,7 @@ namespace workspacer
         {
             if (_lastFocused == window)
             {
-                var windows = _windows.Where(w => w.CanLayout).ToList();
+                var windows = GetWindowsForLayout();
                 var next = windows.Count > 1 ? windows[(windows.IndexOf(window) + 1) % windows.Count] : null;
                 _lastFocused = next;
             }
@@ -76,7 +76,7 @@ namespace workspacer
 
         public void CloseFocusedWindow()
         {
-            var window = this.Windows.FirstOrDefault(w => w.CanLayout && w.IsFocused);
+            var window = GetWindowsForLayout().FirstOrDefault(w => w.IsFocused);
             window?.Close();
         }
 
@@ -125,7 +125,7 @@ namespace workspacer
 
         public void FocusNextWindow()
         {
-            var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            var windows = GetWindowsForLayout();
             var didFocus = false;
             for (var i = 0; i < windows.Count; i++)
             {
@@ -159,7 +159,7 @@ namespace workspacer
 
         public void FocusPreviousWindow()
         {
-            var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            var windows = GetWindowsForLayout();
             var didFocus = false;
             for (var i = 0; i < windows.Count; i++)
             {
@@ -193,7 +193,7 @@ namespace workspacer
 
         public void FocusPrimaryWindow()
         {
-            var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            var windows = GetWindowsForLayout();
             if (windows.Count > 0)
             {
                 windows[0].Focus();
@@ -202,7 +202,7 @@ namespace workspacer
 
         public void SwapFocusAndPrimaryWindow()
         {
-            var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            var windows = GetWindowsForLayout();
             if (windows.Count > 1)
             {
                 var primary = windows[0];
@@ -217,7 +217,7 @@ namespace workspacer
 
         public void SwapFocusAndNextWindow()
         {
-            var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            var windows = GetWindowsForLayout();
             for (var i = 0; i < windows.Count; i++)
             {
                 var window = windows[i];
@@ -238,7 +238,7 @@ namespace workspacer
 
         public void SwapFocusAndPreviousWindow()
         {
-            var windows = this.Windows.Where(w => w.CanLayout).ToList();
+            var windows = GetWindowsForLayout();
             for (var i = 0; i < windows.Count; i++)
             {
                 var window = windows[i];
