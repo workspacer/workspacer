@@ -14,9 +14,6 @@ namespace workspacer
 
     public partial class TextBlockMessage : Form
     {
-        public event ExceptionActionDelegate QuitSelected;
-        public event ExceptionActionDelegate RestartSelected;
-
         public TextBlockMessage(string title, string subtitle, string message, IEnumerable<Tuple<string, Action>> options)
         {
             InitializeComponent();

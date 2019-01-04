@@ -82,8 +82,8 @@ namespace workspacer
                     var threadId = Win32.GetWindowThreadProcessId(_handle, out processId);
                     return Process.GetProcessById((int) processId);
                 }
-                catch (InvalidOperationException e) { return null; }
-                catch (ArgumentException e) { return null; }
+                catch (InvalidOperationException) { return null; }
+                catch (ArgumentException) { return null; }
             }
         }
 
@@ -94,7 +94,7 @@ namespace workspacer
                 try
                 {
                     return Process != null ? Path.GetFileName(Process.MainModule.FileName) : null;
-                } catch (InvalidOperationException e) { return null; }
+                } catch (InvalidOperationException) { return null; }
             }
         }
 
@@ -105,7 +105,7 @@ namespace workspacer
                 try
                 {
                     return Process != null ? Process.ProcessName : null;
-                } catch (InvalidOperationException e) { return null; }
+                } catch (InvalidOperationException) { return null; }
             }
         }
 
