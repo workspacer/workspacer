@@ -19,15 +19,15 @@ namespace workspacer
             _filters = new List<Func<IWindow, bool>>();
             _routes = new List<Func<IWindow, IWorkspace>>();
 
-            _filters.Add((window) => window.Class != "TaskManagerWindow");
-            _filters.Add((window) => window.Class != "MSCTFIME UI");
-            _filters.Add((window) => window.Class != "SHELLDLL_DefView");
-            _filters.Add((window) => window.Process.ProcessName != "SearchUI");
-            _filters.Add((window) => window.Process.ProcessName != "ShellExperienceHost");
-            _filters.Add((window) => window.Process.ProcessName != "LockApp");
-            _filters.Add((window) => window.Class != "LockScreenBackstopFrame");
-            _filters.Add((window) => window.Process.ProcessName != "PeopleExperienceHost");
-            _filters.Add((window) => window.Class != "Progman");
+            IgnoreWindowClass("TaskManagerWindow");
+            IgnoreWindowClass("MSCTFIME UI");
+            IgnoreWindowClass("SHELLDLL_DefView");
+            IgnoreProcessName("SearchUI");
+            IgnoreProcessName("ShellExperienceHost");
+            IgnoreProcessName("LockApp");
+            IgnoreWindowClass("LockScreenBackstopFrame");
+            IgnoreProcessName("PeopleExperienceHost");
+            IgnoreWindowClass("Progman");
             _filters.Add((window) => !(window.Process.Id == Process.GetCurrentProcess().Id));
         }
 
@@ -66,6 +66,34 @@ namespace workspacer
         public void AddRoute(Func<IWindow, IWorkspace> route)
         {
             _routes.Add(route);
+        }
+
+        public void IgnoreWindowClass(string windowClass) { _filters.Add((w) => w.Class != windowClass); }
+        public void IgnoreProcessName(string processName) { _filters.Add((w) => w.ProcessName != processName); }
+
+        private IWorkspace LookupWorkspace(string name)
+        {
+            return _context.WorkspaceContainer[name];
+        }
+
+        public void RouteWindowClass(string windowClass, string workspaceName)
+        {
+            _routes.Add(window => window.Class == windowClass ? LookupWorkspace(workspaceName) : null);
+        }
+
+        public void RouteWindowClass(string windowClass, IWorkspace workspace)
+        {
+            _routes.Add(window => window.Class == windowClass ? workspace : null);
+        }
+
+        public void RouteProcessName(string processName, string workspaceName)
+        {
+            _routes.Add(window => window.ProcessName == processName ? LookupWorkspace(workspaceName) : null);
+        }
+
+        public void RouteProcessName(string processName, IWorkspace workspace)
+        {
+            _routes.Add(window => window.ProcessName == processName ? workspace : null);
         }
     }
 }
