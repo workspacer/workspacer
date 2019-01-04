@@ -10,7 +10,6 @@ namespace workspacer.Bar
 {
     public class BarPlugin : IPlugin
     {
-        private List<BarForm> _bars;
         private BarPluginConfig _config;
 
         public BarPlugin()
