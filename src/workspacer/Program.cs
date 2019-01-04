@@ -52,7 +52,7 @@ namespace workspacer
         {
             _app = new workspacer();
 
-#if DEBUG
+#if !DEBUG
             Thread.GetDomain().UnhandledException += ((s, e) =>
                 {
                     if (!(e.ExceptionObject is ThreadAbortException))
