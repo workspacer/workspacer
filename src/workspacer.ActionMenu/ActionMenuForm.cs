@@ -126,7 +126,7 @@ namespace workspacer.ActionMenu
 
         private void OnLoad(object sender, EventArgs e)
         {
-            var monitor = _context.Workspaces.FocusedMonitor;
+            var monitor = _context.MonitorContainer.FocusedMonitor;
             var width = this.ClientRectangle.Width;
             this.Location = new Point(monitor.X + (monitor.Width / 2) - (width / 2), 0);
             this.textBox.Text = "";
@@ -229,7 +229,7 @@ namespace workspacer.ActionMenu
 
             var labelHeight = this.label.Text != "" ? this.label.Height : 0;
 
-            var monitor = _context.Workspaces.FocusedMonitor;
+            var monitor = _context.MonitorContainer.FocusedMonitor;
             this.listBox.Height = this.listBox.ItemHeight * this.listBox.Items.Count;
             
             this.textBox.Location = new Point(0, labelHeight);

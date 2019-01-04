@@ -30,7 +30,7 @@ namespace workspacer
             _workspaces = new Dictionary<IMonitor, List<IWorkspace>>();
             _orderedWorkspaces = new Dictionary<IMonitor, List<IWorkspace>>();
             _allWorkspaces = new List<IWorkspace>();
-            foreach (var monitor in context.Workspaces.Monitors)
+            foreach (var monitor in context.MonitorContainer.GetAllMonitors())
             {
                 _workspaces[monitor] = new List<IWorkspace>();
                 _orderedWorkspaces[monitor] = new List<IWorkspace>();
@@ -56,7 +56,7 @@ namespace workspacer
 
         public void CreateWorkspace(string name, params ILayoutEngine[] layouts)
         {
-            CreateWorkspace(_context.Workspaces.FocusedMonitor, name, layouts);
+            CreateWorkspace(_context.MonitorContainer.FocusedMonitor, name, layouts);
         }
         
         public void CreateWorkspace(IMonitor monitor, string name, params ILayoutEngine[] layouts)

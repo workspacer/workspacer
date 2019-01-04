@@ -29,7 +29,7 @@ namespace workspacer.Bar
             {
                 var bars = new List<BarForm>();
 
-                foreach (var m in context.Workspaces.Monitors)
+                foreach (var m in context.MonitorContainer.GetAllMonitors())
                 {
                     var bar = new BarForm(m, config);
 

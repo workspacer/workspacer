@@ -13,8 +13,8 @@ namespace workspacer.Bar.Widgets
         public override IBarWidgetPart[] GetParts()
         {
             var window = GetWindow();
-            var isFocusedMonitor = Context.Workspaces.FocusedMonitor == Context.Monitor;
-            var multipleMonitors = Context.Workspaces.Monitors.Count() > 1;
+            var isFocusedMonitor = Context.MonitorContainer.FocusedMonitor == Context.Monitor;
+            var multipleMonitors = Context.MonitorContainer.NumMonitors > 1;
             var color = isFocusedMonitor && multipleMonitors ? MonitorHasFocusColor : null;
 
             if (window != null)

@@ -15,10 +15,7 @@ namespace workspacer
 
     public interface IWorkspaceManager
     {
-        IEnumerable<IMonitor> Monitors { get; }
-
         IWorkspace FocusedWorkspace { get; }
-        IMonitor FocusedMonitor { get; }
 
         void SwitchToWindow(IWindow window);
         void SwitchToWorkspace(int index);

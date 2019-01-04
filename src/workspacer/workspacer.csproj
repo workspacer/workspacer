@@ -190,7 +190,6 @@
     </Compile>
     <Compile Include="SystemTray\SystemTrayManager.cs" />
     <Compile Include="Workspacer.cs" />
-    <Compile Include="Workspace\Monitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Workspace\WorkspaceManager.cs" />

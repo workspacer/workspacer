@@ -10,18 +10,18 @@ namespace workspacer
     public class Monitor : IMonitor
     {
         public int Index { get; private set; }
-        public string Name => _screen.DeviceName;
-        public int Width => _screen.WorkingArea.Width;
-        public int Height => _screen.WorkingArea.Height;
-        public int X => _screen.WorkingArea.X;
-        public int Y => _screen.WorkingArea.Y;
+        public string Name => Screen.DeviceName;
+        public int Width => Screen.WorkingArea.Width;
+        public int Height => Screen.WorkingArea.Height;
+        public int X => Screen.WorkingArea.X;
+        public int Y => Screen.WorkingArea.Y;
 
-        private Screen _screen;
+        public Screen Screen { get; }
 
         public Monitor(int index, Screen screen)
         {
             Index = index;
-            _screen = screen;
+            Screen = screen;
         }
     }
 }
