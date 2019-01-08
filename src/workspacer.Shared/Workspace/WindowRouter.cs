@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace workspacer
@@ -70,6 +71,12 @@ namespace workspacer
 
         public void IgnoreWindowClass(string windowClass) { _filters.Add((w) => w.Class != windowClass); }
         public void IgnoreProcessName(string processName) { _filters.Add((w) => w.ProcessName != processName); }
+        public void IgnoreTitle(string title) { _filters.Add((w) => w.Title != title); }
+        public void IgnoreTitleMatch(string match)
+        {
+            var regex = new Regex(match);
+            _filters.Add((w) => !regex.IsMatch(w.Title));
+        }
 
         private IWorkspace LookupWorkspace(string name)
         {
@@ -94,6 +101,28 @@ namespace workspacer
         public void RouteProcessName(string processName, IWorkspace workspace)
         {
             _routes.Add(window => window.ProcessName == processName ? workspace : null);
+        }
+
+        public void RouteTitle(string title, string workspaceName)
+        {
+            _routes.Add(window => window.Title == title ? LookupWorkspace(workspaceName) : null);
+        }
+
+        public void RouteTitle(string title, IWorkspace workspace)
+        {
+            _routes.Add(window => window.Title == title ? workspace : null);
+        }
+
+        public void RouteTitleMatch(string match, string workspaceName)
+        {
+            var regex = new Regex(match);
+            _routes.Add(window => regex.IsMatch(window.Title) ? LookupWorkspace(workspaceName) : null);
+        }
+
+        public void RouteTitleMatch(string match, IWorkspace workspace)
+        {
+            var regex = new Regex(match);
+            _routes.Add(window => regex.IsMatch(window.Title) ? workspace : null);
         }
     }
 }
