@@ -12,13 +12,15 @@ namespace workspacer
         QuitWithException,
         Restart,
         UpdateHandles,
+        ToggleConsole,
+        Log,
     }
 
     public class LauncherResponse
     {
         public LauncherAction Action { get; set; } 
         
-        public string ExceptionMessage { get; set; }
+        public string Message { get; set; }
         public List<long> ActiveHandles { get; set; }
     }
 }

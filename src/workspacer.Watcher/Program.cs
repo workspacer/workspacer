@@ -16,6 +16,8 @@ namespace workspacer.atcher
 
         static void Main(string[] args)
         {
+            ConsoleHelper.Initialize();
+
             List<long> activeHandles = null;
 
             using (var client = new PipeClient())
@@ -46,7 +48,7 @@ namespace workspacer.atcher
                             case LauncherAction.QuitWithException:
                                 IsRunning = false;
                                 CleanupWindowHandles(activeHandles);
-                                ShowExceptionMessage(response.ExceptionMessage);
+                                ShowExceptionMessage(response.Message);
                                 break;
                             case LauncherAction.Restart:
                                 IsRunning = false;
@@ -55,6 +57,12 @@ namespace workspacer.atcher
                                 break;
                             case LauncherAction.UpdateHandles:
                                 activeHandles = response.ActiveHandles;
+                                break;
+                            case LauncherAction.ToggleConsole:
+                                ToggleConsole();
+                                break;
+                            case LauncherAction.Log:
+                                LogToConsole(response.Message);
                                 break;
                             default:
                                 throw new Exception(
@@ -114,6 +122,16 @@ namespace workspacer.atcher
             });
 
             form.ShowDialog();
+        }
+
+        static void ToggleConsole()
+        {
+            ConsoleHelper.ToggleConsoleWindow();
+        }
+
+        static void LogToConsole(string message)
+        {
+            Console.Write(message);
         }
     }
 }

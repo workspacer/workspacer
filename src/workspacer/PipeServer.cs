@@ -1,41 +1,59 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace workspacer
 {
     public class PipeServer : IDisposable
     {
-        private Process _process;
+        public Process WatcherProcess { get; private set; }
+
+        private SemaphoreSlim _semaphore;
 
         public PipeServer()
         {
-            _process = new Process();
-            _process.StartInfo.FileName = "workspacer.Watcher.exe";
-            _process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+            WatcherProcess = new Process();
+            WatcherProcess.StartInfo.FileName = "workspacer.Watcher.exe";
+            WatcherProcess.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+            _semaphore = new SemaphoreSlim(1);
         }
 
         public void Start()
         {
-            _process.StartInfo.UseShellExecute = false;
-            _process.StartInfo.RedirectStandardInput = true;
-            _process.Start();
+            WatcherProcess.StartInfo.UseShellExecute = false;
+            WatcherProcess.StartInfo.RedirectStandardInput = true;
+            WatcherProcess.Start();
         }
 
         public void Dispose()
         {
-            _process.Close();
-            _process.WaitForExit();
+            WatcherProcess.Close();
+            WatcherProcess.WaitForExit();
         }
 
         public void SendResponse(string response)
         {
-            _process.StandardInput.WriteLine(response);
+            Task.Run(() => Enqueue(() => WatcherProcess.StandardInput.WriteLineAsync(response)));
+        }
+
+        private async Task Enqueue(Func<Task> taskGenerator)
+        {
+            await _semaphore.WaitAsync();
+            try
+            {
+                await taskGenerator();
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
     }
 }

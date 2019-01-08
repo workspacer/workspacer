@@ -21,8 +21,7 @@ namespace workspacer
             FileHelper.EnsureUserWorkspacerPathExists();
 
             // init logging
-            ConsoleHelper.Initialize();
-            Logger.Initialize(FileHelper.GetUserWorkspacerPath(), Console.Out);
+            Logger.Initialize(FileHelper.GetUserWorkspacerPath());
             Logger.Debug("starting workspacer");
 
             // init plugin assembly resolver
@@ -33,6 +32,9 @@ namespace workspacer
 
             // connect to watcher
             _context.ConnectToWatcher();
+
+            // attach console output target
+            Logger.AttachConsoleLogger((str) => _context.SendLogToConsole(str));
 
             // init system tray
             _context.SystemTray.AddToContextMenu("enable/disable workspacer", () => _context.Enabled = !_context.Enabled);
@@ -81,8 +83,8 @@ namespace workspacer
             // notify plugins that config is done
             _context.Plugins.AfterConfig(_context);
 
-            // start focus stealer
-            FocusStealer.Initialize();
+            // start message pump on main thread
+            Application.Run();
         }
 
         public void Quit()
