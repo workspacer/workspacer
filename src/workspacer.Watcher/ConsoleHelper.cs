@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +16,9 @@ namespace workspacer
             Win32.AllocConsole();
             var handle = Win32.GetConsoleWindow();
             Win32.SetWindowPos(handle, Win32.HWND_TOPMOST, 0, 0, 0, 0, Win32.SetWindowPosFlags.IgnoreMove | Win32.SetWindowPosFlags.IgnoreResize);
+
+            Win32.DeleteMenu(Win32.GetSystemMenu(Win32.GetConsoleWindow(), false), Win32.SC_CLOSE, Win32.MF_BYCOMMAND);
+
             Console.Title = "workspacer debug";
 
             OverrideRedirection();
@@ -27,10 +32,10 @@ namespace workspacer
                 var handle = Win32.GetConsoleWindow();
                 if (handle != IntPtr.Zero)
                 {
-
+                    var style = Win32.GetWindowLongPtr(handle, Win32.GWL_STYLE);
+                    return (style & (uint)Win32.WS.WS_VISIBLE) != 0;
                 }
-                var style = Win32.GetWindowLongPtr(handle, Win32.GWL_STYLE);
-                return (style & (uint)Win32.WS.WS_VISIBLE) != 0;
+                return false;
             }
             set
             {

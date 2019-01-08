@@ -176,7 +176,6 @@
     <Compile Include="ConfigContext.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="Config\IConfig.cs" />
-    <Compile Include="ConsoleHelper.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="IManager.cs" />
     <Compile Include="Keybinds\KeybindManager.cs" />
@@ -210,10 +209,6 @@
     <ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj">
       <Project>{d13fd20b-e571-438d-b122-e24bc5a1384f}</Project>
       <Name>workspacer.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\workspacer.Watcher\workspacer.Watcher.csproj">
-      <Project>{020bffa1-e131-44df-9b57-c1284dc80c8a}</Project>
-      <Name>workspacer.Watcher</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -252,7 +247,10 @@ if not exist "$(TargetDir)plugins\workspacer.ActionMenu" mkdir "$(TargetDir)plug
 copy /b/y/v "$(SolutionDir)\src\workspacer.ActionMenu\$(OutDir)workspacer.ActionMenu.dll" "$(TargetDir)plugins\workspacer.ActionMenu\"
 
 if not exist "$(TargetDir)plugins\workspacer.FocusIndicator" mkdir "$(TargetDir)plugins\workspacer.FocusIndicator"
-copy /b/y/v "$(SolutionDir)\src\workspacer.FocusIndicator\$(OutDir)workspacer.FocusIndicator.dll" "$(TargetDir)plugins\workspacer.FocusIndicator\"</PostBuildEvent>
+copy /b/y/v "$(SolutionDir)\src\workspacer.FocusIndicator\$(OutDir)workspacer.FocusIndicator.dll" "$(TargetDir)plugins\workspacer.FocusIndicator\"
+
+copy /b/y/v "$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.exe" "$(TargetDir)"
+copy /b/y/v "$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.pdb" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

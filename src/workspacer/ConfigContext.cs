@@ -64,6 +64,9 @@ namespace workspacer
             Windows.WindowCreated += Workspaces.AddWindow;
             Windows.WindowDestroyed += Workspaces.RemoveWindow;
             Windows.WindowUpdated += Workspaces.UpdateWindow;
+
+            // ignore watcher windows in workspacer
+            WindowRouter.AddFilter((window) => !(window.Process.Id == _pipeServer.WatcherProcess.Id));
         }
 
         public void ConnectToWatcher()
@@ -123,7 +126,21 @@ namespace workspacer
 
         public void ToggleConsoleWindow()
         {
-            ConsoleHelper.ToggleConsoleWindow();
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.ToggleConsole,
+            };
+            SendResponse(response);
+        }
+
+        public void SendLogToConsole(string message)
+        {
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.Log,
+                Message = message,
+            };
+            SendResponse(response);
         }
 
         private void SendResponse(LauncherResponse response)
@@ -161,7 +178,7 @@ namespace workspacer
             var response = new LauncherResponse()
             {
                 Action = LauncherAction.QuitWithException,
-                ExceptionMessage = message,
+                Message = message,
             };
             SendResponse(response);
 

@@ -61,7 +61,7 @@ namespace workspacer
             {
                 if (Win32Helper.IsAppWindow(handle))
                 {
-                    var window = RegisterWindow(handle, false);
+                    RegisterWindow(handle, false);
                 }
                 return true;
             }, IntPtr.Zero);
@@ -202,23 +202,22 @@ namespace workspacer
             return idChild == Win32.CHILDID_SELF && idObject == Win32.OBJID.OBJID_WINDOW && hwnd != IntPtr.Zero;
         }
         
-        private WindowsWindow RegisterWindow(IntPtr handle, bool emitEvent = true)
+        private void RegisterWindow(IntPtr handle, bool emitEvent = true)
         {
             if (!_windows.ContainsKey(handle))
             {
                 var window = new WindowsWindow(handle);
-                window.WindowFocused += () => HandleWindowFocused(window);
-                _windows[handle] = window;
 
-                if (emitEvent)
+                if (!ShouldIgnoreWindow(window))
                 {
-                    HandleWindowAdd(window, true);
-                }
+                    window.WindowFocused += () => HandleWindowFocused(window);
+                    _windows[handle] = window;
 
-                return window;
-            } else
-            {
-                return _windows[handle];
+                    if (emitEvent)
+                    {
+                        HandleWindowAdd(window, true);
+                    }
+                }
             }
         }
 
@@ -333,6 +332,17 @@ namespace workspacer
         private void HandleWindowRemove(WindowsWindow window)
         {
             WindowDestroyed?.Invoke(window);
+        }
+
+        private bool ShouldIgnoreWindow(WindowsWindow window)
+        {
+            var id = -1;
+            try
+            {
+                id = window.Process.Id;
+            } catch (Exception e) { }
+
+            return window.Class == "ConsoleWindowClass" && id == Process.GetCurrentProcess().Id;
         }
     }
 }

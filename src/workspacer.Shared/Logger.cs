@@ -13,31 +13,58 @@ namespace workspacer
 {
     public class Logger
     {
-        internal class TextWriterTarget : TargetWithLayout
+        internal class FuncWriterTarget : TargetWithLayout
         {
-            private TextWriter _writer;
-
-            public TextWriterTarget(TextWriter writer)
+            private Action<string> _func;
+            public Action<string> Func
             {
-                _writer = writer;
+                get
+                {
+                    return _func;
+                }
+                set
+                {
+                    _func = value;
+                    FlushPreBuffer();
+                }
+            }
+            private StringBuilder _preBuffer;
+
+            public FuncWriterTarget()
+            {
+                _preBuffer = new StringBuilder();
                 this.OptimizeBufferReuse = true;
             }
 
             protected override void Write(LogEventInfo logEvent)
             {
-                _writer.Write(this.RenderLogEvent(Layout, logEvent) + "\n");
+                var log = this.RenderLogEvent(Layout, logEvent) + "\n";
+                if (Func != null)
+                {
+                    Func(log);
+                } else
+                {
+                    _preBuffer.Append(log);
+                }
+            }
+
+            private void FlushPreBuffer()
+            {
+                _func(_preBuffer.ToString());
+                _preBuffer.Clear();
             }
         }
 
         private static LoggingConfiguration _config;
-        private static TextWriterTarget _console;
         private static FileTarget _file;
+        private static FuncWriterTarget _console;
 
         private ILogger _logger;
 
-        public static void Initialize(string path, TextWriter writer) {
+        public static void Initialize(string path) {
             _config = new LoggingConfiguration();
-            _console = new TextWriterTarget(writer);
+
+            _console = new FuncWriterTarget();
 
             _file = new FileTarget();
             _file.FileName = Path.Combine(path, "workspacer.log");
@@ -56,6 +83,11 @@ namespace workspacer
             ConsoleLogLevel = LogLevel.Info;
             FileLogLevel = LogLevel.Warn;
 #endif
+        }
+
+        public static void AttachConsoleLogger(Action<string> func)
+        {
+            _console.Func = func;
         }
 
         private static LogLevel _consoleLogLevel;
