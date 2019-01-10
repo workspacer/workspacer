@@ -47,13 +47,13 @@ namespace workspacer
         public IMonitor GetMonitorAtPoint(int x, int y)
         {
             var screen = Screen.FromPoint(new Point(x, y));
-            return _monitors.First(m => m.Screen.DeviceName == screen.DeviceName);
+            return _monitors.FirstOrDefault(m => m.Screen.DeviceName == screen.DeviceName) ?? _monitors[0];
         }
 
         public IMonitor GetMonitorAtRect(int x, int y, int width, int height)
         {
             var screen = Screen.FromRectangle(new Rectangle(x, y, width, height));
-            return _monitors.First(m => m.Screen.DeviceName == screen.DeviceName);
+            return _monitors.FirstOrDefault(m => m.Screen.DeviceName == screen.DeviceName) ?? _monitors[0];
         }
     }
 }
