@@ -369,7 +369,7 @@ namespace workspacer
         public WorkspaceState GetState()
         {
             var workspacesToWindows = new List<List<int>>();
-            var monitorsToWorkspaces = new Dictionary<int, int>();
+            var monitorsToWorkspaces = new List<int>();
 
             var allWorkspaces = _context.WorkspaceContainer.GetAllWorkspaces().ToList();
 
@@ -399,7 +399,7 @@ namespace workspacer
 
                     if (_context.WorkspaceContainer.GetCurrentMonitorForWorkspace(workspace) == monitor)
                     {
-                        monitorsToWorkspaces[i] = j;
+                        monitorsToWorkspaces.Insert(i, j);
                     }
                 }
             }
@@ -424,12 +424,24 @@ namespace workspacer
             _context.MonitorContainer.FocusedMonitor = focusedMonitor;
 
             var mtw = state.MonitorsToWorkspaces;
-            for (var i = 0; i < _context.MonitorContainer.NumMonitors; i++)
+            if (mtw.Count == _context.MonitorContainer.NumMonitors)
             {
-                var workspaceIdx = mtw[i];
-                var workspace = allWorkspaces[workspaceIdx];
-                var monitor = _context.MonitorContainer.GetMonitorAtIndex(i);
-                _context.WorkspaceContainer.AssignWorkspaceToMonitor(workspace, monitor);
+                for (var i = 0; i < _context.MonitorContainer.NumMonitors; i++)
+                {
+                    var workspaceIdx = mtw[i];
+                    var workspace = allWorkspaces[workspaceIdx];
+                    var monitor = _context.MonitorContainer.GetMonitorAtIndex(i);
+                    _context.WorkspaceContainer.AssignWorkspaceToMonitor(workspace, monitor);
+                }
+            }
+            else
+            {
+                for (var i = 0; i < _context.MonitorContainer.NumMonitors; i++)
+                {
+                    var m = _context.MonitorContainer.GetMonitorAtIndex(i);
+                    var w = allWorkspaces[i];
+                    _context.WorkspaceContainer.AssignWorkspaceToMonitor(w, m);
+                }
             }
 
             for (var i = 0; i < wtw.Count; i++)
