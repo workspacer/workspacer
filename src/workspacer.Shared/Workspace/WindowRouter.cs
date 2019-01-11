@@ -29,7 +29,7 @@ namespace workspacer
             IgnoreWindowClass("LockScreenBackstopFrame");
             IgnoreProcessName("PeopleExperienceHost");
             IgnoreWindowClass("Progman");
-            _filters.Add((window) => !(window.Process.Id == Process.GetCurrentProcess().Id));
+            _filters.Add((window) => !(window.ProcessId == Process.GetCurrentProcess().Id));
         }
 
         public IWorkspace RouteWindow(IWindow window, IWorkspace defaultWorkspace = null)

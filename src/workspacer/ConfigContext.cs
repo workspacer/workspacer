@@ -66,7 +66,7 @@ namespace workspacer
             Windows.WindowUpdated += Workspaces.UpdateWindow;
 
             // ignore watcher windows in workspacer
-            WindowRouter.AddFilter((window) => !(window.Process.Id == _pipeServer.WatcherProcess.Id));
+            WindowRouter.AddFilter((window) => !(window.ProcessId == _pipeServer.WatcherProcess.Id));
         }
 
         public void ConnectToWatcher()

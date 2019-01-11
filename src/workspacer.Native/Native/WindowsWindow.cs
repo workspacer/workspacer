@@ -87,6 +87,17 @@ namespace workspacer
             }
         }
 
+        public int ProcessId
+        {
+            get
+            {
+                try
+                {
+                    return Process != null ? Process.Id : -1;
+                } catch (InvalidOperationException) { return -1; }
+            }
+        }
+
         public string ProcessFileName
         {
             get

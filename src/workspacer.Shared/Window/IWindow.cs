@@ -14,7 +14,7 @@ namespace workspacer
         string Class { get; }
         IWindowLocation Location { get; }
 
-        Process Process { get; }
+        int ProcessId { get; }
         string ProcessFileName { get; }
         string ProcessName { get; }
 

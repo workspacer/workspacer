@@ -146,8 +146,8 @@ namespace workspacer
             builder.AppendLine($"window.Handle                    = {window.Handle}");
             builder.AppendLine($"window.Title                     = \"{window.Title}\"");
             builder.AppendLine($"window.Class                     = \"{window.Class}\"");
-            builder.AppendLine($"window.Process.Id                = {window.Process.Id}");
-            builder.AppendLine($"window.Process.ProcessName       = \"{window.Process.ProcessName}\"");
+            builder.AppendLine($"window.ProcessId                 = {window.ProcessId}");
+            builder.AppendLine($"window.ProcessName               = \"{window.ProcessName}\"");
             builder.AppendLine($"window.ProcessFileName           = \"{window.ProcessFileName}\"");
             builder.AppendLine("#############################");
 
