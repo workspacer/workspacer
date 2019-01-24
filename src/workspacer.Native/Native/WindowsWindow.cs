@@ -23,9 +23,31 @@ namespace workspacer
 
         public WindowFocusedDelegate WindowFocused;
 
+        private int _processId;
+        private string _processName;
+        private string _processFileName;
+
         public WindowsWindow(IntPtr handle)
         {
             _handle = handle;
+
+            try
+            {
+                uint processId;
+                Win32.GetWindowThreadProcessId(_handle, out processId);
+
+                _processId = (int)processId;
+
+                var process = Process.GetProcesses().FirstOrDefault(p => p.Id == _processId);
+                _processName = process.ProcessName;
+                _processFileName = Path.GetFileName(process.MainModule.FileName);
+            }
+            catch (Exception)
+            {
+                _processId = -1;
+                _processName = "";
+                _processFileName = "";
+            }
         }
 
         public bool DidManualHide => _didManualHide;
@@ -72,53 +94,9 @@ namespace workspacer
             }
         }
 
-        public Process Process
-        {
-            get
-            {
-                try
-                {
-                    uint processId;
-                    var threadId = Win32.GetWindowThreadProcessId(_handle, out processId);
-                    return Process.GetProcessById((int) processId);
-                }
-                catch (InvalidOperationException) { return null; }
-                catch (ArgumentException) { return null; }
-            }
-        }
-
-        public int ProcessId
-        {
-            get
-            {
-                try
-                {
-                    return Process != null ? Process.Id : -1;
-                } catch (InvalidOperationException) { return -1; }
-            }
-        }
-
-        public string ProcessFileName
-        {
-            get
-            {
-                try
-                {
-                    return Process != null ? Path.GetFileName(Process.MainModule.FileName) : null;
-                } catch (InvalidOperationException) { return null; }
-            }
-        }
-
-        public string ProcessName
-        {
-            get
-            {
-                try
-                {
-                    return Process != null ? Process.ProcessName : null;
-                } catch (InvalidOperationException) { return null; }
-            }
-        }
+        public int ProcessId => _processId;
+        public string ProcessFileName => _processFileName;
+        public string ProcessName => _processName;
 
         public bool CanLayout
         {
@@ -207,7 +185,7 @@ namespace workspacer
 
         public override string ToString()
         {
-            return $"[{Handle}][{Title}][{Class}][{Process.ProcessName}]";
+            return $"[{Handle}][{Title}][{Class}][{ProcessName}]";
         }
     }
 }

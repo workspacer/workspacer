@@ -339,7 +339,7 @@ namespace workspacer
             var id = -1;
             try
             {
-                id = window.Process.Id;
+                id = window.ProcessId;
             } catch (Exception e) { }
 
             return window.Class == "ConsoleWindowClass" && id == Process.GetCurrentProcess().Id;
