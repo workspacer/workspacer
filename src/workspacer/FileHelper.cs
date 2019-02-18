@@ -11,7 +11,7 @@ namespace workspacer
     {
         public static string GetUserWorkspacerPath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "workspacer");
         }
 
         public static void EnsureUserWorkspacerPathExists()
