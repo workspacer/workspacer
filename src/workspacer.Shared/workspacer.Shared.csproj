@@ -72,6 +72,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="IConfigContext.cs" />
     <Compile Include="Layout\FullLayoutEngine.cs" />
+    <Compile Include="Layout\GoldenLayoutEngine.cs" />
     <Compile Include="Layout\PaneLayoutEngine.cs" />
     <Compile Include="Layout\TallLayoutEngine.cs" />
     <Compile Include="Monitor\IMonitorContainer.cs" />

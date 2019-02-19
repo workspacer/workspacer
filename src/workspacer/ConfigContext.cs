@@ -45,6 +45,7 @@ namespace workspacer
 
             _defaultLayouts = () => new ILayoutEngine[] {
                 new TallLayoutEngine(),
+                new GoldenLayoutEngine(),
                 new FullLayoutEngine()
             };
             _layoutProxies = new List<Func<ILayoutEngine, ILayoutEngine>>();
