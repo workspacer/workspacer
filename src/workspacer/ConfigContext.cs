@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using workspacer.Shared.Layout;
 
 namespace workspacer
 {
@@ -45,7 +46,8 @@ namespace workspacer
 
             _defaultLayouts = () => new ILayoutEngine[] {
                 new TallLayoutEngine(),
-                new FullLayoutEngine()
+                new FullLayoutEngine(),
+                new VerticalLayoutEngine() 
             };
             _layoutProxies = new List<Func<ILayoutEngine, ILayoutEngine>>();
 
