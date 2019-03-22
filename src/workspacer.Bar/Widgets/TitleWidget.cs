@@ -39,7 +39,7 @@ namespace workspacer.Bar.Widgets
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             return currentWorkspace.FocusedWindow ??
                    currentWorkspace.LastFocusedWindow ??
-                   currentWorkspace.Windows.FirstOrDefault(w => w.CanLayout);
+                   currentWorkspace.Windows.FirstOrDefault(w => w?.CanLayout ?? false);
         }
 
         private void RefreshAddRemove(IWindow window, IWorkspace workspace)
