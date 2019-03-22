@@ -74,7 +74,7 @@
     <Compile Include="Layout\FullLayoutEngine.cs" />
     <Compile Include="Layout\PaneLayoutEngine.cs" />
     <Compile Include="Layout\TallLayoutEngine.cs" />
-    <Compile Include="Layout\VerticalLayoutEngine.cs" />
+    <Compile Include="Layout\VerticalTiledEngine.cs" />
     <Compile Include="Monitor\IMonitorContainer.cs" />
     <Compile Include="TextBlockMessage.cs">
       <SubType>Form</SubType>
