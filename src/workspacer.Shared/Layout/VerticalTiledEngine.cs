@@ -33,17 +33,15 @@ namespace workspacer.Shared.Layout
             var numWindows = windowList.Count;
 
             if (numWindows == 0)
+            {
                 return locationList;
+            }
 
             var numInPrimary = Math.Min(GetNumInPrimary(), numWindows);
             var numInSecondary = numWindows - numInPrimary;
 			var primaryWidth = spaceWidth;
 
             int CalcHeight(int mon, int n) => (int)(mon * (_maxRows == n + 1 ? 1 : _primaryPercent + _primaryPercentOffset));
-
-            //var primaryHeight = CalcHeight(spaceHeight, 0);
-            //var remainingHeight = spaceHeight - primaryHeight;
-
 
             var primaryHeight = 0;
             var remainingHeight = spaceHeight;
@@ -92,7 +90,7 @@ namespace workspacer.Shared.Layout
                 secondaryIndex.Add(new LayoutLocation {X = horizontalIndex, Y = verticalIndex, W = width});
             }
 
-            if (numInSecondary == 0)
+            if (numInSecondary <= 0)
             {
                 return locationList;
             }
