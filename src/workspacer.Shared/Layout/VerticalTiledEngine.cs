@@ -39,17 +39,21 @@ namespace workspacer.Shared.Layout
             var numInSecondary = numWindows - numInPrimary;
 			var primaryWidth = spaceWidth;
 
-            var primaryHeight = (int)((spaceHeight * (_primaryPercent + _primaryPercentOffset)) / Math.Max(numInPrimary, 1));
-            var remainingHeight = spaceHeight - primaryHeight;
+            int CalcHeight(int mon, int n) => (int)(mon * (_maxRows == n + 1 ? 1 : _primaryPercent + _primaryPercentOffset));
 
-            if (numWindows == 1 && numInPrimary >= 1)
-            {
-                primaryHeight = spaceHeight;
-            }
+            //var primaryHeight = CalcHeight(spaceHeight, 0);
+            //var remainingHeight = spaceHeight - primaryHeight;
 
+
+            var primaryHeight = 0;
+            var remainingHeight = spaceHeight;
+            var primaryHeightOffset = 0;
             for (var i = 0; i < numInPrimary; ++i)
             {
-               locationList.Add(new WindowLocation(0, i * primaryHeight, primaryWidth, primaryHeight, WindowState.Normal));
+               primaryHeight = CalcHeight(remainingHeight, i);
+               remainingHeight -= primaryHeight;
+               locationList.Add(new WindowLocation(0, primaryHeightOffset, primaryWidth, primaryHeight, WindowState.Normal));
+               primaryHeightOffset += primaryHeight;
             }
 
             var rowsAvailable = _maxRows - numInPrimary;
@@ -88,6 +92,11 @@ namespace workspacer.Shared.Layout
                 secondaryIndex.Add(new LayoutLocation {X = horizontalIndex, Y = verticalIndex, W = width});
             }
 
+            if (numInSecondary == 0)
+            {
+                return locationList;
+            }
+
             var secondaryHeight = numInSecondary > rowsAvailable
                     ? remainingHeight / rowsAvailable
                     : remainingHeight / numInSecondary;
@@ -95,7 +104,7 @@ namespace workspacer.Shared.Layout
             foreach (var idx in secondaryIndex)
             {
                 var horizontalPosition = idx.X * idx.W;
-                var verticalPosition = (numInPrimary * primaryHeight) + (idx.Y * secondaryHeight);
+                var verticalPosition = primaryHeightOffset + (idx.Y * secondaryHeight);
                 locationList.Add(new WindowLocation(horizontalPosition, verticalPosition, idx.W, secondaryHeight, WindowState.Normal));
             }
 
