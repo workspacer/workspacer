@@ -216,7 +216,15 @@ namespace workspacer
 
         private void HandleDisplaySettingsChanged(object sender, EventArgs e)
         {
-            Restart();
+            SaveState();
+            var response = new LauncherResponse()
+            {
+                Action = LauncherAction.RestartWithMessage,
+                Message = "A display settings change has been detected, which has automatically disabled workspacer. Press 'restart' when ready.",
+            };
+            SendResponse(response);
+
+            CleanupAndExit();
         }
 
         public bool Enabled
