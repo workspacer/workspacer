@@ -11,6 +11,7 @@ namespace workspacer
         Quit,
         QuitWithException,
         Restart,
+        RestartWithMessage,
         UpdateHandles,
         ToggleConsole,
         Log,

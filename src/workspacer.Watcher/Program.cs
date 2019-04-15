@@ -55,6 +55,11 @@ namespace workspacer.atcher
                                 CleanupWindowHandles(activeHandles);
                                 Restart();
                                 break;
+                            case LauncherAction.RestartWithMessage:
+                                IsRunning = false;
+                                CleanupWindowHandles(activeHandles);
+                                ShowRestartMessage(response.Message);
+                                break;
                             case LauncherAction.UpdateHandles:
                                 activeHandles = response.ActiveHandles;
                                 break;
@@ -119,6 +124,16 @@ namespace workspacer.atcher
             {
                 new Tuple<string, Action>("quit workspacer", Quit),
                 new Tuple<string, Action>("restart workspacer", Restart),
+            });
+
+            form.ShowDialog();
+        }
+
+        static void ShowRestartMessage(string message)
+        {
+            var form = new TextBlockMessage("workspacer", "workspacer will be restarted", message, new List<Tuple<string, Action>>()
+            {
+                new Tuple<string, Action>("restart", Restart),
             });
 
             form.ShowDialog();
