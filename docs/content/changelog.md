@@ -4,6 +4,20 @@ description: "a log of changes"
 type: docs
 ---
 
+# {{<stable-installer-link version="0.9.6">}}
+
+- added more default filters to remove Win10 shell/explorer windows
+- added slightly more documentation (although, a lot more is needed)
+- improved handling of focus for minimized -> normal state changes
+- fixed several bugs that were caused by a window's process dying in the middle of routing
+- added IMonitorContainer, which supports implementing virtual monitors
+- fixed exception dialog
+- added a few helpers to the WindowRouter
+- fixed handling of monitor changes across restarts breaking the "reload" state
+- improved Process interface in IWindow, to prevent "process death" race conditions
+- improved FocusStealer to use new keybd_event hack
+- added dialog when restarting due to monitor state change, to prevent loops
+
 # {{<stable-installer-link version="0.9.5">}}
 
 - fixed bug that prevented windows from being fixed after workspacer restarts or quits
