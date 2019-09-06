@@ -29,6 +29,7 @@ namespace workspacer
             IgnoreWindowClass("LockScreenBackstopFrame");
             IgnoreProcessName("PeopleExperienceHost");
             IgnoreWindowClass("Progman");
+            IgnoreProcessName("StartMenuExperienceHost");
             _filters.Add((window) => !(window.ProcessId == Process.GetCurrentProcess().Id));
         }
 
