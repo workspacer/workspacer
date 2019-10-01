@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace workspacer
 {
-    public interface ISystemTrayManager
+    public interface ISystemTrayManager : IDisposable
     {
         void AddToContextMenu(string text, Action handler);
         void Destroy();
