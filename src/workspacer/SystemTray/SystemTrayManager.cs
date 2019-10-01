@@ -28,7 +28,25 @@ namespace workspacer
 
         public void Destroy()
         {
-            _icon.Visible = false;
+            this.Dispose();
+        }
+
+        public void Dispose()
+        {
+            var icon = _icon;
+            if (icon != null)
+            {
+                _icon = null;
+                icon.Visible = false;
+                icon.Dispose();
+            }
+
+            var strip = _strip;
+            if (strip != null)
+            {
+                _strip = null;
+                strip.Dispose();
+            }
         }
     }
 }
