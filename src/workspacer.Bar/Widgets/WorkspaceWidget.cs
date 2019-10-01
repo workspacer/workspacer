@@ -95,7 +95,7 @@ namespace workspacer.Bar.Widgets
                 return WorkspaceHasFocusColor;
             }
 
-            var hasWindows = workspace.Windows.Any(w => w.CanLayout);
+            var hasWindows = workspace.ManagedWindows.Count != 0;
             return hasWindows ? null : WorkspaceEmptyColor;
         }
 

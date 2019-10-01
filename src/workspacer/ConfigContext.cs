@@ -206,10 +206,8 @@ namespace workspacer
             var list = new List<IntPtr>();
             foreach (var ws in WorkspaceContainer.GetAllWorkspaces())
             {
-                foreach (var w in ws.Windows.Where(w => w.CanLayout))
-                {
-                    list.Add(w.Handle);
-                }
+                var handles = ws.ManagedWindows.Select(i => i.Handle);
+                list.AddRange(handles);
             }
             return list;
         }
