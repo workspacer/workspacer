@@ -12,6 +12,7 @@ namespace workspacer
         private static Logger Logger = Logger.Create();
 
         public IEnumerable<IWindow> Windows => _windows;
+        public IList<IWindow> ManagedWindows => _windows.Where(w => w.CanLayout).ToList();
         public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
         public IWindow LastFocusedWindow => _lastFocused;
         public string Name { get; }
@@ -52,7 +53,7 @@ namespace workspacer
         {
             if (_lastFocused == window)
             {
-                var windows = GetWindowsForLayout();
+                var windows = ManagedWindows;
                 var next = windows.Count > 1 ? windows[(windows.IndexOf(window) + 1) % windows.Count] : null;
                 _lastFocused = next;
             }
@@ -74,7 +75,7 @@ namespace workspacer
 
         public void CloseFocusedWindow()
         {
-            var window = GetWindowsForLayout().FirstOrDefault(w => w.IsFocused);
+            var window = ManagedWindows.FirstOrDefault(w => w.IsFocused);
             window?.Close();
         }
 
@@ -123,7 +124,7 @@ namespace workspacer
 
         public void FocusNextWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             var didFocus = false;
             for (var i = 0; i < windows.Count; i++)
             {
@@ -157,7 +158,7 @@ namespace workspacer
 
         public void FocusPreviousWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             var didFocus = false;
             for (var i = 0; i < windows.Count; i++)
             {
@@ -191,16 +192,13 @@ namespace workspacer
 
         public void FocusPrimaryWindow()
         {
-            var windows = GetWindowsForLayout();
-            if (windows.Count > 0)
-            {
-                windows[0].Focus();
-            }
+            var window = ManagedWindows.FirstOrDefault();
+            window?.Focus();
         }
 
         public void SwapFocusAndPrimaryWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             if (windows.Count > 1)
             {
                 var primary = windows[0];
@@ -215,7 +213,7 @@ namespace workspacer
 
         public void SwapFocusAndNextWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             for (var i = 0; i < windows.Count; i++)
             {
                 var window = windows[i];
@@ -236,7 +234,7 @@ namespace workspacer
 
         public void SwapFocusAndPreviousWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             for (var i = 0; i < windows.Count; i++)
             {
                 var window = windows[i];
@@ -280,7 +278,7 @@ namespace workspacer
 
         public void SwapWindowToPoint(IWindow window, int x, int y)
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             if (windows.Contains(window))
             {
                 var index = GetLayoutSlotIndexForPoint(x, y);
@@ -325,7 +323,7 @@ namespace workspacer
 
         private IEnumerable<IWindowLocation> CalcLayout()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
             if (monitor != null)
             {
@@ -336,7 +334,7 @@ namespace workspacer
 
         public void DoLayout()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows.ToList();
             if (_context.Enabled)
             {
                 var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
@@ -373,11 +371,6 @@ namespace workspacer
             {
                 windows.ForEach(w => w.ShowInCurrentState());
             }
-        }
-
-        private List<IWindow> GetWindowsForLayout()
-        {
-            return this.Windows.Where(w => w.CanLayout).ToList();
         }
 
         public override string ToString()
