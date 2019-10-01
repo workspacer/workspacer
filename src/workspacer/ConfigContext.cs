@@ -261,7 +261,7 @@ namespace workspacer
             }
         }
 
-        private object GetState()
+        private WorkspacerState GetState()
         {
             var state = new WorkspacerState()
             {
