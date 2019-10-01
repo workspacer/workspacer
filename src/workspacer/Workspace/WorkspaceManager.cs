@@ -174,7 +174,7 @@ namespace workspacer
 
             if (window != null && targetWorkspace != null)
             {
-                var windows = FocusedWorkspace.Windows.Where(w => w.CanLayout);
+                var windows = FocusedWorkspace.ManagedWindows;
                 // get next window
                 var nextWindow = windows.SkipWhile(x => x != window).Skip(1).FirstOrDefault();
                 if (nextWindow == null)
@@ -205,7 +205,7 @@ namespace workspacer
 
             if (window != null && targetWorkspace != null)
             {
-                var windows = FocusedWorkspace.Windows.Where(w => w.CanLayout);
+                var windows = FocusedWorkspace.ManagedWindows;
                 // get next window
                 var nextWindow = windows.SkipWhile(x => x != window).Skip(1).FirstOrDefault();
                 if (nextWindow == null)
