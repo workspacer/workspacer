@@ -8,13 +8,32 @@ namespace workspacer
 {
     public class Color : IEquatable<Color>
     {
-        public int R { get; }
-        public int G { get; }
-        public int B { get; }
+        public byte R { get; }
+        public byte G { get; }
+        public byte B { get; }
+
+        public Color(byte r, byte g, byte b)
+        {
+            R = r; G = g; B = b;
+        }
 
         public Color(int r, int g, int b)
         {
-            R = r; G = g; B = b;
+            ValidateRange(r, nameof(r));
+            ValidateRange(g, nameof(g));
+            ValidateRange(b, nameof(b));
+
+            R = (byte)r;
+            G = (byte)g;
+            B = (byte)b;
+        }
+
+        private void ValidateRange(int value, string name)
+        {
+            if (value < 0 || value > 255)
+            {
+                throw new ArgumentOutOfRangeException(name, "Color-component must be within 8-bit range!");
+            }
         }
 
         public static readonly Color White =     new Color(0xFF, 0xFF, 0xFF);
