@@ -70,10 +70,7 @@ namespace workspacer
 
         public override int GetHashCode()
         {
-            int hash = 13;
-            hash = (hash * 7) + R.GetHashCode();
-            hash = (hash * 7) + B.GetHashCode();
-            hash = (hash * 7) + G.GetHashCode();
+            int hash = (((R * 256) + B) * 256) + G;
             return hash;
         }
     }
