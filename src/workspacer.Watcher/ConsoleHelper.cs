@@ -33,7 +33,7 @@ namespace workspacer
                 if (handle != IntPtr.Zero)
                 {
                     var style = Win32.GetWindowLongPtr(handle, Win32.GWL_STYLE);
-                    return (style & (uint)Win32.WS.WS_VISIBLE) != 0;
+                    return ((uint)style & (uint)Win32.WS.WS_VISIBLE) != 0;
                 }
                 return false;
             }
