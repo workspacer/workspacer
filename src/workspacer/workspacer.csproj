@@ -177,7 +177,6 @@
     <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="FileHelper.cs" />
-    <Compile Include="IManager.cs" />
     <Compile Include="Keybinds\KeybindManager.cs" />
     <Compile Include="Keybinds\Sub.cs" />
     <Compile Include="PipeServer.cs" />
