@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace workspacer
 {
-    public class WorkspaceManager : IManager, IWorkspaceManager
+    public class WorkspaceManager : IWorkspaceManager
     {
         private static Logger Logger = Logger.Create();
 
