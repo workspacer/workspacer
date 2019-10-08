@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer", "src\workspacer\workspacer.csproj", "{D89294E0-EB76-440E-835C-CCD1E4CF6933}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.ActionMenu", "src\workspacer.ActionMenu\workspacer.ActionMenu.csproj", "{96EFD655-F7D0-4365-AE52-CC424007A3C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.FocusIndicator", "src\workspacer.FocusIndicator\workspacer.FocusIndicator.csproj", "{E7F2E1A7-2771-4924-A8D8-20761188D6F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Shared.Tests", "src\workspacer.Shared.Tests\workspacer.Shared.Tests.csproj", "{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,18 @@ Global
 		{E7F2E1A7-2771-4924-A8D8-20761188D6F4}.Release|x64.Build.0 = Release|x64
 		{E7F2E1A7-2771-4924-A8D8-20761188D6F4}.Release|x86.ActiveCfg = Release|Any CPU
 		{E7F2E1A7-2771-4924-A8D8-20761188D6F4}.Release|x86.Build.0 = Release|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Debug|x64.Build.0 = Debug|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Debug|x86.Build.0 = Debug|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|x64.Build.0 = Release|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|x86.ActiveCfg = Release|Any CPU
+		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
