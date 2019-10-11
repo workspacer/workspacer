@@ -95,33 +95,33 @@ namespace workspacer
         {
             var location = Control.MousePosition;
             var handle = Win32.WindowFromPoint(location);
-            if (_windows.ContainsKey(handle))
-            {
-                var window = _windows[handle];
-                var output = GenerateWindowDebugOutput(window);
-                OpenDebugOutput(output);
-            }
+            if (!_windows.ContainsKey(handle))
+                return;
+
+            var window = _windows[handle];
+            var output = GenerateWindowDebugOutput(window);
+            OpenDebugOutput(output);
         }
 
         public void ToggleFocusedWindowTiling()
         {
             var window = _windows.Values.FirstOrDefault(w => w.IsFocused);
 
-            if (window != null)
+            if (window == null)
+                return;
+
+            if (_floating.ContainsKey(window))
             {
-                if (_floating.ContainsKey(window))
-                {
-                    _floating.Remove(window);
-                    HandleWindowAdd(window, false);
-                }
-                else
-                {
-                    _floating[window] = true;
-                    HandleWindowRemove(window);
-                    window.BringToTop();
-                }
-                window.Focus();
+                _floating.Remove(window);
+                HandleWindowAdd(window, false);
             }
+            else
+            {
+                _floating[window] = true;
+                HandleWindowRemove(window);
+                window.BringToTop();
+            }
+            window.Focus();
         }
 
         private IntPtr MouseHook(int nCode, UIntPtr wParam, IntPtr lParam)
@@ -156,44 +156,44 @@ namespace workspacer
 
         private void WindowHook(IntPtr hWinEventHook, Win32.EVENT_CONSTANTS eventType, IntPtr hwnd, Win32.OBJID idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
-            if (EventWindowIsValid(idChild, idObject, hwnd))
+            if (!EventWindowIsValid(idChild, idObject, hwnd))
+                return;
+
+            switch (eventType)
             {
-                switch (eventType)
-                {
-                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_SHOW:
-                        RegisterWindow(hwnd);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_DESTROY:
-                        UnregisterWindow(hwnd);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_CLOAKED:
-                        UpdateWindow(hwnd, WindowUpdateType.Hide);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_UNCLOAKED:
-                        UpdateWindow(hwnd, WindowUpdateType.Show);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZESTART:
-                        UpdateWindow(hwnd, WindowUpdateType.MinimizeStart);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZEEND:
-                        UpdateWindow(hwnd, WindowUpdateType.MinimizeEnd);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND:
-                        UpdateWindow(hwnd, WindowUpdateType.Foreground);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE:
-                        UpdateWindow(hwnd, WindowUpdateType.TitleChange);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART:
-                        StartWindowMove(hwnd);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZEEND:
-                        EndWindowMove(hwnd);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE:
-                        WindowMove(hwnd);
-                        break;
-                }
+                case Win32.EVENT_CONSTANTS.EVENT_OBJECT_SHOW:
+                    RegisterWindow(hwnd);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_OBJECT_DESTROY:
+                    UnregisterWindow(hwnd);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_OBJECT_CLOAKED:
+                    UpdateWindow(hwnd, WindowUpdateType.Hide);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_OBJECT_UNCLOAKED:
+                    UpdateWindow(hwnd, WindowUpdateType.Show);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZESTART:
+                    UpdateWindow(hwnd, WindowUpdateType.MinimizeStart);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZEEND:
+                    UpdateWindow(hwnd, WindowUpdateType.MinimizeEnd);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND:
+                    UpdateWindow(hwnd, WindowUpdateType.Foreground);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE:
+                    UpdateWindow(hwnd, WindowUpdateType.TitleChange);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART:
+                    StartWindowMove(hwnd);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZEEND:
+                    EndWindowMove(hwnd);
+                    break;
+                case Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE:
+                    WindowMove(hwnd);
+                    break;
             }
         }
 
@@ -201,34 +201,34 @@ namespace workspacer
         {
             return idChild == Win32.CHILDID_SELF && idObject == Win32.OBJID.OBJID_WINDOW && hwnd != IntPtr.Zero;
         }
-        
+
         private void RegisterWindow(IntPtr handle, bool emitEvent = true)
         {
-            if (!_windows.ContainsKey(handle))
+            if (_windows.ContainsKey(handle))
+                return;
+
+            var window = new WindowsWindow(handle);
+
+            if (ShouldIgnoreWindow(window))
+                return;
+
+            window.WindowFocused += () => HandleWindowFocused(window);
+            _windows[handle] = window;
+
+            if (emitEvent)
             {
-                var window = new WindowsWindow(handle);
-
-                if (!ShouldIgnoreWindow(window))
-                {
-                    window.WindowFocused += () => HandleWindowFocused(window);
-                    _windows[handle] = window;
-
-                    if (emitEvent)
-                    {
-                        HandleWindowAdd(window, true);
-                    }
-                }
+                HandleWindowAdd(window, true);
             }
         }
 
         private void UnregisterWindow(IntPtr handle)
         {
-            if (_windows.ContainsKey(handle))
-            {
-                var window = _windows[handle];
-                _windows.Remove(handle);
-                HandleWindowRemove(window);
-            }
+            if (!_windows.ContainsKey(handle))
+                return;
+
+            var window = _windows[handle];
+            _windows.Remove(handle);
+            HandleWindowRemove(window);
         }
 
         private void UpdateWindow(IntPtr handle, WindowUpdateType type)
@@ -248,7 +248,8 @@ namespace workspacer
                 if (!window.DidManualHide)
                 {
                     UnregisterWindow(handle);
-                } else
+                }
+                else
                 {
                     WindowUpdated?.Invoke(window, type);
                 }
@@ -262,37 +263,37 @@ namespace workspacer
 
         private void StartWindowMove(IntPtr handle)
         {
-            if (_windows.ContainsKey(handle))
-            {
-                var window = _windows[handle];
-                Logger.Debug("StartWindowMove[{0}]", window);
+            if (!_windows.ContainsKey(handle))
+                return;
 
-                HandleWindowMoveStart(window);
-                WindowUpdated?.Invoke(window, WindowUpdateType.MoveStart);
-            }
+            var window = _windows[handle];
+            Logger.Debug("StartWindowMove[{0}]", window);
+
+            HandleWindowMoveStart(window);
+            WindowUpdated?.Invoke(window, WindowUpdateType.MoveStart);
         }
 
         private void EndWindowMove(IntPtr handle)
         {
-            if (_windows.ContainsKey(handle))
-            {
-                var window = _windows[handle];
-                Logger.Debug("EndWindowMove[{0}]", window);
+            if (!_windows.ContainsKey(handle))
+                return;
 
-                HandleWindowMoveEnd();
-                WindowUpdated?.Invoke(window, WindowUpdateType.MoveEnd);
-            }
+            var window = _windows[handle];
+            Logger.Debug("EndWindowMove[{0}]", window);
+
+            HandleWindowMoveEnd();
+            WindowUpdated?.Invoke(window, WindowUpdateType.MoveEnd);
         }
 
         private void WindowMove(IntPtr handle)
         {
-            if (_mouseMoveWindow != null && _windows.ContainsKey(handle))
+            if (_mouseMoveWindow == null || !_windows.ContainsKey(handle))
+                return;
+
+            var window = _windows[handle];
+            if (_mouseMoveWindow == window)
             {
-                var window = _windows[handle];
-                if (_mouseMoveWindow == window)
-                {
-                    WindowUpdated?.Invoke(window, WindowUpdateType.Move);
-                }
+                WindowUpdated?.Invoke(window, WindowUpdateType.Move);
             }
         }
 
