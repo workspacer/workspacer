@@ -75,15 +75,15 @@ namespace workspacer
 
         public void AssignWorkspaceToMonitor(IWorkspace workspace, IMonitor monitor)
         {
-            if (monitor != null)
+            if (monitor == null)
+                return;
+
+            if (workspace != null)
             {
-                if (workspace != null)
-                {
-                    workspace.IsIndicating = false;
-                    _lastMonitor[workspace] = GetCurrentMonitorForWorkspace(workspace);
-                }
-                _mtw[monitor] = workspace;
+                workspace.IsIndicating = false;
+                _lastMonitor[workspace] = GetCurrentMonitorForWorkspace(workspace);
             }
+            _mtw[monitor] = workspace;
         }
 
         public IWorkspace GetNextWorkspace(IWorkspace currentWorkspace)
