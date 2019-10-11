@@ -281,16 +281,16 @@ namespace workspacer
         public void SwapWindowToPoint(IWindow window, int x, int y)
         {
             var windows = GetWindowsForLayout();
-            if (windows.Contains(window))
-            {
-                var index = GetLayoutSlotIndexForPoint(x, y);
-                var destWindow = index != -1 && windows.Count > index ? windows[index] : null;
+            if (!windows.Contains(window))
+                return;
 
-                if (destWindow != null && window != destWindow)
-                {
-                    Logger.Debug("SwapWindowToPoint[{0},{1} - {2}]", x, y, window);
-                    SwapWindows(window, destWindow);
-                }
+            var index = GetLayoutSlotIndexForPoint(x, y);
+            var destWindow = index != -1 && windows.Count > index ? windows[index] : null;
+
+            if (destWindow != null && window != destWindow)
+            {
+                Logger.Debug("SwapWindowToPoint[{0},{1} - {2}]", x, y, window);
+                SwapWindows(window, destWindow);
             }
         }
 
@@ -337,10 +337,18 @@ namespace workspacer
         public void DoLayout()
         {
             var windows = GetWindowsForLayout();
-            if (_context.Enabled)
+            if (!_context.Enabled)
+            {
+                windows.ForEach(w => w.ShowInCurrentState());
+            }
+            else
             {
                 var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
-                if (monitor != null)
+                if (monitor == null)
+                {
+                    windows.ForEach(w => w.Hide());
+                }
+                else
                 {
                     windows.ForEach(w => w.ShowInCurrentState());
 
@@ -364,14 +372,6 @@ namespace workspacer
                         }
                     }
                 }
-                else
-                {
-                    windows.ForEach(w => w.Hide());
-                }
-            }
-            else
-            {
-                windows.ForEach(w => w.ShowInCurrentState());
             }
         }
 
