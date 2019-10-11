@@ -135,6 +135,7 @@ namespace workspacer
         /// create an instance of Logger, using the current class as context
         /// </summary>
         /// <returns></returns>
+        [System.Runtime.CompilerServices.MethodImplAttribute(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public static Logger Create()
         {
             var trace = new StackTrace();
