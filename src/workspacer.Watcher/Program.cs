@@ -13,86 +13,90 @@ namespace workspacer.atcher
     class Program
     {
         static bool IsRunning = true;
+        static List<long> activeHandles = null;
 
         static void Main(string[] args)
         {
             ConsoleHelper.Initialize();
 
-            List<long> activeHandles = null;
-
             using (var client = new PipeClient())
             {
                 while (IsRunning)
                 {
-                    string line;
-                    line = client.ReadLine();
-
-                    if (line == null)
+                    string line = client.ReadLine();
+                    if (line != null)
+                    {
+                        ProcessLine(line);
+                    }
+                    else
                     {
                         IsRunning = false;
-                        continue;
-                    }
-
-                    LauncherResponse response = null;
-                    try
-                    {
-                        response = JsonConvert.DeserializeObject<LauncherResponse>(line);
-
-                        switch (response.Action)
-                        {
-                            case LauncherAction.Quit:
-                                IsRunning = false;
-                                CleanupWindowHandles(activeHandles);
-                                Quit();
-                                break;
-                            case LauncherAction.QuitWithException:
-                                IsRunning = false;
-                                CleanupWindowHandles(activeHandles);
-                                ShowExceptionMessage(response.Message);
-                                break;
-                            case LauncherAction.Restart:
-                                IsRunning = false;
-                                CleanupWindowHandles(activeHandles);
-                                Restart();
-                                break;
-                            case LauncherAction.RestartWithMessage:
-                                IsRunning = false;
-                                CleanupWindowHandles(activeHandles);
-                                ShowRestartMessage(response.Message);
-                                break;
-                            case LauncherAction.UpdateHandles:
-                                activeHandles = response.ActiveHandles;
-                                break;
-                            case LauncherAction.ToggleConsole:
-                                ToggleConsole();
-                                break;
-                            case LauncherAction.Log:
-                                LogToConsole(response.Message);
-                                break;
-                            default:
-                                throw new Exception(
-                                    $"unknown workspacer response action {response.Action.ToString()}");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        CleanupWindowHandles(activeHandles);
-                        ShowExceptionMessage(e.ToString());
+                        break;
                     }
                 }
             }
             CleanupWindowHandles(activeHandles);
         }
 
+        static void ProcessLine(string line)
+        {
+            LauncherResponse response = null;
+            try
+            {
+                response = JsonConvert.DeserializeObject<LauncherResponse>(line);
+
+                switch (response.Action)
+                {
+                    case LauncherAction.Quit:
+                        IsRunning = false;
+                        CleanupWindowHandles(activeHandles);
+                        Quit();
+                        break;
+                    case LauncherAction.QuitWithException:
+                        IsRunning = false;
+                        CleanupWindowHandles(activeHandles);
+                        ShowExceptionMessage(response.Message);
+                        break;
+                    case LauncherAction.Restart:
+                        IsRunning = false;
+                        CleanupWindowHandles(activeHandles);
+                        Restart();
+                        break;
+                    case LauncherAction.RestartWithMessage:
+                        IsRunning = false;
+                        CleanupWindowHandles(activeHandles);
+                        ShowRestartMessage(response.Message);
+                        break;
+                    case LauncherAction.UpdateHandles:
+                        activeHandles = response.ActiveHandles;
+                        break;
+                    case LauncherAction.ToggleConsole:
+                        ToggleConsole();
+                        break;
+                    case LauncherAction.Log:
+                        LogToConsole(response.Message);
+                        break;
+                    default:
+                        throw new Exception(
+                            $"unknown workspacer response action {response.Action.ToString()}");
+                }
+            }
+            catch (Exception e)
+            {
+                CleanupWindowHandles(activeHandles);
+                ShowExceptionMessage(e.ToString());
+            }
+        }
+
         static void CleanupWindowHandles(List<long> handles)
         {
-            if (handles != null)
+            if (handles == null)
+                return;
+
+            foreach (var handle in handles)
             {
-                foreach (var handle in handles)
-                {
-                    var window = new WindowsWindow(new IntPtr(handle));
-                    window.ShowInCurrentState();
-                }
+                var window = new WindowsWindow(new IntPtr(handle));
+                window.ShowInCurrentState();
             }
         }
 
