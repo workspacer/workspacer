@@ -69,14 +69,38 @@ namespace workspacer
 
         public static int GWL_STYLE = -16;
         public static int GWL_EXSTYLE = -20;
-        [DllImport("user32.dll", EntryPoint="SetWindowLongPtr")]
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
         public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, uint dwNewLong);
 
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
+        public static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
+
         [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
-        public static extern uint GetWindowLongPtr(IntPtr hWnd, int nIndex);
+        public static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
 
-        public static WS GetWindowStyleLongPtr(IntPtr hwnd) { return (WS)GetWindowLongPtr(hwnd, GWL_STYLE); }
-        public static WS_EX GetWindowExStyleLongPtr(IntPtr hwnd) { return (WS_EX)GetWindowLongPtr(hwnd, GWL_EXSTYLE); }
+        public static WS GetWindowStyleLongPtr(IntPtr hwnd)
+        {
+            if (Environment.Is64BitProcess)
+            {
+                return (WS)GetWindowLongPtr(hwnd, GWL_STYLE);
+            }
+            else
+            {
+                return (WS)GetWindowLong(hwnd, GWL_STYLE);
+            }
+        }
 
+        public static WS_EX GetWindowExStyleLongPtr(IntPtr hwnd)
+        {
+            if (Environment.Is64BitProcess)
+            {
+                return (WS_EX)GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+            }
+            else
+            {
+                return (WS_EX)GetWindowLong(hwnd, GWL_EXSTYLE);
+            }
+        }
     }
 }
