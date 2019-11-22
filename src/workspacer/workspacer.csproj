@@ -238,19 +238,13 @@
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>if not exist "$(TargetDir)plugins\workspacer.Bar" mkdir "$(TargetDir)plugins\workspacer.Bar"
-copy /b/y/v "$(SolutionDir)\src\workspacer.Bar\$(OutDir)workspacer.Bar.dll" "$(TargetDir)plugins\workspacer.Bar\"
-
-if not exist "$(TargetDir)plugins\workspacer.ActionMenu" mkdir "$(TargetDir)plugins\workspacer.ActionMenu"
-copy /b/y/v "$(SolutionDir)\src\workspacer.ActionMenu\$(OutDir)workspacer.ActionMenu.dll" "$(TargetDir)plugins\workspacer.ActionMenu\"
-
-if not exist "$(TargetDir)plugins\workspacer.FocusIndicator" mkdir "$(TargetDir)plugins\workspacer.FocusIndicator"
-copy /b/y/v "$(SolutionDir)\src\workspacer.FocusIndicator\$(OutDir)workspacer.FocusIndicator.dll" "$(TargetDir)plugins\workspacer.FocusIndicator\"
-
-copy /b/y/v "$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.exe" "$(TargetDir)"
-copy /b/y/v "$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.pdb" "$(TargetDir)"</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="PortablePostBuild" AfterTargets="Build">
+    <Copy SourceFiles="$(SolutionDir)\src\workspacer.Bar\$(OutDir)workspacer.Bar.dll" DestinationFolder="$(TargetDir)plugins\workspacer.Bar\" />
+    <Copy SourceFiles="$(SolutionDir)\src\workspacer.ActionMenu\$(OutDir)workspacer.ActionMenu.dll" DestinationFolder="$(TargetDir)plugins\workspacer.ActionMenu\" />
+    <Copy SourceFiles="$(SolutionDir)\src\workspacer.FocusIndicator\$(OutDir)workspacer.FocusIndicator.dll" DestinationFolder="$(TargetDir)plugins\workspacer.FocusIndicator\" />
+    <Copy SourceFiles="$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.exe" DestinationFolder="$(TargetDir)" />
+    <Copy SourceFiles="$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.pdb" DestinationFolder="$(TargetDir)" />
+  </Target>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
