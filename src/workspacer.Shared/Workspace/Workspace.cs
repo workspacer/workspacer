@@ -12,7 +12,16 @@ namespace workspacer
         private static Logger Logger = Logger.Create();
 
         public IEnumerable<IWindow> Windows => _windows;
-        public IList<IWindow> ManagedWindows => _windows.Where(w => w.CanLayout).ToList();
+        public IList<IWindow> ManagedWindows
+        {
+            get
+            {
+                lock (_windows)
+                {
+                    return _windows.Where(w => w.CanLayout).ToList();
+                }
+            }
+        }
         public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
         public IWindow LastFocusedWindow => _lastFocused;
         public string Name { get; }
@@ -38,30 +47,36 @@ namespace workspacer
 
         public void AddWindow(IWindow window, bool layout = true)
         {
-            if (_lastFocused == null && window.IsFocused)
+            lock (_windows)
             {
-                _lastFocused = window;
+                if (_lastFocused == null && window.IsFocused)
+                {
+                    _lastFocused = window;
+                }
+
+                _windows.Add(window);
+
+                if (layout)
+                    DoLayout();
             }
-
-            _windows.Add(window);
-
-            if (layout)
-                DoLayout();
         }
 
         public void RemoveWindow(IWindow window, bool layout = true)
         {
-            if (_lastFocused == window)
+            lock (_windows)
             {
-                var windows = ManagedWindows;
-                var next = windows.Count > 1 ? windows[(windows.IndexOf(window) + 1) % windows.Count] : null;
-                _lastFocused = next;
+                if (_lastFocused == window)
+                {
+                    var windows = ManagedWindows;
+                    var next = windows.Count > 1 ? windows[(windows.IndexOf(window) + 1) % windows.Count] : null;
+                    _lastFocused = next;
+                }
+
+                _windows.Remove(window);
+
+                if (layout)
+                    DoLayout();
             }
-
-            _windows.Remove(window);
-
-            if (layout)
-                DoLayout();
         }
 
         public void UpdateWindow(IWindow window, WindowUpdateType type, bool layout = true)
