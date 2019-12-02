@@ -22,7 +22,17 @@ namespace workspacer
                 }
             }
         }
-        public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
+        public IWindow FocusedWindow
+        {
+            get
+            {
+                lock (_windows)
+                {
+                    return _windows.FirstOrDefault(w => w.IsFocused);
+                }
+            }
+        }
+            
         public IWindow LastFocusedWindow => _lastFocused;
         public string Name { get; }
         public string LayoutName => _layoutEngines[_layoutIndex].Name;
@@ -395,12 +405,15 @@ namespace workspacer
 
         private void SwapWindows(IWindow left, IWindow right)
         {
-            Logger.Trace("SwapWindows[{0},{1}]", left, right);
-            var leftIdx = _windows.FindIndex(w => w == left);
-            var rightIdx = _windows.FindIndex(w => w == right);
+            lock (_windows)
+            {
+                Logger.Trace("SwapWindows[{0},{1}]", left, right);
+                var leftIdx = _windows.FindIndex(w => w == left);
+                var rightIdx = _windows.FindIndex(w => w == right);
 
-            _windows[leftIdx] = right;
-            _windows[rightIdx] = left;
+                _windows[leftIdx] = right;
+                _windows[rightIdx] = left;
+            }
 
             DoLayout();
         }
