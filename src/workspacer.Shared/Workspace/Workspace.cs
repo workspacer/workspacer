@@ -11,7 +11,18 @@ namespace workspacer
     {
         private static Logger Logger = Logger.Create();
 
-        public IEnumerable<IWindow> Windows => _windows;
+        public IEnumerable<IWindow> Windows
+        {
+            get
+            {
+                lock (_windows)
+                {
+                    // return copy to prevent race-conditions!
+                    return _windows.ToList();
+                }
+            }
+        }
+
         public IList<IWindow> ManagedWindows
         {
             get
