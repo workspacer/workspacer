@@ -99,6 +99,11 @@ namespace workspacer
 
         private Assembly ResolveAssembly(object sender, ResolveEventArgs args)
         {
+            if (_context == null)
+            {
+                return null;
+            }
+
             var match = _context.Plugins.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
             if (match != null)
             {
