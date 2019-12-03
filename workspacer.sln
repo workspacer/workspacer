@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.FocusIndicator",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Shared.Tests", "src\workspacer.Shared.Tests\workspacer.Shared.Tests.csproj", "{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Tests", "workspacer.Tests\workspacer.Tests.csproj", "{36884A7D-B921-4F6D-A324-239D79AF38F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,18 @@ Global
 		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|x64.Build.0 = Release|Any CPU
 		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|x86.ActiveCfg = Release|Any CPU
 		{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}.Release|x86.Build.0 = Release|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Debug|x64.Build.0 = Debug|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Debug|x86.Build.0 = Debug|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Release|x64.ActiveCfg = Release|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Release|x64.Build.0 = Release|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Release|x86.ActiveCfg = Release|Any CPU
+		{36884A7D-B921-4F6D-A324-239D79AF38F2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
