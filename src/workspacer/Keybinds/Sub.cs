@@ -70,7 +70,7 @@ namespace workspacer
                 modifiers += 8;
             }
 
-            return modifiers + 256 + (int)obj.Keys;
+            return modifiers + 256 * (int)obj.Keys;
         }
     }
 }
