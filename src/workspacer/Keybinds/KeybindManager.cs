@@ -77,6 +77,15 @@ namespace workspacer
             Subscribe(evt, handler, null);
         }
 
+        public void Unsubscribe(KeyModifiers mod, Keys key)
+        {
+            var sub = new Sub(mod, key);
+            if (_kbdSubs.ContainsKey(sub))
+            {
+                _kbdSubs.Remove(sub);
+            }
+        }
+
         public void Unsubscribe(MouseEvent evt)
         {
             if (_mouseSubs.ContainsKey(evt))
