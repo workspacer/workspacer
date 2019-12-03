@@ -41,7 +41,7 @@ namespace workspacer
             _context = context;
             _kbdHook = KbdHook;
             _mouseHook = MouseHook;
-            _kbdSubs = new Dictionary<Sub, NamedBind<KeybindHandler>>(new Sub.SubEqualityComparer());
+            _kbdSubs = new Dictionary<Sub, NamedBind<KeybindHandler>>();
             _mouseSubs = new Dictionary<MouseEvent, NamedBind<MouseHandler>>();
 
             SubscribeDefaults();
