@@ -45,6 +45,13 @@ namespace workspacer
         void Subscribe(MouseEvent evt, MouseHandler handler, string name);
 
         /// <summary>
+        /// unsubscribe to a specified keybinding
+        /// </summary>
+        /// <param name="mod">desired keyboard modifier to be listened for</param>
+        /// <param name="key">desired keyboard key to be listened for</param>
+        void Unsubscribe(KeyModifiers mod, Keys key);
+
+        /// <summary>
         /// unsubscribe from the specified mouse event
         /// </summary>
         /// <param name="evt">mouse event to be unsubscribed</param>
