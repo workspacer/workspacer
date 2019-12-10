@@ -40,7 +40,15 @@ namespace workspacer
 
                 var process = Process.GetProcesses().FirstOrDefault(p => p.Id == _processId);
                 _processName = process.ProcessName;
-                _processFileName = Path.GetFileName(process.MainModule.FileName);
+
+                try
+                {
+                    _processFileName = Path.GetFileName(process.MainModule.FileName);
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    _processFileName = "--NA--";
+                }
             }
             catch (Exception)
             {
