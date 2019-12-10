@@ -29,6 +29,11 @@ namespace workspacer
         IEnumerable<IWindow> Windows { get; }
 
         /// <summary>
+        /// set of windows that are contained within the workspace and which workspacer can layout.
+        /// </summary>
+        IList<IWindow> ManagedWindows { get; }
+
+        /// <summary>
         /// currently focused window in the workspace, or null if there is no focused window in the workspace
         /// </summary>
         IWindow FocusedWindow { get; }

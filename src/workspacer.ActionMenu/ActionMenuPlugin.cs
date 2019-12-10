@@ -80,13 +80,10 @@ namespace workspacer.ActionMenu
             var workspaces = context.WorkspaceContainer.GetAllWorkspaces();
             foreach (var workspace in workspaces)
             {
-                foreach (var window in workspace.Windows)
+                foreach (var window in workspace.ManagedWindows)
                 {
-                    if (window.CanLayout)
-                    {
-                        var text = $"[{workspace.Name}] {window.Title}";
-                        builder.Add(text, () => context.Workspaces.SwitchToWindow(window));
-                    }
+                    var text = $"[{workspace.Name}] {window.Title}";
+                    builder.Add(text, () => context.Workspaces.SwitchToWindow(window));
                 }
             }
             return builder;
