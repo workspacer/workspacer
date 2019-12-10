@@ -11,8 +11,39 @@ namespace workspacer
     {
         private static Logger Logger = Logger.Create();
 
-        public IEnumerable<IWindow> Windows => _windows;
-        public IWindow FocusedWindow => _windows.FirstOrDefault(w => w.IsFocused);
+        public IEnumerable<IWindow> Windows
+        {
+            get
+            {
+                lock (_windows)
+                {
+                    // return copy to prevent race-conditions!
+                    return _windows.ToList();
+                }
+            }
+        }
+
+        public IList<IWindow> ManagedWindows
+        {
+            get
+            {
+                lock (_windows)
+                {
+                    return _windows.Where(w => w.CanLayout).ToList();
+                }
+            }
+        }
+        public IWindow FocusedWindow
+        {
+            get
+            {
+                lock (_windows)
+                {
+                    return _windows.FirstOrDefault(w => w.IsFocused);
+                }
+            }
+        }
+            
         public IWindow LastFocusedWindow => _lastFocused;
         public string Name { get; }
         public string LayoutName => _layoutEngines[_layoutIndex].Name;
@@ -37,30 +68,36 @@ namespace workspacer
 
         public void AddWindow(IWindow window, bool layout = true)
         {
-            if (_lastFocused == null && window.IsFocused)
+            lock (_windows)
             {
-                _lastFocused = window;
+                if (_lastFocused == null && window.IsFocused)
+                {
+                    _lastFocused = window;
+                }
+
+                _windows.Add(window);
+
+                if (layout)
+                    DoLayout();
             }
-
-            _windows.Add(window);
-
-            if (layout)
-                DoLayout();
         }
 
         public void RemoveWindow(IWindow window, bool layout = true)
         {
-            if (_lastFocused == window)
+            lock (_windows)
             {
-                var windows = GetWindowsForLayout();
-                var next = windows.Count > 1 ? windows[(windows.IndexOf(window) + 1) % windows.Count] : null;
-                _lastFocused = next;
+                if (_lastFocused == window)
+                {
+                    var windows = ManagedWindows;
+                    var next = windows.Count > 1 ? windows[(windows.IndexOf(window) + 1) % windows.Count] : null;
+                    _lastFocused = next;
+                }
+
+                _windows.Remove(window);
+
+                if (layout)
+                    DoLayout();
             }
-
-            _windows.Remove(window);
-
-            if (layout)
-                DoLayout();
         }
 
         public void UpdateWindow(IWindow window, WindowUpdateType type, bool layout = true)
@@ -74,7 +111,7 @@ namespace workspacer
 
         public void CloseFocusedWindow()
         {
-            var window = GetWindowsForLayout().FirstOrDefault(w => w.IsFocused);
+            var window = ManagedWindows.FirstOrDefault(w => w.IsFocused);
             window?.Close();
         }
 
@@ -123,7 +160,7 @@ namespace workspacer
 
         public void FocusNextWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             var didFocus = false;
             for (var i = 0; i < windows.Count; i++)
             {
@@ -157,7 +194,7 @@ namespace workspacer
 
         public void FocusPreviousWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             var didFocus = false;
             for (var i = 0; i < windows.Count; i++)
             {
@@ -191,16 +228,13 @@ namespace workspacer
 
         public void FocusPrimaryWindow()
         {
-            var windows = GetWindowsForLayout();
-            if (windows.Count > 0)
-            {
-                windows[0].Focus();
-            }
+            var window = ManagedWindows.FirstOrDefault();
+            window?.Focus();
         }
 
         public void SwapFocusAndPrimaryWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             if (windows.Count > 1)
             {
                 var primary = windows[0];
@@ -215,7 +249,7 @@ namespace workspacer
 
         public void SwapFocusAndNextWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             for (var i = 0; i < windows.Count; i++)
             {
                 var window = windows[i];
@@ -236,7 +270,7 @@ namespace workspacer
 
         public void SwapFocusAndPreviousWindow()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             for (var i = 0; i < windows.Count; i++)
             {
                 var window = windows[i];
@@ -280,7 +314,7 @@ namespace workspacer
 
         public void SwapWindowToPoint(IWindow window, int x, int y)
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             if (windows.Contains(window))
             {
                 var index = GetLayoutSlotIndexForPoint(x, y);
@@ -325,7 +359,7 @@ namespace workspacer
 
         private IEnumerable<IWindowLocation> CalcLayout()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows;
             var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
             if (monitor != null)
             {
@@ -336,7 +370,7 @@ namespace workspacer
 
         public void DoLayout()
         {
-            var windows = GetWindowsForLayout();
+            var windows = ManagedWindows.ToList();
             if (_context.Enabled)
             {
                 var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
@@ -375,11 +409,6 @@ namespace workspacer
             }
         }
 
-        private List<IWindow> GetWindowsForLayout()
-        {
-            return this.Windows.Where(w => w.CanLayout).ToList();
-        }
-
         public override string ToString()
         {
             return Name;
@@ -387,12 +416,15 @@ namespace workspacer
 
         private void SwapWindows(IWindow left, IWindow right)
         {
-            Logger.Trace("SwapWindows[{0},{1}]", left, right);
-            var leftIdx = _windows.FindIndex(w => w == left);
-            var rightIdx = _windows.FindIndex(w => w == right);
+            lock (_windows)
+            {
+                Logger.Trace("SwapWindows[{0},{1}]", left, right);
+                var leftIdx = _windows.FindIndex(w => w == left);
+                var rightIdx = _windows.FindIndex(w => w == right);
 
-            _windows[leftIdx] = right;
-            _windows[rightIdx] = left;
+                _windows[leftIdx] = right;
+                _windows[rightIdx] = left;
+            }
 
             DoLayout();
         }
