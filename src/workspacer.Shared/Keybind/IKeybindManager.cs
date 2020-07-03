@@ -67,5 +67,10 @@ namespace workspacer
         /// unsubscribe from all keybindings and mouse events
         /// </summary>
         void UnsubscribeAll();
+
+        /// <summary>
+        /// show/hide keybind help
+        /// </summary>
+        void ShowKeybindDialog();
     }
 }
