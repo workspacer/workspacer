@@ -52,7 +52,6 @@ namespace workspacer
             Logger.Debug("SwitchToWorkspace({0})", index);
             var currentWorkspace = FocusedWorkspace;
             var targetWorkspace = _context.WorkspaceContainer.GetWorkspaceAtIndex(currentWorkspace, index);
-            _lastWorkspace = currentWorkspace;
             SwitchToWorkspace(targetWorkspace);
         }
 
