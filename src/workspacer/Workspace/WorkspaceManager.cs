@@ -15,6 +15,7 @@ namespace workspacer
         private static Logger Logger = Logger.Create();
 
         private IConfigContext _context;
+        private IWorkspace _lastWorkspace;
         public IWorkspace FocusedWorkspace => _context.WorkspaceContainer
             .GetWorkspaceForMonitor(_context.MonitorContainer.FocusedMonitor);
 
@@ -40,6 +41,7 @@ namespace workspacer
             if (_windowsToWorkspaces.ContainsKey(window))
             {
                 var workspace = _windowsToWorkspaces[window];
+                _lastWorkspace = workspace;
                 SwitchToWorkspace(workspace);
                 window.Focus();
             }
@@ -50,6 +52,7 @@ namespace workspacer
             Logger.Debug("SwitchToWorkspace({0})", index);
             var currentWorkspace = FocusedWorkspace;
             var targetWorkspace = _context.WorkspaceContainer.GetWorkspaceAtIndex(currentWorkspace, index);
+            _lastWorkspace = currentWorkspace;
             SwitchToWorkspace(targetWorkspace);
         }
 
@@ -65,6 +68,7 @@ namespace workspacer
 
                 if (targetWorkspace != currentWorkspace)
                 {
+                    _lastWorkspace = currentWorkspace;
                     _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
                     _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
@@ -78,6 +82,14 @@ namespace workspacer
             }
         }
 
+        public void SwitchToLastFocusedWorkspace()
+        {
+            Logger.Debug("SwitchToLastWorkspace({0})", _lastWorkspace);
+            var targetWorkspace = _lastWorkspace;
+            _lastWorkspace = FocusedWorkspace;
+            SwitchToWorkspace(targetWorkspace);
+        }
+
         public void SwitchMonitorToWorkspace(int monitorIndex, int workspaceIndex)
         {
             Logger.Debug("SwitchMonitorToWorkspace(monitorIndex: {0}, workspaceIndex: {1})", monitorIndex, workspaceIndex);
@@ -89,6 +101,7 @@ namespace workspacer
             var targetWorkspace = _context.WorkspaceContainer.GetWorkspaceAtIndex(currentWorkspace, workspaceIndex);
             var sourceMonitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(targetWorkspace);
 
+            _lastWorkspace = currentWorkspace;
             _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
             _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
@@ -108,6 +121,7 @@ namespace workspacer
             var targetWorkspace = _context.WorkspaceContainer.GetNextWorkspace(currentWorkspace);
             var sourceMonitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(targetWorkspace);
 
+            _lastWorkspace = currentWorkspace;
             _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
             _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
@@ -127,6 +141,7 @@ namespace workspacer
             var targetWorkspace = _context.WorkspaceContainer.GetPreviousWorkspace(currentWorkspace);
             var sourceMonitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(targetWorkspace);
 
+            _lastWorkspace = currentWorkspace;
             _context.WorkspaceContainer.AssignWorkspaceToMonitor(currentWorkspace, sourceMonitor);
             _context.WorkspaceContainer.AssignWorkspaceToMonitor(targetWorkspace, destMonitor);
 
