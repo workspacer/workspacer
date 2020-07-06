@@ -290,6 +290,9 @@ namespace workspacer
             Subscribe(mod, Keys.Right,
                 () => _context.Workspaces.SwitchToNextWorkspace(), "switch to next workspace");
 
+            Subscribe(mod, Keys.Oemtilde,
+                () => _context.Workspaces.SwitchToLastFocusedWorkspace(), "switch to last focused workspace");
+
             Subscribe(mod, Keys.W,
                 () => _context.Workspaces.SwitchFocusedMonitor(0), "focus monitor 1");
 
