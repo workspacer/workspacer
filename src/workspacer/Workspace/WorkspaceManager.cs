@@ -41,7 +41,6 @@ namespace workspacer
             if (_windowsToWorkspaces.ContainsKey(window))
             {
                 var workspace = _windowsToWorkspaces[window];
-                _lastWorkspace = workspace;
                 SwitchToWorkspace(workspace);
                 window.Focus();
             }
