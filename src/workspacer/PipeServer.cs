@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,8 +21,7 @@ namespace workspacer
         public PipeServer()
         {
             WatcherProcess = new Process();
-            WatcherProcess.StartInfo.FileName = "workspacer.Watcher.exe";
-            WatcherProcess.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+            WatcherProcess.StartInfo.FileName = Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "workspacer.Watcher.exe");
             _semaphore = new SemaphoreSlim(1);
         }
 

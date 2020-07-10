@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Configuration;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -340,7 +339,7 @@ namespace workspacer
             try
             {
                 id = window.ProcessId;
-            } catch (Exception e) { }
+            } catch { }
 
             return window.Class == "ConsoleWindowClass" && id == Process.GetCurrentProcess().Id;
         }

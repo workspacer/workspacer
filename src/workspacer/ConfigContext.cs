@@ -204,6 +204,8 @@ namespace workspacer
         private List<IntPtr> GetActiveHandles()
         {
             var list = new List<IntPtr>();
+            if (WorkspaceContainer == null) return list;
+
             foreach (var ws in WorkspaceContainer.GetAllWorkspaces())
             {
                 var handles = ws.ManagedWindows.Select(i => i.Handle);
