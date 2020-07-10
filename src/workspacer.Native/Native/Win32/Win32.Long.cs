@@ -10,7 +10,7 @@ namespace workspacer
     public static partial class Win32
     {
         [Flags]
-        public enum WS : uint
+        public enum WS : ulong
         {
             WS_OVERLAPPED = 0,
             WS_POPUP = 0x80000000,
@@ -37,7 +37,7 @@ namespace workspacer
         }
 
         [Flags]
-        public enum WS_EX : uint
+        public enum WS_EX : ulong
         {
             WS_EX_DLGMODALFRAME = 0x0001,
             WS_EX_NOPARENTNOTIFY = 0x0004,
