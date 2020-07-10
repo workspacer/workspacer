@@ -39,7 +39,7 @@ the default configuration provides the standard set of ignore/routing rules, but
 # custom filter
 context.WindowRouter.AddFilter((window) => !window.Title.Contains("my fun application"));
 # custom route
-context.WindowRouter.AddRoute((window) => window.Title.Contains("Google Chrome") ? context.WorkspaceContainer["web"] : null));
+context.WindowRouter.AddRoute((window) => window.Title.Contains("Google Chrome") ? context.WorkspaceContainer["web"] : null);
 ```
 
 the `AddFilter` call will ensure that any windows who's title contains the text "my fun application" will be ignored by workspacer. a `true` return value will allow the window to be managed, while a `false` value will force workspacer to ignore the window. 
