@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.FocusIndicator",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Shared.Tests", "src\workspacer.Shared.Tests\workspacer.Shared.Tests.csproj", "{C69C243C-E40C-46CC-8599-DC7CC39F4C6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Tests", "workspacer.Tests\workspacer.Tests.csproj", "{36884A7D-B921-4F6D-A324-239D79AF38F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.Tests", "src\workspacer.Tests\workspacer.Tests.csproj", "{36884A7D-B921-4F6D-A324-239D79AF38F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
