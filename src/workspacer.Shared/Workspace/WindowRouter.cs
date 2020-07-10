@@ -30,6 +30,7 @@ namespace workspacer
             IgnoreProcessName("PeopleExperienceHost");
             IgnoreWindowClass("Progman");
             IgnoreProcessName("StartMenuExperienceHost");
+            IgnoreProcessName("SearchApp");
             _filters.Add((window) => !(window.ProcessId == Process.GetCurrentProcess().Id));
         }
 
