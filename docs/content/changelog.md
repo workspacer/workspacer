@@ -4,6 +4,10 @@ description: "a log of changes"
 type: docs
 ---
 
+# {{<stable-installer-link version="0.9.8">}}
+
+- added default filters for more Windows 10 Start Menu processes
+
 # {{<stable-installer-link version="0.9.7">}}
 
 - added default filters for new start menu processes in Windows 10 1903
