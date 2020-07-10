@@ -12,6 +12,7 @@ namespace workspacer.Bar
         private IBarWidget[] _widgets;
         private IMonitor _monitor;
         private IConfigContext _configContext;
+        private string _fontName;
         private int _fontSize;
 
         private Color _defaultFore;
@@ -24,12 +25,13 @@ namespace workspacer.Bar
         private IDictionary<Label, Action> _clickedHandlers;
 
         public BarSection(bool reverse, FlowLayoutPanel panel, IBarWidget[] widgets, IMonitor monitor, IConfigContext context, 
-            Color defaultFore, Color defaultBack, int fontSize)
+            Color defaultFore, Color defaultBack, string fontName, int fontSize)
         {
             _panel = panel;
             _widgets = widgets;
             _monitor = monitor;
             _configContext = context;
+            _fontName = fontName;
             _fontSize = fontSize;
             _dirty = true;
             _reverse = reverse;
@@ -123,9 +125,9 @@ namespace workspacer.Bar
             return System.Drawing.Color.FromArgb(color.R, color.G, color.B);
         }
 
-        private Font CreateFont(float size)
+        private Font CreateFont(string name, float size)
         {
-            return new Font("Consolas", size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            return new Font(name, size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
         }
 
         private Label AddLabel()
@@ -134,7 +136,7 @@ namespace workspacer.Bar
             _panel.Controls.Add(label);
 
             label.AutoSize = true;
-            label.Font = CreateFont(_fontSize);
+            label.Font = CreateFont(_fontName, _fontSize);
             label.Margin = new Padding(0);
             label.Padding = new Padding(0);
 
