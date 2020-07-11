@@ -4,6 +4,11 @@ description: "a log of changes"
 type: docs
 ---
 
+# {{<stable-installer-link version="0.9.9">}}
+
+- updated to .NET Core 3.1
+- fixed a bug that prevented the watcher from starting
+
 # {{<stable-installer-link version="0.9.8">}}
 
 - added default filters for more Windows 10 Start Menu processes
