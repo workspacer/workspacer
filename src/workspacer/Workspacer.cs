@@ -34,7 +34,10 @@ namespace workspacer
             _context.ConnectToWatcher();
 
             // attach console output target
-            Logger.AttachConsoleLogger((str) => _context.SendLogToConsole(str));
+            Logger.AttachConsoleLogger((str) =>{
+                Console.WriteLine(str);
+                _context.SendLogToConsole(str);
+            });
 
             // init system tray
             _context.SystemTray.AddToContextMenu("enable/disable workspacer", () => _context.Enabled = !_context.Enabled);

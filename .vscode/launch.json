@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/workspacer/bin/Debug/netcoreapp3.0/workspacer.dll",
+            "program": "${workspaceFolder}/src/workspacer/bin/Debug/netcoreapp3.1/win-x64/workspacer.exe",
             "args": [],
             "cwd": "${workspaceFolder}/src/workspacer",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

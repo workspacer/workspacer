@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ApplicationIcon>logo.ico</ApplicationIcon>
@@ -58,6 +59,7 @@
     <Copy SourceFiles="$(SolutionDir)\src\workspacer.Bar\$(OutDir)workspacer.Bar.dll" DestinationFolder="$(TargetDir)plugins\workspacer.Bar\" />
     <Copy SourceFiles="$(SolutionDir)\src\workspacer.ActionMenu\$(OutDir)workspacer.ActionMenu.dll" DestinationFolder="$(TargetDir)plugins\workspacer.ActionMenu\" />
     <Copy SourceFiles="$(SolutionDir)\src\workspacer.FocusIndicator\$(OutDir)workspacer.FocusIndicator.dll" DestinationFolder="$(TargetDir)plugins\workspacer.FocusIndicator\" />
+    <Copy SourceFiles="$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.dll" DestinationFolder="$(TargetDir)" />
     <Copy SourceFiles="$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.exe" DestinationFolder="$(TargetDir)" />
     <Copy SourceFiles="$(SolutionDir)\src\workspacer.Watcher\$(OutDir)workspacer.Watcher.pdb" DestinationFolder="$(TargetDir)" />
   </Target>

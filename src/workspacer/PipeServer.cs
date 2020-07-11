@@ -22,6 +22,8 @@ namespace workspacer
         {
             WatcherProcess = new Process();
             WatcherProcess.StartInfo.FileName = Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "workspacer.Watcher.exe");
+            WatcherProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            WatcherProcess.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
             _semaphore = new SemaphoreSlim(1);
         }
 
