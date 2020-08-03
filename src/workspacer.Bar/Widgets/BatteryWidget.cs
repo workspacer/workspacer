@@ -20,22 +20,22 @@ namespace workspacer.Bar.Widgets
         public override IBarWidgetPart[] GetParts()
         {
             PowerStatus pwr = SystemInformation.PowerStatus;
-            float CurrentBatteryCharge = pwr.BatteryLifePercent;
+            float currentBatteryCharge = pwr.BatteryLifePercent;
 
             if (HasBatteryWarning)
             {
-                if (CurrentBatteryCharge <= LowChargeThreshold)
+                if (currentBatteryCharge <= LowChargeThreshold)
                 {
-                    return Parts(Part(CurrentBatteryCharge.ToString("#0%"), LowChargeColor));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor));
                 }
                 else
                 {
-                    return Parts(Part(CurrentBatteryCharge.ToString("#0%")));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%")));
                 }
             }
             else
             {
-                return Parts(CurrentBatteryCharge.ToString("#0%"));
+                return Parts(currentBatteryCharge.ToString("#0%"));
             }
         }
 
