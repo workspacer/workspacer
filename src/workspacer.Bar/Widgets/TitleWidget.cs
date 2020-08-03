@@ -10,7 +10,7 @@ namespace workspacer.Bar.Widgets
     {
         public Color MonitorHasFocusColor { get; set; } = Color.Yellow;
         public bool IsShortTitle { get; set; } = false;
-        public string NoWindowMessage { get; set; } = "No Window";
+        public string NoWindowMessage { get; set; } = "No Windows";
 
         public override IBarWidgetPart[] GetParts()
         {
