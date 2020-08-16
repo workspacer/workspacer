@@ -25,7 +25,6 @@ namespace workspacer
             }
         }
 
-        private Logger Logger = Logger.Create();
 
         private Win32.HookProc _kbdHook;
         private Win32.HookProc _mouseHook;
@@ -59,6 +58,13 @@ namespace workspacer
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler, string name)
         {
             var sub = new Sub(mod, key);
+            var test = new LauncherResponse();
+            if (_kbdSubs.ContainsKey(sub))
+            {
+                Exception keyCombinationAlreadyAssigned = new Exception($" The Key Combination `{mod}-{key}` is already bound to action: `{name}`");
+
+                _context.QuitWithException(keyCombinationAlreadyAssigned);
+            }
             _kbdSubs[sub] = new NamedBind<KeybindHandler>(handler, name);
         }
 
@@ -205,7 +211,7 @@ namespace workspacer
             Subscribe(MouseEvent.LButtonDown,
                 () => _context.Workspaces.SwitchFocusedMonitorToMouseLocation());
 
-            Subscribe(mod | KeyModifiers.LShift, Keys.E,
+            Subscribe(mod, Keys.Escape,
                 () => _context.Enabled = !_context.Enabled, "toggle enable/disable");
 
             Subscribe(mod | KeyModifiers.LShift, Keys.C,
