@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,7 +26,7 @@ namespace workspacer
             }
         }
 
-
+        private Logger Logger = Logger.Create();
         private Win32.HookProc _kbdHook;
         private Win32.HookProc _mouseHook;
 
@@ -34,6 +35,7 @@ namespace workspacer
         private IDictionary<MouseEvent, NamedBind<MouseHandler>> _mouseSubs;
 
         private TextBlockMessage _keybindDialog;
+        private TextBlockMessage _keybindWarning;
 
         public KeybindManager(IConfigContext context)
         {
@@ -55,15 +57,37 @@ namespace workspacer
             thread.Start();
         }
 
+        public void ShowKeybindWarning(string warningMessage)
+        {
+            if (_keybindWarning == null)
+            {
+                _keybindWarning = new TextBlockMessage("workspacer keybinds", "Warning, duplicate keybinds!", warningMessage, new List<Tuple<string, Action>>()
+                {
+                    new Tuple<string, Action>("ok", () => { }),
+                });
+            }
+
+            if (_keybindWarning.Visible)
+            {
+                _keybindWarning.Hide();
+            }
+            else
+            {
+                _keybindWarning.Show();
+            }
+        }
+
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler, string name)
         {
             var sub = new Sub(mod, key);
             var test = new LauncherResponse();
             if (_kbdSubs.ContainsKey(sub))
             {
-                Exception keyCombinationAlreadyAssigned = new Exception($" The Key Combination `{mod}-{key}` is already bound to action: `{name}`");
+                Logger.Error($" The Key Combination `{mod}-{key}` is already bound to action: `{name}`");
+               string warning = @$" The Key Combination `{mod}-{key}` is already bound to action: `{name}` To fix this go into your config file and compare assignments of hotkeys
+You can either change your custom hotkey or reassign the default hotkey";
 
-                _context.QuitWithException(keyCombinationAlreadyAssigned);
+                ShowKeybindWarning(warning);
             }
             _kbdSubs[sub] = new NamedBind<KeybindHandler>(handler, name);
         }
@@ -387,6 +411,7 @@ namespace workspacer
             {
                 var message = string.Join("\r\n", this.Keybinds.Select(k => (k.Item3 ?? "<unnamed>") + "  -  " + GetKeybindString(k.Item1, k.Item2)));
                 _keybindDialog = new TextBlockMessage("workspacer keybinds", "below is the list of the current keybindings", message, new List<Tuple<string, Action>>()
+                
                 {
                     new Tuple<string, Action>("ok", () => { }),
                 });
