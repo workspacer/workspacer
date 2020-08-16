@@ -59,32 +59,22 @@ namespace workspacer
 
         public void ShowKeybindWarning(string warningMessage)
         {
-            if (_keybindWarning == null)
+            _keybindWarning = new TextBlockMessage("workspacer keybinds", "Warning, duplicate keybinds!", warningMessage, new List<Tuple<string, Action>>()
             {
-                _keybindWarning = new TextBlockMessage("workspacer keybinds", "Warning, duplicate keybinds!", warningMessage, new List<Tuple<string, Action>>()
-                {
-                    new Tuple<string, Action>("ok", () => { }),
-                });
-            }
-
-            if (_keybindWarning.Visible)
-            {
-                _keybindWarning.Hide();
-            }
-            else
-            {
-                _keybindWarning.Show();
-            }
+                new Tuple<string, Action>("ok", () => { }),
+            });
+          
+            _keybindWarning.Show();
+            
         }
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler, string name)
         {
             var sub = new Sub(mod, key);
-            var test = new LauncherResponse();
             if (_kbdSubs.ContainsKey(sub))
             {
-                Logger.Error($" The Key Combination `{mod}-{key}` is already bound to action: `{name}`");
-               string warning = @$" The Key Combination `{mod}-{key}` is already bound to action: `{name}` To fix this go into your config file and compare assignments of hotkeys
+               Logger.Error($" The Key Combination `{mod}-{key}` is already bound to action: `{name}`");
+               string warning = @$" The Key Combination `{mod}-{key}` is already bound to action: `{name}`. To fix this go into your config file and compare assignments of hotkeys
 You can either change your custom hotkey or reassign the default hotkey";
 
                 ShowKeybindWarning(warning);
