@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -26,7 +27,6 @@ namespace workspacer
         }
 
         private Logger Logger = Logger.Create();
-
         private Win32.HookProc _kbdHook;
         private Win32.HookProc _mouseHook;
 
@@ -35,6 +35,7 @@ namespace workspacer
         private IDictionary<MouseEvent, NamedBind<MouseHandler>> _mouseSubs;
 
         private TextBlockMessage _keybindDialog;
+        private TextBlockMessage _keybindWarning;
 
         public KeybindManager(IConfigContext context)
         {
@@ -56,9 +57,28 @@ namespace workspacer
             thread.Start();
         }
 
+        public void ShowKeybindWarning(string warningMessage)
+        {
+            _keybindWarning = new TextBlockMessage("workspacer keybinds", "Warning, duplicate keybinds!", warningMessage, new List<Tuple<string, Action>>()
+            {
+                new Tuple<string, Action>("ok", () => { }),
+            });
+          
+            _keybindWarning.Show();
+            
+        }
+
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler, string name)
         {
             var sub = new Sub(mod, key);
+            if (_kbdSubs.ContainsKey(sub))
+            {
+               Logger.Error($" The Key Combination `{mod}-{key}` is already bound to action: `{name}`");
+               string warning = @$" The Key Combination `{mod}-{key}` is already bound to action: `{name}`. To fix this go into your config file and compare assignments of hotkeys
+You can either change your custom hotkey or reassign the default hotkey";
+
+                ShowKeybindWarning(warning);
+            }
             _kbdSubs[sub] = new NamedBind<KeybindHandler>(handler, name);
         }
 
@@ -205,7 +225,7 @@ namespace workspacer
             Subscribe(MouseEvent.LButtonDown,
                 () => _context.Workspaces.SwitchFocusedMonitorToMouseLocation());
 
-            Subscribe(mod | KeyModifiers.LShift, Keys.E,
+            Subscribe(mod, Keys.Escape,
                 () => _context.Enabled = !_context.Enabled, "toggle enable/disable");
 
             Subscribe(mod | KeyModifiers.LShift, Keys.C,
@@ -381,6 +401,7 @@ namespace workspacer
             {
                 var message = string.Join("\r\n", this.Keybinds.Select(k => (k.Item3 ?? "<unnamed>") + "  -  " + GetKeybindString(k.Item1, k.Item2)));
                 _keybindDialog = new TextBlockMessage("workspacer keybinds", "below is the list of the current keybindings", message, new List<Tuple<string, Action>>()
+                
                 {
                     new Tuple<string, Action>("ok", () => { }),
                 });
