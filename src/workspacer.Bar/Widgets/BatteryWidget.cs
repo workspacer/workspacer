@@ -36,13 +36,9 @@ namespace workspacer.Bar.Widgets
                 {
                     return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor));
                 }
-                else if (currentBatteryCharge <= HighChargeThreshold)
-                {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor));
-                }
                 else
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%")));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor));
                 }
             }
 
