@@ -40,13 +40,17 @@ namespace workspacer.Bar.Widgets
                     return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor));
                 }
             }
-
-            public override void Initialize()
+            else
             {
-                _timer = new System.Timers.Timer(Interval);
-                _timer.Elapsed += (s, e) => Context.MarkDirty();
-                _timer.Enabled = true;
+                return Parts(currentBatteryCharge.ToString("#0%"));
             }
+        }
+
+        public override void Initialize()
+        {
+            _timer = new System.Timers.Timer(Interval);
+            _timer.Elapsed += (s, e) => Context.MarkDirty();
+            _timer.Enabled = true;
         }
     }
 }
