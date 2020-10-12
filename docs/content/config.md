@@ -88,11 +88,15 @@ note that `DefaultMenu` contains a useful set of default items. if you don't wan
 
 workspacer subscribes to the [default set of keybindings](/keybindings) automatically for you. if you want to add additional keybindings, or override an existing one, you can do the following:
 
+Define the mod key the to the default key or ignore this step if you have already defined the mod key
+
+```csharp
+KeyModifiers mod = KeyModifiers.Alt;
+```
+
 ```csharp
 context.Keybinds.Subscribe(mod, Keys.Y, () => Console.WriteLine("Y was pressed"))
 ```
-
-where `mod` is a KeyModifiers value (`mod` is already defined as `KeyModifiers.Alt` in the default config, so you should be able to reuse it).
 
 if you want to remove a keybinding that already exists, you can unsubscribe from it:
 
