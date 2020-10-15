@@ -101,11 +101,11 @@ context.Keybinds.Subscribe(mod, Keys.Y, () => Console.WriteLine("Y was pressed")
 if you want to remove a keybinding that already exists, you can unsubscribe from it:
 
 ```csharp
-context.Keybindings.Unsubscribe(mod, Keys.Y);
+context.Keybinds.Unsubscribe(mod, Keys.Y);
 ```
 
 finally, you can remove all of the default keybindings via:
 
 ```csharp
-context.Keybindings.UnsubscribeAll();
+context.Keybinds.UnsubscribeAll();
 ```
