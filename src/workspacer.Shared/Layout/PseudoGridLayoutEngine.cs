@@ -3,10 +3,10 @@ using System.Linq;
 
 namespace workspacer
 {
-    public class GridLayoutEngine : ILayoutEngine
+    public class PseudoGridLayoutEngine : ILayoutEngine
     {
 
-        public GridLayoutEngine() { }
+        public PseudoGridLayoutEngine() { }
 
         public string Name => "grid";
 
