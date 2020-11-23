@@ -19,14 +19,14 @@ namespace workspacer
                 return list;
       
 
-                int rows = (int)(Math.Sqrt(numWindows) + 0.5);
+            int rows = (int)(Math.Sqrt(numWindows) + 0.5);
 
-                while (numWindows % rows != 0)
-                {
-                    rows -= 1;
-                }
+            while (numWindows % rows != 0)
+            {
+                rows -= 1;
+            }
 
-                int cols = numWindows / rows;
+            int cols = numWindows / rows;
             
 
             int tileWidth = spaceWidth / cols;
