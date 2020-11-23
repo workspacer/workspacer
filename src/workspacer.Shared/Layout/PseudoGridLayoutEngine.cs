@@ -21,14 +21,22 @@ namespace workspacer
             {
                 return list;
             }
-            else if (numWindows < 4)
+            else if (numWindows == 1)
             {
-                cols = numWindows;
                 rows = 1;
+                cols = 1;
             }
             else
             {
-                cols = numWindows % 2 == 0 ? numWindows / 2 : (numWindows + 1) / 2;
+                if (numWindows % 2 == 0)
+                {
+                    cols = numWindows / 2;
+                }
+                else
+                {
+                    cols = (numWindows + 1) / 2;
+                }
+
                 rows = 2;
             }
 

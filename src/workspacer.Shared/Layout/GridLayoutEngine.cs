@@ -17,18 +17,20 @@ namespace workspacer
 
             if (numWindows == 0)
                 return list;
+      
 
-            int rows = (int)(Math.Pow(numWindows, 0.5) + 0.5);
+                int rows = (int)(Math.Sqrt(numWindows) + 0.5);
 
-            while (numWindows % rows != 0)
-            {
-                rows -= 1;
-            }
+                while (numWindows % rows != 0)
+                {
+                    rows -= 1;
+                }
 
-            int cols = numWindows / rows;
+                int cols = numWindows / rows;
+            
+
             int tileWidth = spaceWidth / cols;
             int tileHeight = spaceHeight / rows;
-
 
             for (int r = 0; r < rows; r++)
             {
