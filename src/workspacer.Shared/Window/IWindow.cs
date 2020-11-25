@@ -13,6 +13,7 @@ namespace workspacer
         string Title { get; }
         string Class { get; }
         IWindowLocation Location { get; }
+        IWindowLocation Offset { get; }
 
         int ProcessId { get; }
         string ProcessFileName { get; }

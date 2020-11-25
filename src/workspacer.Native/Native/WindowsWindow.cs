@@ -78,7 +78,8 @@ namespace workspacer
             {
                 var buffer = new StringBuilder(255);
                 Win32.GetClassName(_handle, buffer, buffer.Capacity + 1);
-                return buffer.ToString();            }
+                return buffer.ToString();
+            }
         }
 
         public IWindowLocation Location
@@ -98,7 +99,55 @@ namespace workspacer
                     state = WindowState.Maximized;
                 }
 
-                return new WindowLocation(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top, state);
+                int X = rect.Left;
+                int Y = rect.Top;
+                int Width = rect.Right - rect.Left;
+                int Height = rect.Bottom - rect.Top;
+
+                return new WindowLocation(X, Y, Width, Height, state);
+            }
+        }
+
+        public IWindowLocation Offset
+        {
+            get
+            {
+                WindowState state = WindowState.Normal;
+                if (IsMinimized)
+                {
+                    state = WindowState.Minimized;
+                }
+                else if (IsMaximized)
+                {
+                    state = WindowState.Maximized;
+                }
+
+                // Window Rect via GetWindowRect
+                Win32.Rect rect1 = new Win32.Rect();
+                Win32.GetWindowRect(_handle, ref rect1);
+
+                int X1 = rect1.Left;
+                int Y1 = rect1.Top;
+                int Width1 = rect1.Right - rect1.Left;
+                int Height1 = rect1.Bottom - rect1.Top;
+
+                // Window Rect via DwmGetWindowAttribute
+                Win32.Rect rect2 = new Win32.Rect();
+                int size = Marshal.SizeOf(typeof(Win32.Rect));
+                Win32.DwmGetWindowAttribute(_handle, (int)Win32.DwmWindowAttribute.DWMWA_EXTENDED_FRAME_BOUNDS, out rect2, size);
+
+                int X2 = rect2.Left;
+                int Y2 = rect2.Top;
+                int Width2 = rect2.Right - rect2.Left;
+                int Height2 = rect2.Bottom - rect2.Top;
+
+                // Offset
+                int X = X1 - X2;
+                int Y = Y1 - Y2;
+                int Width = Width1 - Width2;
+                int Height = Height1 - Height2;
+
+                return new WindowLocation(X, Y, Width, Height, state);
             }
         }
 
@@ -110,7 +159,7 @@ namespace workspacer
         {
             get
             {
-                return _didManualHide || 
+                return _didManualHide ||
                     (!Win32Helper.IsCloaked(_handle) &&
                        Win32Helper.IsAppWindow(_handle) &&
                        Win32Helper.IsAltTabWindow(_handle));
