@@ -61,9 +61,9 @@ namespace workspacer.ActionMenu
             this.listBox.AutoSize = true;
             this.listBox.IntegralHeight = true;
 
-            this.label.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.textBox.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.listBox.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.label.Font = new Font(config.FontName, config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.textBox.Font = new Font(config.FontName, config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.listBox.Font = new Font(config.FontName, config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
 
             this.listBox.DisplayMember = "Text";
             this.listBox.ValueMember = "Text";
