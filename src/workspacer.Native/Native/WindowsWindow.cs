@@ -99,29 +99,14 @@ namespace workspacer
                     state = WindowState.Maximized;
                 }
 
-                int X = rect.Left;
-                int Y = rect.Top;
-                int Width = rect.Right - rect.Left;
-                int Height = rect.Bottom - rect.Top;
-
-                return new WindowLocation(X, Y, Width, Height, state);
+                return new WindowLocation(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top, state);
             }
         }
 
-        public IWindowLocation Offset
+        public Rectangle Offset
         {
             get
             {
-                WindowState state = WindowState.Normal;
-                if (IsMinimized)
-                {
-                    state = WindowState.Minimized;
-                }
-                else if (IsMaximized)
-                {
-                    state = WindowState.Maximized;
-                }
-
                 // Window Rect via GetWindowRect
                 Win32.Rect rect1 = new Win32.Rect();
                 Win32.GetWindowRect(_handle, ref rect1);
@@ -141,13 +126,13 @@ namespace workspacer
                 int Width2 = rect2.Right - rect2.Left;
                 int Height2 = rect2.Bottom - rect2.Top;
 
-                // Offset
+                // Calculate offset
                 int X = X1 - X2;
                 int Y = Y1 - Y2;
                 int Width = Width1 - Width2;
                 int Height = Height1 - Height2;
 
-                return new WindowLocation(X, Y, Width, Height, state);
+                return new Rectangle(X, Y, Width, Height);
             }
         }
 

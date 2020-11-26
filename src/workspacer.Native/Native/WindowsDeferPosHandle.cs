@@ -67,10 +67,12 @@ namespace workspacer
                 _toNormal.Add(window);
             }
 
-            int X = location.X + window.Offset.X;
-            int Y = location.Y + window.Offset.Y;
-            int Width = location.Width + window.Offset.Width;
-            int Height = location.Height + window.Offset.Height;
+            // Calculate final position for window
+            var offset = window.Offset;
+            int X = location.X + offset.X;
+            int Y = location.Y + offset.Y;
+            int Width = location.Width + offset.Width;
+            int Height = location.Height + offset.Height;
 
             Win32.DeferWindowPos(_info, window.Handle, IntPtr.Zero, X, Y, Width, Height, flags);
         }
