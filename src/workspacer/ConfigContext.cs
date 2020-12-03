@@ -148,7 +148,7 @@ namespace workspacer
             var str = JsonConvert.SerializeObject(response);
             _pipeServer.SendResponse(str);
         }
-        
+
         public void Restart()
         {
             SaveState();
@@ -187,6 +187,7 @@ namespace workspacer
 
         public void CleanupAndExit()
         {
+            SystemTray.Destroy();
             Application.Exit();
             Environment.Exit(0);
         }
