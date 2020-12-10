@@ -124,6 +124,8 @@ namespace workspacer
             return layouts;
         }
 
+        public Branch? Branch { get; set; }
+
         public void ToggleConsoleWindow()
         {
             var response = new LauncherResponse()

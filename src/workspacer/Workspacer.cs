@@ -5,6 +5,7 @@ using Timer = System.Timers.Timer;
 using System.Reflection;
 using System.IO;
 using System.Windows.Forms;
+using AutoUpdaterDotNET;
 
 namespace workspacer
 {
@@ -51,6 +52,33 @@ namespace workspacer
 
             // init config
             ConfigHelper.DoConfig(_context);
+
+            // Check for updates
+            if (_context.Branch == null)
+            {
+#if BRANCH_unstable
+                _context.Branch = Branch.Unstable;
+#elif BRANCH_stable
+                _context.Branch = Branch.Stable;
+#else
+                _context.Branch = Branch.None;
+#endif
+            }
+
+            if (_context.Branch != Branch.None)
+            {
+                var xmlUrl = $"https://workspacer.blob.core.windows.net/installers/{Enum.GetName(typeof(Branch), _context.Branch).ToLower()}.xml";
+
+                AutoUpdater.ApplicationExitEvent += Quit;
+
+                Timer timer = new Timer(1000 * 60 * 60);
+                timer.Elapsed += (s, e) =>
+                {
+                    AutoUpdater.Start(xmlUrl);
+                };
+                timer.Enabled = true;
+                AutoUpdater.Start(xmlUrl);
+            }
 
             // init windows
             _context.Windows.Initialize();

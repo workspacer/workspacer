@@ -1,16 +1,9 @@
-﻿using AutoUpdaterDotNET;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.ExceptionServices;
-using System.Text;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
+
     class Program
     {
         private static Logger Logger = Logger.Create();
@@ -19,28 +12,6 @@ namespace workspacer
         public static void Main(string[] args)
         {
             Win32.SetProcessDPIAware();
-
-#if BRANCH_unstable
-            var branch = "unstable";
-#elif BRANCH_stable 
-            var branch = "stable";
-#else
-            string branch = null;
-#endif
-            if (branch != null)
-            {
-                var xmlUrl = $"https://workspacer.blob.core.windows.net/installers/{branch}.xml";
-
-                AutoUpdater.ApplicationExitEvent += QuitForUpdate;
-
-                System.Timers.Timer timer = new System.Timers.Timer(1000 * 60 * 60);
-                timer.Elapsed += (s, e) =>
-                {
-                    AutoUpdater.Start(xmlUrl);
-                };
-                timer.Enabled = true;
-                AutoUpdater.Start(xmlUrl);
-            }
 
             Run();
         }
@@ -64,11 +35,6 @@ namespace workspacer
 
             _app.Start();
             return 0;
-        }
-
-        private static void QuitForUpdate()
-        {
-            _app.Quit();
         }
     }
 }
