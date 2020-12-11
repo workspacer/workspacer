@@ -3,17 +3,14 @@ name: unstable
 on:
   push:
     branches: [ github-actions ]
-  pull_request:
-    branches: [ github-actions ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
     - run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version).$(${{ github.run_number }})" >> $env:GITHUB_ENV
-    - run: Write-Output $env:VERSION
     - name: Restore solution
       run: dotnet restore
     - name: Build
