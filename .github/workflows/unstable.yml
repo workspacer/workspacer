@@ -5,7 +5,7 @@ on:
     branches: [ github-actions ]
 
 jobs:
-  build-and-deploy:
+  build-and-prerelease:
     runs-on: windows-latest
 
     steps:
