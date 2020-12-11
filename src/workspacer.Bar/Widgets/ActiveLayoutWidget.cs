@@ -9,6 +9,7 @@ namespace workspacer.Bar.Widgets
 {
     public class ActiveLayoutWidget : BarWidgetBase
     {
+        public string FontName { get; set; } = null;
         private Timer _timer;
 
         public ActiveLayoutWidget()
@@ -21,7 +22,7 @@ namespace workspacer.Bar.Widgets
             return Parts(Part("[" + currentWorkspace.LayoutName + "]", null, null, () =>
             {
                 Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
-            }));
+            }, FontName));
         }
 
         public override void Initialize()
