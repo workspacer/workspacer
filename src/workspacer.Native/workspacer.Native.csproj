@@ -4,9 +4,11 @@
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <Description>a tiling window manager for Windows</Description>
+    <Authors>Rick Button</Authors>
+    <Version>0.9.9</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" Version="4.3.0" />

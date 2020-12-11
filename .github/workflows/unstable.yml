@@ -12,9 +12,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: dotnet restore
+    - name: Bump build number
+      uses: follesoe/dotnet-bump-version@master
+      with:
+        version_files: "${{ env.Project_Path }}"
+        version_number: "${{ github.run_number }}"
+    - run: Write-Output "VERSION=$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version)" >> $GITHUB_ENV
+    - name: Restore solution
+      run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build /p:DefineConstants=BRANCH_unstable --configuration Release --no-restore
     - uses: actions/upload-artifact@v2
       with:
         name: workspacer-build
@@ -24,6 +31,7 @@ jobs:
         Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
         scoop install wixtoolset
         .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\
+        Rename-Item -Path .\out\workspacer.msi -NewName workspacer-unstable-latest.msi
     - uses: actions/upload-artifact@v2
       with:
         name: workspacer-installer
@@ -40,7 +48,8 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "Unstable"
+        title: "workspacer: ${{ env.VERSION }}"
         prerelease: true
         files: |
           out/workspacer-unstable-latest.zip
-          out/workspacer.msi
+          out/workspacer-unstable-latest.msi
