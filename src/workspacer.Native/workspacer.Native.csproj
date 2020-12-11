@@ -6,7 +6,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" Version="4.3.0" />

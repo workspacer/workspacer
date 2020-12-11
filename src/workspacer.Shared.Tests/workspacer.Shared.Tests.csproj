@@ -9,7 +9,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
   </PropertyGroup>
 </Project>
 
