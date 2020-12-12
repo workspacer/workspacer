@@ -2,7 +2,7 @@ name: unstable
 
 on:
   push:
-    branches: [ github-actions ]
+    branches: [ master ]
 
 jobs:
   build-and-prerelease:

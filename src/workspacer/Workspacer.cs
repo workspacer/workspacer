@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Newtonsoft.Json;
 using Timer = System.Timers.Timer;
 using System.Reflection;
 using System.IO;
 using System.Windows.Forms;
 using AutoUpdaterDotNET;
+using Octokit;
+using Application = System.Windows.Forms.Application;
 
 namespace workspacer
 {
@@ -35,7 +36,8 @@ namespace workspacer
             _context.ConnectToWatcher();
 
             // attach console output target
-            Logger.AttachConsoleLogger((str) =>{
+            Logger.AttachConsoleLogger((str) =>
+            {
                 Console.WriteLine(str);
                 _context.SendLogToConsole(str);
             });
@@ -54,7 +56,7 @@ namespace workspacer
             ConfigHelper.DoConfig(_context);
 
             // Check for updates
-            if (_context.Branch == null)
+            if (_context.Branch is null)
             {
 #if BRANCH_unstable
                 _context.Branch = Branch.Unstable;
@@ -65,19 +67,23 @@ namespace workspacer
 #endif
             }
 
+            _context.Branch = Branch.Stable;
             if (_context.Branch != Branch.None)
             {
-                var xmlUrl = $"https://workspacer.blob.core.windows.net/installers/{Enum.GetName(typeof(Branch), _context.Branch).ToLower()}.xml";
-
+                if (!IsDirectoryWritable(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
+                {
+                    AutoUpdater.RunUpdateAsAdmin = true;
+                }
+                AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
                 AutoUpdater.ApplicationExitEvent += Quit;
 
                 Timer timer = new Timer(1000 * 60 * 60);
                 timer.Elapsed += (s, e) =>
                 {
-                    AutoUpdater.Start(xmlUrl);
+                    AutoUpdater.Start();
                 };
                 timer.Enabled = true;
-                AutoUpdater.Start(xmlUrl);
+                AutoUpdater.Start();
             }
 
             // init windows
@@ -118,6 +124,41 @@ namespace workspacer
             Application.Run();
         }
 
+        private async void AutoUpdater_CheckForUpdateEvent(UpdateInfoEventArgs args)
+        {
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("workspacer"));
+
+            Release release = _context.Branch == Branch.Stable
+                ? await client.Repository.Release.GetLatest("rickbutton", "workspacer")
+                : await client.Repository.Release.Get("rickbutton", "workspacer", "Unstable");
+
+            string currentVersion = release.Name.Split(' ').Skip(1).FirstOrDefault();
+
+            args = new UpdateInfoEventArgs
+            {
+                CurrentVersion = currentVersion,
+                ChangelogURL = "https://www.workspacer.org/changelog",
+                DownloadURL = release.Assets.FirstOrDefault(a => a.Name == $"workspacer-{nameof(_context.Branch).ToLower()}-{currentVersion}.zip")?.BrowserDownloadUrl
+            };
+        }
+
+        public bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
+        {
+            try
+            {
+                using (File.Create(Path.Combine(dirPath, Path.GetRandomFileName()), 1, FileOptions.DeleteOnClose))
+                { }
+
+                return true;
+            }
+            catch
+            {
+                if (throwIfFails) throw;
+
+                return false;
+            }
+        }
+
         public void Quit()
         {
             _context.Quit();
@@ -148,7 +189,8 @@ namespace workspacer
             if (!ConfigHelper.CanCreateExampleConfig())
             {
                 DisplayMessage("workspacer.config.csx already exists, so one cannot be created.");
-            } else
+            }
+            else
             {
                 ConfigHelper.CreateExampleConfig();
                 DisplayMessage($"workspacer.config.csx created in: [${FileHelper.GetUserWorkspacerPath()}]");
