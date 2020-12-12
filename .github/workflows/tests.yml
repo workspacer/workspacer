@@ -1,0 +1,24 @@
+name: test
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Restore solution
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - uses: actions/upload-artifact@v2
+      with:
+        name: workspacer-build
+        path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64
+    - name: Test
+      run: |
+        dotnet tool install -g xunit-cli
+        xunit .\src\workspacer.Shared.Tests\bin\Release\net5.0-windows\win10-x64\workspacer.Shared.Tests.dll .\src\workspacer.Tests\bin\Release\net5.0-windows\win10-x64\workspacer.Tests.dll -verbose
