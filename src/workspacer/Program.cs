@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace workspacer
 {
@@ -12,7 +13,9 @@ namespace workspacer
         [STAThread]
         public static void Main(string[] args)
         {
-            Win32.SetProcessDPIAware();
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
             Run();
         }

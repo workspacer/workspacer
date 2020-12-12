@@ -124,13 +124,13 @@ namespace workspacer
             Application.Run();
         }
 
-        private async void AutoUpdater_ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
+        private void AutoUpdater_ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
             GitHubClient client = new GitHubClient(new ProductHeaderValue("workspacer"));
 
             Release release = _context.Branch == Branch.Stable
-                ? await client.Repository.Release.GetLatest("rickbutton", "workspacer")
-                : await client.Repository.Release.Get("rickbutton", "workspacer", "Unstable");
+                ? client.Repository.Release.GetLatest("rickbutton", "workspacer").Result
+                : client.Repository.Release.Get("rickbutton", "workspacer", "Unstable").Result;
 
             string currentVersion = release.Name.Split(' ').Skip(1).FirstOrDefault();
             args.UpdateInfo = new UpdateInfoEventArgs
