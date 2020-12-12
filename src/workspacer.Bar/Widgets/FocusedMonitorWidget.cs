@@ -14,10 +14,10 @@ namespace workspacer.Bar.Widgets
         {
             if (Context.MonitorContainer.FocusedMonitor == Context.Monitor)
             {
-                return Parts(Part("**********", fore: null, back: null, partClicked: null, FontName));
+                return Parts(Part("**********", fontname: FontName));
             } else
             {
-                return Parts(Part("", fore: null, back: null, partClicked: null, FontName));
+                return Parts(Part("", fontname: FontName));
             }
         }
 

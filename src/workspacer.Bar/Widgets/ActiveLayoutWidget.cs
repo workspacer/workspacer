@@ -22,7 +22,7 @@ namespace workspacer.Bar.Widgets
             return Parts(Part("[" + currentWorkspace.LayoutName + "]", fore: null, back: null, () =>
             {
                 Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
-            }, FontName));
+            }, fontname: FontName));
         }
 
         public override void Initialize()

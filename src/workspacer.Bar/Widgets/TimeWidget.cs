@@ -24,7 +24,7 @@ namespace workspacer.Bar.Widgets
 
         public override IBarWidgetPart[] GetParts()
         {
-            return Parts(Part(DateTime.Now.ToString(_format), fore: null, back: null, partClicked: null, FontName));
+            return Parts(Part(DateTime.Now.ToString(_format), fontname: FontName));
         }
 
         public override void Initialize()

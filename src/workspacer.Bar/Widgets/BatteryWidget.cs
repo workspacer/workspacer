@@ -30,20 +30,20 @@ namespace workspacer.Bar.Widgets
             {
                 if (currentBatteryCharge <= LowChargeThreshold)
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, back: null, partClicked: null, FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, fontname: FontName));
                 }
                 else if (currentBatteryCharge <= MedChargeThreshold)
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, back: null, partClicked: null, FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, fontname: FontName));
                 }
                 else
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, back: null, partClicked: null, FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, fontname: FontName));
                 }
             }
             else
             {
-                return Parts(Part(currentBatteryCharge.ToString("#0%"), fore: null, back: null, partClicked: null, FontName));
+                return Parts(Part(currentBatteryCharge.ToString("#0%"), fontname: FontName));
             }
         }
 

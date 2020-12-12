@@ -24,16 +24,16 @@ namespace workspacer.Bar.Widgets
             {
                 if (!IsShortTitle)
                 {
-                    return Parts(Part(window.Title, color, back: null, partClicked: null, FontName));
+                    return Parts(Part(window.Title, color, fontname: FontName));
                 }
                 else 
                 {
                         string ShortTitle = window.Title.Split("-").Last();
-                        return Parts(Part(ShortTitle, color, back: null, partClicked: null, FontName));
+                        return Parts(Part(ShortTitle, color, fontname: FontName));
                 }
             } else
             {
-                return Parts(Part(NoWindowMessage, color, back: null, partClicked: null, FontName));
+                return Parts(Part(NoWindowMessage, color, fontname: FontName));
             }
         }
 

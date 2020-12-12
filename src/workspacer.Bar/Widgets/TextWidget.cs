@@ -18,7 +18,7 @@ namespace workspacer.Bar.Widgets
 
         public override IBarWidgetPart[] GetParts()
         {
-            return Parts(Part(_text, fore: null, back: null, partClicked: null, FontName));
+            return Parts(Part(_text, fontname: FontName));
         }
 
         public override void Initialize()
