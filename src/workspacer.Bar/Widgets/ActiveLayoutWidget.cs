@@ -9,7 +9,7 @@ namespace workspacer.Bar.Widgets
 {
     public class ActiveLayoutWidget : BarWidgetBase
     {
-        public string FontName { get; set; } = null;
+      
         private Timer _timer;
 
         public ActiveLayoutWidget()
@@ -19,7 +19,7 @@ namespace workspacer.Bar.Widgets
         public override IBarWidgetPart[] GetParts()
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
-            return Parts(Part("[" + currentWorkspace.LayoutName + "]", null, null, () =>
+            return Parts(Part("[" + currentWorkspace.LayoutName + "]", fore: null, back: null, () =>
             {
                 Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
             }, FontName));

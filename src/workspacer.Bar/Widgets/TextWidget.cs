@@ -8,7 +8,7 @@ namespace workspacer.Bar.Widgets
 {
     public class TextWidget : BarWidgetBase
     {
-        public string FontName { get; set; } = null;
+        
         private string _text;
 
         public TextWidget(string text)
@@ -18,7 +18,7 @@ namespace workspacer.Bar.Widgets
 
         public override IBarWidgetPart[] GetParts()
         {
-            return Parts(Part(_text,null,null,null,FontName));
+            return Parts(Part(_text, fore: null, back: null, partClicked: null, FontName));
         }
 
         public override void Initialize()

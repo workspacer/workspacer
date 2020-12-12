@@ -17,7 +17,7 @@ namespace workspacer.Bar.Widgets
         public double LowChargeThreshold { get; set; } = 0.10;
         public double MedChargeThreshold { get; set; } = 0.50;
         public int Interval { get; set; } = 5000;
-        public string FontName { get; set; } = null;
+        
 
         private System.Timers.Timer _timer;
 
@@ -30,20 +30,20 @@ namespace workspacer.Bar.Widgets
             {
                 if (currentBatteryCharge <= LowChargeThreshold)
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, null, null, FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, back: null, partClicked: null, FontName));
                 }
                 else if (currentBatteryCharge <= MedChargeThreshold)
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, null, null, FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, back: null, partClicked: null, FontName));
                 }
                 else
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, null, null, FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, back: null, partClicked: null, FontName));
                 }
             }
             else
             {
-                return Parts(Part(currentBatteryCharge.ToString("#0%"), null, null, null, FontName));
+                return Parts(Part(currentBatteryCharge.ToString("#0%"), fore: null, back: null, partClicked: null, FontName));
             }
         }
 

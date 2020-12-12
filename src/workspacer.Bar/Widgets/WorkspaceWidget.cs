@@ -14,7 +14,7 @@ namespace workspacer.Bar.Widgets
         public Color WorkspaceEmptyColor { get; set; } = Color.Gray;
         public Color WorkspaceIndicatingBackColor { get; set; } = Color.Teal;
         public int BlinkPeriod { get; set; } = 1000;
-        public string FontName { get; set; } = null;
+        //public string FontName { get; set; }
 
         private Timer _blinkTimer;
         private ConcurrentDictionary<IWorkspace, bool> _blinkingWorkspaces;
@@ -72,7 +72,8 @@ namespace workspacer.Bar.Widgets
             return Part(GetDisplayName(workspace, index), GetDisplayColor(workspace, index), backColor, () =>
             {
                 Context.Workspaces.SwitchMonitorToWorkspace(Context.Monitor.Index, index);
-            },FontName);
+            },
+            FontName);
         }
 
         private void UpdateWorkspaces()

@@ -9,6 +9,7 @@ namespace workspacer.Bar
     public abstract class BarWidgetBase : IBarWidget
     {
         protected IBarWidgetContext Context { get; private set; }
+        public string FontName { get; set; } = null;
 
         public void Initialize(IBarWidgetContext context)
         {
