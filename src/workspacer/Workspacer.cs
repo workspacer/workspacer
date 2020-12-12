@@ -55,7 +55,7 @@ namespace workspacer
             // init config
             ConfigHelper.DoConfig(_context);
 
-            // Check for updates
+            // check for updates
             if (_context.Branch is null)
             {
 #if BRANCH_unstable
@@ -73,16 +73,17 @@ namespace workspacer
                 {
                     AutoUpdater.RunUpdateAsAdmin = true;
                 }
-                AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
+                AutoUpdater.ParseUpdateInfoEvent += AutoUpdater_ParseUpdateInfoEvent;
                 AutoUpdater.ApplicationExitEvent += Quit;
 
                 Timer timer = new Timer(1000 * 60 * 60);
                 timer.Elapsed += (s, e) =>
                 {
-                    AutoUpdater.Start();
+                    AutoUpdater.Start("https://raw.githubusercontent.com/rickbutton/workspacer/master/README.md");
                 };
                 timer.Enabled = true;
-                AutoUpdater.Start();
+                // Put url to trigger ParseUpdateInfoEvent
+                AutoUpdater.Start("https://raw.githubusercontent.com/rickbutton/workspacer/master/README.md");
             }
 
             // init windows
@@ -123,7 +124,7 @@ namespace workspacer
             Application.Run();
         }
 
-        private async void AutoUpdater_CheckForUpdateEvent(UpdateInfoEventArgs args)
+        private async void AutoUpdater_ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
             GitHubClient client = new GitHubClient(new ProductHeaderValue("workspacer"));
 
@@ -132,16 +133,15 @@ namespace workspacer
                 : await client.Repository.Release.Get("rickbutton", "workspacer", "Unstable");
 
             string currentVersion = release.Name.Split(' ').Skip(1).FirstOrDefault();
-
-            args = new UpdateInfoEventArgs
+            args.UpdateInfo = new UpdateInfoEventArgs
             {
                 CurrentVersion = currentVersion,
                 ChangelogURL = "https://www.workspacer.org/changelog",
-                DownloadURL = release.Assets.FirstOrDefault(a => a.Name == $"workspacer-{nameof(_context.Branch).ToLower()}-{currentVersion}.zip")?.BrowserDownloadUrl
+                DownloadURL = release.Assets.FirstOrDefault(a => a.Name == $"workspacer-{_context.Branch.ToString()?.ToLower()}-{currentVersion}.zip").BrowserDownloadUrl
             };
         }
 
-        public bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
+        private static bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
         {
             try
             {

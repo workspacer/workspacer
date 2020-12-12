@@ -6,6 +6,7 @@ namespace workspacer
 
     class Program
     {
+        private static workspacer _app;
         private static Logger Logger = Logger.Create();
 
         [STAThread]
@@ -16,9 +17,7 @@ namespace workspacer
             Run();
         }
 
-        private static workspacer _app;
-
-        private static int Run()
+        private static void Run()
         {
             _app = new workspacer();
 
@@ -34,7 +33,6 @@ namespace workspacer
 #endif
 
             _app.Start();
-            return 0;
         }
     }
 }
