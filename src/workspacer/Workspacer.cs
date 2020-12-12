@@ -67,7 +67,6 @@ namespace workspacer
 #endif
             }
 
-            _context.Branch = Branch.Stable;
             if (_context.Branch != Branch.None)
             {
                 if (!IsDirectoryWritable(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
