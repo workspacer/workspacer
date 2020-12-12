@@ -45,3 +45,18 @@ jobs:
         files: |
           out/workspacer-unstable-${{ env.VERSION }}.zip
           out/workspacer-unstable-${{ env.VERSION }}.msi
+  deploy-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+      - name: Build
+        run: hugo -s ./docs -d ../public
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
