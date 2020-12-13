@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Timer = System.Timers.Timer;
 using System.Reflection;
-using System.IO;
 using System.Windows.Forms;
-using AutoUpdaterDotNET;
-using Octokit;
 using Application = System.Windows.Forms.Application;
 
 namespace workspacer
@@ -55,37 +51,6 @@ namespace workspacer
             // init config
             ConfigHelper.DoConfig(_context);
 
-            // check for updates
-            if (_context.Branch is null)
-            {
-#if BRANCH_unstable
-                _context.Branch = Branch.Unstable;
-#elif BRANCH_stable
-                _context.Branch = Branch.Stable;
-#else
-                _context.Branch = Branch.None;
-#endif
-            }
-
-            if (_context.Branch != Branch.None)
-            {
-                if (!IsDirectoryWritable(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
-                {
-                    AutoUpdater.RunUpdateAsAdmin = true;
-                }
-                AutoUpdater.ParseUpdateInfoEvent += AutoUpdater_ParseUpdateInfoEvent;
-                AutoUpdater.ApplicationExitEvent += Quit;
-
-                Timer timer = new Timer(1000 * 60 * 60);
-                timer.Elapsed += (s, e) =>
-                {
-                    AutoUpdater.Start("https://raw.githubusercontent.com/rickbutton/workspacer/master/README.md");
-                };
-                timer.Enabled = true;
-                // Put url to trigger ParseUpdateInfoEvent
-                AutoUpdater.Start("https://raw.githubusercontent.com/rickbutton/workspacer/master/README.md");
-            }
-
             // init windows
             _context.Windows.Initialize();
 
@@ -122,40 +87,6 @@ namespace workspacer
 
             // start message pump on main thread
             Application.Run();
-        }
-
-        private void AutoUpdater_ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
-        {
-            GitHubClient client = new GitHubClient(new ProductHeaderValue("workspacer"));
-
-            Release release = _context.Branch == Branch.Stable
-                ? client.Repository.Release.GetLatest("rickbutton", "workspacer").Result
-                : client.Repository.Release.Get("rickbutton", "workspacer", "Unstable").Result;
-
-            string currentVersion = release.Name.Split(' ').Skip(1).FirstOrDefault();
-            args.UpdateInfo = new UpdateInfoEventArgs
-            {
-                CurrentVersion = currentVersion,
-                ChangelogURL = "https://www.workspacer.org/changelog",
-                DownloadURL = release.Assets.FirstOrDefault(a => a.Name == $"workspacer-{_context.Branch.ToString()?.ToLower()}-{currentVersion}.zip").BrowserDownloadUrl
-            };
-        }
-
-        private static bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
-        {
-            try
-            {
-                using (File.Create(Path.Combine(dirPath, Path.GetRandomFileName()), 1, FileOptions.DeleteOnClose))
-                { }
-
-                return true;
-            }
-            catch
-            {
-                if (throwIfFails) throw;
-
-                return false;
-            }
         }
 
         public void Quit()
