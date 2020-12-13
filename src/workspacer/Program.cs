@@ -15,9 +15,12 @@ namespace workspacer
     class Program
     {
         private static workspacer _app;
-        private static Logger Logger = Logger.Create();
-        private static readonly ConfigContext Context = new ConfigContext();
+        private static Logger _logger = Logger.Create();
+        private static Branch? _branch;
 
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
         [STAThread]
         public static void Main(string[] args)
         {
@@ -25,32 +28,35 @@ namespace workspacer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            ConfigContext context = new ConfigContext();
             try
             {
-                ConfigHelper.DoConfig(Context);
+                ConfigHelper.DoConfig(context);
             }
             catch
             {
                 // suppress error
             }
+            _branch = context.Branch;
+            context.SystemTray.Dispose();
 
             // check for updates
-            if (Context.Branch is null)
+            if (_branch is null)
             {
 #if BRANCH_unstable
-                Context.Branch = Branch.Unstable;
+                _branch = Branch.Unstable;
 #elif BRANCH_stable
-                Context.Branch = Branch.Stable;
+                _branch = Branch.Stable;
 #else
-                Context.Branch = Branch.None;
+                _branch = Branch.None;
 #endif
             }
 
-            if (Context.Branch != Branch.None)
+            if (_branch != Branch.None)
             {
                 AutoUpdater.RunUpdateAsAdmin = !IsDirectoryWritable(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                 AutoUpdater.ParseUpdateInfoEvent += AutoUpdater_ParseUpdateInfoEvent;
-                AutoUpdater.ApplicationExitEvent += QuitForUpdate;
+                AutoUpdater.ApplicationExitEvent += _app.Quit;
 
                 Timer timer = new Timer(1000 * 60 * 60);
                 timer.Elapsed += (s, e) =>
@@ -110,18 +116,13 @@ namespace workspacer
                 {
                     if (!(e.ExceptionObject is ThreadAbortException))
                     {
-                        Logger.Fatal(e.ExceptionObject as Exception, "exception occurred, quiting workspacer: " + (e.ExceptionObject as Exception).ToString());
-                        _app.QuitWithException(e.ExceptionObject as Exception);
+                        _logger.Fatal((Exception) e.ExceptionObject, "exception occurred, quiting workspacer: " + ((Exception) e.ExceptionObject).ToString());
+                        _app.QuitWithException((Exception) e.ExceptionObject);
                     }
                 });
 #endif
 
             _app.Start();
-        }
-
-        private static void QuitForUpdate()
-        {
-            _app.Quit();
         }
     }
 }
