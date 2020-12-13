@@ -14,11 +14,11 @@ jobs:
     - name: Restore solution
       run: dotnet restore
     - name: Build
-      run: dotnet build /p:DefineConstants=BRANCH_unstable /p:Version=$env:VERSION --configuration Release --no-restore
+      run: dotnet publish /p:DefineConstants=BRANCH_unstable /p:Version=$env:VERSION --configuration Release --no-restore
     - uses: actions/upload-artifact@v2
       with:
         name: workspacer-build
-        path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64
+        path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\
     - name: Publish installer
       run: |
         Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')

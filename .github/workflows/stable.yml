@@ -15,22 +15,22 @@ jobs:
     - name: Restore solution
       run: dotnet restore
     - name: Build
-      run: dotnet build /p:DefineConstants=BRANCH_stable --configuration Release --no-restore
+      run: dotnet publish /p:DefineConstants=BRANCH_stable --configuration Release --no-restore
     - uses: actions/upload-artifact@v2
       with:
         name: workspacer-build
-        path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64
+        path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\
     - name: Publish installer
       run: |
         Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
         scoop install wixtoolset
-        .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\ -version "stable-$env:VERSION"
+        .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\ -version "stable-$env:VERSION"
     - uses: actions/upload-artifact@v2
       with:
         name: workspacer-setup
         path: .\out\workspacer-stable-${{ env.VERSION }}.msi
     - name: Zip build output
-      run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\* -DestinationPath ".\out\workspacer-stable-$env:VERSION.zip"
+      run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-stable-$env:VERSION.zip"
     - uses: dev-drprasad/delete-tag-and-release@v0.1.2
       with:
        delete_release: true
