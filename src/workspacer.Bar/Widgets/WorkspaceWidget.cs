@@ -71,7 +71,8 @@ namespace workspacer.Bar.Widgets
             return Part(GetDisplayName(workspace, index), GetDisplayColor(workspace, index), backColor, () =>
             {
                 Context.Workspaces.SwitchMonitorToWorkspace(Context.Monitor.Index, index);
-            });
+            },
+            FontName);
         }
 
         private void UpdateWorkspaces()

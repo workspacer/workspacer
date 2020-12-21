@@ -9,6 +9,7 @@ namespace workspacer.Bar
     public abstract class BarWidgetBase : IBarWidget
     {
         protected IBarWidgetContext Context { get; private set; }
+        public string FontName { get; set; } = null;
 
         public void Initialize(IBarWidgetContext context)
         {
@@ -34,7 +35,7 @@ namespace workspacer.Bar
             return parts;
         }
 
-        protected IBarWidgetPart Part(string text, Color fore = null, Color back = null, Action partClicked = null)
+        protected IBarWidgetPart Part(string text, Color fore = null, Color back = null, Action partClicked = null, string fontname = null)
         {
             return new BarWidgetPart()
             {
@@ -42,6 +43,7 @@ namespace workspacer.Bar
                 ForegroundColor = fore,
                 BackgroundColor = back,
                 PartClicked = partClicked,
+                FontName = fontname,
             };
         }
     }
