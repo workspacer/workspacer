@@ -139,7 +139,10 @@ namespace workspacer
 
         public void IncrementGapSize()
         {
-            _gapSize += 2;
+            if (_gapSize < 60)
+                _gapSize += 2;
+            else
+                _gapSize = 60;
         }
 
         public void DecrementGapSize()
