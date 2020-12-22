@@ -25,10 +25,14 @@ namespace workspacer
         void SwitchToNextWorkspace();
         void SwitchToPreviousWorkspace();
         void SwitchFocusedMonitor(int index);
+        void SwitchFocusToNextMonitor();
+        void SwitchFocusToPreviousMonitor();
         void SwitchFocusedMonitorToMouseLocation();
         void MoveFocusedWindowToWorkspace(int index);
         void MoveFocusedWindowToMonitor(int index);
         void MoveAllWindows(IWorkspace source, IWorkspace dest);
+        void MoveFocusedWindowToNextMonitor();
+        void MoveFocusedWindowToPreviousMonitor();
 
         void ForceWorkspaceUpdate();
 
