@@ -187,7 +187,7 @@ namespace workspacer
 
         public void CleanupAndExit()
         {
-            SystemTray.Destroy();
+            SystemTray.Dispose();
             Application.Exit();
             Environment.Exit(0);
         }

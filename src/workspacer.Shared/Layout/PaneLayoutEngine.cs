@@ -64,6 +64,8 @@ namespace workspacer
         public void ExpandPrimaryArea() { }
         public void IncrementNumInPrimary() { }
         public void ResetPrimaryArea() { }
-        public void ShrinkPrimaryArea() { } 
+        public void ShrinkPrimaryArea() { }
+        public void IncrementGapSize() { }
+        public void DecrementGapSize() { }
     }
 }

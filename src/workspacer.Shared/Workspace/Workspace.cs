@@ -43,7 +43,7 @@ namespace workspacer
                 }
             }
         }
-            
+
         public IWindow LastFocusedWindow => _lastFocused;
         public string Name { get; }
         public string LayoutName => _layoutEngines[_layoutIndex].Name;
@@ -312,6 +312,18 @@ namespace workspacer
             DoLayout();
         }
 
+        public void IncrementGapSize()
+        {
+            GetLayoutEngine().IncrementGapSize();
+            DoLayout();
+        }
+
+        public void DecrementGapSize()
+        {
+            GetLayoutEngine().DecrementGapSize();
+            DoLayout();
+        }
+
         public void SwapWindowToPoint(IWindow window, int x, int y)
         {
             var windows = ManagedWindows;
@@ -388,13 +400,13 @@ namespace workspacer
                             var window = windows[i];
                             var loc = locations[i];
 
-                            var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y, 
+                            var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y,
                                 loc.Width, loc.Height, loc.State);
 
                             if (!window.IsMouseMoving)
                             {
                                 handle.DeferWindowPos(window, adjustedLoc);
-                            } 
+                            }
                         }
                     }
                 }

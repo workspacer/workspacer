@@ -63,9 +63,9 @@ namespace workspacer
             {
                 new Tuple<string, Action>("ok", () => { }),
             });
-          
+
             _keybindWarning.Show();
-            
+
         }
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler, string name)
@@ -369,6 +369,12 @@ You can either change your custom hotkey or reassign the default hotkey";
 
             Subscribe(mod | KeyModifiers.LShift, Keys.Oem2,
                 () => ShowKeybindDialog(), "open keybind window");
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.L,
+            () => _context.Workspaces.FocusedWorkspace.IncrementGapSize(), "increment gap size");
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.H,
+            () => _context.Workspaces.FocusedWorkspace.DecrementGapSize(), "decrement gap size");
         }
 
         private string GetKeybindString(KeyModifiers mods, Keys keys)
@@ -401,11 +407,11 @@ You can either change your custom hotkey or reassign the default hotkey";
             {
                 var message = string.Join("\r\n", this.Keybinds.Select(k => (k.Item3 ?? "<unnamed>") + "  -  " + GetKeybindString(k.Item1, k.Item2)));
                 _keybindDialog = new TextBlockMessage("workspacer keybinds", "below is the list of the current keybindings", message, new List<Tuple<string, Action>>()
-                
+
                 {
                     new Tuple<string, Action>("ok", () => { }),
                 });
-            } 
+            }
 
             if (_keybindDialog.Visible)
             {

@@ -8,7 +8,7 @@ namespace workspacer
 {
     /// <summary>
     /// IWorkspace provides a common interface for workspace-related operations.
-    /// workspaces logically contain a set of windows, and allow callers to interact with the 
+    /// workspaces logically contain a set of windows, and allow callers to interact with the
     /// windows via a set of methods, and all the organization of the windows via layout engines
     /// </summary>
     public interface IWorkspace
@@ -75,7 +75,7 @@ namespace workspacer
         /// <summary>
         /// focus the last focused window
         /// </summary>
-        void FocusLastFocusedWindow(); 
+        void FocusLastFocusedWindow();
 
         /// <summary>
         /// rotate focus to the next window
@@ -126,6 +126,16 @@ namespace workspacer
         /// decrease the number of primary windows in the active layout
         /// </summary>
         void DecrementNumberOfPrimaryWindows(); // mod-period
+
+        /// <summary>
+        /// increase the size of the gaps in the active layout
+        /// </summary>
+        void IncrementGapSize(); // mod-shift-l
+
+        /// <summary>
+        /// decrease the size of the gaps in the active layout
+        /// </summary>
+        void DecrementGapSize(); //mod-shift-h
 
         /// <summary>
         /// force a layout of the workspace

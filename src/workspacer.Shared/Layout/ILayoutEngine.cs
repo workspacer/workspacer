@@ -55,5 +55,17 @@ namespace workspacer
         /// the behavior of this method is implementation defined
         /// </summary>
         void DecrementNumInPrimary();
+
+        /// <summary>
+        /// increment the size of the gaps in the layout
+        /// the behavior of this method is implementation defined
+        /// </summary>
+        void IncrementGapSize();
+
+        /// <summary>
+        /// decrement the size of theg aps in the layout
+        /// the behavior of this method is implementation defined
+        /// </summary>
+        void DecrementGapSize();
     }
 }
