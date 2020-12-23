@@ -56,7 +56,7 @@ namespace workspacer
             {
                 AutoUpdater.RunUpdateAsAdmin = !IsDirectoryWritable(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                 AutoUpdater.ParseUpdateInfoEvent += AutoUpdater_ParseUpdateInfoEvent;
-                AutoUpdater.ApplicationExitEvent += _app.Quit;
+                AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
 
                 Timer timer = new Timer(1000 * 60 * 60);
                 timer.Elapsed += (s, e) =>
@@ -88,6 +88,10 @@ namespace workspacer
                 ChangelogURL = isStable ? "https://www.workspacer.org/changelog" : "https://github.com/rickbutton/workspacer/releases/unstable",
                 DownloadURL = release.Assets.First(a => a.Name == $"workspacer-{_branch.ToString()?.ToLower()}-{(isStable ? currentVersion : "latest")}.zip").BrowserDownloadUrl
             };
+        }
+
+        private static void AutoUpdater_ApplicationExitEvent() {
+            _app.Quit();
         }
 
         private static bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
