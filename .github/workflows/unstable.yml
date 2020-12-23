@@ -1,0 +1,62 @@
+name: unstable
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-prerelease:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version).$(${{ github.run_number }})" >> $env:GITHUB_ENV
+    - name: Restore solution
+      run: dotnet restore
+    - name: Build
+      run: dotnet publish /p:DefineConstants=BRANCH_unstable /p:Version=$env:VERSION --configuration Release --no-restore
+    - uses: actions/upload-artifact@v2
+      with:
+        name: workspacer-build
+        path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\
+    - name: Publish installer
+      run: |
+        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+        scoop install wixtoolset
+        .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\ -version "unstable-latest"
+    - uses: actions/upload-artifact@v2
+      with:
+        name: workspacer-installer
+        path: .\out\workspacer-unstable-latest.msi
+    - name: Zip build output
+      run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-unstable-latest.zip"
+    - uses: dev-drprasad/delete-tag-and-release@v0.1.2
+      with:
+       delete_release: true
+       tag_name: unstable
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        automatic_release_tag: unstable
+        title: workspacer ${{ env.VERSION }}
+        prerelease: true
+        files: |
+          out/workspacer-unstable-latest.zip
+          out/workspacer-unstable-latest.msi
+  deploy-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+      - name: Build
+        run: hugo -s ./docs -d ../public
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

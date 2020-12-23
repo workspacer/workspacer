@@ -48,6 +48,11 @@ namespace workspacer
         IEnumerable<ILayoutEngine> ProxyLayouts(IEnumerable<ILayoutEngine> layouts);
 
         /// <summary>
+        /// The branch to check updates with
+        /// </summary>
+        Branch? Branch { get; set; }
+
+        /// <summary>
         /// ConsoleLogLevel controls the log level of the debug output window (alt-shift-i by default)
         /// </summary>
         /// <value>the desired console log level</value>

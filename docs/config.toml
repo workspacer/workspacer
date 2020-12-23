@@ -1,4 +1,5 @@
 baseurl = "/"
+relativeURLs = true
 languageCode = "en-us"
 title = "workspacer"
 theme = "kube"

@@ -1,5 +1,0 @@
-<Project>
- <PropertyGroup>
-    <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
- </PropertyGroup>
-</Project>

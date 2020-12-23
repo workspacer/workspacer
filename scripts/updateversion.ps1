@@ -1,4 +1,5 @@
  param (
+    [Parameter(Mandatory=$true)]
     [string]$version,
     [switch]$yes,
     [switch]$nogit
@@ -12,14 +13,15 @@ if (!$yes) {
     }
 }
 
-$infos = Get-ChildItem -Path . -Filter "AssemblyInfo.cs" -Recurse -ErrorAction SilentlyContinue -Force
-foreach ($file in $infos)
-{
-    "setting version for $file to $version"
-    (Get-Content $file.PSPath) |
-    Foreach-Object { $_ -replace "AssemblyVersion\("".*""\)", "AssemblyVersion(""$version"")" } |
-    Set-Content $file.PSPath
+if (!(Get-Command setversion -ErrorAction SilentlyContinue)) {
+    $answer = Read-Host "dotnet-setversion not found. Install now? (y/n)"
+    if ($answer -ne 'y') {
+        exit
+    } else {
+        dotnet tool install -g dotnet-setversion
+    }
 }
+setversion -r $version
 
 $setupProjs = Get-ChildItem -Path . -Filter "Product.wxs" -Recurse -ErrorAction SilentlyContinue -Force
 foreach ($file in $setupProjs)
@@ -29,9 +31,6 @@ foreach ($file in $setupProjs)
     Foreach-Object { $_ -replace "Version="".*"" Manu", "Version=""$version"" Manu" } |
     Set-Content $file.PSPath
 }
-
-"setting version for VERSION to $version"
-"$version" | Set-Content "VERSION"
 
 if (!$nogit) {
     git add .
@@ -48,5 +47,5 @@ if (!$nogit) {
     git push
 
     git tag -a v$version -m v$version
-    git push --tags
+    git push --follow-tags
 }

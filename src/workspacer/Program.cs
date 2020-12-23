@@ -1,53 +1,113 @@
-﻿using AutoUpdaterDotNET;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.ExceptionServices;
-using System.Text;
+using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Windows.Forms;
+using AutoUpdaterDotNET;
+using Octokit;
+using Application = System.Windows.Forms.Application;
+using Timer = System.Timers.Timer;
 
 namespace workspacer
 {
+
     class Program
     {
-        private static Logger Logger = Logger.Create();
+        private static workspacer _app;
+        private static Logger _logger = Logger.Create();
+        private static Branch? _branch;
 
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
         [STAThread]
         public static void Main(string[] args)
         {
-            Win32.SetProcessDPIAware();
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-#if BRANCH_unstable
-            var branch = "unstable";
-#elif BRANCH_stable 
-            var branch = "stable";
-#else
-            string branch = null;
-#endif
-            if (branch != null)
+            ConfigContext context = new ConfigContext();
+            try
             {
-                var xmlUrl = $"https://workspacer.blob.core.windows.net/installers/{branch}.xml";
+                ConfigHelper.DoConfig(context);
+            }
+            catch
+            {
+                // suppress error
+            }
+            _branch = context.Branch;
+            context.SystemTray.Dispose();
 
-                AutoUpdater.ApplicationExitEvent += QuitForUpdate;
+            // check for updates
+            if (_branch is null)
+            {
+#if BRANCH_unstable
+                _branch = Branch.Unstable;
+#elif BRANCH_stable
+                _branch = Branch.Stable;
+#else
+                _branch = Branch.None;
+#endif
+            }
 
-                System.Timers.Timer timer = new System.Timers.Timer(1000 * 60 * 60);
+            if (_branch != Branch.None)
+            {
+                AutoUpdater.RunUpdateAsAdmin = !IsDirectoryWritable(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                AutoUpdater.ParseUpdateInfoEvent += AutoUpdater_ParseUpdateInfoEvent;
+                AutoUpdater.ApplicationExitEvent += _app.Quit;
+
+                Timer timer = new Timer(1000 * 60 * 60);
                 timer.Elapsed += (s, e) =>
                 {
-                    AutoUpdater.Start(xmlUrl);
+                    AutoUpdater.Start("https://raw.githubusercontent.com/rickbutton/workspacer/master/README.md");
                 };
                 timer.Enabled = true;
-                AutoUpdater.Start(xmlUrl);
+                // Put url to trigger ParseUpdateInfoEvent
+                AutoUpdater.Start("https://raw.githubusercontent.com/rickbutton/workspacer/master/README.md");
             }
 
             Run();
         }
 
-        private static workspacer _app;
+        private static void AutoUpdater_ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
+        {
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("workspacer"));
 
-        private static int Run()
+            bool isStable = _branch == Branch.Stable;
+
+            Release release = isStable
+                ? client.Repository.Release.GetLatest("rickbutton", "workspacer").Result
+                : client.Repository.Release.Get("rickbutton", "workspacer", "unstable").Result;
+
+            string currentVersion = release.Name.Split(' ').Skip(1).FirstOrDefault();
+            args.UpdateInfo = new UpdateInfoEventArgs
+            {
+                CurrentVersion = currentVersion,
+                ChangelogURL = isStable ? "https://www.workspacer.org/changelog" : "https://github.com/rickbutton/workspacer/releases/unstable",
+                DownloadURL = release.Assets.First(a => a.Name == $"workspacer-{_branch.ToString()?.ToLower()}-{(isStable ? currentVersion : "latest")}.zip").BrowserDownloadUrl
+            };
+        }
+
+        private static bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
+        {
+            try
+            {
+                using (File.Create(Path.Combine(dirPath, Path.GetRandomFileName()), 1, FileOptions.DeleteOnClose))
+                { }
+
+                return true;
+            }
+            catch
+            {
+                if (throwIfFails) throw;
+
+                return false;
+            }
+        }
+
+        private static void Run()
         {
             _app = new workspacer();
 
@@ -56,19 +116,13 @@ namespace workspacer
                 {
                     if (!(e.ExceptionObject is ThreadAbortException))
                     {
-                        Logger.Fatal(e.ExceptionObject as Exception, "exception occurred, quiting workspacer: " + (e.ExceptionObject as Exception).ToString());
-                        _app.QuitWithException(e.ExceptionObject as Exception);
+                        _logger.Fatal((Exception) e.ExceptionObject, "exception occurred, quiting workspacer: " + ((Exception) e.ExceptionObject).ToString());
+                        _app.QuitWithException((Exception) e.ExceptionObject);
                     }
                 });
 #endif
 
             _app.Start();
-            return 0;
-        }
-
-        private static void QuitForUpdate()
-        {
-            _app.Quit();
         }
     }
 }
