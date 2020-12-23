@@ -1,6 +1,8 @@
  param (
     [Parameter(Mandatory=$true)]
-    [string]$version,
+    # like this (with no 'v'!): x.y.z
+    [string]
+    $version,
     [switch]$yes,
     [switch]$nogit
  )
