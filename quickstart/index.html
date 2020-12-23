@@ -1,131 +1,147 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>quick start | workspacer</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/fonts.css" />
-    <link rel="stylesheet" href="/css/theme-override.css">
-    <header>
+
+<head>
+  <meta name="generator" content="Hugo 0.79.1" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> quick start </title>
 
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <nav>
-    <ul>
-      
-      
-      
-      
-      <li class="pull-left ">
-        <a href="/">workspacer</a>
-      </li>
-      
-      
-      <li class="pull-left ">
-        <a href="/quickstart">quickstart</a>
-      </li>
-      
-      
-      <li class="pull-left ">
-        <a href="/config">config</a>
-      </li>
-      
+  <meta name="description" content="a tiling window manager for Windows 10"> 
 
-      
-
-    </ul>
-  </nav>
-</header>
-
-  </head>
-
-  <body>
-    <br/>
-
-<div class="article-meta">
-<h1><span class="title">quick start</span></h1>
-
-
-<p class="terms">
   
   
   
   
   
-</p>
-</div>
+
+    
+
+  <meta name="author" content="Rick Button">
+
+
+  <meta property="og:title" content="quick start" />
+<meta property="og:description" content="start here!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/quickstart/" />
+
+
+  
 
 
 
-<main>
+
+  
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130291662-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-130291662-1');
+  </script>
+  
+
+  <link rel="canonical" href="../quickstart/">  
+
+  <link href="../css/font.css" rel="stylesheet" type="text/css">
+  <link href="../css/kube.min.css" rel="stylesheet" type="text/css">
+  <link href="../css/kube.legenda.css" rel="stylesheet" type="text/css">
+  <link href="../css/highlight.css" rel="stylesheet" type="text/css">
+  <link href="../css/master.css" rel="stylesheet" type="text/css">
+  <link href="../css/kube.demo.css" rel="stylesheet" type="text/css">
+
+ <link href="../css/custom.css" rel="stylesheet" type="text/css">
+
+  <script src="../js/jquery-2.1.4.min.js" type="text/javascript">
+  </script>
+
+  <script type="text/javascript" src="../js/tocbot.min.js"></script>
+</head>
 
 
-<h1 id="step-one-installing-launching-workspacer">step one - installing/launching workspacer</h1>
+<body class="page-kube">
+  <header> <div class="show-sm">
+    <div id="nav-toggle-box">
+      <div id="nav-toggle-brand">
+        <a href="../" title="home"><img src="../images/logo-128x128.png" id="workspacer-logo"></a>
+      </div><a data-component="toggleme" data-target="#top" href="#" id="nav-toggle"><i class="kube-menu"></i></a>
+    </div>
+  </div>
+  <div class="hide-sm" id="top">
+    <div id="top-brand">
+      <a href="../" title="home"><img src="../images/logo-128x128.png" id="workspacer-logo"></a>
+    </div>
+    <nav id="top-nav-main">
+      <ul>
+       
+       
+    <li><a href="../quickstart" >quickstart</a></li>
+    
+    <li><a href="../config" >config</a></li>
+    
+    <li><a href="../keybindings" >keybinds</a></li>
+    
+    <li><a href="../screenshots" >screenshots</a></li>
+    
+    <li><a href="../changelog" >changelog</a></li>
+    
+      </ul>
+    </nav>
+    <nav id="top-nav-extra">
+      <ul>
+       
+       
+    <li><a href="https://github.com/rickbutton/workspacer/issues/new" >submit an issue</a></li>
+    
+      </ul>
+    </nav>
+  </div> </header>
+  <main>
+  <div id="main">
+    <div id="hero">
+      <h1> quick start </h1>
+      <p class="hero-lead">
+           start here!
+      </p>
 
-<p><a href="https://github.com/rickbutton/workspacer/releases">download the latest installer from github</a> and install workspacer. The installer will put a shortcut in the Start Menu.</p>
+    </div> 
+    <div id="kube-component" class="content">
+    
 
-<h1 id="step-two-configuring-workspacer">step two - configuring workspacer</h1>
-
-<p>by default, workspacer will load the default configuration shipped inside the program, but you will likely want to customize the default configuration in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.</p>
-
-<p>in order to customize workspacer, a config file can be generated and used. Right clicking the &ldquo;workspacer&rdquo; system tray icon will allow you to create an example config file. By default, the workspacer config file will be created in:</p>
-
+    <h1 id="installing">installing</h1>
+<p><a href="https://github.com/rickbutton/workspacer/releases/latest">download the latest installer or download the latest zip file and extract to a folder somewhere.</a> workspacer automatically checks for updates.</p>
+<h1 id="configuring">configuring</h1>
+<p>by default, workspacer loads a default configuration, but you will likely want to customize this in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.</p>
+<p>a config file can be generated by right clicking the &ldquo;workspacer&rdquo; system tray icon, and selecting the option to create an example config in:</p>
 <pre><code>C:\Users\&lt;username&gt;\.workspacer\workspacer.config.csx
-</code></pre>
+</code></pre><p>workspacer is configured in the C# language, using types and interfaces provided by workspacer itself. this means that while workspacer requires knowledge of programming to use, it&rsquo;s configuration is extremely powerful, and allows you to modify, or even replace, most functionality that drives workspacer. for example, a common use case is to implement a custom layout engine (just define a class that satisfies the interface <code>ILayoutEngine</code>) entirely inside the config file, and then use it to define completely custom layout behavior, without needing to modify workspacer itself.</p>
+<p>workspacer&rsquo;s config file allows for <strong>type checking</strong> and <strong>intellisense</strong>! currently, only VSCode with the C# extension is supported. opening the <code>.workspacer</code> folder in your home directory inside VSCode with the C# extension installed will provide syntax highlighting, type checking, and autocomplete automatically because of the <code>#r</code> directives at the top of the config file (so don&rsquo;t remove those, or else this won&rsquo;t work!).</p>
+<p><a href="../config">the config page</a> lists a few examples and tips/tricks on how to customize your configuration to your liking.</p>
+<h1 id="learning">learning</h1>
+<p>workspacer&rsquo;s default configuration behaves like other tiling window managers, but deviates where not possible due to limitations in <code>Win32</code> that prevent controlling windows in the same way a tiling window manager would be able to when controlling the actual management of windows like an X11 based window manager.</p>
+<p><a href="../keybindings">the keybindings page</a> describes the default set of keybindings.</p>
+<h1 id="submit-feedback">submit feedback!</h1>
+<p>if you run into any bugs, or want to suggest a feature, please feel free to <a href="https://github.com/rickbutton/workspacer/issues">open an issue!</a></p>
 
-<p>workspacer is configured entirely using C#, using types and interfaces provided by workspacer itself. This means that while workspacer requires knowledge of programming to use, it&rsquo;s configuration is extremely powerful, and allows you to modify, or even replace, most functionality that drives workspacer. For example, a common use case is to implement a custom layout engine (just define a class that satisfies the interface <code>ILayoutEngine</code>) entirely inside the config file, and then use it to define completely custom layout behavior, without needing to modify workspacer itself.</p>
 
-<p>also, workspacer&rsquo;s config file allows for type checking / intellisense! Currently, only VSCode with the C# extension is supported. Opening the <code>.workspacer</code> folder in your home directory inside VSCode with the C# extension installed will provide syntax highlighting, type checking, and autocomplete automatically because of the <code>#r</code> directives at the top of the config file (so don&rsquo;t remove those, or else this won&rsquo;t work!).</p>
-
-<p><a href="/config">the config page</a> lists a few examples and tips/tricks on how to customize your configuration to your liking.</p>
-
-<h1 id="step-three-learning-how-to-use-workspacer">step three - learning how to use workspacer</h1>
-
-<p>workspacer&rsquo;s default configuration behaves a lot like <code>xmonad</code> with <code>xmobar</code> in its default configuration, but not exactly where not possible due to limitations in <code>Win32</code> that prevent controlling windows in the same way a tiling window manager would be able to when controlling the actual management of windows like an X11 based window manager.</p>
-
-<p><a href="/keybindings">the keybindings page</a> describes the default set of keybindings.</p>
-
-<h1 id="step-four-submit-feedback">step four - submit feedback!</h1>
-
-<p>If you run into any bugs, or want to suggest a feature, please feel free to <a href="https://github.com/rickbutton/workspacer/issues">open an issue!</a></p>
-
+    
+    </div>
+    </div>
 </main>
+  <footer></footer>
 
-    <footer>
-      
-<script>
-(function() {
-  function center_el(tagName) {
-    var tags = document.getElementsByTagName(tagName), i, tag;
-    for (i = 0; i < tags.length; i++) {
-      tag = tags[i];
-      var parent = tag.parentElement;
-      
-      if (parent.childNodes.length === 1) {
-        
-        if (parent.nodeName === 'A') {
-          parent = parent.parentElement;
-          if (parent.childNodes.length != 1) continue;
-        }
-        if (parent.nodeName === 'P') parent.style.textAlign = 'center';
-      }
-    }
-  }
-  var tagNames = ['img', 'embed', 'object'];
-  for (var i = 0; i < tagNames.length; i++) {
-    center_el(tagNames[i]);
-  }
-})();
-</script>
 
-      
-      <hr/>
-      MIT Licensed | <a href="https://github.com/rickbutton/workspacer">github</a>
-      
-    </footer>
-  </body>
+  <script src="../js/kube.js" type="text/javascript">
+  </script>
+  <script src="../js/kube.legenda.js" type="text/javascript">
+  </script>
+  <script src="../js/master.js" type="text/javascript">
+  </script>
+</body>
+
 </html>
-

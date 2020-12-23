@@ -1,196 +1,186 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>configuring workspacer | workspacer</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/fonts.css" />
-    <link rel="stylesheet" href="/css/theme-override.css">
-    <header>
+
+<head>
+  <meta name="generator" content="Hugo 0.79.1" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> configuring workspacer </title>
 
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <nav>
-    <ul>
-      
-      
-      
-      
-      <li class="pull-left ">
-        <a href="/">workspacer</a>
-      </li>
-      
-      
-      <li class="pull-left ">
-        <a href="/quickstart">quickstart</a>
-      </li>
-      
-      
-      <li class="pull-left ">
-        <a href="/config">config</a>
-      </li>
-      
+  <meta name="description" content="a tiling window manager for Windows 10"> 
 
-      
-
-    </ul>
-  </nav>
-</header>
-
-  </head>
-
-  <body>
-    <br/>
-
-<div class="article-meta">
-<h1><span class="title">configuring workspacer</span></h1>
-
-
-<p class="terms">
   
   
   
   
   
-</p>
+
+    
+
+  <meta name="author" content="Rick Button">
+
+
+  <meta property="og:title" content="configuring workspacer" />
+<meta property="og:description" content="use workspacer like a pro!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/config/" />
+
+
+  
+
+
+
+
+  
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130291662-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-130291662-1');
+  </script>
+  
+
+  <link rel="canonical" href="../config/">  
+
+  <link href="../css/font.css" rel="stylesheet" type="text/css">
+  <link href="../css/kube.min.css" rel="stylesheet" type="text/css">
+  <link href="../css/kube.legenda.css" rel="stylesheet" type="text/css">
+  <link href="../css/highlight.css" rel="stylesheet" type="text/css">
+  <link href="../css/master.css" rel="stylesheet" type="text/css">
+  <link href="../css/kube.demo.css" rel="stylesheet" type="text/css">
+
+ <link href="../css/custom.css" rel="stylesheet" type="text/css">
+
+  <script src="../js/jquery-2.1.4.min.js" type="text/javascript">
+  </script>
+
+  <script type="text/javascript" src="../js/tocbot.min.js"></script>
+</head>
+
+
+<body class="page-kube">
+  <header> <div class="show-sm">
+    <div id="nav-toggle-box">
+      <div id="nav-toggle-brand">
+        <a href="../" title="home"><img src="../images/logo-128x128.png" id="workspacer-logo"></a>
+      </div><a data-component="toggleme" data-target="#top" href="#" id="nav-toggle"><i class="kube-menu"></i></a>
+    </div>
+  </div>
+  <div class="hide-sm" id="top">
+    <div id="top-brand">
+      <a href="../" title="home"><img src="../images/logo-128x128.png" id="workspacer-logo"></a>
+    </div>
+    <nav id="top-nav-main">
+      <ul>
+       
+       
+    <li><a href="../quickstart" >quickstart</a></li>
+    
+    <li><a href="../config" >config</a></li>
+    
+    <li><a href="../keybindings" >keybinds</a></li>
+    
+    <li><a href="../screenshots" >screenshots</a></li>
+    
+    <li><a href="../changelog" >changelog</a></li>
+    
+      </ul>
+    </nav>
+    <nav id="top-nav-extra">
+      <ul>
+       
+       
+    <li><a href="https://github.com/rickbutton/workspacer/issues/new" >submit an issue</a></li>
+    
+      </ul>
+    </nav>
+  </div> </header>
+  <main>
+
+<div id="hero" class="wrap">
+  <h1>configuring workspacer</h1>
+    <p>use workspacer like a pro!<br></p>
 </div>
-
-
-
-<main>
-
-
-<p>configuring workspacer can be tricky, but the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.</p>
-
-<p>this configuration documentation assumes that you have already created the example configuration in the correct folder, if you haven&rsquo;t, check the <a href="/quickstart">quickstart guide</a>.</p>
-
-<h2 id="i-don-t-know-c-or-how-to-program-should-i-use-workspacer">I don&rsquo;t know C#, or how to program, should I use workspacer?</h2>
-
-<p>probably not, at least not yet. workspacer is intended to be on the extreme end of the power user spectrum. you can absolutely use workspacer without knowing how to program, but configuration will likely be challenging if you need to deviate outside of the examples and configurations of other users (although, almost certainly easier than learning Haskell in order to configure xmonad).</p>
-
+<div id="kube-faq">
+<p>workspacer is configured with the C# programming language. the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.</p>
+<p>this configuration documentation assumes that you have already created the example config in the correct folder, if you haven&rsquo;t, check the <a href="../quickstart">quickstart guide</a>.</p>
+<h2 id="a-quick-note-on-configuration-compatibility">a quick note on configuration compatibility</h2>
+<p>because workspacer is a new project, I have not fully nailed down how I want the interfaces to look or behave, so everything in workspacer is subject to change. if you write a configuration file, be warned that I may make large changes that break backwards compatibility. i will announce when the configuration API is going to be stable. however, if your config breaks, feel free to let me know and I will be glad to help you modify it to work with a newer version.</p>
+<h2 id="i-dont-know-c-or-how-to-program-should-i-use-workspacer">I don&rsquo;t know C#, or how to program, should I use workspacer?</h2>
+<p>workspacer is intended to be on the extreme end of the power user spectrum. you can use workspacer without knowing how to program, but extreme configuration will be challenging if you need to deviate outside of the examples and configurations of other users.</p>
 <h2 id="how-do-i-define-custom-workspaces">how do I define custom workspaces?</h2>
-
 <p>workspaces are created by calling the appropriate function on the IWorkspaceContainer you are using. in the default configuration, that is <code>CreateWorkspace</code> on the <code>context.WorkspaceContainer</code> object. for example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;workspace&#34;</span>);
+context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;another&#34;</span>);
+context.WorkspaceContainer.CreateWorkspaces(<span style="color:#e6db74">&#34;more&#34;</span>, <span style="color:#e6db74">&#34;than&#34;</span>, <span style="color:#e6db74">&#34;one&#34;</span>);
 
-<pre><code class="language-csharp">context.WorkspaceContainer.CreateWorkspace(&quot;workspace&quot;);
-context.WorkspaceContainer.CreateWorkspace(&quot;another&quot;);
-context.WorkspaceContainer.CreateWorkspaces(&quot;more&quot;, &quot;than&quot;, &quot;one&quot;);
-
-# you can even define custom layouts for a specific workspace
-context.WorkspaceContainer.CreateWorkspace(&quot;layouts!&quot;, new FullLayoutEngine(), new TallLayoutEngine());
-</code></pre>
-
-<p>you can define as many workspaces as you want (given that the workspace container you are using supports it)</p>
-
-<h2 id="how-do-i-make-workspacer-ignore-some-windows">how do I make workspacer ignore some windows?</h2>
-
-<h2 id="how-do-i-make-some-windows-always-go-to-a-specific-workspace">how do I make some windows always go to a specific workspace?</h2>
-
-<p>by default, workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will by default route workspaces to the focused workspace on creation. as with most everything else, this is completely customizable via IWindowRouter.</p>
-
+<span style="color:#960050;background-color:#1e0010">#</span> you can even define custom layouts <span style="color:#66d9ef">for</span> a specific workspace
+context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;layouts!&#34;</span>, <span style="color:#66d9ef">new</span> FullLayoutEngine(), <span style="color:#66d9ef">new</span> TallLayoutEngine());
+</code></pre></div><h2 id="how-do-i-make-workspacer-ignore-some-windows-br-how-do-i-make-some-windows-always-go-to-a-specific-workspace">how do I make workspacer ignore some windows? <!-- raw HTML omitted --> how do I make some windows always go to a specific workspace?</h2>
+<p>workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will by route workspaces to the focused workspace when they are opened. as with most everything else, this is completely customizable via IWindowRouter.</p>
 <p>the default configuration provides the standard set of ignore/routing rules, but more can be added via calls to <code>AddFilter</code> and <code>AddRoute</code>.</p>
-
-<pre><code class="language-csharp"># custom filter
-context.WindowRouter.AddFilter((window) =&gt; !window.Title.Contains(&quot;my fun application&quot;));
-# custom route
-context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(&quot;Google Chrome&quot;) ? context.WorkspaceContainer[&quot;web&quot;] : null));
-</code></pre>
-
-<p>the above call to <code>AddFilter</code> will ensure that any windows who&rsquo;s title contains the text &ldquo;my fun application&rdquo; will be ignored by workspacer. a <code>true</code> return value will allow the window to be managed, while a <code>false</code> value will force workspacer to ignore the window.</p>
-
-<p>the above call to <code>AddRoute</code> will ensure that any windows who&rsquo;s title contains the text &ldquo;Google Chrome&rdquo; will be automatically placed in the &ldquo;web&rdquo; workspace. a null return value will signal to workspacer that the next route should be checked, while returing an actual workspace will ensure that the workspace manager will place the window in the returned workspace.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#960050;background-color:#1e0010">#</span> custom filter
+context.WindowRouter.AddFilter((window) =&gt; !window.Title.Contains(<span style="color:#e6db74">&#34;my fun application&#34;</span>));
+<span style="color:#960050;background-color:#1e0010">#</span> custom route
+context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(<span style="color:#e6db74">&#34;Google Chrome&#34;</span>) ? context.WorkspaceContainer[<span style="color:#e6db74">&#34;web&#34;</span>] : <span style="color:#66d9ef">null</span>);
+</code></pre></div><p>the <code>AddFilter</code> call will ensure that any windows who&rsquo;s title contains the text &ldquo;my fun application&rdquo; will be ignored by workspacer. a <code>true</code> return value will allow the window to be managed, while a <code>false</code> value will force workspacer to ignore the window.</p>
+<p>the <code>AddRoute</code> call will ensure that any windows who&rsquo;s title contains the text &ldquo;Google Chrome&rdquo; will be automatically placed in the &ldquo;web&rdquo; workspace. a null return value will signal to workspacer that the next route should be checked, while returing an actual workspace will ensure that the workspace manager will place the window in the returned workspace.</p>
 <h2 id="how-do-i-chose-different-layout-engines">how do I chose different layout engines?</h2>
-
-<p>layouts are usually passed as arguments to the constructor of the IWorkspaceContainer implementation that you are using. This means that the implementation will take care of creating new layouts for you. If you want to manually specify them for a specific workspace, you can pass them as parameters to <code>CreateWorkspace</code> (or equivalent)</p>
-
-<pre><code class="language-csharp">context.WorkspaceContainer.CreateWorkspace(&quot;layouts!&quot;, bar.WrapLayouts(new FullLayoutEngine(), new TallLayoutEngine()));
-</code></pre>
-
-<p>note that the above example assumes that you are using the <code>bar</code> plugin, and that you named the plugin <code>bar</code> (named as such in the default config).</p>
-
-<h2 id="how-do-i-customize-the-menu-bar">how do I customize the menu bar?</h2>
-
-<p>the menu bar is implemented as a <code>workspacer plugin</code>, which is essentially just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:</p>
-
-<pre><code class="language-csharp">var bar = context.Plugins.RegisterPlugin(new BarPlugin(new BarPluginConfig()
-{
-    LeftWidgets = () =&gt; new IBarWidget[] { new WorkspaceWidget(), new TextWidget(&quot;: &quot;), new TitleWidget() },
-    RightWidgets = () =&gt; new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() },
-}));
-</code></pre>
-
-<p>the default workspacer configuration will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties. the config object contains other properties you might want to change for styling purposes.</p>
-
+<p>you can change the set of &ldquo;default&rdquo; layout engines via:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.DefaultLayouts = () =&gt; <span style="color:#66d9ef">new</span> ILayoutEngine[] { <span style="color:#66d9ef">new</span> FullLayoutEngine() };
+</code></pre></div><p>if you want to manually specify them for a specific workspace, you can pass them as parameters to <code>CreateWorkspace</code> (or equivalent)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;layouts!&#34;</span>, <span style="color:#66d9ef">new</span> FullLayoutEngine(), <span style="color:#66d9ef">new</span> TallLayoutEngine());
+</code></pre></div><h2 id="how-do-i-customize-the-menu-bar">how do I customize the menu bar?</h2>
+<p>the menu bar is implemented as a <code>plugin</code>, which is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> bar = context.AddBar();
+</code></pre></div><p>the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties on the <code>config</code> optional parameter.</p>
 <h2 id="how-do-i-customize-the-action-menu">how do I customize the action menu?</h2>
+<p>the action menu is implemented as a <code>plugin</code>, (see the above <code>menu bar</code> section). the action menu can be installed like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> actionMenu = context.AddActionMenu();
 
-<p>the action menu is implemented as a <code>workspace plugin</code>, (see the above <code>menu bar</code> section). the action menu can be installed like this:</p>
-
-<pre><code class="language-csharp">var actionMenu = context.Plugins.RegisterPLugin(new ActionMenuPlugin());
-
-actionMenu.DefaultMenu.AddMenu(&quot;do a thing&quot;, () =&gt; DoACoolThing());
-actionMenu.DefaultMenu.AddMenu(&quot;open a menu&quot;, () =&gt; CreateAMenu(container, actionMenu));
-actionMenu.DefaultMenu.AddFreeForm(&quot;write to console&quot;, (s) =&gt; Console.WriteLine(s));
-</code></pre>
-
-<p>note that <code>DefaultMenu</code> contains a useful set of default items. if you don&rsquo;t want these defaults, or you want to create an menu for nesting, you can use the <code>Clear</code> method. you can nest these menus as much as desired, so any set of menus can be created.</p>
-
+actionMenu.DefaultMenu.AddMenu(<span style="color:#e6db74">&#34;do a thing&#34;</span>, () =&gt; DoACoolThing());
+actionMenu.DefaultMenu.AddMenu(<span style="color:#e6db74">&#34;open a menu&#34;</span>, () =&gt; CreateAMenu(container, actionMenu));
+actionMenu.DefaultMenu.AddFreeForm(<span style="color:#e6db74">&#34;write to console&#34;</span>, (s) =&gt; Console.WriteLine(s));
+</code></pre></div><p>note that <code>DefaultMenu</code> contains a useful set of default items. if you don&rsquo;t want these defaults, or you want to create an menu for nesting, you can use the <code>Clear</code> method. you can nest these menus as much as desired, so any set of menus can be created.</p>
 <h2 id="how-do-i-register-custom-keybindings">how do I register custom keybindings?</h2>
-
-<p>workspacer subscribes to the <a href="/keybindings">default set of keybindings</a> automatically for you. if you want to add additional keybindings, or override an existing one, you can do the following:</p>
-
-<pre><code class="language-csharp">context.Keybinds.Subscribe(mod, Keys.Y, () =&gt; Console.WriteLine(&quot;Y was pressed&quot;))
-</code></pre>
-
-<p>where <code>mod</code> is a KeyModifiers value (<code>mod</code> is already defined as <code>KeyModifiers.Alt</code> in the default config, so you should be able to reuse it).</p>
-
-<p>if you want to remove a keybinding that already exists, you can unsubscribe from it:</p>
-
-<pre><code class="language-csharp">context.Keybindings.Unsubscribe(mod, Keys.Y);
-</code></pre>
-
-<p>finally, you can remove all of the default keybindings via:</p>
-
-<pre><code class="language-csharp">context.Keybindings.UnsubscribeAll();
-</code></pre>
-
+<p>workspacer subscribes to the <a href="../keybindings">default set of keybindings</a> automatically for you. if you want to add additional keybindings, or override an existing one, you can do the following:</p>
+<p>Define the mod key the to the default key or ignore this step if you have already defined the mod key</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">KeyModifiers mod = KeyModifiers.Alt;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.Subscribe(mod, Keys.Y, () =&gt; Console.WriteLine(<span style="color:#e6db74">&#34;Y was pressed&#34;</span>))
+</code></pre></div><p>if you want to remove a keybinding that already exists, you can unsubscribe from it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.Unsubscribe(mod, Keys.Y);
+</code></pre></div><p>finally, you can remove all of the default keybindings via:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.UnsubscribeAll();
+</code></pre></div>
+</div>
 </main>
+  <footer> 
+    <footer id="footer">
+    <nav>
+      <ul>
+        <li>icons by <a href="http://www.freepik.com/" title="Freepik">freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> license <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">cc 3.0 by</a></li>
+        <li><span>workspacer</span></li>
+        <li><a href="https://github.com/rickbutton/workspacer">github</a></li>
+        <li><a href="https://rickbutton.me">rick button</a></li>
+      </ul>
+    </nav>
+    <p>&copy; Licence MIT.</p>
+  </footer> 
+</footer>
 
-    <footer>
-      
-<script>
-(function() {
-  function center_el(tagName) {
-    var tags = document.getElementsByTagName(tagName), i, tag;
-    for (i = 0; i < tags.length; i++) {
-      tag = tags[i];
-      var parent = tag.parentElement;
-      
-      if (parent.childNodes.length === 1) {
-        
-        if (parent.nodeName === 'A') {
-          parent = parent.parentElement;
-          if (parent.childNodes.length != 1) continue;
-        }
-        if (parent.nodeName === 'P') parent.style.textAlign = 'center';
-      }
-    }
-  }
-  var tagNames = ['img', 'embed', 'object'];
-  for (var i = 0; i < tagNames.length; i++) {
-    center_el(tagNames[i]);
-  }
-})();
-</script>
 
-      
-      <hr/>
-      MIT Licensed | <a href="https://github.com/rickbutton/workspacer">github</a>
-      
-    </footer>
-  </body>
+  <script src="../js/kube.js" type="text/javascript">
+  </script>
+  <script src="../js/kube.legenda.js" type="text/javascript">
+  </script>
+  <script src="../js/master.js" type="text/javascript">
+  </script>
+</body>
+
 </html>
-

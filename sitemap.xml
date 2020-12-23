@@ -1,23 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>/categories/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/</loc>
-    <priority>0</priority>
+    <loc>/changelog/</loc>
   </url>
   
   <url>
     <loc>/config/</loc>
-  </url>
-  
-  <url>
-    <loc>/</loc>
   </url>
   
   <url>
@@ -26,6 +20,18 @@
   
   <url>
     <loc>/quickstart/</loc>
+  </url>
+  
+  <url>
+    <loc>/screenshots/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+  </url>
+  
+  <url>
+    <loc>/</loc>
   </url>
   
 </urlset>

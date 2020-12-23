@@ -1,14 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>home on workspacer</title>
+    <title>workspacer</title>
     <link>/</link>
-    <description>Recent content in home on workspacer</description>
+    <description>Recent content on workspacer</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    
+    <language>en-us</language><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>changelog</title>
+      <link>/changelog/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/changelog/</guid>
+      <description>v0.9.9 download installer  updated to .NET Core 3.1 fixed a bug that prevented the watcher from starting  v0.9.8 download installer  added default filters for more Windows 10 Start Menu processes  v0.9.7 download installer  added default filters for new start menu processes in Windows 10 1903  v0.9.6 download installer  added more default filters to remove Win10 shell/explorer windows added slightly more documentation (although, a lot more is needed) improved handling of focus for minimized -&amp;gt; normal state changes fixed several bugs that were caused by a window&amp;rsquo;s process dying in the middle of routing added IMonitorContainer, which supports implementing virtual monitors fixed exception dialog added a few helpers to the WindowRouter fixed handling of monitor changes across restarts breaking the &amp;ldquo;reload&amp;rdquo; state improved Process interface in IWindow, to prevent &amp;ldquo;process death&amp;rdquo; race conditions improved FocusStealer to use new keybd_event hack added dialog when restarting due to monitor state change, to prevent loops  v0.</description>
+    </item>
     
     <item>
       <title>configuring workspacer</title>
@@ -16,9 +21,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/config/</guid>
-      <description>configuring workspacer can be tricky, but the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
-this configuration documentation assumes that you have already created the example configuration in the correct folder, if you haven&amp;rsquo;t, check the quickstart guide.
-I don&amp;rsquo;t know C#, or how to program, should I use workspacer? probably not, at least not yet. workspacer is intended to be on the extreme end of the power user spectrum.</description>
+      <description>workspacer is configured with the C# programming language. the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
+this configuration documentation assumes that you have already created the example config in the correct folder, if you haven&amp;rsquo;t, check the quickstart guide.
+a quick note on configuration compatibility because workspacer is a new project, I have not fully nailed down how I want the interfaces to look or behave, so everything in workspacer is subject to change.</description>
     </item>
     
     <item>
@@ -27,7 +32,7 @@ I don&amp;rsquo;t know C#, or how to program, should I use workspacer? probably 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/keybindings/</guid>
-      <description>workspacer tries to mimic xmonad&amp;rsquo;s keybindings wherever possible. the default keybindings are:
+      <description>the default keybindings are:
    keybind description     alt-shift-e toggle enabled/disabled   alt-shift-c close focused window   alt-space next layout engine   alt-shift-space previous layout engine   alt-n reset layout   alt-j focus next window   alt-k focus previous window   alt-m focus primary window   alt-enter swap focus and primary window   alt-shift-j swap focus and next window   alt-shift-k swap focus and previous window   alt-h shrink primary area   alt-l expand primary area   alt-comma increment number of primary windows   alt-period decrement number of primary windows   alt-t toggle tiling for focused window   alt-p open action menu   alt-shift-q quit workspacer   alt-q restart workspacer   alt-left switch to left workspace   alt-right switch to right workspace   alt-{1.</description>
     </item>
     
@@ -37,8 +42,20 @@ I don&amp;rsquo;t know C#, or how to program, should I use workspacer? probably 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/quickstart/</guid>
-      <description>step one - installing/launching workspacer download the latest installer from github and install workspacer. The installer will put a shortcut in the Start Menu.
-step two - configuring workspacer by default, workspacer will load the default configuration shipped inside the program, but you will likely want to customize the default configuration in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.</description>
+      <description>installing download the latest installer or download the latest zip file and extract to a folder somewhere. workspacer automatically checks for updates.
+configuring by default, workspacer loads a default configuration, but you will likely want to customize this in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.
+a config file can be generated by right clicking the &amp;ldquo;workspacer&amp;rdquo; system tray icon, and selecting the option to create an example config in:</description>
+    </item>
+    
+    <item>
+      <title>screenshots</title>
+      <link>/screenshots/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/screenshots/</guid>
+      <description>below are some examples of common interactions in workspacer, using the default keybindings moving focus you can use alt-j and alt-k to rotate the focused window
+moving windows in a workspace you can use alt-shift-j and alt-shift-k to rotate the window order
+moving windows between workspaces you can use alt-{1..9} to switch to a workspace, and alt-shift-{1..9} to move a window to a workspace</description>
     </item>
     
   </channel>
