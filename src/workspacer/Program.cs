@@ -85,7 +85,7 @@ namespace workspacer
             args.UpdateInfo = new UpdateInfoEventArgs
             {
                 CurrentVersion = currentVersion,
-                ChangelogURL = isStable ? "https://rickbutton.github.io/workspacer/changelog/" : "https://github.com/rickbutton/workspacer/releases/unstable",
+                ChangelogURL = isStable ? "https://www.workspacer.org/changelog" : "https://github.com/rickbutton/workspacer/releases/unstable",
                 DownloadURL = release.Assets.First(a => a.Name == $"workspacer-{_branch.ToString()?.ToLower()}-{(isStable ? currentVersion : "latest")}.zip").BrowserDownloadUrl
             };
         }
