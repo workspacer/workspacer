@@ -9,7 +9,7 @@ namespace workspacer.Bar
     public class BarWidgetContext : IBarWidgetContext
     {
         public IMonitor Monitor { get; private set; }
-        public IKeybindManager KeyModes => _context.Keybinds;
+        public IKeybindManager Keybinds => _context.Keybinds;
         public IWorkspaceManager Workspaces => _context.Workspaces;
         public IWorkspaceContainer WorkspaceContainer => _context.WorkspaceContainer;
         public IMonitorContainer MonitorContainer => _context.MonitorContainer;

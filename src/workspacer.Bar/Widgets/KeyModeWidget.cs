@@ -16,7 +16,7 @@ namespace workspacer.Bar.Widgets
 
         public override IBarWidgetPart[] GetParts()
         {
-            var currentMode = Context.KeyModes.GetCurrentMode();
+            var currentMode = Context.Keybinds.GetCurrentMode();
             return Parts(Part(currentMode, fontname: FontName));
         }
 
