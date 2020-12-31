@@ -12,6 +12,8 @@ namespace workspacer
     /// </summary>
     public interface IKeybindManager
     {
+
+        void Subscribe(string mode, KeyModifiers mod, Keys key, KeybindHandler handler, string name);
         /// <summary>
         /// subscribe to a specified keybinding
         /// </summary>
@@ -32,17 +34,19 @@ namespace workspacer
         /// <summary>
         /// subscribe to a specified mouse event
         /// </summary>
-        /// <param name="evt">desired mouse event to be listened for</param>
-        /// <param name="handler">callback that is called when the mouse event is detected</param>
-        void Subscribe(MouseEvent evt, MouseHandler handler);
+        /// <param name="mode"></param>
+        /// <param name="evt"></param>
+        /// <param name="handler"></param>
+        void Subscribe(string mode,MouseEvent evt, MouseHandler handler);
 
         /// <summary>
-        /// subscribe to a specified mouse event with a naem
+        /// Subscribe to a specific mouse event with a name
         /// </summary>
-        /// <param name="evt">desired mouse event to be listened for</param>
-        /// <param name="handler">callback that is called when the mouse event is detected</param>
-        /// <param name="name">name of the mouse event</param>
-        void Subscribe(MouseEvent evt, MouseHandler handler, string name);
+        /// <param name="mode"></param>
+        /// <param name="evt"></param>
+        /// <param name="handler"></param>
+        /// <param name="name"></param>
+        void Subscribe(string mode,MouseEvent evt, MouseHandler handler, string name);
 
         /// <summary>
         /// unsubscribe to a specified keybinding
@@ -72,5 +76,18 @@ namespace workspacer
         /// show/hide keybind help
         /// </summary>
         void ShowKeybindDialog();
+        /// <summary>
+        /// Create new KeybindMode
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="defaultBindings"></param>
+        void CreateMode(string name, ModeDefaultBindings defaultBindings);
+        /// <summary>
+        /// Sets the active KeyBindMode
+        /// </summary>
+        /// <param name="name"></param>
+        void SetMode(string name);
+
+        string GetCurrentMode();
     }
 }
