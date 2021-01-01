@@ -12,7 +12,7 @@ using workspacer.FocusIndicator;
 Action<IConfigContext> doConfig = (context) =>
 {
     // Uncomment to switch update branch (or to disable updates)
-    //context.Branch = Branch.None
+    //context.Branch = Branch.None;
 
     context.AddBar();
     context.AddFocusIndicator();
