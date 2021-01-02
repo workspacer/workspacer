@@ -12,21 +12,11 @@ using System.Windows.Forms;
 
 namespace workspacer
 {
-    
+
     public partial class KeybindManager : IKeybindManager
     {
         
-        private class NamedBind<I>
-        {
-            public I Binding { get; }
-            public string Name { get; }
-
-            public NamedBind(I binding, string name)
-            {
-                Binding = binding;
-                Name = name;
-            }
-        }
+       
 
         private Logger Logger = Logger.Create();
         private Win32.HookProc _kbdHook;
@@ -40,7 +30,7 @@ namespace workspacer
         private IDictionary<string, IDictionary<MouseEvent, NamedBind<MouseHandler>>> _mousemodes;
         private TextBlockMessage _keybindDialog;
         private TextBlockMessage _keybindWarning;
-        private string _currentmode;
+       
 
         public KeybindManager(IConfigContext context)
         {
@@ -52,10 +42,9 @@ namespace workspacer
             
             _kbdmodes = new Dictionary<string, IDictionary<Sub, NamedBind<KeybindHandler>>> ();
             _mousemodes = new Dictionary<string, IDictionary<MouseEvent, NamedBind<MouseHandler>>>();
-            _currentmode = "default";
+
+            Subscribe(KeyModifiers.LAlt, Keys.A, () => _context.Workspaces.SwitchToWorkspace(1));
             
-            CreateMode("default", ModeDefaultBindings.All);
-            SetMode("default");
             
         
             var thread = new Thread(() =>
@@ -76,17 +65,20 @@ namespace workspacer
             SubscribeDefaults(name, defaultBindings);
         }
 
-        public void SetMode(string name)
+        public void SetMode(KeyMode mode)
         {
-            _kbdSubs = _kbdmodes[name];
-            _mouseSubs = _mousemodes[name];
-            _currentmode = name;
-            Debug.WriteLine(name);
+
+            _kbdSubs = (Dictionary<Sub, NamedBind<KeybindHandler>>) mode.ReturnSubs();
+        }
+
+        public IKeyMode CreateMode(IConfigContext context, string name)
+        {
+            return new KeyMode(context, name);
         }
 
         public string GetCurrentMode()
         {
-            return _currentmode;
+            return "hi";
         }
        
       

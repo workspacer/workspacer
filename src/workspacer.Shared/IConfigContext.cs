@@ -19,8 +19,8 @@ namespace workspacer
         IPluginManager Plugins { get; }
         IWorkspaceManager Workspaces { get; }
         ISystemTrayManager SystemTray { get; }
+        IKeyMode KeyMode { get; set; }
         IWindowsManager Windows { get; }
-
         IWorkspaceContainer WorkspaceContainer { get; set; }
         IWindowRouter WindowRouter { get; set; }
 
@@ -33,6 +33,7 @@ namespace workspacer
         /// <value>a function that returns an array of new instances of the preferred default layouts</value>
         Func<ILayoutEngine[]> DefaultLayouts { get; set; }
 
+       
         /// <summary>
         /// adds a layout proxy to the context.
         /// layout proxies are used to provide additional functionality to all layout engines across all workspaces

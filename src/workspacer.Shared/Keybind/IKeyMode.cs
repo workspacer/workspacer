@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace workspacer
-
 {
-   public enum ModeDefaultBindings
+   
+
+    public interface IKeyMode
     {
-        None,
-        Minimal,
-        All
+        
+        string Name { get; }
     }
 }

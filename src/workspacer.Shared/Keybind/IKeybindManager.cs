@@ -82,12 +82,9 @@ namespace workspacer
         /// <param name="name"></param>
         /// <param name="defaultBindings"></param>
         void CreateMode(string name, ModeDefaultBindings defaultBindings);
-        /// <summary>
-        /// Sets the active KeyBindMode
-        /// </summary>
-        /// <param name="name"></param>
-        void SetMode(string name);
 
+       
+        IKeyMode CreateMode(IConfigContext context, string Name);
         string GetCurrentMode();
     }
 }
