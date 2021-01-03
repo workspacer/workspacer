@@ -28,15 +28,22 @@ namespace workspacer
 
         private Logger Logger = Logger.Create();
         private IConfigContext _context;
+        private bool _defaultsEnabled;
 
-        public KeyMode() { }
-        public KeyMode(IConfigContext context, string name)
+        public KeyMode(IConfigContext context, string name) : this(context, name, false) { }
+        public KeyMode(IConfigContext context, string name, bool defaultsEnabled)
         {
             
             Name = name;
             KeyboardBindings = new Dictionary<Sub, NamedBind<KeybindHandler>>();
             MouseBindings = new Dictionary<MouseEvent, NamedBind<MouseHandler>>();
             _context = context;
+            _defaultsEnabled = defaultsEnabled;
+
+            if (_defaultsEnabled)
+            {
+                this.SubscribeDefaults();
+            }
         }
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler, string name)

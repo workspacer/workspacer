@@ -13,14 +13,12 @@ namespace workspacer
     public partial class KeybindManager : IKeybindManager
     {
         
-        private Logger Logger = Logger.Create();
         private Win32.HookProc _kbdHook;
         private Win32.HookProc _mouseHook;
         private IDictionary<Sub, NamedBind<KeybindHandler>> _kbdSubs;
         private IDictionary<MouseEvent, NamedBind<MouseHandler>> _mouseSubs;
         private string _activeMode;
         private TextBlockMessage _keybindDialog;
-        private TextBlockMessage _keybindWarning;
 
         public KeybindManager()
         {
@@ -47,14 +45,11 @@ namespace workspacer
             _activeMode = mode.Name;
         }
 
-
         public string GetModeName()
         {
             return _activeMode;
         }
 
-        
-       
         public IEnumerable<Tuple<KeyModifiers, Keys, string>> Keybinds => _kbdSubs.Select(kv => new Tuple<KeyModifiers, Keys, string>(kv.Key.Modifiers, kv.Key.Keys, kv.Value.Name));
         public IEnumerable<Tuple<MouseEvent, string>> Mousebinds => _mouseSubs.Select(kv => new Tuple<MouseEvent, string>(kv.Key, kv.Value.Name));
 
