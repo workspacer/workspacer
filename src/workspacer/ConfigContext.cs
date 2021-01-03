@@ -56,7 +56,7 @@ namespace workspacer
             SystemTray = new SystemTrayManager();
             Workspaces = new WorkspaceManager(this);
             Windows = new WindowsManager();
-            Keybinds = new KeybindManager(this);
+            Keybinds = new KeybindManager();
 
             WorkspaceContainer = new WorkspaceContainer(this);
             WindowRouter = new WindowRouter(this);

@@ -16,17 +16,14 @@ namespace workspacer
         private Logger Logger = Logger.Create();
         private Win32.HookProc _kbdHook;
         private Win32.HookProc _mouseHook;
-        private IConfigContext _context;
         private IDictionary<Sub, NamedBind<KeybindHandler>> _kbdSubs;
         private IDictionary<MouseEvent, NamedBind<MouseHandler>> _mouseSubs;
         private string _activeMode;
         private TextBlockMessage _keybindDialog;
         private TextBlockMessage _keybindWarning;
 
-        public KeybindManager() { }
-        public KeybindManager(IConfigContext context)
+        public KeybindManager()
         {
-            _context = context;
             _kbdHook = KbdHook;
             _mouseHook = MouseHook;
             _kbdSubs = new Dictionary<Sub, NamedBind<KeybindHandler>>();
