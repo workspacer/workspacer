@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace workspacer
 { 
-     public class NamedBind<I>
+    public class NamedBind<I>
      {
         public I Binding { get; }
         public string Name { get; }
@@ -20,35 +20,35 @@ namespace workspacer
 
     public class KeyMode : IKeyMode
     {
+     
+        public IDictionary<Sub, NamedBind<KeybindHandler>> KeyboardBindings { get; }
+        public IDictionary<MouseEvent, NamedBind<MouseHandler>> MouseBindings { get; }
+        public string Name { get; }
+
+
         private Logger Logger = Logger.Create();
-        public IDictionary<Sub, NamedBind<KeybindHandler>> _kbdSubs { get; }
-        public IDictionary<MouseEvent, NamedBind<MouseHandler>> _mouseSubs { get; }
-
-        public string _name { get; }
-
         private IConfigContext _context;
 
         public KeyMode() { }
         public KeyMode(IConfigContext context, string name)
         {
-            _name = name;
+            
+            Name = name;
+            KeyboardBindings = new Dictionary<Sub, NamedBind<KeybindHandler>>();
+            MouseBindings = new Dictionary<MouseEvent, NamedBind<MouseHandler>>();
             _context = context;
-            _kbdSubs = new Dictionary<Sub, NamedBind<KeybindHandler>>();
-            _mouseSubs = new Dictionary<MouseEvent, NamedBind<MouseHandler>>();
-        
         }
-
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler, string name)
         {
             var sub = new Sub(mod, key);
-            if (_kbdSubs.ContainsKey(sub))
+            if (KeyboardBindings.ContainsKey(sub))
             {
                 Logger.Error($" The Key Combination `{mod}-{key}` is already bound to action: `{name}`");
                 string warning = @$" The Key Combination `{mod}-{key}` is already bound to action: `{name}`. To fix this go into your config file and compare assignments of hotkeys
 You can either change your custom hotkey or reassign the default hotkey";
             }
-            _kbdSubs[sub] = new NamedBind<KeybindHandler>(handler, name);
+            KeyboardBindings[sub] = new NamedBind<KeybindHandler>(handler, name);
         }
 
         public void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler)
@@ -58,7 +58,7 @@ You can either change your custom hotkey or reassign the default hotkey";
 
         public void Subscribe(MouseEvent evt, MouseHandler handler, string name)
         {
-            _mouseSubs[evt] = new NamedBind<MouseHandler>(handler, name);
+            MouseBindings[evt] = new NamedBind<MouseHandler>(handler, name);
         }
 
         public void Subscribe(MouseEvent evt, MouseHandler handler)
@@ -69,24 +69,23 @@ You can either change your custom hotkey or reassign the default hotkey";
         public void Unsubscribe(KeyModifiers mod, Keys key)
         {
             var sub = new Sub(mod, key);
-            if (_kbdSubs.ContainsKey(sub))
+            if (KeyboardBindings.ContainsKey(sub))
             {
-                _kbdSubs.Remove(sub);
+                KeyboardBindings.Remove(sub);
             }
         }
 
         public void Unsubscribe(MouseEvent evt)
         {
-            if (_mouseSubs.ContainsKey(evt))
-                _mouseSubs.Remove(evt);
+            if (MouseBindings.ContainsKey(evt))
+                MouseBindings.Remove(evt);
         }
 
         public void UnsubscribeAll()
         {
-            _kbdSubs.Clear();
-            _mouseSubs.Clear();
+            KeyboardBindings.Clear();
+            MouseBindings.Clear();
         }
-
 
         public void SubscribeDefaults(KeyModifiers mod = KeyModifiers.LAlt)
         {

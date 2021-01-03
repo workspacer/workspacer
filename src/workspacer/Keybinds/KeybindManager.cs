@@ -31,9 +31,6 @@ namespace workspacer
             _mouseHook = MouseHook;
             _kbdSubs = new Dictionary<Sub, NamedBind<KeybindHandler>>();
             _mouseSubs = new Dictionary<MouseEvent, NamedBind<MouseHandler>>();
-            var mode = new KeyMode (_context, "default");
-            mode.SubscribeDefaults(KeyModifiers.Alt);
-            SetMode(mode);
 
             var thread = new Thread(() =>
             {
@@ -48,14 +45,13 @@ namespace workspacer
 
         public void SetMode(KeyMode mode)
         {
-
-            _kbdSubs = mode._kbdSubs;
-            _mouseSubs = mode._mouseSubs;
-            _activeMode = mode._name;
+            _kbdSubs = mode.KeyboardBindings;
+            _mouseSubs = mode.MouseBindings;
+            _activeMode = mode.Name;
         }
 
 
-        public string GetCurrentMode()
+        public string GetModeName()
         {
             return _activeMode;
         }

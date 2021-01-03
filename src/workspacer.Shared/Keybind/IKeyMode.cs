@@ -9,8 +9,16 @@ namespace workspacer
 
     public interface IKeyMode
     {
-        
+
+        /// <summary>
+        /// subscribe to a specified keybinding
+        /// </summary>
+        /// <param name="mod">desired keyboard modifier to be listened for</param>
+        /// <param name="key">desired keyboard key to be listened for</param>
+        /// <param name="handler">callback that is called when the keybind is detected</param>
+        /// <param name="name">Name of the new keybind </param>
         void Subscribe(KeyModifiers mod, Keys key, KeybindHandler handler, string name);
+
         /// <summary>
         /// subscribe to a specified keybinding
         /// </summary>
@@ -52,10 +60,11 @@ namespace workspacer
         /// </summary>
         void UnsubscribeAll();
 
-        void SubscribeDefaults(KeyModifiers mod);
         /// <summary>
-        /// show/hide keybind help
+        /// Subscribes to the default bindings
         /// </summary>
-        //void ShowKeybindDialog()
+        /// <param name="mod">desired keyboard modifier to be listened for</param>
+        void SubscribeDefaults(KeyModifiers mod);
+
     }
 }

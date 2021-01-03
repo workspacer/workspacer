@@ -7,9 +7,21 @@
     /// </summary>
     public interface IKeybindManager
     {
-        string GetCurrentMode();
+        /// <summary>
+        /// returns current mode
+        /// </summary>
+        /// <returns></returns>
+        string GetModeName();
 
+        /// <summary>
+        /// Shows the KeybindDialog
+        /// </summary>
         void ShowKeybindDialog();
+
+        /// <summary>
+        /// Sets the active KeyMode
+        /// </summary>
+        /// <param name="mode">KeyMode object</param>
         void SetMode(KeyMode mode);
 
         
