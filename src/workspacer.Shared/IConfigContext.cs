@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -32,8 +29,9 @@ namespace workspacer
         /// </summary>
         /// <value>a function that returns an array of new instances of the preferred default layouts</value>
         Func<ILayoutEngine[]> DefaultLayouts { get; set; }
-
+        
        
+        
         /// <summary>
         /// adds a layout proxy to the context.
         /// layout proxies are used to provide additional functionality to all layout engines across all workspaces
