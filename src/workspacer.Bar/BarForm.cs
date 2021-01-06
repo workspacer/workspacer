@@ -65,9 +65,9 @@ namespace workspacer.Bar
         private void OnLoad(object sender, EventArgs e)
         {
             this.Height = _config.BarHeight;
-            this.Width = _monitor.Width;
             var titleBarHeight = this.ClientRectangle.Height - this.Height;
             this.Location = new Point(_monitor.X, _monitor.Y - titleBarHeight);
+            this.Width = _monitor.Width;
             _timer.Enabled = true;
         }
 
