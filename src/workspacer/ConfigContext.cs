@@ -67,6 +67,9 @@ namespace workspacer
 
             // ignore watcher windows in workspacer
             WindowRouter.AddFilter((window) => window.ProcessId != _pipeServer.WatcherProcess.Id);
+
+            // ignore SunAwtWindows (common in some Sun AWT programs such at JetBrains products), prevents flickering
+            WindowRouter.AddFilter((window) => !window.Class.Contains("SunAwtWindow"));
         }
 
         public void ConnectToWatcher()
