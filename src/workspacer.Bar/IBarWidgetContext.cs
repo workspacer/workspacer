@@ -9,7 +9,6 @@ namespace workspacer.Bar
     public interface IBarWidgetContext
     {
         IMonitor Monitor { get; }
-        IKeybindManager Keybinds { get; }
         IWorkspaceManager Workspaces { get; }
         IWorkspaceContainer WorkspaceContainer { get; }
         IMonitorContainer MonitorContainer { get; }

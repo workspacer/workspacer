@@ -22,7 +22,7 @@ namespace workspacer
         private Dictionary<IWorkspace, IMonitor> _wtm;
 
         public StickyWorkspaceContainer(IConfigContext context) : this(context, StickyWorkspaceIndexMode.Global) { }
-                
+
         public StickyWorkspaceContainer(IConfigContext context, StickyWorkspaceIndexMode indexMode)
         {
             _context = context;
