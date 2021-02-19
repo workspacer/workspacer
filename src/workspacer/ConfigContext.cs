@@ -25,10 +25,11 @@ namespace workspacer
         public WindowsManager Windows { get; set; }
         IWindowsManager IConfigContext.Windows { get { return Windows; } }
 
+        public IKeyMode KeyMode { get; set; }
         public IWorkspaceContainer WorkspaceContainer { get; set; }
         public IWindowRouter WindowRouter { get; set; }
         public IMonitorContainer MonitorContainer { get; set; }
-
+       
         private System.Timers.Timer _timer;
         private PipeServer _pipeServer;
         private Func<ILayoutEngine[]> _defaultLayouts;
@@ -55,11 +56,12 @@ namespace workspacer
             SystemTray = new SystemTrayManager();
             Workspaces = new WorkspaceManager(this);
             Windows = new WindowsManager();
-            Keybinds = new KeybindManager(this);
+            Keybinds = new KeybindManager();
 
             WorkspaceContainer = new WorkspaceContainer(this);
             WindowRouter = new WindowRouter(this);
             MonitorContainer = new NativeMonitorContainer();
+
 
             Windows.WindowCreated += Workspaces.AddWindow;
             Windows.WindowDestroyed += Workspaces.RemoveWindow;
@@ -71,7 +73,7 @@ namespace workspacer
             // ignore SunAwtWindows (common in some Sun AWT programs such at JetBrains products), prevents flickering
             WindowRouter.AddFilter((window) => !window.Class.Contains("SunAwtWindow"));
         }
-
+      
         public void ConnectToWatcher()
         {
             _pipeServer.Start();
@@ -88,6 +90,7 @@ namespace workspacer
                 Logger.ConsoleLogLevel = value;
             }
         }
+
 
         public LogLevel FileLogLevel
         {

@@ -31,7 +31,7 @@ namespace workspacer.ActionMenu
 
             if (_config.RegisterKeybind)
             {
-                _context.Keybinds.Subscribe(_config.KeybindMod, _config.KeybindKey, () => ShowDefault(), "open action menu");
+                _context.KeyMode.Subscribe(_config.KeybindMod, _config.KeybindKey, () => ShowDefault(), "open action menu");
             }
         }
 
