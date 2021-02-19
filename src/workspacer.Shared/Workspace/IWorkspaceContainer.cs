@@ -16,6 +16,8 @@ namespace workspacer
 
         IWorkspace GetNextWorkspace(IWorkspace currentWorkspace);
         IWorkspace GetPreviousWorkspace(IWorkspace currentWorkspace);
+        int GetNextWorkspaceIndex(IWorkspace currentWorkspace);
+        int GetPreviousWorkspaceIndex(IWorkspace currentWorkspace);
 
         IWorkspace GetWorkspaceAtIndex(IWorkspace currentWorkspace, int index);
 

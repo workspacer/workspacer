@@ -310,6 +310,12 @@ You can either change your custom hotkey or reassign the default hotkey";
             Subscribe(mod, Keys.Right,
                 () => _context.Workspaces.SwitchToNextWorkspace(), "switch to next workspace");
 
+            Subscribe(mod | KeyModifiers.LShift, Keys.Left,
+                () => _context.Workspaces.MoveFocusedWindowAndSwitchToPreviousWorkspace(), "move window to previous workspace and switch to it");
+
+            Subscribe(mod | KeyModifiers.LShift, Keys.Right,
+                () => _context.Workspaces.MoveFocusedWindowAndSwitchToNextWorkspace(), "move window to next workspace and switch to it");
+
             Subscribe(mod, Keys.Oemtilde,
                 () => _context.Workspaces.SwitchToLastFocusedWorkspace(), "switch to last focused workspace");
 

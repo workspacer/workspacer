@@ -231,6 +231,21 @@ namespace workspacer
                 nextWindow?.Focus();
             }
         }
+        public void MoveFocusedWindowAndSwitchToNextWorkspace()
+        {
+            Logger.Debug("MoveFocusedWindowAndSwitchToNextWorkspace()");
+            var targetWorkspaceIndex = _context.WorkspaceContainer.GetNextWorkspaceIndex(FocusedWorkspace);
+            _context.Workspaces.MoveFocusedWindowToWorkspace(targetWorkspaceIndex);
+            _context.Workspaces.SwitchToNextWorkspace();
+        }
+
+        public void MoveFocusedWindowAndSwitchToPreviousWorkspace()
+        {
+            Logger.Debug("MoveFocusedWindowAndSwitchToPreviousWorkspace()");
+            var targetWorkspaceIndex = _context.WorkspaceContainer.GetPreviousWorkspaceIndex(FocusedWorkspace);
+            _context.Workspaces.MoveFocusedWindowToWorkspace(targetWorkspaceIndex);
+            _context.Workspaces.SwitchToPreviousWorkspace();
+        }
 
         public void MoveFocusedWindowToMonitor(int index)
         {

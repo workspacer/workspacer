@@ -178,6 +178,38 @@ namespace workspacer
             return workspaces[index];
         }
 
+        public int GetNextWorkspaceIndex(IWorkspace currentWorkspace)
+        {
+            VerifyExists(currentWorkspace);
+
+            var monitor = _wtm[currentWorkspace];
+            var workspaces = _orderedWorkspaces[monitor];
+
+            var index = workspaces.IndexOf(currentWorkspace);
+            if (index >= workspaces.Count - 1)
+                index = 0;
+            else
+                index = index + 1;
+
+            return index;
+        }
+
+        public int GetPreviousWorkspaceIndex(IWorkspace currentWorkspace)
+        {
+            VerifyExists(currentWorkspace);
+
+            var monitor = _wtm[currentWorkspace];
+            var workspaces = _orderedWorkspaces[monitor];
+
+            var index = workspaces.IndexOf(currentWorkspace);
+            if (index == 0)
+                index = _workspaces.Count - 1;
+            else
+                index = index - 1;
+
+            return index;
+        }
+
         public IWorkspace GetWorkspaceAtIndex(IWorkspace currentWorkspace, int index)
         {
             VerifyExists(currentWorkspace);
