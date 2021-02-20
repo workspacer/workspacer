@@ -46,5 +46,11 @@ namespace workspacer
             Source.DataSource = Items.Where(i => i.Item1.ToLower().Contains(searchText) || i.Item2.ToLower().Contains(searchText));
             Source.ResetBindings(false);
         }
+
+        private void KeyValueTable_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
     }
 }

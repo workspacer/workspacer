@@ -77,6 +77,7 @@ namespace workspacer
             this.Controls.Add(this.DataGridView);
             this.Name = "KeyValueTable";
             this.Text = "KeyValueTable";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KeyValueTable_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
