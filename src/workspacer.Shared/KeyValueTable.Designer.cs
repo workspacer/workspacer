@@ -40,6 +40,9 @@ namespace workspacer
             this.DataGridView.AllowUserToAddRows = false;
             this.DataGridView.AllowUserToDeleteRows = false;
             this.DataGridView.AllowUserToOrderColumns = true;
+            this.DataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridView.Location = new System.Drawing.Point(18, 83);
             this.DataGridView.Name = "DataGridView";
@@ -60,6 +63,9 @@ namespace workspacer
             // 
             // SearchBox
             // 
+            this.SearchBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.SearchBox.Location = new System.Drawing.Point(18, 54);
             this.SearchBox.Name = "SearchBox";
             this.SearchBox.PlaceholderText = "Search";
@@ -71,10 +77,12 @@ namespace workspacer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(915, 532);
             this.Controls.Add(this.SearchBox);
             this.Controls.Add(this.SubtitleText);
             this.Controls.Add(this.DataGridView);
+            this.MinimumSize = new System.Drawing.Size(300, 250);
             this.Name = "KeyValueTable";
             this.Text = "KeyValueTable";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KeyValueTable_FormClosing);
