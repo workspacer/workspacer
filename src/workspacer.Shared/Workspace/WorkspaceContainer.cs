@@ -112,7 +112,7 @@ namespace workspacer
         public int GetNextWorkspaceIndex(IWorkspace currentWorkspace)
         {
             VerifyExists(currentWorkspace);
-            var index = _workspaceMap[currentWorkspace];
+            var index = GetWorkspaceIndex(currentWorkspace);
             if (index >= _workspaces.Count - 1)
                 index = 0;
             else
@@ -124,7 +124,7 @@ namespace workspacer
         public int GetPreviousWorkspaceIndex(IWorkspace currentWorkspace)
         {
             VerifyExists(currentWorkspace);
-            var index = _workspaceMap[currentWorkspace];
+            var index = GetWorkspaceIndex(currentWorkspace);
             if (index == 0)
                 index = _workspaces.Count - 1;
             else

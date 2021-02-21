@@ -182,11 +182,8 @@ namespace workspacer
         {
             VerifyExists(currentWorkspace);
 
-            var monitor = _wtm[currentWorkspace];
-            var workspaces = _orderedWorkspaces[monitor];
-
-            var index = workspaces.IndexOf(currentWorkspace);
-            if (index >= workspaces.Count - 1)
+            var index = GetWorkspaceIndex(currentWorkspace);
+            if (index >= _workspaces.Count - 1)
                 index = 0;
             else
                 index = index + 1;
@@ -198,10 +195,7 @@ namespace workspacer
         {
             VerifyExists(currentWorkspace);
 
-            var monitor = _wtm[currentWorkspace];
-            var workspaces = _orderedWorkspaces[monitor];
-
-            var index = workspaces.IndexOf(currentWorkspace);
+            var index = GetWorkspaceIndex(currentWorkspace);
             if (index == 0)
                 index = _workspaces.Count - 1;
             else
