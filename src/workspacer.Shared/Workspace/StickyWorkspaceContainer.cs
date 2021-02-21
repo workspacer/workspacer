@@ -58,7 +58,7 @@ namespace workspacer
         {
             CreateWorkspace(_context.MonitorContainer.FocusedMonitor, name, layouts);
         }
-        
+
         public void CreateWorkspace(IMonitor monitor, string name, params ILayoutEngine[] layouts)
         {
             var newLayouts = layouts.Length > 0 ? _context.ProxyLayouts(layouts) : _context.DefaultLayouts();
@@ -124,7 +124,7 @@ namespace workspacer
 
         public IEnumerable<IWorkspace> GetAllWorkspaces()
         {
-            return _workspaces.SelectMany(kv => kv.Value);
+            return _orderedWorkspaces.SelectMany(kv => kv.Value);
         }
 
         public IMonitor GetCurrentMonitorForWorkspace(IWorkspace workspace)
