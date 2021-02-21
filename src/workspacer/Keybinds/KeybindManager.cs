@@ -385,7 +385,7 @@ You can either change your custom hotkey or reassign the default hotkey";
             if (keys == Keys.Oemcomma) { parts.Add(","); }
             else if (keys == Keys.OemPeriod) { parts.Add("."); }
             else if (keys == Keys.Oem2) { parts.Add("/"); }
-            else if (new Regex("d\\d").IsMatch(keys.ToString().Capitalize()))
+            else if (new Regex("\\d").IsMatch(keys.ToString().Capitalize()))
             {
                 parts.Add(keys.ToString().Capitalize()[1].ToString());
             }
