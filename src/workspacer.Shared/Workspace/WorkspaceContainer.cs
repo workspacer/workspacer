@@ -143,6 +143,13 @@ namespace workspacer
             return _workspaces[index];
         }
 
+        public int GetWorkspaceIndex(IWorkspace workspace)
+        {
+            VerifyExists(workspace);
+
+            return _workspaceMap[workspace];
+        }
+
         public IMonitor GetCurrentMonitorForWorkspace(IWorkspace workspace)
         {
             return _mtw.Keys.FirstOrDefault(m => _mtw[m] == workspace);

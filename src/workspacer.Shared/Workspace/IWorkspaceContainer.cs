@@ -20,6 +20,7 @@ namespace workspacer
         int GetPreviousWorkspaceIndex(IWorkspace currentWorkspace);
 
         IWorkspace GetWorkspaceAtIndex(IWorkspace currentWorkspace, int index);
+        int GetWorkspaceIndex(IWorkspace workspace);
 
         IWorkspace GetWorkspaceForMonitor(IMonitor monitor);
         IMonitor GetCurrentMonitorForWorkspace(IWorkspace workspace);

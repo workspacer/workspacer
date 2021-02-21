@@ -231,6 +231,16 @@ namespace workspacer
             }
         }
 
+        public int GetWorkspaceIndex(IWorkspace workspace)
+        {
+            VerifyExists(workspace);
+
+            var monitor = _wtm[workspace];
+            var workspaces = _orderedWorkspaces[monitor];
+
+            return workspaces.IndexOf(workspace);
+        }
+
         public IWorkspace GetWorkspaceByName(IWorkspace currentWorkspace, string name)
         {
             VerifyExists(currentWorkspace);
