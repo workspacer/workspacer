@@ -25,9 +25,6 @@ namespace workspacer
         [return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SendNotifyMessage(IntPtr hWnd, uint Msg, UIntPtr wParam, IntPtr lParam);
 
-        [DllImport("user32.dll")]
-        public static extern bool SetProcessDPIAware();
-
         public static readonly int WH_KEYBOARD_LL = 13;
         public static readonly int WH_MOUSE_LL = 14;
         public static readonly uint WM_KEYDOWN = 0x100;

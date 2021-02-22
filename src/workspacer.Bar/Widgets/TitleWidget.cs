@@ -11,6 +11,7 @@ namespace workspacer.Bar.Widgets
         public Color MonitorHasFocusColor { get; set; } = Color.Yellow;
         public bool IsShortTitle { get; set; } = false;
         public string NoWindowMessage { get; set; } = "No Windows";
+       
 
         public override IBarWidgetPart[] GetParts()
         {
@@ -23,16 +24,16 @@ namespace workspacer.Bar.Widgets
             {
                 if (!IsShortTitle)
                 {
-                    return Parts(Part(window.Title, color));
+                    return Parts(Part(window.Title, color, fontname: FontName));
                 }
                 else 
                 {
                         string ShortTitle = window.Title.Split("-").Last();
-                        return Parts(Part(ShortTitle, color));
+                        return Parts(Part(ShortTitle, color, fontname: FontName));
                 }
             } else
             {
-                return Parts(Part(NoWindowMessage, color));
+                return Parts(Part(NoWindowMessage, color, fontname: FontName));
             }
         }
 

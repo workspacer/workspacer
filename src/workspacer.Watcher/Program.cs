@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
-namespace workspacer.atcher
+namespace workspacer.Watcher
 {
     class Program
     {

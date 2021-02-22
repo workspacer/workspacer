@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace workspacer
         string Title { get; }
         string Class { get; }
         IWindowLocation Location { get; }
+        Rectangle Offset { get; }
 
         int ProcessId { get; }
         string ProcessFileName { get; }

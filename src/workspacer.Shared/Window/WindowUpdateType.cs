@@ -13,7 +13,6 @@ namespace workspacer
         MinimizeStart,
         MinimizeEnd,
         Foreground,
-        TitleChange,
         MoveStart,
         MoveEnd,
         Move,

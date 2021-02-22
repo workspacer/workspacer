@@ -52,7 +52,7 @@ namespace workspacer.ActionMenu
             this.label.Text = "";
             this.label.BackColor = ColorToColor(config.Background);
             this.label.ForeColor = ColorToColor(config.Foreground);
-            this.textBox.BackColor = ColorToColor(config.Background); 
+            this.textBox.BackColor = ColorToColor(config.Background);
             this.textBox.ForeColor = ColorToColor(config.Foreground);
             this.listBox.BackColor = ColorToColor(config.Background);
             this.listBox.ForeColor = ColorToColor(config.Foreground);
@@ -61,9 +61,9 @@ namespace workspacer.ActionMenu
             this.listBox.AutoSize = true;
             this.listBox.IntegralHeight = true;
 
-            this.label.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.textBox.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.listBox.Font = new Font("Consolas", config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.label.Font = new Font(config.FontName, config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.textBox.Font = new Font(config.FontName, config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.listBox.Font = new Font(config.FontName, config.FontSize, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
 
             this.listBox.DisplayMember = "Text";
             this.listBox.ValueMember = "Text";
@@ -148,7 +148,7 @@ namespace workspacer.ActionMenu
         {
             FixLayout();
         }
-        
+
         private void SelectNext()
         {
             if (this.listBox.SelectedIndex < this.listBox.Items.Count - 1)
@@ -231,11 +231,11 @@ namespace workspacer.ActionMenu
 
             var monitor = _context.MonitorContainer.FocusedMonitor;
             this.listBox.Height = this.listBox.ItemHeight * this.listBox.Items.Count;
-            
+
             this.textBox.Location = new Point(0, labelHeight);
             this.listBox.Location = new Point(0, this.textBox.Height + labelHeight);
             this.listBox.Visible = this.listBox.Items.Count > 0;
-            this.Location = new Point(monitor.X + (monitor.Width / 2) - (width / 2), 0);
+            this.Location = new Point(monitor.X + (monitor.Width / 2) - (width / 2), monitor.Y);
         }
 
         private void Cleanup()

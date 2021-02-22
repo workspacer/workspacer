@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Newtonsoft.Json;
-using Timer = System.Timers.Timer;
 using System.Reflection;
-using System.IO;
 using System.Windows.Forms;
+using Application = System.Windows.Forms.Application;
 
 namespace workspacer
 {
@@ -34,7 +32,8 @@ namespace workspacer
             _context.ConnectToWatcher();
 
             // attach console output target
-            Logger.AttachConsoleLogger((str) =>{
+            Logger.AttachConsoleLogger((str) =>
+            {
                 Console.WriteLine(str);
                 _context.SendLogToConsole(str);
             });
@@ -120,7 +119,8 @@ namespace workspacer
             if (!ConfigHelper.CanCreateExampleConfig())
             {
                 DisplayMessage("workspacer.config.csx already exists, so one cannot be created.");
-            } else
+            }
+            else
             {
                 ConfigHelper.CreateExampleConfig();
                 DisplayMessage($"workspacer.config.csx created in: [${FileHelper.GetUserWorkspacerPath()}]");
