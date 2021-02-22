@@ -7,7 +7,8 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/workspacer/workspacer.csproj",
+                "${workspaceFolder}/workspacer.sln",
+                "/t:workspacer",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

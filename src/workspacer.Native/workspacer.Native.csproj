@@ -1,11 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj" />
   </ItemGroup>
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWindowsForms>true</UseWindowsForms>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <Description>a tiling window manager for Windows</Description>
+    <Authors>Rick Button</Authors>
+    <Version>0.9.10</Version>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" Version="4.3.0" />
+  </ItemGroup>
 </Project>

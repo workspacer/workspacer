@@ -8,14 +8,16 @@ namespace workspacer.Bar.Widgets
 {
     public class FocusedMonitorWidget : BarWidgetBase
     {
+       
+
         public override IBarWidgetPart[] GetParts()
         {
             if (Context.MonitorContainer.FocusedMonitor == Context.Monitor)
             {
-                return Parts("**********");
+                return Parts(Part("**********", fontname: FontName));
             } else
             {
-                return Parts("");
+                return Parts(Part("", fontname: FontName));
             }
         }
 

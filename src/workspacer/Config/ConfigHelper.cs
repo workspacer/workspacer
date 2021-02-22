@@ -48,30 +48,20 @@ namespace workspacer
             var templateName = assembly.GetManifestResourceNames()
                 .First(n => n.EndsWith("workspacer.config.template.csx"));
 
-            using (var stream = assembly.GetManifestResourceStream(templateName))
-            using (var reader = new StreamReader(stream))
-            {
-                var template = reader.ReadToEnd();
+            using var stream = assembly.GetManifestResourceStream(templateName);
+            using var reader = new StreamReader(stream);
+            var template = reader.ReadToEnd();
 
-                var path = Path.GetDirectoryName(assembly.Location);
-                template = template.Replace("WORKSPACER_PATH", path);
+            var path = Path.GetDirectoryName(assembly.Location);
+            template = template.Replace("WORKSPACER_PATH", path);
 
-                return template;
-            }
+            return template;
         }
 
         private static string LoadConfig()
         {
             var path = GetPathInUserFolder(ConfigFileName);
-            string file;
-            if (File.Exists(path))
-            {
-                file = File.ReadAllText(path);
-            }
-            else
-            {
-                file = GetConfigTemplate();
-            }
+            var file = File.Exists(path) ? File.ReadAllText(path) : GetConfigTemplate();
             return file;
         }
 

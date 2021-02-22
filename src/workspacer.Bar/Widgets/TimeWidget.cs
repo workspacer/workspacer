@@ -9,6 +9,7 @@ namespace workspacer.Bar.Widgets
 {
     public class TimeWidget : BarWidgetBase
     {
+        
         private Timer _timer;
         private int _interval;
         private string _format;
@@ -23,7 +24,7 @@ namespace workspacer.Bar.Widgets
 
         public override IBarWidgetPart[] GetParts()
         {
-            return Parts(DateTime.Now.ToString(_format));
+            return Parts(Part(DateTime.Now.ToString(_format), fontname: FontName));
         }
 
         public override void Initialize()

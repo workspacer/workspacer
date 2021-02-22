@@ -12,19 +12,26 @@ namespace workspacer
     {
         private Monitor[] _monitors;
 
+        private Dictionary<IMonitor, int> _monitorMap;
+
         public NativeMonitorContainer()
         {
             var screens = Screen.AllScreens;
             _monitors = new Monitor[screens.Length];
+            _monitorMap = new Dictionary<IMonitor, int>();
 
-            _monitors[0] = new Monitor(0, Screen.PrimaryScreen);
+            var primaryMonitor = new Monitor(0, Screen.PrimaryScreen);
+            _monitors[0] = primaryMonitor;
+            _monitorMap[primaryMonitor] = 0;
 
             var index = 1;
             foreach (var screen in screens)
             {
                 if (!screen.Primary)
                 {
-                    _monitors[index] = new Monitor(index, screen);
+                    var monitor = new Monitor(index, screen);
+                    _monitors[index] = monitor;
+                    _monitorMap[monitor] = index;
                     index++;
                 }
             }
@@ -54,6 +61,28 @@ namespace workspacer
         {
             var screen = Screen.FromRectangle(new Rectangle(x, y, width, height));
             return _monitors.FirstOrDefault(m => m.Screen.DeviceName == screen.DeviceName) ?? _monitors[0];
+        }
+
+        public IMonitor GetNextMonitor()
+        {
+            var index = _monitorMap[FocusedMonitor];
+            if (index >= _monitors.Length - 1)
+                index = 0;
+            else
+                index = index + 1;
+
+            return _monitors[index];
+        }
+
+        public IMonitor GetPreviousMonitor()
+        {
+            var index = _monitorMap[FocusedMonitor];
+            if (index == 0)
+                index = _monitors.Length - 1;
+            else
+                index = index - 1;
+
+            return _monitors[index];
         }
     }
 }

@@ -51,7 +51,6 @@ namespace workspacer
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZESTART, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MINIMIZEEND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZEEND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND, Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _hookDelegate, 0, 0, 0);
-            Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE, Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE, IntPtr.Zero, _hookDelegate, 0, 0, 0);
             Win32.SetWinEventHook(Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE, Win32.EVENT_CONSTANTS.EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, _hookDelegate, 0, 0, 0);
 
             _mouseHook = MouseHook;
@@ -179,9 +178,6 @@ namespace workspacer
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_FOREGROUND:
                         UpdateWindow(hwnd, WindowUpdateType.Foreground);
-                        break;
-                    case Win32.EVENT_CONSTANTS.EVENT_OBJECT_NAMECHANGE:
-                        UpdateWindow(hwnd, WindowUpdateType.TitleChange);
                         break;
                     case Win32.EVENT_CONSTANTS.EVENT_SYSTEM_MOVESIZESTART:
                         StartWindowMove(hwnd);

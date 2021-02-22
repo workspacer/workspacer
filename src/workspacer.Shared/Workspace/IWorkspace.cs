@@ -16,7 +16,7 @@ namespace workspacer
         /// <summary>
         /// name of the workspace
         /// </summary>
-        string Name { get; }
+        string Name { get; set; }
 
         /// <summary>
         /// name of the currently active layout

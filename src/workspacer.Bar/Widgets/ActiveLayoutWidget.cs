@@ -9,19 +9,18 @@ namespace workspacer.Bar.Widgets
 {
     public class ActiveLayoutWidget : BarWidgetBase
     {
+      
         private Timer _timer;
 
-        public ActiveLayoutWidget()
-        {
-        }
+        public ActiveLayoutWidget() { }
 
         public override IBarWidgetPart[] GetParts()
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
-            return Parts(Part("[" + currentWorkspace.LayoutName + "]", null, null, () =>
+            return Parts(Part("[" + currentWorkspace.LayoutName + "]", partClicked: () =>
             {
                 Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
-            }));
+            }, fontname: FontName));
         }
 
         public override void Initialize()
