@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -34,7 +34,7 @@ namespace workspacer
         private IDictionary<Sub, NamedBind<KeybindHandler>> _kbdSubs;
         private IDictionary<MouseEvent, NamedBind<MouseHandler>> _mouseSubs;
 
-        private TextBlockMessage _keybindDialog;
+        private KeyValueTable _keybindTable;
         private TextBlockMessage _keybindWarning;
 
         public KeybindManager(IConfigContext context)
@@ -310,6 +310,12 @@ You can either change your custom hotkey or reassign the default hotkey";
             Subscribe(mod, Keys.Right,
                 () => _context.Workspaces.SwitchToNextWorkspace(), "switch to next workspace");
 
+            Subscribe(mod | KeyModifiers.Control, Keys.Left,
+                () => _context.Workspaces.MoveFocusedWindowAndSwitchToPreviousWorkspace(), "move window to previous workspace and switch to it");
+
+            Subscribe(mod | KeyModifiers.Control, Keys.Right,
+                () => _context.Workspaces.MoveFocusedWindowAndSwitchToNextWorkspace(), "move window to next workspace and switch to it");
+
             Subscribe(mod, Keys.Oemtilde,
                 () => _context.Workspaces.SwitchToLastFocusedWorkspace(), "switch to last focused workspace");
 
@@ -375,44 +381,53 @@ You can either change your custom hotkey or reassign the default hotkey";
         {
             var parts = new List<string>();
 
+            if (mods.HasFlag(KeyModifiers.Win))
+                parts.Add("Win");
             if (mods.HasFlag(KeyModifiers.LAlt))
-                parts.Add("alt");
+                parts.Add("Alt");
             if (mods.HasFlag(KeyModifiers.LShift))
-                parts.Add("shift");
+                parts.Add("Shift");
 
             if (keys == Keys.Oemcomma) { parts.Add(","); }
             else if (keys == Keys.OemPeriod) { parts.Add("."); }
             else if (keys == Keys.Oem2) { parts.Add("/"); }
-            else if (new Regex("d\\d").IsMatch(keys.ToString().ToLower()))
+            else if (new Regex("\\d").IsMatch(keys.ToString().Capitalize()))
             {
-                parts.Add(keys.ToString().ToLower()[1].ToString());
+                parts.Add(keys.ToString().Capitalize()[1].ToString());
             }
             else
             {
-                parts.Add(keys.ToString().ToLower());
+                parts.Add(keys.ToString().Capitalize());
             }
 
-            return string.Join("-", parts);
+            return string.Join(" + ", parts);
         }
 
         public void ShowKeybindDialog()
         {
-            if (_keybindDialog == null)
+            if (_keybindTable == null)
             {
-                var message = string.Join("\r\n", this.Keybinds.Select(k => (k.Item3 ?? "<unnamed>") + "  -  " + GetKeybindString(k.Item1, k.Item2)));
-                _keybindDialog = new TextBlockMessage("workspacer keybinds", "below is the list of the current keybindings", message, new List<Tuple<string, Action>>()
-                
-                {
-                    new Tuple<string, Action>("ok", () => { }),
-                });
-            } 
+                _keybindTable = new KeyValueTable(
+                    "workspacer keybinds",
+                    "Below is the list of the current keybindings",
+                    "Description",
+                    "Keybind",
+                    Keybinds.Select(k => new Tuple<string, string>(
+                            k.Item3 ?? "<unnamed>",
+                            GetKeybindString(k.Item1, k.Item2)
+                        )
+                    ).ToList()
+                );
 
-            if (_keybindDialog.Visible)
+            }
+
+            if (_keybindTable.Visible)
             {
-                _keybindDialog.Hide();
-            } else
+                _keybindTable.Hide();
+            }
+            else
             {
-                _keybindDialog.Show();
+                _keybindTable.Show();
             }
         }
     }
