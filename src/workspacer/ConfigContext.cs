@@ -66,7 +66,10 @@ namespace workspacer
             Windows.WindowUpdated += Workspaces.UpdateWindow;
 
             // ignore watcher windows in workspacer
-            WindowRouter.AddFilter((window) => !(window.ProcessId == _pipeServer.WatcherProcess.Id));
+            WindowRouter.AddFilter((window) => window.ProcessId != _pipeServer.WatcherProcess.Id);
+
+            // ignore SunAwtWindows (common in some Sun AWT programs such at JetBrains products), prevents flickering
+            WindowRouter.AddFilter((window) => !window.Class.Contains("SunAwtWindow"));
         }
 
         public void ConnectToWatcher()
@@ -123,6 +126,8 @@ namespace workspacer
             }
             return layouts;
         }
+
+        public Branch? Branch { get; set; }
 
         public void ToggleConsoleWindow()
         {
@@ -187,7 +192,7 @@ namespace workspacer
 
         public void CleanupAndExit()
         {
-            SystemTray.Destroy();
+            SystemTray.Dispose();
             Application.Exit();
             Environment.Exit(0);
         }

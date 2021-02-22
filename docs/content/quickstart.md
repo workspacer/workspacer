@@ -6,7 +6,7 @@ type: docs
 
 # installing
 
-[download the latest installer.](https://workspacer.blob.core.windows.net/installers/stable/workspacer-stable-latest.msi) workspacer automatically checks for updates.
+[download the latest installer or download the latest zip file and extract to a folder somewhere.](https://github.com/rickbutton/workspacer/releases/latest) workspacer automatically checks for updates.
 
 # configuring
 
