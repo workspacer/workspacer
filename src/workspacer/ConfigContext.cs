@@ -194,7 +194,6 @@ namespace workspacer
         {
             SystemTray.Dispose();
             Application.Exit();
-            Environment.Exit(0);
         }
 
         private void UpdateActiveHandles()
