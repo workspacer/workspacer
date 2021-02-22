@@ -18,6 +18,6 @@ Action<IConfigContext> doConfig = (context) =>
     context.AddFocusIndicator();
     var actionMenu = context.AddActionMenu();
 
-    context.WorkspaceContainer.CreateWorkspaces("one", "two", "three", "four", "five");
+    context.WorkspaceContainer.CreateWorkspaces("1", "2", "3", "4", "5");
 };
 return doConfig;
