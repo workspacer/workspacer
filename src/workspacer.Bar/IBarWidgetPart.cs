@@ -12,5 +12,6 @@ namespace workspacer.Bar
         Color ForegroundColor { get; }
         Color BackgroundColor { get; }
         Action PartClicked { get; }
+        string FontName { get; }
     }
 }

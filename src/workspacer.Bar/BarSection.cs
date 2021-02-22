@@ -113,6 +113,10 @@ namespace workspacer.Bar
             {
                 _clickedHandlers.Remove(label);
             }
+            if (part.FontName != null)
+            {
+                label.Font = CreateFont(part.FontName, _fontSize);
+            };
         }
 
         public void MarkDirty()

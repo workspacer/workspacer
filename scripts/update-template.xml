@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<item>
-    <version>REPLACE_VERSION</version>
-    <url>REPLACE_URL</url>
-    <changelog>https://www.workspacer.org/changelog</changelog>
-    <mandatory>false</mandatory>
-</item>

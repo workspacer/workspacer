@@ -109,6 +109,30 @@ namespace workspacer
 
             return _workspaces[index];
         }
+        public int GetNextWorkspaceIndex(IWorkspace currentWorkspace)
+        {
+            VerifyExists(currentWorkspace);
+            var index = GetWorkspaceIndex(currentWorkspace);
+            if (index >= _workspaces.Count - 1)
+                index = 0;
+            else
+                index = index + 1;
+
+            return index;
+        }
+
+        public int GetPreviousWorkspaceIndex(IWorkspace currentWorkspace)
+        {
+            VerifyExists(currentWorkspace);
+            var index = GetWorkspaceIndex(currentWorkspace);
+            if (index == 0)
+                index = _workspaces.Count - 1;
+            else
+                index = index - 1;
+
+            return index;
+        }
+
 
         public IWorkspace GetWorkspaceAtIndex(IWorkspace currentWorkspace, int index)
         {
@@ -117,6 +141,13 @@ namespace workspacer
                 return null;
 
             return _workspaces[index];
+        }
+
+        public int GetWorkspaceIndex(IWorkspace workspace)
+        {
+            VerifyExists(workspace);
+
+            return _workspaceMap[workspace];
         }
 
         public IMonitor GetCurrentMonitorForWorkspace(IWorkspace workspace)

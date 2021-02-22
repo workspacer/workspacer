@@ -25,6 +25,7 @@ namespace workspacer
             WatcherProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             WatcherProcess.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
             _semaphore = new SemaphoreSlim(1);
+            _semaphore.Wait();
         }
 
         public void Start()
@@ -32,6 +33,7 @@ namespace workspacer
             WatcherProcess.StartInfo.UseShellExecute = false;
             WatcherProcess.StartInfo.RedirectStandardInput = true;
             WatcherProcess.Start();
+            _semaphore.Release();
         }
 
         public void Dispose()

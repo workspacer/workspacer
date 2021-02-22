@@ -4,20 +4,37 @@ description: "a log of changes"
 type: docs
 ---
 
-# {{<stable-installer-link version="0.9.9">}}
+# {{<stable-installer-link version="0.9.10">}}
+
+- switched to GitHub Actions! (thanks sitiom!)
+- improved font configuration for menu bar (thanks N1x0!)
+- updated to .NET 5 (thanks sitiom!)
+- fixed bug where dangling system tray icon remains after exit (thanks OldKros!)
+- new logo! (thanks BeeryShklar!)
+- improved gap calculations (thanks MSylvia!)
+- added extra configurables for TitleWidget (thanks josteink!)
+- fixed an incorrectly duplicated default keybind (thanks Nicholas Balzer!)
+- added a battery widget (thanks Nicholas Balzer!)
+- documentation updates
+- minor tweaks and improvements
+
+Thanks to: **sitiom, josteink, haoxiangliew, BeeryShklar, N1x0, MSylvia, alex-griffiths, OldKros,** and **wkpalan** for the contributions! *If someone is missing please open an issue!*
+
+
+# v0.9.9
 
 - updated to .NET Core 3.1
 - fixed a bug that prevented the watcher from starting
 
-# {{<stable-installer-link version="0.9.8">}}
+# v0.9.8
 
 - added default filters for more Windows 10 Start Menu processes
 
-# {{<stable-installer-link version="0.9.7">}}
+# v0.9.7
 
 - added default filters for new start menu processes in Windows 10 1903
 
-# {{<stable-installer-link version="0.9.6">}}
+# v0.9.6
 
 - added more default filters to remove Win10 shell/explorer windows
 - added slightly more documentation (although, a lot more is needed)
@@ -31,7 +48,7 @@ type: docs
 - improved FocusStealer to use new keybd_event hack
 - added dialog when restarting due to monitor state change, to prevent loops
 
-# {{<stable-installer-link version="0.9.5">}}
+# v0.9.5
 
 - fixed bug that prevented windows from being fixed after workspacer restarts or quits
 - added better exception message dialog
@@ -39,14 +56,14 @@ type: docs
 - moved workspacer.log to the .workspacer folder
 - fixed bug where workspacer.Bar bars would show up in alt-tab
 
-# {{<stable-installer-link version="0.9.4">}}
+# v0.9.4
 
 - more general codebase refactoring, cleaned up a lot of default config boilerplate
 - workspacer.ConfigLoader has been merged into workspacer, so you will need to remove the reference from your config
 - plugin usage has been simplified, see the example config, or the example snippets for usage
 - cleaned up website copy
 
-# {{<stable-installer-link version="0.9.3">}}
+# v0.9.3
 
 - new and shiny website, you are looking at it now (unless you are looking at a newer and shiny-er website, in which case hello from the past! how is the future?) 
 - added extra default filters for lock screen / win10 explorer windows
@@ -57,24 +74,24 @@ type: docs
 - by default, when re-tiling a previously un-tiled window, place window in the workspace that is closest-by-location, rather than routing it
 - improved handling for UAC/lock screen related SendKeys exceptions
 
-# {{<stable-installer-link version="0.9.2">}}
+# v0.9.2
 
 - improved build process, now using Azure Pipelines!
 
 There are now two tracks of releases, `unstable` and `stable`. `unstable` is build and published on every update to the `master` branch, while `stable` releases are created less often.
 
-# {{<stable-installer-link version="0.9.1">}}
+# v0.9.1
 
 - fixed broken FocusStealer
 
-# {{<stable-installer-link version="0.9.0">}}
+# v0.9.0
 
 - fixed bug where workspace indicator was not properly turned off
 - added better support for console output, and added log file
 - added FocusIndicator plugin, see the default config for usage
 - added ability to drag/drop windows into locations in the layout
 
-# {{<stable-installer-link version="0.8.3">}}
+# v0.8.3
 
 - further improved stability of FullLayoutEngine
 - added ability for workspaces to flash in the menu bar when a window in the workspace wants to obtain focus
@@ -82,17 +99,17 @@ There are now two tracks of releases, `unstable` and `stable`. `unstable` is bui
 - added more default filters to improve compat with taskbar
 - added new debug keybinds (alt-o && alt-shift-o) to dump debug metadata for all windows, and the window under the cursor, respectively
 
-# {{<stable-installer-link version="0.8.2">}}
+# v0.8.2
 
 - fixed broken FullLayoutEngine broken by previous changes
 
-# {{<stable-installer-link version="0.8.1">}}
+# v0.8.1
 
 - workspaces are now slightly sticky-er in their default configuration
   - WorkspaceContainer will now remember the last monitor assigned to a workspace, and will try to use that monitor when focusing a window on said workspace
 - better handling of windows that don't emit proper events for window hiding
 
-# {{<stable-installer-link version="0.8.0">}}
+# v0.8.0
 
 - allow override of WorkspaceWidget color selection logic via GetDisplayColor
 - made SwitchToWorkspace(IWorkspace) public
@@ -101,49 +118,49 @@ There are now two tracks of releases, `unstable` and `stable`. `unstable` is bui
 - fixed bug in state saving
 - restarts now persist window order inside a workspace
 
-# {{<stable-installer-link version="0.7.2">}}
+# v0.7.2
 
 - fixed WorkspaceWidget to allow actually overriding GetDisplayName
 
-# {{<stable-installer-link version="0.7.1">}}
+# v0.7.1
 
 - refactored WorkspaceSelectorFunc and WindowFilterFunc into IWindowRouter
 - added "switch to window" menu action
 - added better fuzzy find support to action menu
 - improved focus handling for out-of-view windows
 
-# {{<stable-installer-link version="0.7">}}
+# v0.7
 
 - cycle layouts via click on ActiveLayoutWidget 
 - added ActionMenu plugin!
 
-# {{<stable-installer-link version="0.6">}}
+# v0.6
 
 - refactored IWorkspaceManager, moving most selection logic into IWorkspaceContainer, which is provided by the user config
 - added default keybind `alt-t` that toggles tiling for the focused window
 - fixed bug in title widget that prevented titles on start for empty monitors
 
-# {{<stable-installer-link version="0.5">}}
+# v0.5
 
 - fixes to focus defaults
 - added default keybind `alt-left` and `alt-right` to cycle workspaces left and right
 - added ability to specify click handlers for bar widget parts, added this functionality to workspace widget
 - allow override of display name format in WorkspaceWidget
 
-# {{<stable-installer-link version="0.4">}}
+# v0.4
 
 - Minor fixes
 
-# {{<stable-installer-link version="0.3">}}
+# v0.3
 
 - Implemented installer via WiX
 
-# {{<stable-installer-link version="0.2">}}
+# v0.2
 
 - Added support for colors in workspacer.Bar
 - Renamed to workspacer
 
 
-# {{<stable-installer-link version="0.1">}}
+# v0.1
 
 - Initial Release!

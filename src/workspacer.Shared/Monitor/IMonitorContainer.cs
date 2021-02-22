@@ -14,5 +14,7 @@ namespace workspacer
         IMonitor FocusedMonitor { get; set; }
         IMonitor GetMonitorAtPoint(int x, int y);
         IMonitor GetMonitorAtRect(int x, int y, int width, int height);
+        IMonitor GetPreviousMonitor();
+        IMonitor GetNextMonitor();
     }
 }
