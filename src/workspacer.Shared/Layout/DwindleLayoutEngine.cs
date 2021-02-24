@@ -106,7 +106,7 @@ namespace workspacer
 
         public void IncrementNumInPrimary()
         {
-            _numInPrimaryOffset++
+            _numInPrimaryOffset++;
         }
 
         public void DecrementNumInPrimary()
