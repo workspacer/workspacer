@@ -22,20 +22,22 @@ namespace workspacer
     {
         private readonly bool _vertical;
 
-        private int _primaryIdx;
+        private readonly int _numInPrimary;
 
         private readonly double _primaryPercentIncrement;
+
+        private int _numInPrimaryOffset = 0;
 
         private double _primaryPercentOffset = 0;
 
         public abstract string Name { get; }
 
-        public PaneLayoutEngine(bool vertical) : this(vertical, 0, 0.03) { }
+        public PaneLayoutEngine(bool vertical) : this(vertical, 1, 0.03) { }
 
-        public PaneLayoutEngine(bool vertical, int primaryIdx, double primaryPercentIncrement)
+        public PaneLayoutEngine(bool vertical, int numInPrimary, double primaryPercentIncrement)
         {
             _vertical = vertical;
-            _primaryIdx = primaryIdx;
+            _numInPrimary = numInPrimary;
             _primaryPercentIncrement = primaryPercentIncrement;
         }
 
@@ -43,22 +45,37 @@ namespace workspacer
         {
             var list = new List<IWindowLocation>();
             var numWindows = windows.Count();
-            _primaryIdx %= numWindows;
 
             if (numWindows == 0)
                 return list;
 
-            double currentPercent = (1.0D / numWindows) + _primaryPercentOffset;
+            double primaryPercent = (1.0D / numWindows) + _primaryPercentOffset;
+            int numInPrimary = Math.Min(GetNumInPrimary(), numWindows);
+            int numInSecondary = numWindows - numInPrimary;
+
             if (_vertical)
             {
-                int primaryHeight = (int)(spaceHeight * currentPercent);
                 int width = spaceWidth;
-                int height = numWindows <= 1 ? spaceHeight : ((spaceHeight - primaryHeight) / (numWindows - 1));
+
+                int height = 0;
+                int primaryHeight = 0;
+
+                if (numInSecondary == 0)
+                {
+                    // All the windows are in the primary area
+                    primaryHeight = spaceHeight / numWindows;
+                }
+                else
+                {
+                    primaryHeight = (int)(spaceHeight * primaryPercent / numInPrimary);
+                    height = (spaceHeight - primaryHeight * numInPrimary) / numInSecondary;
+                }
+
                 int startY = 0;
 
                 for (var i = 0; i < numWindows; i++)
                 {
-                    int currentHeight = i == _primaryIdx ? primaryHeight : height;
+                    int currentHeight = i < numInPrimary ? primaryHeight : height;
 
                     list.Add(new WindowLocation(0, startY, width, currentHeight, WindowState.Normal));
                     startY += currentHeight;
@@ -66,14 +83,26 @@ namespace workspacer
             }
             else
             {
-                int primaryWidth = (int)(spaceWidth * currentPercent);
-                int width = numWindows <= 1 ? spaceWidth : ((spaceWidth - primaryWidth) / (numWindows - 1));
+                int width = 0;
+                int primaryWidth = 0;
+
+                if (numInSecondary == 0)
+                {
+                    // All the windows are in the primary area
+                    primaryWidth = spaceWidth / numWindows;
+                }
+                else
+                {
+                    primaryWidth = (int)(spaceWidth * primaryPercent / numInPrimary);
+                    width = (spaceWidth - primaryWidth * numInPrimary) / numInSecondary;
+                }
+
                 int height = spaceHeight;
                 int startX = 0;
 
                 for (var i = 0; i < numWindows; i++)
                 {
-                    int currentWidth = i == _primaryIdx ? primaryWidth : width;
+                    int currentWidth = i < numInPrimary ? primaryWidth : width;
 
                     list.Add(new WindowLocation(startX, 0, currentWidth, height, WindowState.Normal));
                     startX += currentWidth;
@@ -83,8 +112,19 @@ namespace workspacer
             return list;
         }
 
-        public void DecrementNumInPrimary() { }
-        public void IncrementNumInPrimary() { }
+        public void IncrementNumInPrimary()
+        {
+            _numInPrimaryOffset++;
+        }
+
+        public void DecrementNumInPrimary()
+        {
+            if (GetNumInPrimary() > 1)
+            {
+                _numInPrimaryOffset--;
+            }
+        }
+
         public void ExpandPrimaryArea()
         {
             _primaryPercentOffset += _primaryPercentIncrement;
@@ -94,9 +134,15 @@ namespace workspacer
         {
             _primaryPercentOffset = 0;
         }
+
         public void ShrinkPrimaryArea()
         {
             _primaryPercentOffset -= _primaryPercentIncrement;
+        }
+
+        private int GetNumInPrimary()
+        {
+            return _numInPrimary + _numInPrimaryOffset;
         }
     }
 }
