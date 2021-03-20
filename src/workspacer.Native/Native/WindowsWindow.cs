@@ -147,8 +147,7 @@ namespace workspacer
                 return _didManualHide ||
                     (!Win32Helper.IsCloaked(_handle) &&
                        Win32Helper.IsAppWindow(_handle) &&
-                       Win32Helper.IsAltTabWindow(_handle) &&
-                       !IsMinimized);
+                       Win32Helper.IsAltTabWindow(_handle));
             }
         }
 
