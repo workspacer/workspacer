@@ -28,7 +28,7 @@ namespace workspacer.Bar.Widgets
                 }
                 else 
                 {
-                        string ShortTitle = window.Title.Split("-").Last();
+                        string ShortTitle = window.Title.Split(new char[] { '-', '—', '|' }, StringSplitOptions.RemoveEmptyEntries).Last();
                         return Parts(Part(ShortTitle, color, fontname: FontName));
                 }
             } else
