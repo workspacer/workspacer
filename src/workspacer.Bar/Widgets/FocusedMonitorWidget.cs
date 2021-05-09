@@ -10,6 +10,11 @@ namespace workspacer.Bar.Widgets
     {
        
 
+        public string FocusedText { get; set; } = "**********";
+        public string UnfocusedText { get; set; } = "";
+
+        public FocusedMonitorWidget(){}
+
         public override IBarWidgetPart[] GetParts()
         {
             if (Context.MonitorContainer.FocusedMonitor == Context.Monitor)

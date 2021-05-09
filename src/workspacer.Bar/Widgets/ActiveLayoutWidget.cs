@@ -11,15 +11,17 @@ namespace workspacer.Bar.Widgets
     {
       
         private Timer _timer;
+        public string LeftPadding { get; set; } = "[";
+        public string RightPadding { get; set; } = "]";
 
         public ActiveLayoutWidget() { }
 
         public override IBarWidgetPart[] GetParts()
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
-            return Parts(Part("[" + currentWorkspace.LayoutName + "]", partClicked: () =>
+            return Parts(Part(LeftPadding + currentWorkspace.LayoutName + RightPadding, partClicked: () =>
             {
-                Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
+               Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
             }, fontname: FontName));
         }
 
