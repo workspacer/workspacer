@@ -140,9 +140,17 @@ context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(<span style="
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;layouts!&#34;</span>, <span style="color:#66d9ef">new</span> FullLayoutEngine(), <span style="color:#66d9ef">new</span> TallLayoutEngine());
 </code></pre></div><h2 id="how-do-i-customize-the-menu-bar">how do I customize the menu bar?</h2>
 <p>the menu bar is implemented as a <code>plugin</code>, which is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> bar = context.AddBar();
-</code></pre></div><p>the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties on the <code>config</code> optional parameter.</p>
-<h2 id="how-do-i-customize-the-action-menu">how do I customize the action menu?</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig())
+</code></pre></div><p>the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties on the <code>config</code> optional parameter.
+An example of a bar, which implements the TimeWidget with a custom time format and adds the BatteryWidget:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig()
+    {
+        BarTitle = <span style="color:#e6db74">&#34;workspacer.Bar&#34;</span>,
+        FontSize = <span style="color:#ae81ff">14</span>,
+        FontName = <span style="color:#e6db74">&#34;JetBrainsMono NF&#34;</span>,
+        RightWidgets = () =&gt; <span style="color:#66d9ef">new</span> IBarWidget[] { <span style="color:#66d9ef">new</span> TimeWidget(<span style="color:#ae81ff">1000</span>,<span style="color:#e6db74">&#34;hh:mm&#34;</span>), <span style="color:#66d9ef">new</span> BatteryWidget() },
+    });
+</code></pre></div><h2 id="how-do-i-customize-the-action-menu">how do I customize the action menu?</h2>
 <p>the action menu is implemented as a <code>plugin</code>, (see the above <code>menu bar</code> section). the action menu can be installed like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> actionMenu = context.AddActionMenu();
 
