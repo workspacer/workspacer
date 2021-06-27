@@ -6,7 +6,7 @@ type: docs
 
 # installing
 
-download the installer or the zip file from the [Releases](https://github.com/rickbutton/workspacer/releases/latest) page and install/unzip it anywhere you like. 
+download the installer or the zip file from the [Releases](https://github.com/workspacer/workspacer/releases/latest) page and install/unzip it anywhere you like. 
 
 alternatively, workspacer is available via [Chocolatey](https://community.chocolatey.org/packages/workspacer):
 
