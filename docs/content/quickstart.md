@@ -27,7 +27,6 @@ workspacer automatically checks for updates. however, if you are using a package
 context.Branch = Branch.None;
 ```
 
-
 # configuring
 
 by default, workspacer loads a default configuration, but you will likely want to customize this in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.
@@ -52,4 +51,4 @@ workspacer's default configuration behaves like other tiling window managers, bu
 
 # submit feedback!
 
-if you run into any bugs, or want to suggest a feature, please feel free to [open an issue!](https://github.com/rickbutton/workspacer/issues)
+if you run into any bugs, or want to suggest a feature, please feel free to [open an issue!](https://github.com/workspacer/workspacer/issues)

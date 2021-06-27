@@ -61,11 +61,11 @@ namespace workspacer
                 Timer timer = new Timer(1000 * 60 * 60);
                 timer.Elapsed += (s, e) =>
                 {
-                    AutoUpdater.Start("https://raw.githubusercontent.com/rickbutton/workspacer/master/README.md");
+                    AutoUpdater.Start("https://raw.githubusercontent.com/workspacer/workspacer/master/README.md");
                 };
                 timer.Enabled = true;
                 // Put url to trigger ParseUpdateInfoEvent
-                AutoUpdater.Start("https://raw.githubusercontent.com/rickbutton/workspacer/master/README.md");
+                AutoUpdater.Start("https://raw.githubusercontent.com/workspacer/workspacer/master/README.md");
             }
 
             Run();
@@ -78,14 +78,14 @@ namespace workspacer
             bool isStable = _branch == Branch.Stable;
 
             Release release = isStable
-                ? client.Repository.Release.GetLatest("rickbutton", "workspacer").Result
-                : client.Repository.Release.Get("rickbutton", "workspacer", "unstable").Result;
+                ? client.Repository.Release.GetLatest("workspacer", "workspacer").Result
+                : client.Repository.Release.Get("workspacer", "workspacer", "unstable").Result;
 
             string currentVersion = release.Name.Split(' ').Skip(1).FirstOrDefault();
             args.UpdateInfo = new UpdateInfoEventArgs
             {
                 CurrentVersion = currentVersion,
-                ChangelogURL = isStable ? "https://www.workspacer.org/changelog" : "https://github.com/rickbutton/workspacer/releases/unstable",
+                ChangelogURL = isStable ? "https://www.workspacer.org/changelog" : "https://github.com/workspacer/workspacer/releases/unstable",
                 DownloadURL = release.Assets.First(a => a.Name == $"workspacer-{_branch.ToString()?.ToLower()}-{(isStable ? currentVersion : "latest")}.zip").BrowserDownloadUrl
             };
         }
