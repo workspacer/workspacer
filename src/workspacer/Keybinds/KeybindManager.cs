@@ -374,7 +374,7 @@ You can either change your custom hotkey or reassign the default hotkey";
                 () => _context.ToggleConsoleWindow(), "toggle debug console");
 
             Subscribe(mod | KeyModifiers.LShift, Keys.Oem2,
-                () => ShowKeybindDialog(), "open keybind window");
+                () => ShowKeybindDialog(), "toggle keybind window");
         }
 
         private string GetKeybindString(KeyModifiers mods, Keys keys)
