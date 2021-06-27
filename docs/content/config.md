@@ -64,6 +64,14 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
 
 the menu bar is implemented as a `plugin`, which is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:
 
+
+```csharp
+context.AddBar(new BarPluginConfig())
+```
+
+the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the `LeftWidgets` and `RightWidgets` properties on the `config` optional parameter.
+An example of a bar, which implements the TimeWidget with a custom time format and adds the BatteryWidget:
+
 ```csharp
 context.AddBar(new BarPluginConfig()
     {
@@ -74,7 +82,6 @@ context.AddBar(new BarPluginConfig()
     });
 ```
 
-the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the `LeftWidgets` and `RightWidgets` properties on the `config` optional parameter.
 
 ## how do I customize the action menu?
 
