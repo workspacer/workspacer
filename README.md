@@ -1,4 +1,4 @@
-# workspacer ![stable](https://github.com/rickbutton/workspacer/workflows/stable/badge.svg) ![unstable](https://github.com/rickbutton/workspacer/workflows/unstable/badge.svg)
+# workspacer ![stable](https://github.com/workspacer/workspacer/workflows/stable/badge.svg) ![unstable](https://github.com/workspacer/workspacer/workflows/unstable/badge.svg)
 
 ### a tiling window manager for Windows 10
 
