@@ -171,7 +171,7 @@ namespace workspacer
 
             var index = workspaces.IndexOf(currentWorkspace);
             if (index == 0)
-                index = _workspaces.Count - 1;
+                index = workspaces.Count - 1;
             else
                 index = index - 1;
 
