@@ -6,7 +6,7 @@ type: docs
 
 # installing
 
-[download the latest installer or download the latest zip file and extract to a folder somewhere.](https://github.com/rickbutton/workspacer/releases/latest) workspacer automatically checks for updates.
+[download the latest installer or download the latest zip file and extract to a folder somewhere.](https://github.com/workspacer/workspacer/releases/latest) workspacer automatically checks for updates.
 
 # configuring
 
@@ -32,4 +32,4 @@ workspacer's default configuration behaves like other tiling window managers, bu
 
 # submit feedback!
 
-if you run into any bugs, or want to suggest a feature, please feel free to [open an issue!](https://github.com/rickbutton/workspacer/issues)
+if you run into any bugs, or want to suggest a feature, please feel free to [open an issue!](https://github.com/workspacer/workspacer/issues)
