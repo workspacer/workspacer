@@ -6,7 +6,26 @@ type: docs
 
 # installing
 
-[download the latest installer or download the latest zip file and extract to a folder somewhere.](https://github.com/workspacer/workspacer/releases/latest) workspacer automatically checks for updates.
+download the installer or the zip file from the [Releases](https://github.com/workspacer/workspacer/releases/latest) page and install/unzip it anywhere you like. 
+
+alternatively, workspacer is available via [Chocolatey](https://community.chocolatey.org/packages/workspacer):
+
+```
+choco install workspacer
+```
+
+and [Scoop](https://scoop.sh/):
+
+```
+scoop bucket add extras
+scoop install workspacer
+```
+
+workspacer automatically checks for updates. however, if you are using a package manager with either Chocolatey or Scoop, you should uncomment/add this line in your workspacer config to disable autoupdates:
+
+```cs
+context.Branch = Branch.None;
+```
 
 # configuring
 
