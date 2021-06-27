@@ -36,4 +36,4 @@ publishDir = "../out/docs/"
 
 [[menu.extra]]
     name = "submit an issue"
-    url = "https://github.com/rickbutton/workspacer/issues/new"
+    url = "https://github.com/workspacer/workspacer/issues/new"
