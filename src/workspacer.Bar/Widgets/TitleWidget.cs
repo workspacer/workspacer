@@ -28,11 +28,11 @@ namespace workspacer.Bar.Widgets
                 }
                 else
                 {
-                        var parts = window.Title.Split(new char[] { '-', '—', '|' }, StringSplitOptions.RemoveEmptyEntries);
-                        string ShortTitle = parts.Length > 0 ? parts.Last() : window.Title;
-                        return Parts(Part(ShortTitle, color, fontname: FontName));
+                    var shortTitle = GetShortTitle(window.Title);
+                    return Parts(Part(shortTitle, color, fontname: FontName));
                 }
-            } else
+            }
+            else
             {
                 return Parts(Part(NoWindowMessage, color, fontname: FontName));
             }
@@ -75,6 +75,16 @@ namespace workspacer.Bar.Widgets
         private void RefreshFocusedMonitor()
         {
             Context.MarkDirty();
+        }
+
+        private string GetShortTitle(string title)
+        {
+            var parts = title.Split(new char[] { '-', '—', '|' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0)
+            {
+                return title;
+            }
+            return parts.Last();
         }
     }
 }
