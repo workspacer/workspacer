@@ -12,20 +12,31 @@ namespace workspacer.Bar
         private int _offset;
         private ILayoutEngine _inner;
         public string Name => _inner.Name;
+        private bool _barIsTop;
 
-        public MenuBarLayoutEngine(ILayoutEngine inner, string title, int offset)
+
+
+        public MenuBarLayoutEngine(ILayoutEngine inner, string title, int offset, bool BarIstop)
         {
             _inner = inner;
             _title = title;
             _offset = offset;
+            _barIsTop = BarIstop;
         }
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)
         {
             var newWindows = windows.Where(w => !w.Title.Contains(_title));
-
-            return _inner.CalcLayout(newWindows, spaceWidth, spaceHeight - _offset)
+            if (_barIsTop)
+            {
+                return _inner.CalcLayout(newWindows, spaceWidth, spaceHeight - _offset)
                 .Select(l => new WindowLocation(l.X, l.Y + _offset, l.Width, l.Height, l.State));
+            }
+            else
+            {
+                return _inner.CalcLayout(newWindows, spaceWidth, spaceHeight - _offset)
+                .Select(l => new WindowLocation(l.X, l.Y, l.Width, l.Height, l.State));
+            }
         }
 
         public void ShrinkPrimaryArea() { _inner.ShrinkPrimaryArea(); }
