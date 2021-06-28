@@ -76,10 +76,9 @@ context.WindowRouter.AddFilter((window) => !window.Title.Contains("my fun applic
 context.WindowRouter.AddRoute((window) => window.Title.Contains("Google Chrome") ? context.WorkspaceContainer["web"] : null);
 ```
 
-the `AddFilter` call will ensure that any windows who's title contains the text "my fun application" will be ignored by workspacer. a `true` return value will allow the window to be managed, while a `false` value will force workspacer to ignore the window. 
+the `AddFilter` call will ensure that any windows who's title contains the text "my fun application" will be ignored by workspacer. a `true` return value will allow the window to be managed, while a `false` value will force workspacer to ignore the window.
 
 the `AddRoute` call will ensure that any windows who's title contains the text "Google Chrome" will be automatically placed in the "web" workspace. a null return value will signal to workspacer that the next route should be checked, while returning an actual workspace will ensure that the workspace manager will place the window in the returned workspace.
-
 
 
 ## Plugins
@@ -204,4 +203,12 @@ finally, you can remove all of the default keybindings via:
 
 ```csharp
 context.Keybinds.UnsubscribeAll();
+```
+
+## how do I minimize windows?
+
+by default, `context.CanMinimizeWindows = false`. To enable the minimizing of windows, set:
+
+```csharp
+context.CanMinimizeWindows = true;
 ```
