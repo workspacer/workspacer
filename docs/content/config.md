@@ -4,8 +4,10 @@ description:  "use workspacer like a pro!"
 type: faq
 ---
 
-workspacer is configured with the C# programming language. the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
 
+
+
+workspacer is configured with the C# programming language. the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
 this configuration documentation assumes that you have already created the example config in the correct folder, if you haven't, check the [quickstart guide](/quickstart).
 
 ## I don't know C#, or how to program, should I use workspacer?
@@ -24,7 +26,7 @@ context.WorkspaceContainer.CreateWorkspaces("more", "than", "one");
 ```
  
 
-##  Layout Engines
+##  LayoutEngines
 
 LayoutEngines define the way windows get arranged on each workspace. There are a number of different ways to layout windows and you can swap between them dynamically. By default workspacer loads 2 engines to switch between, the FullLayoutEngine and the TallLayoutEngine, howeveryou can change the set of default layout engines via:
 
@@ -59,6 +61,8 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
     * Tiles windows in a `left-right-bottom-left-up-right-bottom-left-up-` order
 
 
+
+
 ## Filters & Routes
 
 By default workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will route workspaces to the focused workspace when they are opened. as with most everything else, this is completely customizable via IWindowRouter.
@@ -81,6 +85,8 @@ the `AddRoute` call will ensure that any windows who's title contains the text "
 ## Plugins
 
 workspacer offers additional functionality beyond just tiling your windows through Plugins. This is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. Supported plugins include
+
+
  * Menu Bar
     * The workspacer bar creates a *nix-like* top-bar which shows the list of workspaces and other useful information
     * Widgets allow for further the customisation of the bar, look at the menu bar section for details
@@ -94,15 +100,16 @@ workspacer offers additional functionality beyond just tiling your windows throu
      * Currently gap settings are global i.e. affect all workspaces, a local option can be implemented
 
 
-## Menu Bar
+###  **Menu Bar**
 
-Similar to other tiling window managers workspacer includes a status/menu bar that can show not only all workspaces but includes additional features provided through custom widgets.The bar can be installed like this:
+Similar to other tiling window managers workspacer includes a status/menu bar that can show not only all workspaces but includes additional features provided through custom widgets. The bar can be installed like this:
 
 ```csharp
 context.AddBar(new BarPluginConfig())
 ```
 
 the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the `LeftWidgets` and `RightWidgets` properties on the `config` optional parameter.
+
 An example of a bar, which implements the TimeWidget with a custom time format and a BatteryWidget is shown below:
 
 ```csharp
@@ -115,8 +122,24 @@ context.AddBar(new BarPluginConfig()
     });
 ```
 
+All widgets output a string and share common properties as defined by the  `IBarWidgetPart` interface.
 
-### Menu Bar Widgets
+```
+public interface IBarWidgetPart
+    {
+        string Text { get; }
+        Color ForegroundColor { get; }
+        Color BackgroundColor { get; }
+        Action PartClicked { get; }
+        string FontName { get; }
+    }
+```
+Widgets support custom on-click functions and callbacks through the `PartClicked` Action.  Icon fonts are also supported and can be set for individual widgets but require system wide installation of the font and there may be issues with `.OTF` files, so `TTF`'s are recommended. To add icons to a widget you have to use it's unicode character.
+So to show a monitor icon using FontAwesome you have to write "\uf108" 
+
+
+#### Menu Bar Widgets
+
 * ActiveLayoutWidget
    * Shows the name of the current active WindowLayoutEngine
 * BatteryWidget
@@ -124,7 +147,7 @@ context.AddBar(new BarPluginConfig()
     * Shows the current battery charge percentage
     * text color can be adjusted based on rules using the ChargeColor and ChargeTreshhold attributes , see [BatteryWidget](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/BatteryWidget.cs) for details
  * TimeWidget
-    * A customisable widget to show the time with standard [C# formatting support](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
+    * A customisable widget to show the time with standard [C# datetime formatting](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
  * TitleWidget
    * Shows the title of the current focused window
    * Users can select to show just the name of the program instead of the full window title by using `isShortTitle` flag
@@ -139,7 +162,9 @@ context.AddBar(new BarPluginConfig()
 
 
 
-## The Action Menu
+
+###  **The Action Menu**
+
 the action menu is implemented as a `plugin`, (see the above `plugins` section). the action menu can be installed like this:
 
 ```csharp
@@ -151,6 +176,8 @@ actionMenu.DefaultMenu.AddFreeForm("write to console", (s) => Console.WriteLine(
 ```
 
 note that `DefaultMenu` contains a useful set of default items. if you don't want these defaults, or you want to create an menu for nesting, you can use the `Clear` method. you can nest these menus as much as desired, so any set of menus can be created.
+
+
 
 
 ## how do I register custom keybindings?
