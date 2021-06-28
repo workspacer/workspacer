@@ -77,14 +77,14 @@ namespace workspacer.Bar.Widgets
             Context.MarkDirty();
         }
 
-        private string GetShortTitle(string title)
+        public static string GetShortTitle(string title)
         {
             var parts = title.Split(new char[] { '-', '—', '|' }, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 0)
             {
-                return title;
+                return title.Trim();
             }
-            return parts.Last();
+            return parts.Last().Trim();
         }
     }
 }
