@@ -49,8 +49,9 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
     * Windows get created in the secondary zone by default
     * The number of windows in the primary zone can be dynamically adjusted
  * [PaneLayoutEngines](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
-    * Orders windows in either rows or columns depending on the setting
-    * Adds windows below or to the right of the existing window depending on orientation
+    * The PaneLayoutEngine is an abstract class with two implementations: the `VertLayoutEngine` and the `HorzLayoutEngine`
+    * The `VertLayoutEngine` aligns windows in columns, the `HorzLayoutEngine` in rows
+
 
 ### In development
 * GridLayoutEngine
@@ -93,7 +94,7 @@ workspacer offers additional functionality beyond just tiling your windows throu
      * The action menu allows the user to create custom (nested) menus which can call any function or shortcuts you'd like
  * Focus Indicator
      * Draws a border around the current focused window. Border width and color can be adjusted through attributes see [Focus Indicator Config](https://github.com/workspacer/workspacer/blob/master/src/workspacer.FocusIndicator/FocusIndicatorPluginConfig.cs)
-  * Gaps
+  * [Gaps](#gaps)
      * Allows for user-configurable gaps between windows
      * Similar to i3 these gaps are seperated into an 'inner' and an 'outer gap'
      * Currently gap settings are global i.e. affect all workspaces, a local option can be implemented
@@ -177,6 +178,29 @@ actionMenu.DefaultMenu.AddFreeForm("write to console", (s) => Console.WriteLine(
 note that `DefaultMenu` contains a useful set of default items. if you don't want these defaults, or you want to create an menu for nesting, you can use the `Clear` method. you can nest these menus as much as desired, so any set of menus can be created.
 
 
+### **Gaps**
+
+Gaps are supported through ``IConfigContext::AddLayoutProxy`` which is also used to recalculate window positions when the menu bar is present
+
+in workspacer.config.csx
+```
+#r "C:\Program Files\workspacer\plugins\workspacer.Gap\workspacer.Gap.dll"
+
+using workspacer.Gap;
+
+var gap = 20;
+context.AddGap(
+    new GapPluginConfig()
+    {
+        InnerGap = gap,
+        OuterGap = gap / 2,
+        Delta = gap / 2,
+    }
+);
+```
+
+Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g. `IncrementOuterGap`, `DecrementInnerGap`) to keybinds.
+For more details have a look at an example from the [user snippets](https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs)
 
 
 ## how do I register custom keybindings?
