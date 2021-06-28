@@ -36,40 +36,44 @@
             // MessageText
             // 
             this.MessageText.BackColor = System.Drawing.SystemColors.Window;
-            this.MessageText.Location = new System.Drawing.Point(15, 36);
+            this.MessageText.Location = new System.Drawing.Point(18, 42);
+            this.MessageText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MessageText.Multiline = true;
             this.MessageText.Name = "MessageText";
             this.MessageText.ReadOnly = true;
             this.MessageText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.MessageText.Size = new System.Drawing.Size(757, 384);
+            this.MessageText.Size = new System.Drawing.Size(882, 442);
             this.MessageText.TabIndex = 0;
             // 
             // SubtitleText
             // 
             this.SubtitleText.AutoSize = true;
-            this.SubtitleText.Location = new System.Drawing.Point(12, 9);
+            this.SubtitleText.Location = new System.Drawing.Point(14, 10);
+            this.SubtitleText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.SubtitleText.Name = "SubtitleText";
-            this.SubtitleText.Size = new System.Drawing.Size(0, 13);
+            this.SubtitleText.Size = new System.Drawing.Size(0, 15);
             this.SubtitleText.TabIndex = 1;
             // 
             // ButtonLayout
             // 
             this.ButtonLayout.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.ButtonLayout.Location = new System.Drawing.Point(15, 426);
+            this.ButtonLayout.Location = new System.Drawing.Point(18, 492);
+            this.ButtonLayout.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ButtonLayout.Name = "ButtonLayout";
-            this.ButtonLayout.Size = new System.Drawing.Size(757, 30);
+            this.ButtonLayout.Size = new System.Drawing.Size(883, 35);
             this.ButtonLayout.TabIndex = 2;
             // 
             // TextBlockMessage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 461);
+            this.ClientSize = new System.Drawing.Size(915, 546);
             this.ControlBox = false;
             this.Controls.Add(this.ButtonLayout);
             this.Controls.Add(this.SubtitleText);
             this.Controls.Add(this.MessageText);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "TextBlockMessage";
             this.ShowInTaskbar = false;
             this.Text = "workspacer";

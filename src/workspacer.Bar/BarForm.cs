@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Text;
 using System.Threading;
@@ -121,11 +121,21 @@ namespace workspacer.Bar
 
         private void Redraw(object sender, ElapsedEventArgs args)
         {
-            this.Invoke((MethodInvoker)(() =>
+            try
             {
-                _left.Draw();
-                _right.Draw();
-            }));
+                if (IsHandleCreated)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        _left.Draw();
+                        _right.Draw();
+                    }));
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // Sometimes after waking from sleep, BarForm has been disposed of.
+            }
         }
     }
 }
