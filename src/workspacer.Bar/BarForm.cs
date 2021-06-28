@@ -134,6 +134,7 @@ namespace workspacer.Bar
             }
             catch (ObjectDisposedException)
             {
+                // Sometimes after waking from sleep, BarForm has been disposed of.
             }
         }
     }
