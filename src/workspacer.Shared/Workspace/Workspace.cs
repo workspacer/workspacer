@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +29,9 @@ namespace workspacer
             {
                 lock (_windows)
                 {
-                    return _windows.Where(w => w.CanLayout).ToList();
+                    return _windows.Where(w =>
+                        w.CanLayout && !(_context.CanMinimizeWindows && w.IsMinimized)
+                    ).ToList();
                 }
             }
         }
@@ -43,7 +45,7 @@ namespace workspacer
                 }
             }
         }
-            
+
         public IWindow LastFocusedWindow => _lastFocused;
         public string Name { get; set; }
         public string LayoutName => _layoutEngines[_layoutIndex].Name;
@@ -388,13 +390,13 @@ namespace workspacer
                             var window = windows[i];
                             var loc = locations[i];
 
-                            var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y, 
+                            var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y,
                                 loc.Width, loc.Height, loc.State);
 
                             if (!window.IsMouseMoving)
                             {
                                 handle.DeferWindowPos(window, adjustedLoc);
-                            } 
+                            }
                         }
                     }
                 }
