@@ -21,9 +21,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/config/</guid>
-      <description>workspacer is configured with the C# programming language. the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
-this configuration documentation assumes that you have already created the example config in the correct folder, if you haven&amp;rsquo;t, check the quickstart guide.
-a quick note on configuration compatibility because workspacer is a new project, I have not fully nailed down how I want the interfaces to look or behave, so everything in workspacer is subject to change.</description>
+      <description>workspacer is configured with the C# programming language. the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior. this configuration documentation assumes that you have already created the example config in the correct folder, if you haven&amp;rsquo;t, check the quickstart guide.
+I don&amp;rsquo;t know C#, or how to program, should I use workspacer? workspacer is intended to be on the extreme end of the power user spectrum.</description>
     </item>
     
     <item>
