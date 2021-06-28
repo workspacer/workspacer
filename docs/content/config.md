@@ -48,18 +48,18 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
     * Splits the screen in two horizontal zones, 1 primary and one secondary
     * Windows get created in the secondary zone by default
     * The number of windows in the primary zone can be dynamically adjusted
- * [PaneLayoutEngines](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
+* [PaneLayoutEngines](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
     * The PaneLayoutEngine is an abstract class with two implementations: the `VertLayoutEngine` and the `HorzLayoutEngine`
     * The `VertLayoutEngine` aligns windows in columns, the `HorzLayoutEngine` in rows
+* [DwindleLayout](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/DwindleLayoutEngine.cs)
+    * Uses primary and secondary zones as the TallLayoutEngine
+    * Tiles windows in a `left-right-bottom-left-up-right-bottom-left-up-` order
 
 
 ### In development
 * GridLayoutEngine
     * Creates a dynamic (NxN) grid in which windows are sorted
     * Requires support for on-the-fly change in row and column numbers
-* DwindleLayout
-    * Uses primary and secondary zones as the TallLayoutEngine
-    * Tiles windows in a `left-right-bottom-left-up-right-bottom-left-up-` order
 
 
 
