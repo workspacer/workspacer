@@ -19,5 +19,6 @@ Action<IConfigContext> doConfig = (context) =>
     var actionMenu = context.AddActionMenu();
 
     context.WorkspaceContainer.CreateWorkspaces("1", "2", "3", "4", "5");
+    context.CanMinimizeWindows = true; // false by default
 };
 return doConfig;
