@@ -42,11 +42,11 @@ context.WindowRouter.AddFilter((window) => !window.Title.Contains("my fun applic
 context.WindowRouter.AddRoute((window) => window.Title.Contains("Google Chrome") ? context.WorkspaceContainer["web"] : null);
 ```
 
-the `AddFilter` call will ensure that any windows who's title contains the text "my fun application" will be ignored by workspacer. a `true` return value will allow the window to be managed, while a `false` value will force workspacer to ignore the window. 
+the `AddFilter` call will ensure that any windows who's title contains the text "my fun application" will be ignored by workspacer. a `true` return value will allow the window to be managed, while a `false` value will force workspacer to ignore the window.
 
 the `AddRoute` call will ensure that any windows who's title contains the text "Google Chrome" will be automatically placed in the "web" workspace. a null return value will signal to workspacer that the next route should be checked, while returing an actual workspace will ensure that the workspace manager will place the window in the returned workspace.
 
-## how do I chose different layout engines? 
+## how do I chose different layout engines?
 
 you can change the set of "default" layout engines via:
 
@@ -64,11 +64,24 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
 
 the menu bar is implemented as a `plugin`, which is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. the bar can be installed like this:
 
+
 ```csharp
-var bar = context.AddBar();
+context.AddBar(new BarPluginConfig())
 ```
 
 the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the `LeftWidgets` and `RightWidgets` properties on the `config` optional parameter.
+An example of a bar, which implements the TimeWidget with a custom time format and adds the BatteryWidget:
+
+```csharp
+context.AddBar(new BarPluginConfig()
+    {
+        BarTitle = "workspacer.Bar",
+        FontSize = 14,
+        FontName = "JetBrainsMono NF",
+        RightWidgets = () => new IBarWidget[] { new TimeWidget(1000,"hh:mm"), new BatteryWidget() },
+    });
+```
+
 
 ## how do I customize the action menu?
 
@@ -108,4 +121,12 @@ finally, you can remove all of the default keybindings via:
 
 ```csharp
 context.Keybinds.UnsubscribeAll();
+```
+
+## how do I minimize windows?
+
+by default, `context.CanMinimizeWindows = false`. To enable the minimizing of windows, set:
+
+```csharp
+context.CanMinimizeWindows = true;
 ```

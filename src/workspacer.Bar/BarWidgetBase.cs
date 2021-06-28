@@ -10,6 +10,8 @@ namespace workspacer.Bar
     {
         protected IBarWidgetContext Context { get; private set; }
         public string FontName { get; set; } = null;
+        public string LeftPadding { get; set; } = "";
+        public string RightPadding { get; set; } = "";
 
         public void Initialize(IBarWidgetContext context)
         {
@@ -35,7 +37,7 @@ namespace workspacer.Bar
             return parts;
         }
 
-        protected IBarWidgetPart Part(string text, Color fore = null, Color back = null, Action partClicked = null, string fontname = null)
+        protected IBarWidgetPart Part(string text, Color fore = null, Color back = null, Action partClicked = null, string fontname = null, string leftPadding = "", string rightPadding = "")
         {
             return new BarWidgetPart()
             {
@@ -44,6 +46,8 @@ namespace workspacer.Bar
                 BackgroundColor = back,
                 PartClicked = partClicked,
                 FontName = fontname,
+                LeftPadding = leftPadding,
+                RightPadding = rightPadding
             };
         }
     }

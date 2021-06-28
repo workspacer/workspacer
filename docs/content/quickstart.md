@@ -6,7 +6,26 @@ type: docs
 
 # installing
 
-[download the latest installer or download the latest zip file and extract to a folder somewhere.](https://github.com/rickbutton/workspacer/releases/latest) workspacer automatically checks for updates.
+download the installer or the zip file from the [Releases](https://github.com/workspacer/workspacer/releases/latest) page and install/unzip it anywhere you like. 
+
+alternatively, workspacer is available via [Chocolatey](https://community.chocolatey.org/packages/workspacer):
+
+```
+choco install workspacer
+```
+
+and [Scoop](https://scoop.sh/):
+
+```
+scoop bucket add extras
+scoop install workspacer
+```
+
+workspacer automatically checks for updates. however, if you are using a package manager with either Chocolatey or Scoop, you should uncomment/add this line in your workspacer config to disable autoupdates:
+
+```cs
+context.Branch = Branch.None;
+```
 
 # configuring
 
@@ -20,7 +39,7 @@ C:\Users\<username>\.workspacer\workspacer.config.csx
 
 workspacer is configured in the C# language, using types and interfaces provided by workspacer itself. this means that while workspacer requires knowledge of programming to use, it's configuration is extremely powerful, and allows you to modify, or even replace, most functionality that drives workspacer. for example, a common use case is to implement a custom layout engine (just define a class that satisfies the interface `ILayoutEngine`) entirely inside the config file, and then use it to define completely custom layout behavior, without needing to modify workspacer itself.
 
-workspacer's config file allows for __type checking__ and __intellisense__! currently, only VSCode with the C# extension is supported. opening the `.workspacer` folder in your home directory inside VSCode with the C# extension installed will provide syntax highlighting, type checking, and autocomplete automatically because of the `#r` directives at the top of the config file (so don't remove those, or else this won't work!).
+workspacer's config file allows for __type checking__ and __intellisense__! currently, only VSCode with the C# extension is supported. opening the `.workspacer` folder in your home directory inside VSCode with the C# extension installed will provide syntax highlighting, type checking, and autocomplete automatically because of the [`#r` directives at the top of the config file](https://github.com/workspacer/workspacer/blob/master/src/workspacer/Config/workspacer.config.template.csx) (so don't remove those, or else this won't work!).
 
 [the config page](/config) lists a few examples and tips/tricks on how to customize your configuration to your liking.
 
@@ -32,4 +51,4 @@ workspacer's default configuration behaves like other tiling window managers, bu
 
 # submit feedback!
 
-if you run into any bugs, or want to suggest a feature, please feel free to [open an issue!](https://github.com/rickbutton/workspacer/issues)
+if you run into any bugs, or want to suggest a feature, please feel free to [open an issue!](https://github.com/workspacer/workspacer/issues)
