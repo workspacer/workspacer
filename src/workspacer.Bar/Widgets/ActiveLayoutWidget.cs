@@ -11,8 +11,6 @@ namespace workspacer.Bar.Widgets
     {
       
         private Timer _timer;
-        public string LeftPadding { get; set; } = "[";
-        public string RightPadding { get; set; } = "]";
 
         public ActiveLayoutWidget() { }
 
