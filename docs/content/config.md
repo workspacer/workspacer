@@ -28,7 +28,7 @@ context.WorkspaceContainer.CreateWorkspaces("more", "than", "one");
 
 ##  LayoutEngines
 
-LayoutEngines define the way windows get arranged on each workspace. There are a number of different ways to layout windows and you can swap between them dynamically. By default workspacer loads 2 engines to switch between, the FullLayoutEngine and the TallLayoutEngine, howeveryou can change the set of default layout engines via:
+Layout engines define the way windows get arranged on each workspace. There are a number of different ways to layout windows and you can swap between them dynamically. By default workspacer loads 2 engines to switch between, the FullLayoutEngine and the TallLayoutEngine, howeveryou can change the set of default layout engines via:
 
 ```csharp
 context.DefaultLayouts = () => new ILayoutEngine[] { new FullLayoutEngine() };
@@ -42,7 +42,7 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
 
 
 ### Existing LayoutEngines
-* [FullLayoutEnine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
+* [FullLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
     * Maximizes the current focused window and hides all others
 * [TallLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
     * Splits the screen in two horizontal zones, 1 primary and one secondary
@@ -87,11 +87,11 @@ the `AddRoute` call will ensure that any windows who's title contains the text "
 workspacer offers additional functionality beyond just tiling your windows through Plugins. This is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. Supported plugins include
 
 
- * Menu Bar
+ * [Menu Bar](#menu-bar)
     * The workspacer bar creates a *nix-like* top-bar which shows the list of workspaces and other useful information
     * Widgets allow for further the customisation of the bar, look at the menu bar section for details
- * Action Menu
-     * The actionmenu allows the user to create custom (nested) menus which can call any function or shortcuts you'd like
+ * [Action Menu](#the-action-menu)
+     * The action menu allows the user to create custom (nested) menus which can call any function or shortcuts you'd like
  * Focus Indicator
      * Draws a border around the current focused window. Border width and color can be adjusted through attributes see [Focus Indicator Config](https://github.com/workspacer/workspacer/blob/master/src/workspacer.FocusIndicator/FocusIndicatorPluginConfig.cs)
   * Gaps
@@ -140,19 +140,19 @@ So to show a monitor icon using FontAwesome you have to write "\uf108"
 
 #### Menu Bar Widgets
 
-* ActiveLayoutWidget
+* `ActiveLayoutWidget`
    * Shows the name of the current active WindowLayoutEngine
-* BatteryWidget
+* `BatteryWidget`
     * For mobile devices/laptops only
     * Shows the current battery charge percentage
-    * text color can be adjusted based on rules using the ChargeColor and ChargeTreshhold attributes , see [BatteryWidget](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/BatteryWidget.cs) for details
- * TimeWidget
+    * text color can be adjusted based on rules using the ChargeColor and ChargeTreshold attributes, see [BatteryWidget](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/BatteryWidget.cs) for details
+ * `TimeWidget`
     * A customisable widget to show the time with standard [C# datetime formatting](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
- * TitleWidget
+ * `TitleWidget`
    * Shows the title of the current focused window
    * Users can select to show just the name of the program instead of the full window title by using `isShortTitle` flag
    * More configuration details are available [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/TitleWidget.cs)
- * WorkspaceWidget
+ * `WorkspaceWidget`
    * Shows all existing workspaces
    * Allows for significant customisation:
     * Change the text color of the workspace name depending on it's state (focused, empty)
