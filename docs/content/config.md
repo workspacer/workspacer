@@ -216,7 +216,7 @@ Define the mod key. Check [KeyModifiers.cs](https://github.com/workspacer/worksp
 KeyModifiers mod = KeyModifiers.Alt;
 ```
 
-Add a keybindung using `Keybinds.Subscribe`. See [Keys.cs](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/Keys.cs) for all the available key names.
+Add a key binding using `context.Keybinds.Subscribe`. See [Keys.cs](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/Keys.cs) for all the available key names.
 
 ```csharp
 context.Keybinds.Subscribe(mod, Keys.Y, () => Console.WriteLine("Y was pressed"))
