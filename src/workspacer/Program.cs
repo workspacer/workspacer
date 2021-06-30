@@ -47,6 +47,8 @@ namespace workspacer
                 _branch = Branch.Unstable;
 #elif BRANCH_stable
                 _branch = Branch.Stable;
+#elif BRANCH_beta
+                _branch = Branch.Beta;
 #else
                 _branch = Branch.None;
 #endif
@@ -76,17 +78,18 @@ namespace workspacer
             GitHubClient client = new GitHubClient(new ProductHeaderValue("workspacer"));
 
             bool isStable = _branch == Branch.Stable;
+            string branchName = _branch.ToString()?.ToLower();
 
             Release release = isStable
                 ? client.Repository.Release.GetLatest("workspacer", "workspacer").Result
-                : client.Repository.Release.Get("workspacer", "workspacer", "unstable").Result;
+                : client.Repository.Release.Get("workspacer", "workspacer", branchName).Result;
 
             string currentVersion = release.Name.Split(' ').Skip(1).FirstOrDefault();
             args.UpdateInfo = new UpdateInfoEventArgs
             {
                 CurrentVersion = currentVersion,
-                ChangelogURL = isStable ? "https://www.workspacer.org/changelog" : "https://github.com/workspacer/workspacer/releases/unstable",
-                DownloadURL = release.Assets.First(a => a.Name == $"workspacer-{_branch.ToString()?.ToLower()}-{(isStable ? currentVersion : "latest")}.zip").BrowserDownloadUrl
+                ChangelogURL = isStable ? "https://www.workspacer.org/changelog" : $"https://github.com/workspacer/workspacer/releases/{branchName}",
+                DownloadURL = release.Assets.First(a => a.Name == $"workspacer-{branchName}-{(isStable ? currentVersion : "latest")}.zip").BrowserDownloadUrl
             };
         }
 
