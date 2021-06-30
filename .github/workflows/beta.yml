@@ -4,7 +4,7 @@ on:
   push:
     tags:
       # assumes versioning like 0.9.11-beta.1
-      - "*-beta*"
+      - "v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
 
 jobs:
   build-and-release-beta:
@@ -26,25 +26,25 @@ jobs:
       run: |
         Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
         scoop install wixtoolset
-        .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\ -version "beta-latest"
+        .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\ -version "beta-$env:VERSION"
     - uses: actions/upload-artifact@v2
       with:
         name: workspacer-installer
-        path: .\out\workspacer-${{ env.VERSION }}-latest.msi
+        path: .\out\workspacer-${{ env.VERSION }}.msi
     - name: Zip build output
-      run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-$env:VERSION-latest.zip"
+      run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-$env:VERSION.zip"
     - uses: dev-drprasad/delete-tag-and-release@v0.1.2
       with:
        delete_release: true
-       tag_name: beta
+       tag_name: ${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: marvinpinto/action-automatic-releases@latest
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        automatic_release_tag: beta
+        automatic_release_tag: ${{ github.ref }}
         title: workspacer ${{ env.VERSION }}
         prerelease: true
         files: |
-          out/workspacer-${{ env.VERSION }}-latest.zip
-          out/workspacer-${{ env.VERSION }}-latest.msi
+          out/workspacer-${{ env.VERSION }}.zip
+          out/workspacer-${{ env.VERSION }}.msi
