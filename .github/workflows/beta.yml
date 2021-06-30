@@ -4,7 +4,7 @@ on:
   push:
     tags:
       # assumes versioning like 0.9.11-beta.1
-      - "v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+"
+      - "beta"
 
 jobs:
   build-and-release-beta:
@@ -36,7 +36,7 @@ jobs:
     - uses: dev-drprasad/delete-tag-and-release@v0.1.2
       with:
        delete_release: true
-       tag_name: ${{ github.ref }}
+       tag_name: beta
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: marvinpinto/action-automatic-releases@latest
