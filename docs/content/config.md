@@ -48,10 +48,10 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
     * Splits the screen in two horizontal zones, 1 primary and one secondary
     * Windows get created in the secondary zone by default
     * The number of windows in the primary zone can be dynamically adjusted
-* [PaneLayoutEngines](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
+* [PaneLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
     * The PaneLayoutEngine is an abstract class with two implementations: the `VertLayoutEngine` and the `HorzLayoutEngine`
     * The `VertLayoutEngine` aligns windows in columns, the `HorzLayoutEngine` in rows
-* [DwindleLayout](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/DwindleLayoutEngine.cs)
+* [DwindleLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/DwindleLayoutEngine.cs)
     * Uses primary and secondary zones as the TallLayoutEngine
     * Tiles windows in a `left-right-bottom-left-up-right-bottom-left-up-` order
 
@@ -158,6 +158,9 @@ So to show a monitor icon using FontAwesome you have to write "\uf108"
     * Change the text color of the workspace name depending on it's state (focused, empty)
     * Supports blinking for events and notifications
     * further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/WorkspaceWidget.cs)
+  * `TextWidget`
+    * Shows provided fixed text
+    * Useful for dividers
 
 
 
@@ -207,11 +210,13 @@ For more details have a look at an example from the [user snippets](https://gith
 
 workspacer subscribes to the [default set of keybindings](/keybindings) automatically for you. if you want to add additional keybindings, or override an existing one, you can do the following:
 
-Define the mod key the to the default key or ignore this step if you have already defined the mod key
+Define the mod key. Check [KeyModifiers.cs](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/KeyModifiers.cs) to see all available modifiers. `KeyModifiers.Alt` is the default mod key. If you want to use multiple modifier keys (e.g. Left Alt + Left Control), use `KeyModifiers.LAlt | KeyModifiers.LCtrl`.
 
 ```csharp
 KeyModifiers mod = KeyModifiers.Alt;
 ```
+
+Add a key binding using `context.Keybinds.Subscribe`. See [Keys.cs](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/Keys.cs) for all the available key names.
 
 ```csharp
 context.Keybinds.Subscribe(mod, Keys.Y, () => Console.WriteLine("Y was pressed"))
