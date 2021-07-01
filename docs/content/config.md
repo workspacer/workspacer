@@ -91,7 +91,7 @@ Workspacer offers additional functionality beyond just tiling your windows throu
 
 ### Menu Bar
 
-Like other tiling window managers workspacer includes a status/menu bar that show relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from [BarWidgetBase](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs).
+Like other tiling window managers workspacer includes a status/menu bar that shows relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from [BarWidgetBase](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs).
 
 The bar can be installed like this:
 
