@@ -70,7 +70,7 @@ namespace workspacer.Bar
                 this.Location = new Point(_monitor.X, _monitor.Y - titleBarHeight);
             else
 
-                this.Location = new Point(_monitor.X, _monitor.Height - _config.BarHeight);
+                this.Location = new Point(_monitor.X, _monitor.Y + _monitor.Height - _config.BarHeight);
 
             _timer.Enabled = true;
 
