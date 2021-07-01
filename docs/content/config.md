@@ -7,9 +7,9 @@ type: faq
 Workspacer is configured with the C# programming language. The expressiveness of C# allows you to be hyper-specific in terms of describing your desired behavior.
 This configuration documentation assumes that you have already created the example config in the correct folder, if you haven't, check the [quick-start guide](/quickstart).
 
-## I don't know C#, or how to program, should I use workspacer?
+## I don't know C#, or how to code, should I use workspacer?
 
-Workspacer is intended to be on the extreme end of the power user spectrum. You can use workspacer without knowing how to program, but extreme configuration will be challenging if you need to deviate outside of the examples and configurations of other users.
+Workspacer is intended to be on the extreme end of the power user spectrum. You can use workspacer without knowing how to code, but advanced configuration will be challenging if you need to deviate outside of the examples and configurations of other users.
 
 ## How do I define custom workspaces?
 
