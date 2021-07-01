@@ -1,11 +1,8 @@
 ---
 title: configuring workspacer
-description:  "use workspacer like a pro!"
+description: "use workspacer like a pro!"
 type: faq
 ---
-
-
-
 
 Workspacer is configured with the C# programming language. The expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
 This configuration documentation assumes that you have already created the example config in the correct folder, if you haven't, check the [quickstart guide](/quickstart).
@@ -13,7 +10,6 @@ This configuration documentation assumes that you have already created the examp
 ## I don't know C#, or how to program, should I use workspacer?
 
 Workspacer is intended to be on the extreme end of the power user spectrum. You can use workspacer without knowing how to program, but extreme configuration will be challenging if you need to deviate outside of the examples and configurations of other users.
-
 
 ## How do I define custom workspaces?
 
@@ -24,9 +20,8 @@ context.WorkspaceContainer.CreateWorkspace("workspace");
 context.WorkspaceContainer.CreateWorkspace("another");
 context.WorkspaceContainer.CreateWorkspaces("more", "than", "one");
 ```
- 
 
-##  LayoutEngines
+## LayoutEngines
 
 Layout engines define the way windows get arranged on each workspace. There are a number of different ways to layout windows and you can swap between them dynamically. By default workspacer loads 2 engines to switch between, the FullLayoutEngine and the TallLayoutEngine, however you can change the set of default layout engines via:
 
@@ -40,29 +35,26 @@ You can even manually specify the LayoutEngine(s) on a per-workspace basis, by p
 context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), new TallLayoutEngine());
 ```
 
-
 ### Existing LayoutEngines
-* [FullLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
-    * Maximizes the current focused window and hides all others.
-* [TallLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
-    * Splits the screen in two horizontal zones, a primary and a secondary one.
-    * Windows get created in the secondary zone by default.
-    * The number of windows in the primary zone can be dynamically adjusted.
-* [PaneLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
-    * The PaneLayoutEngine is an abstract class with two implementations: the `VertLayoutEngine` and the `HorzLayoutEngine`.
-    * The `VertLayoutEngine` aligns windows in columns, the `HorzLayoutEngine` in rows.
-* [DwindleLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/DwindleLayoutEngine.cs)
-    * Uses primary and secondary zones as the TallLayoutEngine.
-    * Tiles windows in a `left-right-bottom-left-up-right-bottom-left-up` order.
 
+- [FullLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
+  - Maximizes the current focused window and hides all others.
+- [TallLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
+  - Splits the screen in two horizontal zones, a primary and a secondary one.
+  - Windows get created in the secondary zone by default.
+  - The number of windows in the primary zone can be dynamically adjusted.
+- [PaneLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
+  - The PaneLayoutEngine is an abstract class with two implementations: the `VertLayoutEngine` and the `HorzLayoutEngine`.
+  - The `VertLayoutEngine` aligns windows in columns, the `HorzLayoutEngine` in rows.
+- [DwindleLayoutEngine](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/DwindleLayoutEngine.cs)
+  - Uses primary and secondary zones as the TallLayoutEngine.
+  - Tiles windows in a `left-right-bottom-left-up-right-bottom-left-up` order.
 
 ### In development
-* GridLayoutEngine
-    * Creates a dynamic (NxN) grid in which windows are sorted
-    * Requires support for on-the-fly change in row and column numbers
 
-
-
+- GridLayoutEngine
+  - Creates a dynamic (NxN) grid in which windows are sorted
+  - Requires support for on-the-fly change in row and column numbers
 
 ## Filters & Routes
 
@@ -81,24 +73,21 @@ The `AddFilter` call will ensure that any window title containing the text "my f
 
 the `AddRoute` call will ensure that any window title containing the text "Google Chrome" will be automatically placed in the "web" workspace. A null return value will signal to workspacer that the next route should be checked, while returning an actual workspace will ensure that the workspace manager will place the window in the returned workspace.
 
-
 ## Plugins
 
 Workspacer offers additional functionality beyond just tiling your windows through Plugins. This is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. Supported plugins include
 
-
- * [Menu Bar](#menu-bar)
-    * The workspacer bar creates a *nix-like* top-bar which shows the list of workspaces and other useful information.
-    * Widgets allow for further the customisation of the bar, look at the menu bar section for details.
- * [Action Menu](#the-action-menu)
-     * The action menu allows the user to create custom (nested) menus which can call any function or shortcuts you'd like.
- * Focus Indicator
-     * Draws a border around the current focused window. Border width and color can be adjusted through attributes see [Focus Indicator Config](https://github.com/workspacer/workspacer/blob/master/src/workspacer.FocusIndicator/FocusIndicatorPluginConfig.cs).
-  * [Gaps](#gaps)
-     * Allows for user-configurable gaps between windows.
-     * Similar to i3 these gaps are seperated into an 'inner' and an 'outer gap'.
-     * Currently gap settings are global i.e. affect all workspaces, a local option can be implemented.
-
+- [Menu Bar](#menu-bar)
+  - The workspacer bar creates a _nix-like_ top-bar which shows the list of workspaces and other useful information.
+  - Widgets allow for further the customisation of the bar, look at the menu bar section for details.
+- [Action Menu](#the-action-menu)
+  - The action menu allows the user to create custom (nested) menus which can call any function or shortcuts you'd like.
+- Focus Indicator
+  - Draws a border around the current focused window. Border width and color can be adjusted through attributes see [Focus Indicator Config](https://github.com/workspacer/workspacer/blob/master/src/workspacer.FocusIndicator/FocusIndicatorPluginConfig.cs).
+- [Gaps](#gaps)
+  - Allows for user-configurable gaps between windows.
+  - Similar to i3 these gaps are seperated into an 'inner' and an 'outer gap'.
+  - Currently gap settings are global i.e. affect all workspaces, a local option can be implemented.
 
 ### Menu Bar
 
@@ -122,7 +111,7 @@ context.AddBar(new BarPluginConfig()
     });
 ```
 
-All widgets output a string and share common properties as defined by the  `IBarWidgetPart` interface.
+All widgets output a string and share common properties as defined by the `IBarWidgetPart` interface.
 
 ```csharp
 public interface IBarWidgetPart
@@ -134,37 +123,33 @@ public interface IBarWidgetPart
         string FontName { get; }
     }
 ```
-Widgets support custom on-click functions and callbacks through the `PartClicked` Action. Icon fonts are also supported and can be set for individual widgets but require system wide installation of the font and there may be issues with `.OTF` files, so `TTF`s are recommended. To add icons to a widget you have to use its unicode value.
-For example if you wanted to add this [monitor icon from FontAwesome](https://fontawesome.com/v5.15/icons/desktop?style=solid) you would have to write "\uf108". 
 
+Widgets support custom on-click functions and callbacks through the `PartClicked` Action. Icon fonts are also supported and can be set for individual widgets but require system wide installation of the font and there may be issues with `.OTF` files, so `TTF`s are recommended. To add icons to a widget you have to use its unicode value.
+For example if you wanted to add this [monitor icon from FontAwesome](https://fontawesome.com/v5.15/icons/desktop?style=solid) you would have to write "\uf108".
 
 #### Menu Bar Widgets
 
-* `ActiveLayoutWidget`
-   * Shows the name of the current active WindowLayoutEngine.
-* `BatteryWidget`
-    * For mobile devices/laptops only.
-    * Shows the current battery charge percentage.
-    * text color can be adjusted based on rules using the ChargeColor and ChargeTreshold attributes, see [BatteryWidget](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/BatteryWidget.cs) for details.
- * `TimeWidget`
-    * A customisable widget to show the time with standard [C# datetime formatting](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings).
- * `TitleWidget`
-   * Shows the title of the current focused window.
-   * Users can select to show just the name of the program instead of the full window title by using `isShortTitle` flag.
-   * More configuration details are available [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/TitleWidget.cs).
- * `WorkspaceWidget`
-   * Shows all existing workspaces.
-   * Allows for significant customisation:
-    * Change the text color of the workspace name depending on it's state (focused, empty).
-    * Supports blinking for events and notifications.
-    * further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/WorkspaceWidget.cs).
-  * `TextWidget`
-    * Shows provided fixed text.
-    * Useful for dividers.
-
-
-
-
+- `ActiveLayoutWidget`
+  - Shows the name of the current active WindowLayoutEngine.
+- `BatteryWidget`
+  - For mobile devices/laptops only.
+  - Shows the current battery charge percentage.
+  - text color can be adjusted based on rules using the ChargeColor and ChargeTreshold attributes, see [BatteryWidget](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/BatteryWidget.cs) for details.
+- `TimeWidget`
+  - A customisable widget to show the time with standard [C# datetime formatting](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings).
+- `TitleWidget`
+  - Shows the title of the current focused window.
+  - Users can select to show just the name of the program instead of the full window title by using `isShortTitle` flag.
+  - More configuration details are available [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/TitleWidget.cs).
+- `WorkspaceWidget`
+  - Shows all existing workspaces.
+  - Allows for significant customisation:
+  - Change the text color of the workspace name depending on it's state (focused, empty).
+  - Supports blinking for events and notifications.
+  - further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/WorkspaceWidget.cs).
+- `TextWidget`
+  - Shows provided fixed text.
+  - Useful for dividers.
 
 ### The Action Menu
 
@@ -180,14 +165,14 @@ actionMenu.DefaultMenu.AddFreeForm("write to console", (s) => Console.WriteLine(
 
 Note that `DefaultMenu` contains a useful set of default items. If you don't want these defaults, or you want to create an menu for nesting, you can use the `Clear` method. You can nest these menus as much as desired, so any set of menus can be created.
 
-
 ### Gaps
 
-Gaps are supported through ``IConfigContext::AddLayoutProxy`` which is also used to recalculate window positions when the menu bar is present.
+Gaps are supported through `IConfigContext::AddLayoutProxy` which is also used to recalculate window positions when the menu bar is present.
 
 They can be implemented like this:
+
 ```
-#r "C:\Program Files\workspacer\plugins\workspacer.Gap\workspacer.Gap.dll" 
+#r "C:\Program Files\workspacer\plugins\workspacer.Gap\workspacer.Gap.dll"
 
 using workspacer.Gap;
 
@@ -204,7 +189,6 @@ context.AddGap(
 
 Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g. `IncrementOuterGap`, `DecrementInnerGap`) to keybinds.
 For more details have a look at an example from the [user snippets](https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs)
-
 
 ## How do I register custom keybindings?
 
