@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <meta name="generator" content="Hugo 0.84.2" />
+  <meta name="generator" content="Hugo 0.84.3" />
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -110,97 +110,98 @@
     <p>use workspacer like a pro!<br></p>
 </div>
 <div id="kube-faq">
-<p>workspacer is configured with the C# programming language. the expressiveness of C# allows you to be hyper-specifc in terms of describing your desired behavior.
-this configuration documentation assumes that you have already created the example config in the correct folder, if you haven&rsquo;t, check the <a href="../quickstart">quickstart guide</a>.</p>
-<h2 id="i-dont-know-c-or-how-to-program-should-i-use-workspacer">I don&rsquo;t know C#, or how to program, should I use workspacer?</h2>
-<p>workspacer is intended to be on the extreme end of the power user spectrum. you can use workspacer without knowing how to program, but extreme configuration will be challenging if you need to deviate outside of the examples and configurations of other users.</p>
-<h2 id="how-do-i-define-custom-workspaces">how do I define custom workspaces?</h2>
-<p>workspaces are created by calling the appropriate function on the IWorkspaceContainer you are using. in the default configuration, that is <code>CreateWorkspace</code> on the <code>context.WorkspaceContainer</code> object. for example:</p>
+<p>Workspacer is configured with the C# programming language. The expressiveness of C# allows you to be hyper-specific in terms of describing your desired behavior.
+This configuration documentation assumes that you have already created the example config in the correct folder, if you haven&rsquo;t, check the <a href="../quickstart">quick-start guide</a>.</p>
+<h2 id="i-dont-know-c-or-how-to-code-should-i-use-workspacer">I don&rsquo;t know C#, or how to code, should I use workspacer?</h2>
+<p>Workspacer is intended to be on the extreme end of the power user spectrum. You can use workspacer without knowing how to code, but advanced configuration will be challenging if you need to deviate outside of the examples and configurations of other users.</p>
+<h2 id="how-do-i-define-custom-workspaces">How do I define custom workspaces?</h2>
+<p>Workspaces are created by calling the appropriate function on the <code>IWorkspaceContainer</code> you are using. In the default configuration, that is <code>CreateWorkspace</code> on the <code>context.WorkspaceContainer</code> object. For example:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;workspace&#34;</span>);
 context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;another&#34;</span>);
 context.WorkspaceContainer.CreateWorkspaces(<span style="color:#e6db74">&#34;more&#34;</span>, <span style="color:#e6db74">&#34;than&#34;</span>, <span style="color:#e6db74">&#34;one&#34;</span>);
-</code></pre></div><h2 id="layoutengines">LayoutEngines</h2>
-<p>Layout engines define the way windows get arranged on each workspace. There are a number of different ways to layout windows and you can swap between them dynamically. By default workspacer loads 2 engines to switch between, the FullLayoutEngine and the TallLayoutEngine, howeveryou can change the set of default layout engines via:</p>
+</code></pre></div><h2 id="layout-engines">Layout Engines</h2>
+<p>Layout engines define the way windows get arranged on each workspace. There are a number of different ways to lay out windows and you can swap between them dynamically. By default, workspacer loads two engines to switch between, the <code>FullLayoutEngine</code> and the <code>TallLayoutEngine</code>, however you can change the set of default layout engines via:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.DefaultLayouts = () =&gt; <span style="color:#66d9ef">new</span> ILayoutEngine[] { <span style="color:#66d9ef">new</span> FullLayoutEngine() };
-</code></pre></div><p>You can even manually specify the LayoutEngine(s) on a per-workspace basis, by passing the different LayoutEngines to the <code>CreateWorkspace</code> (or equivalent) function</p>
+</code></pre></div><p>You can even manually specify the layout engines on a per-workspace basis, by passing the different layout engines to the <code>CreateWorkspace</code> (or equivalent) function:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;layouts!&#34;</span>, <span style="color:#66d9ef">new</span> FullLayoutEngine(), <span style="color:#66d9ef">new</span> TallLayoutEngine());
-</code></pre></div><h3 id="existing-layoutengines">Existing LayoutEngines</h3>
+</code></pre></div><h3 id="existing-layout-engines">Existing Layout Engines</h3>
 <ul>
-<li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs">FullLayoutEngine</a>
+<li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs"><code>FullLayoutEngine</code></a>
 <ul>
-<li>Maximizes the current focused window and hides all others</li>
+<li>Maximizes the current focused window and hides all others.</li>
 </ul>
 </li>
-<li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs">TallLayoutEngine</a>
+<li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs"><code>TallLayoutEngine</code></a>
 <ul>
-<li>Splits the screen in two horizontal zones, 1 primary and one secondary</li>
-<li>Windows get created in the secondary zone by default</li>
-<li>The number of windows in the primary zone can be dynamically adjusted</li>
+<li>Splits the screen in two horizontal zones, a primary and a secondary one.</li>
+<li>Windows get created in the secondary zone by default.</li>
+<li>The number of windows in the primary zone can be dynamically adjusted.</li>
 </ul>
 </li>
-<li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs">PaneLayoutEngine</a>
+<li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs"><code>PaneLayoutEngine</code></a>
 <ul>
-<li>The PaneLayoutEngine is an abstract class with two implementations: the <code>VertLayoutEngine</code> and the <code>HorzLayoutEngine</code></li>
-<li>The <code>VertLayoutEngine</code> aligns windows in columns, the <code>HorzLayoutEngine</code> in rows</li>
+<li>The <code>PaneLayoutEngine</code> is an abstract class with two implementations: the <code>VertLayoutEngine</code> and the <code>HorzLayoutEngine</code>.</li>
+<li>The <code>VertLayoutEngine</code> aligns windows in columns, the <code>HorzLayoutEngine</code> in rows.</li>
 </ul>
 </li>
-<li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/DwindleLayoutEngine.cs">DwindleLayoutEngine</a>
+<li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/DwindleLayoutEngine.cs"><code>DwindleLayoutEngine</code></a>
 <ul>
-<li>Uses primary and secondary zones as the TallLayoutEngine</li>
-<li>Tiles windows in a <code>left-right-bottom-left-up-right-bottom-left-up-</code> order</li>
+<li>Uses primary and secondary zones as the TallLayoutEngine.</li>
+<li>Tiles windows in a <code>left-right-bottom-left-up-right-bottom-left-up</code> order.</li>
 </ul>
 </li>
 </ul>
 <h3 id="in-development">In development</h3>
 <ul>
-<li>GridLayoutEngine
+<li><code>GridLayoutEngine</code>
 <ul>
-<li>Creates a dynamic (NxN) grid in which windows are sorted</li>
-<li>Requires support for on-the-fly change in row and column numbers</li>
+<li>Creates a dynamic (NxN) grid in which windows are sorted.</li>
+<li>Requires support for on-the-fly change in row and column numbers.</li>
 </ul>
 </li>
 </ul>
 <h2 id="filters--routes">Filters &amp; Routes</h2>
-<p>By default workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will route workspaces to the focused workspace when they are opened. as with most everything else, this is completely customizable via IWindowRouter.</p>
-<p>the default configuration provides the standard set of ignore/routing rules, but more can be added via calls to <code>AddFilter</code> and <code>AddRoute</code>.</p>
+<p>By default, workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will route windows to the focused workspace when they are opened. This is completely customizable via <code>IWindowRouter</code>.</p>
+<p>The default configuration provides the standard set of ignore/routing rules, but more can be added via calls to <code>AddFilter</code> and <code>AddRoute</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#960050;background-color:#1e0010">#</span> custom filter
 context.WindowRouter.AddFilter((window) =&gt; !window.Title.Contains(<span style="color:#e6db74">&#34;my fun application&#34;</span>));
 <span style="color:#960050;background-color:#1e0010">#</span> custom route
 context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(<span style="color:#e6db74">&#34;Google Chrome&#34;</span>) ? context.WorkspaceContainer[<span style="color:#e6db74">&#34;web&#34;</span>] : <span style="color:#66d9ef">null</span>);
-</code></pre></div><p>the <code>AddFilter</code> call will ensure that any windows who&rsquo;s title contains the text &ldquo;my fun application&rdquo; will be ignored by workspacer. a <code>true</code> return value will allow the window to be managed, while a <code>false</code> value will force workspacer to ignore the window.</p>
-<p>the <code>AddRoute</code> call will ensure that any windows who&rsquo;s title contains the text &ldquo;Google Chrome&rdquo; will be automatically placed in the &ldquo;web&rdquo; workspace. a null return value will signal to workspacer that the next route should be checked, while returning an actual workspace will ensure that the workspace manager will place the window in the returned workspace.</p>
+</code></pre></div><p>The <code>AddFilter</code> call will ensure that any window title containing the text <code>&quot;my fun application&quot;</code> will be ignored by workspacer. A <code>true</code> return value will allow the window to be managed, while a <code>false</code> value will force workspacer to ignore the window. This is recommended for full-screen applications such as videogames which may have conflicts with workspacer that could lead to unwanted crashes or false detections from an anti-cheat system due to workspacer trying to manage it.</p>
+<p>The <code>AddRoute</code> call will ensure that any window title containing the text &ldquo;Google Chrome&rdquo; will be automatically placed in the &ldquo;web&rdquo; workspace. A <code>null</code> return value will signal to workspacer that the next route should be checked, while returning an actual workspace will ensure that the workspace manager will place the window in the returned workspace.</p>
 <h2 id="plugins">Plugins</h2>
-<p>workspacer offers additional functionality beyond just tiling your windows through Plugins. This is just a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. Supported plugins include</p>
+<p>Workspacer offers additional functionality beyond just tiling your windows through Plugins. This is a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. Supported plugins include:</p>
 <ul>
 <li><a href="#menu-bar">Menu Bar</a>
 <ul>
-<li>The workspacer bar creates a <em>nix-like</em> top-bar which shows the list of workspaces and other useful information</li>
-<li>Widgets allow for further the customisation of the bar, look at the menu bar section for details</li>
+<li>The workspacer bar creates a <em>nix-like</em> top-bar which shows the list of workspaces and other useful information.</li>
+<li>Widgets allow for further the customisation of the bar, look at the menu bar section for details.</li>
 </ul>
 </li>
 <li><a href="#the-action-menu">Action Menu</a>
 <ul>
-<li>The action menu allows the user to create custom (nested) menus which can call any function or shortcuts you&rsquo;d like</li>
+<li>The action menu allows the user to create custom (nested) menus which can call any function or shortcuts you&rsquo;d like.</li>
 </ul>
 </li>
 <li>Focus Indicator
 <ul>
-<li>Draws a border around the current focused window. Border width and color can be adjusted through attributes see <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.FocusIndicator/FocusIndicatorPluginConfig.cs">Focus Indicator Config</a></li>
+<li>Draws a border around the current focused window. Border width and color can be adjusted through attributes see <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.FocusIndicator/FocusIndicatorPluginConfig.cs">Focus Indicator Config</a>.</li>
 </ul>
 </li>
 <li><a href="#gaps">Gaps</a>
 <ul>
-<li>Allows for user-configurable gaps between windows</li>
-<li>Similar to i3 these gaps are seperated into an &lsquo;inner&rsquo; and an &lsquo;outer gap&rsquo;</li>
-<li>Currently gap settings are global i.e. affect all workspaces, a local option can be implemented</li>
+<li>Allows for user-configurable gaps between windows.</li>
+<li>Similar to i3 these gaps are seperated into an &lsquo;inner&rsquo; and an &lsquo;outer gap&rsquo;.</li>
+<li>Currently gap settings are global i.e. affect all workspaces, a local option can be implemented.</li>
 </ul>
 </li>
 </ul>
-<h3 id="menu-bar"><strong>Menu Bar</strong></h3>
-<p>Similar to other tiling window managers workspacer includes a status/menu bar that can show not only all workspaces but includes additional features provided through custom widgets. The bar can be installed like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig())
-</code></pre></div><p>the default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties on the <code>config</code> optional parameter.</p>
-<p>An example of a bar, which implements the TimeWidget with a custom time format and a BatteryWidget is shown below:</p>
+<h3 id="menu-bar">Menu Bar</h3>
+<p>Like other tiling window managers workspacer includes a status/menu bar which shows relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs">BarWidgetBase</a>.</p>
+<p>The bar can be installed like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig());
+</code></pre></div><p>The default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties on the <code>config</code> optional parameter.</p>
+<p>An example of a bar, which implements the <code>TimeWidget</code> with a custom time format and the <code>BatteryWidget</code> is shown below:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig()
     {
         BarTitle = <span style="color:#e6db74">&#34;workspacer.Bar&#34;</span>,
@@ -208,97 +209,97 @@ context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(<span style="
         FontName = <span style="color:#e6db74">&#34;JetBrainsMono NF&#34;</span>,
         RightWidgets = () =&gt; <span style="color:#66d9ef">new</span> IBarWidget[] { <span style="color:#66d9ef">new</span> TimeWidget(<span style="color:#ae81ff">1000</span>,<span style="color:#e6db74">&#34;hh:mm&#34;</span>), <span style="color:#66d9ef">new</span> BatteryWidget() },
     });
-</code></pre></div><p>All widgets output a string and share common properties as defined by the  <code>IBarWidgetPart</code> interface.</p>
-<pre><code>public interface IBarWidgetPart
+</code></pre></div><p>All widgets output a string and share common properties as defined by the <code>IBarWidgetPart</code> interface.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> IBarWidgetPart
     {
-        string Text { get; }
-        Color ForegroundColor { get; }
-        Color BackgroundColor { get; }
-        Action PartClicked { get; }
-        string FontName { get; }
+        <span style="color:#66d9ef">string</span> Text { <span style="color:#66d9ef">get</span>; }
+        Color ForegroundColor { <span style="color:#66d9ef">get</span>; }
+        Color BackgroundColor { <span style="color:#66d9ef">get</span>; }
+        Action PartClicked { <span style="color:#66d9ef">get</span>; }
+        <span style="color:#66d9ef">string</span> FontName { <span style="color:#66d9ef">get</span>; }
     }
-</code></pre><p>Widgets support custom on-click functions and callbacks through the <code>PartClicked</code> Action.  Icon fonts are also supported and can be set for individual widgets but require system wide installation of the font and there may be issues with <code>.OTF</code> files, so <code>TTF</code>&rsquo;s are recommended. To add icons to a widget you have to use it&rsquo;s unicode character.
-So to show a monitor icon using FontAwesome you have to write &ldquo;\uf108&rdquo;</p>
+</code></pre></div><p>Widgets support custom on-click functions and callbacks through the <code>PartClicked</code> Action. Icon fonts are also supported and can be set for individual widgets but require system wide installation of the font and there may be issues with <code>.OTF</code> files, so <code>TTF</code>s are recommended. To add icons to a widget you must use its unicode value.
+For example if you wanted to add this <a href="https://fontawesome.com/v5.15/icons/desktop?style=solid">monitor icon from FontAwesome</a> you would have to write <code>&quot;\uf108&quot;</code>.</p>
 <h4 id="menu-bar-widgets">Menu Bar Widgets</h4>
 <ul>
 <li><code>ActiveLayoutWidget</code>
 <ul>
-<li>Shows the name of the current active WindowLayoutEngine</li>
+<li>Shows the name of the current active window layout engine.</li>
 </ul>
 </li>
 <li><code>BatteryWidget</code>
 <ul>
-<li>For mobile devices/laptops only</li>
-<li>Shows the current battery charge percentage</li>
-<li>text color can be adjusted based on rules using the ChargeColor and ChargeTreshold attributes, see <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/BatteryWidget.cs">BatteryWidget</a> for details</li>
+<li>For mobile devices/laptops only.</li>
+<li>Shows the current battery charge percentage.</li>
+<li>Text color can be adjusted based on rules using the <code>ChargeColor</code> and <code>ChargeTreshold</code> attributes, see <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/BatteryWidget.cs"><code>BatteryWidget</code></a> for details.</li>
 </ul>
 </li>
 <li><code>TimeWidget</code>
 <ul>
-<li>A customisable widget to show the time with standard <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings">C# datetime formatting</a></li>
+<li>A customisable widget to show the time with standard <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings">C# datetime formatting</a>.</li>
 </ul>
 </li>
 <li><code>TitleWidget</code>
 <ul>
-<li>Shows the title of the current focused window</li>
-<li>Users can select to show just the name of the program instead of the full window title by using <code>isShortTitle</code> flag</li>
-<li>More configuration details are available <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/TitleWidget.cs">here</a></li>
+<li>Shows the title of the current focused window.</li>
+<li>Users can select to show just the name of the program instead of the full window title by using <code>isShortTitle</code> flag.</li>
+<li>More configuration details are available <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/TitleWidget.cs">here</a>.</li>
 </ul>
 </li>
 <li><code>WorkspaceWidget</code>
 <ul>
-<li>Shows all existing workspaces</li>
+<li>Shows all existing workspaces.</li>
 <li>Allows for significant customisation:</li>
-<li>Change the text color of the workspace name depending on it&rsquo;s state (focused, empty)</li>
-<li>Supports blinking for events and notifications</li>
-<li>further details <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/WorkspaceWidget.cs">here</a></li>
+<li>Change the text color of the workspace name depending on it&rsquo;s state (focused, empty).</li>
+<li>Supports blinking for events and notifications.</li>
+<li>Further details <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/WorkspaceWidget.cs">here</a>.</li>
 </ul>
 </li>
 <li><code>TextWidget</code>
 <ul>
-<li>Shows provided fixed text</li>
-<li>Useful for dividers</li>
+<li>Shows provided fixed text.</li>
+<li>Useful for dividers.</li>
 </ul>
 </li>
 </ul>
-<h3 id="the-action-menu"><strong>The Action Menu</strong></h3>
-<p>the action menu is implemented as a <code>plugin</code>, (see the above <code>plugins</code> section). the action menu can be installed like this:</p>
+<h3 id="the-action-menu">The Action Menu</h3>
+<p>The action menu is implemented as a <code>plugin</code>, (see the above <a href="#plugins">Plugins</a> section). The action menu can be installed like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> actionMenu = context.AddActionMenu();
 
 actionMenu.DefaultMenu.AddMenu(<span style="color:#e6db74">&#34;do a thing&#34;</span>, () =&gt; DoACoolThing());
 actionMenu.DefaultMenu.AddMenu(<span style="color:#e6db74">&#34;open a menu&#34;</span>, () =&gt; CreateAMenu(container, actionMenu));
 actionMenu.DefaultMenu.AddFreeForm(<span style="color:#e6db74">&#34;write to console&#34;</span>, (s) =&gt; Console.WriteLine(s));
-</code></pre></div><p>note that <code>DefaultMenu</code> contains a useful set of default items. if you don&rsquo;t want these defaults, or you want to create an menu for nesting, you can use the <code>Clear</code> method. you can nest these menus as much as desired, so any set of menus can be created.</p>
-<h3 id="gaps"><strong>Gaps</strong></h3>
-<p>Gaps are supported through <code>IConfigContext::AddLayoutProxy</code> which is also used to recalculate window positions when the menu bar is present</p>
-<p>in workspacer.config.csx</p>
-<pre><code>#r &quot;C:\Program Files\workspacer\plugins\workspacer.Gap\workspacer.Gap.dll&quot;
+</code></pre></div><p>Note that <code>DefaultMenu</code> contains a useful set of default items. If you don&rsquo;t want these defaults, or you want to create a menu for nesting, you can use the <code>Clear</code> method. You can nest these menus as much as desired, so any set of menus can be created.</p>
+<h3 id="gaps">Gaps</h3>
+<p>Gaps are supported through <code>IConfigContext::AddLayoutProxy</code> which is also used to recalculate window positions when the menu bar is present.</p>
+<p>They can be implemented like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#960050;background-color:#1e0010">#</span>r <span style="color:#e6db74">&#34;C:\Program Files\workspacer\plugins\workspacer.Gap\workspacer.Gap.dll&#34;</span>
 
-using workspacer.Gap;
+<span style="color:#66d9ef">using</span> workspacer.Gap;
 
-var gap = 20;
+<span style="color:#66d9ef">var</span> gap = <span style="color:#ae81ff">20</span>;
 context.AddGap(
-    new GapPluginConfig()
+    <span style="color:#66d9ef">new</span> GapPluginConfig()
     {
         InnerGap = gap,
-        OuterGap = gap / 2,
-        Delta = gap / 2,
+        OuterGap = gap / <span style="color:#ae81ff">2</span>,
+        Delta = gap / <span style="color:#ae81ff">2</span>,
     }
 );
-</code></pre><p>Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g. <code>IncrementOuterGap</code>, <code>DecrementInnerGap</code>) to keybinds.
-For more details have a look at an example from the <a href="https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs">user snippets</a></p>
-<h2 id="how-do-i-register-custom-keybindings">how do I register custom keybindings?</h2>
-<p>workspacer subscribes to the <a href="../keybindings">default set of keybindings</a> automatically for you. if you want to add additional keybindings, or override an existing one, you can do the following:</p>
+</code></pre></div><p>Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g., <code>IncrementOuterGap</code>, <code>DecrementInnerGap</code>) to key binds.
+For more details have a look at an example from the <a href="https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs">user snippets</a>.</p>
+<h2 id="how-do-i-register-custom-keybindings">How do I register custom keybindings?</h2>
+<p>Workspacer subscribes to the <a href="../keybindings">default set of key bindings</a> automatically for you. If you want to add additional key bindings, or override an existing one, you can do the following:</p>
 <p>Define the mod key. Check <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/KeyModifiers.cs">KeyModifiers.cs</a> to see all available modifiers. <code>KeyModifiers.Alt</code> is the default mod key. If you want to use multiple modifier keys (e.g. Left Alt + Left Control), use <code>KeyModifiers.LAlt | KeyModifiers.LCtrl</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">KeyModifiers mod = KeyModifiers.Alt;
 </code></pre></div><p>Add a key binding using <code>context.Keybinds.Subscribe</code>. See <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/Keys.cs">Keys.cs</a> for all the available key names.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.Subscribe(mod, Keys.Y, () =&gt; Console.WriteLine(<span style="color:#e6db74">&#34;Y was pressed&#34;</span>))
-</code></pre></div><p>if you want to remove a keybinding that already exists, you can unsubscribe from it:</p>
+</code></pre></div><p>If you want to remove a keybinding that already exists, you can unsubscribe from it:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.Unsubscribe(mod, Keys.Y);
-</code></pre></div><p>finally, you can remove all of the default keybindings via:</p>
+</code></pre></div><p>Finally, you can remove all the default keybindings via:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.UnsubscribeAll();
-</code></pre></div><h2 id="how-do-i-minimize-windows">how do I minimize windows?</h2>
-<p>by default, <code>context.CanMinimizeWindows = false</code>. To enable the minimizing of windows, set:</p>
+</code></pre></div><h2 id="how-do-i-minimize-windows">How do I minimize windows?</h2>
+<p>By default, <code>context.CanMinimizeWindows = false</code>. To enable the minimizing of windows, set:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.CanMinimizeWindows = <span style="color:#66d9ef">true</span>;
 </code></pre></div>
 </div>
