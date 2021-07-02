@@ -11,6 +11,10 @@
         /// </summary>
         Stable,
         /// <summary>
+        /// The beta branch
+        /// </summary>
+        Beta,
+        /// <summary>
         /// The unstable branch
         /// </summary>
         Unstable
