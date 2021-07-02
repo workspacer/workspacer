@@ -41,11 +41,11 @@ I don&amp;rsquo;t know C#, or how to code, should I use workspacer? Workspacer i
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/quickstart/</guid>
-      <description>installing download the installer or the zip file from the Releases page and install/unzip it anywhere you like.
-alternatively, workspacer is available via Chocolatey:
-choco install workspacer and Scoop:
-scoop bucket add extras scoop install workspacer workspacer automatically checks for updates. however, if you are using a package manager with either Chocolatey or Scoop, you should uncomment/add this line in your workspacer config to disable autoupdates:
-context.Branch = Branch.None; configuring by default, workspacer loads a default configuration, but you will likely want to customize this in order to do things like modify the widgets on the bar, add workspaces, switch workspace containers, or otherwise change the default behavior of workspacer.</description>
+      <description>Installing Download the installer or the zip file from the Releases page and install/unzip it anywhere you like.
+Alternatively, workspacer is available via Chocolatey:
+choco install workspacer and via Scoop:
+scoop bucket add extras scoop install workspacer Workspacer automatically checks for updates. However, if you are using a package manager (either Chocolatey or Scoop), you should uncomment/add this line in your workspacer configuration file to disable automatic updates:
+context.Branch = Branch.</description>
     </item>
     
     <item>
