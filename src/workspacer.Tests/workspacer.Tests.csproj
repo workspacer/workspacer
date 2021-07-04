@@ -18,6 +18,6 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
-    <Version>0.9.10</Version>
+    <Version>0.9.11</Version>
   </PropertyGroup>
 </Project>
