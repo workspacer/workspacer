@@ -15,6 +15,7 @@ namespace workspacer.Bar
         public int FontSize { get; set; } = 16;
         public bool BarIsMinimal { get; set; } = false;
         public bool BarIsTop { get; set; } = true;
+        public bool BarReservesSpace { get; set; } = true;
 
         public Color DefaultWidgetForeground { get; set; } = Color.White;
         public Color DefaultWidgetBackground { get; set; } = Color.Black;
