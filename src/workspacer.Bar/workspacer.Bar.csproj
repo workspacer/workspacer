@@ -7,6 +7,6 @@
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <Description>a tiling window manager for Windows</Description>
     <Authors>Rick Button</Authors>
-    <Version>0.9.10</Version>
+    <Version>0.9.11</Version>
   </PropertyGroup>
 </Project>
