@@ -13,7 +13,6 @@ namespace workspacer.Bar
         private IMonitor _monitor;
         private BarPluginConfig _config;
         private System.Timers.Timer _timer;
-
         private FlowLayoutPanel leftPanel;
         private FlowLayoutPanel rightPanel;
 
@@ -26,7 +25,7 @@ namespace workspacer.Bar
             _config = config;
             _timer = new System.Timers.Timer(50);
             _timer.Elapsed += Redraw;
-
+            
             this.Text = config.BarTitle;
             this.ControlBox = false;
             this.FormBorderStyle = FormBorderStyle.None;
@@ -75,7 +74,8 @@ namespace workspacer.Bar
             _timer.Enabled = true;
 
             this.Height = _config.BarHeight;
-            this.Width = _config.BarMaxWidth != 0 ? _config.BarMaxWidth  : _monitor.Width;
+            this.Width = _config.BarIsMinimal ? _left.WidthInPixels + _right.WidthInPixels : _monitor.Width;
+
         }
 
         private void InitializeComponent()

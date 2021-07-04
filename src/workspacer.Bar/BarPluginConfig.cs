@@ -13,7 +13,7 @@ namespace workspacer.Bar
         public int BarHeight { get; set; } = 30;
         public string FontName { get; set; } = "Consolas";
         public int FontSize { get; set; } = 16;
-        public int BarMaxWidth { get; set; } = 0;
+        public bool BarIsMinimal { get; set; } = false;
         public bool BarIsTop { get; set; } = true;
 
         public Color DefaultWidgetForeground { get; set; } = Color.White;
