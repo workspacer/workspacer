@@ -87,7 +87,7 @@ pre {
 }
 
 header, footer {
-	display: inline-block;
+	position: relative;
 	margin: 0 1rem;
 	height: 8vh;
 	padding: 2vh 1rem;
@@ -140,8 +140,8 @@ nav.nav-footer {
 }
 .nav-phone {
 	width: 50vw;
-	position: fixed;
-	top: 0;
+	position: absolute;
+	top: 100%;
 	right: 0;
 	padding: 1rem;
 	padding-top: 2rem;
@@ -151,6 +151,8 @@ nav.nav-footer {
 
 	z-index: 10;
 	background-color: var(--grey-lighter);
+
+	transform-origin: top right;
 }
 .nav-phone a {
 	padding: 0.5rem 1rem;
@@ -164,6 +166,8 @@ nav.nav-footer {
 
 .nav-phone-toggle:focus-within ~ .nav-phone, nav.nav-phone:hover {
 	display: flex;
+
+	animation: popup forwards 200ms ease-out;
 }
 
 .nav-phone-toggle {
@@ -224,5 +228,16 @@ nav.nav-footer {
 	footer .nav-footer {
 		margin: 1rem 0;
 		padding: 0;
+	}
+}
+
+@keyframes popup {
+	0% {
+		opacity: 0;
+		transform: scale(0.5);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
 	}
 }
