@@ -120,9 +120,6 @@ section.compatibility p {
 		flex-direction: column;
 		grid-gap: 1rem;
 	}
-	
-	section.hero {
-	}
 	section.hero .feature-title {
 		flex-direction: column;
 	}
@@ -134,6 +131,7 @@ section.compatibility p {
 
 @media only screen and (max-width: 750px) {
 	main {
+		height: auto;
 		padding: 0rem;
 	}
 

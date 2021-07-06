@@ -83,6 +83,7 @@ td {
 pre {
 	padding: 1rem;
 	border-radius: 0.5rem;
+	overflow-x: auto;
 }
 
 header, footer {
@@ -113,7 +114,6 @@ header .logo svg {
 	width: inherit;
 }
 
-
 nav {
 	margin: 1rem;
 	display: flex;
@@ -138,6 +138,41 @@ nav.nav-extra {
 nav.nav-footer {
 	margin-left: auto;
 }
+.nav-phone {
+	width: 50vw;
+	position: fixed;
+	top: 0;
+	right: 0;
+	padding: 1rem;
+	padding-top: 2rem;
+
+	flex-direction: column;
+	justify-content: flex-start;
+
+	z-index: 10;
+	background-color: var(--grey-lighter);
+}
+.nav-phone a {
+	padding: 0.5rem 1rem;
+	margin: 0.2rem 0;
+}
+.nav-phone .extra-separator {
+	width: auto;
+	border-bottom: 2px solid var(--bg);
+	margin: 1rem;
+}
+
+.nav-phone-toggle:focus-within ~ .nav-phone, nav.nav-phone:hover {
+	display: flex;
+}
+
+.nav-phone-toggle {
+	margin-left: auto;
+}
+
+.nav-phone, .nav-phone-toggle {
+	display: none;
+}
 
 #hero {
 	width: 100%;
@@ -151,7 +186,7 @@ nav.nav-footer {
 }
 #hero h1 {
 	margin: 0;
-	font-size: 5em;
+	font-size: clamp(2rem, 5vmax, 5em);
 }
 #hero h1::after {
 	content: '';
@@ -171,3 +206,23 @@ nav.nav-footer {
 	max-width: 100%;
 }
 
+@media only screen and (max-width: 750px) {
+	.nav-main, .nav-extra {
+		display: none;
+	}
+
+	.nav-phone-toggle {
+		display: flex;
+	}
+	
+	footer {
+		margin-top: 1rem;
+		height: auto;
+		flex-direction: column;
+		align-items: center;
+	}
+	footer .nav-footer {
+		margin: 1rem 0;
+		padding: 0;
+	}
+}

@@ -13,7 +13,8 @@
 	font-weight: 500;
 	text-decoration: none;
 	white-space: pre;
-
+	
+	transition: color 100ms ease-in-out, background-color 100ms ease-in-out, border-color 100ms ease-in-out;
 }
 .btn:hover {
 	border-color: var(--primary-darker);
@@ -39,9 +40,6 @@
 .btn-small {
 	padding: clamp(1px, 0.5vmax, 0.5rem) clamp(2px, 1vmax, 1rem);
 }
-.btn {
-	transition: color 100ms ease-in-out, background-color 100ms ease-in-out, border-color 100ms ease-in-out;
-}
 
 /* Window Components */
 .window {
@@ -60,7 +58,7 @@
 	padding: 0.5rem 1rem;
 	
 	display: flex;
-	flex-direction: row;
+	flex-direction: row-reverse;
 	align-items: flex-end;
 }
 
