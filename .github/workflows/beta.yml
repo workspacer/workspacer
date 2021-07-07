@@ -45,7 +45,7 @@ jobs:
     - name: Prerelease
       uses: softprops/action-gh-release@v1
       with:
-        name: workspacer v${{ env.VERSION }}
+        name: workspacer ${{ env.VERSION }}
         tag_name: v${{ env.VERSION }}
         prerelease: true
         files: |
