@@ -82,6 +82,7 @@ td {
 
 pre {
 	padding: 1rem;
+	background-color: var(--grey-lighter) !important;
 	border-radius: 0.5rem;
 	overflow-x: auto;
 }
@@ -89,8 +90,8 @@ pre {
 header, footer {
 	position: relative;
 	margin: 0 1rem;
-	height: 8vh;
-	padding: 2vh 1rem;
+	height: 5rem;
+	padding: 1rem 1rem;
 	
 	display: flex;
 	align-items: center;
@@ -103,7 +104,7 @@ footer {
 }
 
 header .logo {
-	height: 5vh;
+	height: 3rem;
 	width: auto;
 
 	border-right: 1px solid var(--grey-lighter);
@@ -167,7 +168,7 @@ nav.nav-footer {
 .nav-phone-toggle:focus-within ~ .nav-phone, nav.nav-phone:hover {
 	display: flex;
 
-	animation: popup forwards 200ms ease-out;
+	animation: popup forwards 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .nav-phone-toggle {
