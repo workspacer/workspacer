@@ -83,6 +83,7 @@ td {
 pre {
 	padding: 1rem;
 	background-color: var(--grey-lighter) !important;
+	color: var(--grey) !important;
 	border-radius: 0.5rem;
 	overflow-x: auto;
 }
