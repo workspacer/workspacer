@@ -10,57 +10,37 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    # Build
     - uses: actions/checkout@v2
-    - run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version)" >> $env:GITHUB_ENV
+    - name: Get version
+      run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version)" >> $env:GITHUB_ENV
     - name: Restore solution
       run: dotnet restore
-    - name: Build
+    - name: Build project
       run: dotnet publish /p:DefineConstants=BRANCH_stable --configuration Release --no-restore
     - uses: actions/upload-artifact@v2
       with:
-        name: workspacer-build
+        name: Build
         path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\
-    - name: Publish installer
+    - name: Build installer
       run: |
-        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-        scoop install wixtoolset
-        .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\ -version "stable-$env:VERSION"
+        $env:PATH += ";${env:WIX}bin" # Add to PATH
+        .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\ -version "$env:VERSION-stable"
     - uses: actions/upload-artifact@v2
       with:
-        name: workspacer-setup
-        path: .\out\workspacer-stable-${{ env.VERSION }}.msi
+        name: Setup
+        path: .\out\workspacer-${{ env.VERSION }}-stable.msi
+    
+    # Release
     - name: Zip build output
-      run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-stable-$env:VERSION.zip"
-    - uses: dev-drprasad/delete-tag-and-release@v0.1.2
+      run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-$env:VERSION-stable.zip"
+    - name: Release
+      uses: softprops/action-gh-release@v1
       with:
-       delete_release: true
-       tag_name: ${{ github.ref }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: workspacer ${{ env.VERSION }}
+        name: workspacer ${{ env.VERSION }}
         body: https://www.workspacer.org/changelog
-    - name: Upload .zip
-      uses: actions/upload-release-asset@v1
+        files: |
+          ./out/workspacer-${{ env.VERSION }}-stable.zip
+          ./out/workspacer-${{ env.VERSION }}-stable.msi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./out/workspacer-stable-${{ env.VERSION }}.zip
-        asset_name: workspacer-stable-${{ env.VERSION }}.zip
-        asset_content_type: application/zip
-    - name: Upload .msi
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./out/workspacer-stable-${{ env.VERSION }}.msi
-        asset_name: workspacer-stable-${{ env.VERSION }}.msi
-        asset_content_type: application/x-msdownload
