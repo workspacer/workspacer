@@ -27,26 +27,49 @@ namespace workspacer.TitleBar
             _context = context;
             _context.Workspaces.WindowAdded += WindowAdded;
         }
+
+        private void SetStyle(IWindow window, TitleBarStyle settings)
+        {
+            var style = (Win32.WS)Win32.GetWindowLongPtr(window.Handle, Win32.GWL_STYLE);
+            if (settings.ShowTitleBar)
+            {
+                style |= Win32.WS.WS_CAPTION;
+            }
+            else
+            {
+                style &= ~Win32.WS.WS_CAPTION;
+            }
+
+            if (settings.ShowSizingBorder)
+            {
+                style |= Win32.WS.WS_THICKFRAME;
+            }
+            else
+            {
+                style &= ~Win32.WS.WS_THICKFRAME;
+            }
+            Win32.SetWindowLongPtr(window.Handle, Win32.GWL_STYLE, (IntPtr)style);
+        }
+
         private void WindowAdded(IWindow window, IWorkspace workspace)
         {
-            if (!ShowTitlebar(window))
+            var style = GetStyle(window);
+            if (style != null)
             {
-                var style = Win32.GetWindowLongPtr(window.Handle, Win32.GWL_STYLE);
-                Win32.SetWindowStyleLongPtr(window.Handle, (Win32.WS)style & ~Win32.WS.WS_CAPTION);
+                SetStyle(window, style);
             }
         }
 
-        private bool ShowTitlebar(IWindow window)
+        private TitleBarStyle GetStyle(IWindow window)
         {
             foreach (var rule in _config.Rules)
             {
                 if (rule.Matcher(window))
                 {
-                    return rule.ShowTitleBar;
+                    return rule.Style;
                 }
             }
-
-            return _config.ShowTitleBars;
+            return null;
         }
     }
 }

@@ -8,13 +8,13 @@ namespace workspacer.TitleBar
 {
     public class TitleBarRule
     {
-        public readonly bool ShowTitleBar;
+        public readonly TitleBarStyle Style;
         public readonly Func<IWindow, bool> Matcher;
 
-        public TitleBarRule(Func<IWindow, bool> matcher, bool showTitleBar)
+        public TitleBarRule(Func<IWindow, bool> matcher, TitleBarStyle style)
         {
             Matcher = matcher;
-            ShowTitleBar = showTitleBar;
+            Style = style;
         }
     }
 }

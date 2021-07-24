@@ -23,25 +23,25 @@ namespace workspacer.TitleBar
             Rules = new List<TitleBarRule>();
         }
 
-        public void SetWindowClass(string windowClass, bool hide = false)
+        public void SetWindowClass(string windowClass, TitleBarStyle style = null)
         {
-            Rules.Add(new TitleBarRule(window => window.Class == windowClass, hide));
+            Rules.Add(new TitleBarRule(window => window.Class == windowClass, style));
         }
 
-        public void SetWindowProcessName(string processName, bool hide = false)
+        public void SetWindowProcessName(string processName, TitleBarStyle style = null)
         {
-            Rules.Add(new TitleBarRule(window => window.ProcessName == processName, hide));
+            Rules.Add(new TitleBarRule(window => window.ProcessName == processName, style));
         }
 
-        public void SetWindowTitle(string title, bool hide = false)
+        public void SetWindowTitle(string title, TitleBarStyle style = null)
         {
-            Rules.Add(new TitleBarRule(window => window.Title == title, hide));
+            Rules.Add(new TitleBarRule(window => window.Title == title, style));
         }
 
-        public void SetWindowTitleMAtch(string match, bool hide = false)
+        public void SetWindowTitleMAtch(string match, TitleBarStyle style = null)
         {
             var regex = new Regex(match);
-            Rules.Add(new TitleBarRule(window => regex.IsMatch(window.Title), hide));
+            Rules.Add(new TitleBarRule(window => regex.IsMatch(window.Title), style));
         }
     }
 }
