@@ -6,42 +6,42 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using workspacer.TitleBar;
 
-namespace workspacer.Titlebar
+namespace workspacer.TitleBar
 {
     public class TitleBarPluginConfig
     {
-        public bool HideTitleBars { get; set; }
-        public List<TitleBarConfigItem> TitleBarConfigItems { get; set; }
+        public bool ShowTitleBars { get; set; }
+        public List<TitleBarRule> Rules { get; set; }
 
-        public TitleBarPluginConfig() : this(true)
+        public TitleBarPluginConfig() : this(false)
         {
         }
 
         public TitleBarPluginConfig(bool hideTitleBars)
         {
-            HideTitleBars = hideTitleBars;
-            TitleBarConfigItems = new List<TitleBarConfigItem>();
+            ShowTitleBars = hideTitleBars;
+            Rules = new List<TitleBarRule>();
         }
 
         public void SetWindowClass(string windowClass, bool hide = false)
         {
-            TitleBarConfigItems.Add(new TitleBarConfigItem(window => window.Class == windowClass, hide));
+            Rules.Add(new TitleBarRule(window => window.Class == windowClass, hide));
         }
 
         public void SetWindowProcessName(string processName, bool hide = false)
         {
-            TitleBarConfigItems.Add(new TitleBarConfigItem(window => window.ProcessName == processName, hide));
+            Rules.Add(new TitleBarRule(window => window.ProcessName == processName, hide));
         }
 
         public void SetWindowTitle(string title, bool hide = false)
         {
-            TitleBarConfigItems.Add(new TitleBarConfigItem(window => window.Title == title, hide));
+            Rules.Add(new TitleBarRule(window => window.Title == title, hide));
         }
 
         public void SetWindowTitleMAtch(string match, bool hide = false)
         {
             var regex = new Regex(match);
-            TitleBarConfigItems.Add(new TitleBarConfigItem(window => regex.IsMatch(window.Title), hide));
+            Rules.Add(new TitleBarRule(window => regex.IsMatch(window.Title), hide));
         }
     }
 }

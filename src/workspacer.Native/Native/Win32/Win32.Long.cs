@@ -10,7 +10,7 @@ namespace workspacer
     public static partial class Win32
     {
         [Flags]
-        public enum WS : ulong
+        public enum WS : long
         {
             WS_OVERLAPPED = 0,
             WS_POPUP = 0x80000000,
@@ -37,7 +37,7 @@ namespace workspacer
         }
 
         [Flags]
-        public enum WS_EX : ulong
+        public enum WS_EX : long
         {
             WS_EX_DLGMODALFRAME = 0x0001,
             WS_EX_NOPARENTNOTIFY = 0x0004,
@@ -69,9 +69,38 @@ namespace workspacer
 
         public static int GWL_STYLE = -16;
         public static int GWL_EXSTYLE = -20;
-        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
-        public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, uint dwNewLong);
 
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+        public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+        public static WS SetWindowStyleLongPtr(IntPtr hWnd, WS dwNewLong)
+        {
+            var dwNewLongPtr = new IntPtr((long)dwNewLong);
+            if (Environment.Is64BitProcess)
+            {
+                return (WS)SetWindowLongPtr(hWnd, GWL_STYLE, dwNewLongPtr);
+            }
+            else
+            {
+                return (WS)SetWindowLong(hWnd, GWL_STYLE, dwNewLongPtr);
+            }
+        }
+
+        public static WS_EX SetWindowStyleExLongPtr(IntPtr hWnd, WS_EX dwNewLong)
+        {
+            var dwNewLongPtr = new IntPtr((long)dwNewLong);
+            if (Environment.Is64BitProcess)
+            {
+                return (WS_EX)SetWindowLongPtr(hWnd, GWL_EXSTYLE, dwNewLongPtr);
+            }
+            else
+            {
+                return (WS_EX)SetWindowLong(hWnd, GWL_EXSTYLE, dwNewLongPtr);
+            }
+        }
 
         [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
         public static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);

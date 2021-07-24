@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
 		<ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj" />
+		<ProjectReference Include="..\workspacer.Native\workspacer.Native.csproj" />
 	</ItemGroup>
 	<PropertyGroup>
 		<TargetFramework>net5.0-windows</TargetFramework>
