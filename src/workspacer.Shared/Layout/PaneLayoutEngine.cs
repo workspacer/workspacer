@@ -9,13 +9,13 @@ namespace workspacer
     public class VertLayoutEngine : PaneLayoutEngine
     {
         public VertLayoutEngine() : base(true) { }
-        public override string Name => "vert";
+        public override string Name => "rows";
     }
 
     public class HorzLayoutEngine : PaneLayoutEngine
     {
         public HorzLayoutEngine() : base(false) { }
-        public override string Name => "horz";
+        public override string Name => "columns";
     }
 
     public abstract class PaneLayoutEngine : ILayoutEngine
