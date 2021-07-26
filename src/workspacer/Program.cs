@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 using Application = System.Windows.Forms.Application;
 using Timer = System.Timers.Timer;
@@ -17,8 +15,8 @@ namespace workspacer
     class Program
     {
         private static workspacer _app;
-        private static Logger _logger = Logger.Create();
         private static Branch? _branch;
+        private static Logger _logger = Logger.Create();
 
         /// <summary>
         ///  The main entry point for the application.
@@ -52,18 +50,18 @@ namespace workspacer
 #elif BRANCH_beta
                 _branch = Branch.Beta;
 #else
-                _branch = Branch.Unstable;
+                _branch = Branch.None;
 #endif
             }
 
             if (_branch != Branch.None)
             {
-                AutoUpdater.RunUpdateAsAdmin = !IsDirectoryWritable(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                AutoUpdater.RunUpdateAsAdmin = !IsDirectoryWritable(AppContext.BaseDirectory);
                 AutoUpdater.ParseUpdateInfoEvent += AutoUpdater_ParseUpdateInfoEvent;
                 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
 
                 Timer timer = new Timer(1000 * 60 * 60);
-                timer.Elapsed += (s, e) =>
+                timer.Elapsed += (_, _) =>
                 {
                     AutoUpdater.Start("https://raw.githubusercontent.com/workspacer/workspacer/master/README.md");
                 };
@@ -75,7 +73,7 @@ namespace workspacer
             Run();
         }
 
-        private static async void AutoUpdater_ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
+        private static void AutoUpdater_ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
             GitHubClient client = new GitHubClient(new ProductHeaderValue("workspacer"));
 
@@ -84,14 +82,14 @@ namespace workspacer
             switch (_branch)
             {
                 case Branch.Stable:
-                    release = await client.Repository.Release.GetLatest("workspacer", "workspacer");
+                    release = client.Repository.Release.GetLatest("workspacer", "workspacer").Result;
                     break;
                 case Branch.Unstable:
-                    release = await client.Repository.Release.Get("workspacer", "workspacer", "unstable");
+                    release = client.Repository.Release.Get("workspacer", "workspacer", "unstable").Result;
                     break;
                 case Branch.Beta:
                     IReadOnlyList<Release> releases =
-                        await client.Repository.Release.GetAll("workspacer", "workspacer");
+                        client.Repository.Release.GetAll("workspacer", "workspacer").Result;
                     // Latest published beta release
                     release = releases.Where(r => r.TagName.Contains("-beta"))
                         .OrderByDescending(r => r.PublishedAt)
@@ -116,7 +114,7 @@ namespace workspacer
                 case Branch.Unstable:
                     updateInfo.ChangelogURL = "https://github.com/workspacer/workspacer/releases/tag/unstable";
                     updateInfo.DownloadURL = release.Assets
-                        .First(a => a.Name == $"workspacer-unstable-latest.{fileExtension}").BrowserDownloadUrl;
+                        .First(a => a.Name == $"workspacer-latest-unstable.{fileExtension}").BrowserDownloadUrl;
                     break;
                 case Branch.Beta:
                     updateInfo.ChangelogURL = $"https://github.com/workspacer/workspacer/releases/tag/v{currentVersion}";
@@ -138,21 +136,20 @@ namespace workspacer
             _app = new workspacer();
 
 #if !DEBUG
-            Thread.GetDomain().UnhandledException += ((s, e) =>
-                {
-                    if (!(e.ExceptionObject is ThreadAbortException))
-                    {
-                        _logger.Fatal((Exception) e.ExceptionObject, "exception occurred, quiting workspacer: " + ((Exception) e.ExceptionObject).ToString());
-                        _app.QuitWithException((Exception) e.ExceptionObject);
-                    }
-                });
+            System.Threading.Thread.GetDomain().UnhandledException += (s, e) =>
+            {
+                if (e.ExceptionObject is System.Threading.ThreadAbortException) return;
+
+                _logger.Fatal((Exception) e.ExceptionObject, "exception occurred, quitting workspacer: " + (Exception) e.ExceptionObject);
+                _app.QuitWithException((Exception) e.ExceptionObject);
+            };
 #endif
 
             _app.Start();
         }
 
         #region Helper Methods
-        private static bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
+        private static bool IsDirectoryWritable(string dirPath)
         {
             try
             {
@@ -163,8 +160,6 @@ namespace workspacer
             }
             catch
             {
-                if (throwIfFails) throw;
-
                 return false;
             }
         }
