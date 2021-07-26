@@ -42,9 +42,11 @@ I don&amp;rsquo;t know C#, or how to code, should I use workspacer? Workspacer i
       
       <guid>/quickstart/</guid>
       <description>Installing Download the installer or the zip file from the Releases page and install/unzip it anywhere you like.
-Alternatively, workspacer is available via Chocolatey:
-choco install workspacer and via Scoop:
-scoop bucket add extras scoop install workspacer Workspacer automatically checks for updates. However, if you are using a package manager (either Chocolatey or Scoop), you should uncomment/add this line in your workspacer configuration file to disable automatic updates:
+Alternatively, workspacer is available via these package managers:
+WinGet
+winget install workspacer Chocolatey
+choco install workspacer Scoop
+scoop bucket add extras scoop install workspacer Workspacer automatically checks for updates. However, if you are using a package manager, you should uncomment/add this line in your workspacer configuration file to disable automatic updates:
 context.Branch = Branch.</description>
     </item>
     

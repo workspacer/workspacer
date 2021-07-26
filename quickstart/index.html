@@ -117,12 +117,15 @@
 
     <h2 id="installing">Installing</h2>
 <p>Download the installer or the zip file from the <a href="https://github.com/workspacer/workspacer/releases/latest">Releases</a> page and install/unzip it anywhere you like.</p>
-<p>Alternatively, workspacer is available via <a href="https://community.chocolatey.org/packages/workspacer">Chocolatey</a>:</p>
+<p>Alternatively, workspacer is available via these package managers:</p>
+<p><a href="https://winstall.app/apps/rickbutton.workspacer">WinGet</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">winget install workspacer
+</code></pre></div><p><a href="https://community.chocolatey.org/packages/workspacer">Chocolatey</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">choco install workspacer
-</code></pre></div><p>and via <a href="https://scoop.sh/">Scoop</a>:</p>
+</code></pre></div><p><a href="https://scoop.sh/">Scoop</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">scoop bucket add extras
 scoop install workspacer
-</code></pre></div><p>Workspacer automatically checks for updates. However, if you are using a package manager (either Chocolatey or Scoop), you should uncomment/add this line in your workspacer configuration file to disable automatic updates:</p>
+</code></pre></div><p>Workspacer automatically checks for updates. However, if you are using a package manager, you should uncomment/add this line in your workspacer configuration file to disable automatic updates:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs">context.Branch = Branch.None;
 </code></pre></div><h2 id="configuring">Configuring</h2>
 <p>Workspacer loads a default configuration with almost everything you&rsquo;d need, but you will likely want to modify things like <a href="../config#how-do-i-register-custom-keybindings">key bindings</a>, <a href="../config#menu-bar-widgets">widgets</a> on the bar, <a href="../config#how-do-i-define-custom-workspaces">workspaces</a>, <a href="../config#layout-engines">layouts</a>, <a href="../config#plugins">plugins</a> or otherwise the default behavior of workspacer.</p>
