@@ -8,20 +8,25 @@ type: docs
 
 Download the installer or the zip file from the [Releases](https://github.com/workspacer/workspacer/releases/latest) page and install/unzip it anywhere you like. 
 
-Alternatively, workspacer is available via [Chocolatey](https://community.chocolatey.org/packages/workspacer):
+Alternatively, workspacer is available via these package managers:
 
+[WinGet](https://winstall.app/apps/rickbutton.workspacer)
+```shell
+winget install workspacer
+```
+
+[Chocolatey](https://community.chocolatey.org/packages/workspacer)
 ```shell
 choco install workspacer
 ```
 
-and via [Scoop](https://scoop.sh/):
-
+[Scoop](https://scoop.sh/)
 ```shell
 scoop bucket add extras
 scoop install workspacer
 ```
 
-Workspacer automatically checks for updates. However, if you are using a package manager (either Chocolatey or Scoop), you should uncomment/add this line in your workspacer configuration file to disable automatic updates:
+Workspacer automatically checks for updates. However, if you are using a package manager, you should uncomment/add this line in your workspacer configuration file to disable automatic updates:
 
 ```cs
 context.Branch = Branch.None;
