@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AutoUpdaterDotNET;
+using Microsoft.Win32;
+using Octokit;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
-using AutoUpdaterDotNET;
-using Octokit;
 using Application = System.Windows.Forms.Application;
 using Timer = System.Timers.Timer;
 
@@ -15,8 +15,8 @@ namespace workspacer
     class Program
     {
         private static workspacer _app;
-        private static Logger _logger = Logger.Create();
         private static Branch? _branch;
+        private static Logger _logger = Logger.Create();
 
         /// <summary>
         ///  The main entry point for the application.
@@ -56,12 +56,12 @@ namespace workspacer
 
             if (_branch != Branch.None)
             {
-                AutoUpdater.RunUpdateAsAdmin = !IsDirectoryWritable(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                AutoUpdater.RunUpdateAsAdmin = !IsDirectoryWritable(AppContext.BaseDirectory);
                 AutoUpdater.ParseUpdateInfoEvent += AutoUpdater_ParseUpdateInfoEvent;
                 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
 
                 Timer timer = new Timer(1000 * 60 * 60);
-                timer.Elapsed += (s, e) =>
+                timer.Elapsed += (_, _) =>
                 {
                     AutoUpdater.Start("https://raw.githubusercontent.com/workspacer/workspacer/master/README.md");
                 };
@@ -77,27 +77,79 @@ namespace workspacer
         {
             GitHubClient client = new GitHubClient(new ProductHeaderValue("workspacer"));
 
-            bool isStable = _branch == Branch.Stable;
-            string branchName = _branch.ToString()?.ToLower();
 
-            Release release = isStable
-                ? client.Repository.Release.GetLatest("workspacer", "workspacer").Result
-                : client.Repository.Release.Get("workspacer", "workspacer", branchName).Result;
+            Release release = null;
+            switch (_branch)
+            {
+                case Branch.Stable:
+                    release = client.Repository.Release.GetLatest("workspacer", "workspacer").Result;
+                    break;
+                case Branch.Unstable:
+                    release = client.Repository.Release.Get("workspacer", "workspacer", "unstable").Result;
+                    break;
+                case Branch.Beta:
+                    IReadOnlyList<Release> releases =
+                        client.Repository.Release.GetAll("workspacer", "workspacer").Result;
+                    // Latest published beta release
+                    release = releases.Where(r => r.TagName.Contains("-beta"))
+                        .OrderByDescending(r => r.PublishedAt)
+                        .First();
+                    break;
+            }
 
             string currentVersion = release.Name.Split(' ').Skip(1).FirstOrDefault();
-            args.UpdateInfo = new UpdateInfoEventArgs
+            // If workspacer is installed and the current application is running on the install location, then use the MSI.
+            string fileExtension = GetInstallLocation("workspacer", "Rick Button") == AppContext.BaseDirectory
+                ? "msi"
+                : "zip";
+
+            UpdateInfoEventArgs updateInfo = new UpdateInfoEventArgs { CurrentVersion = currentVersion };
+            switch (_branch)
             {
-                CurrentVersion = currentVersion,
-                ChangelogURL = isStable ? "https://www.workspacer.org/changelog" : $"https://github.com/workspacer/workspacer/releases/{branchName}",
-                DownloadURL = release.Assets.First(a => a.Name == $"workspacer-{branchName}-{(isStable ? currentVersion : "latest")}.zip").BrowserDownloadUrl
-            };
+                case Branch.Stable:
+                    updateInfo.ChangelogURL = "https://www.workspacer.org/changelog";
+                    updateInfo.DownloadURL = release.Assets
+                        .First(a => a.Name == $"workspacer-{currentVersion}-stable.{fileExtension}").BrowserDownloadUrl;
+                    break;
+                case Branch.Unstable:
+                    updateInfo.ChangelogURL = "https://github.com/workspacer/workspacer/releases/tag/unstable";
+                    updateInfo.DownloadURL = release.Assets
+                        .First(a => a.Name == $"workspacer-latest-unstable.{fileExtension}").BrowserDownloadUrl;
+                    break;
+                case Branch.Beta:
+                    updateInfo.ChangelogURL = $"https://github.com/workspacer/workspacer/releases/tag/v{currentVersion}";
+                    updateInfo.DownloadURL = release.Assets
+                        .First(a => a.Name == $"workspacer-{currentVersion}.{fileExtension}").BrowserDownloadUrl;
+                    break;
+            }
+
+            args.UpdateInfo = updateInfo;
         }
 
-        private static void AutoUpdater_ApplicationExitEvent() {
+        private static void AutoUpdater_ApplicationExitEvent()
+        {
             _app.Quit();
         }
 
-        private static bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
+        private static void Run()
+        {
+            _app = new workspacer();
+
+#if !DEBUG
+            System.Threading.Thread.GetDomain().UnhandledException += (s, e) =>
+            {
+                if (e.ExceptionObject is System.Threading.ThreadAbortException) return;
+
+                _logger.Fatal((Exception) e.ExceptionObject, "exception occurred, quitting workspacer: " + (Exception) e.ExceptionObject);
+                _app.QuitWithException((Exception) e.ExceptionObject);
+            };
+#endif
+
+            _app.Start();
+        }
+
+        #region Helper Methods
+        private static bool IsDirectoryWritable(string dirPath)
         {
             try
             {
@@ -108,28 +160,23 @@ namespace workspacer
             }
             catch
             {
-                if (throwIfFails) throw;
-
                 return false;
             }
         }
 
-        private static void Run()
+        // <summary>
+        // Gets the InstallLocation value of app from registry based on DisplayName and Publisher. Returns null if it does not exist.
+        // </summary>
+        public static string GetInstallLocation(string displayName, string publisher)
         {
-            _app = new workspacer();
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
 
-#if !DEBUG
-            Thread.GetDomain().UnhandledException += ((s, e) =>
-                {
-                    if (!(e.ExceptionObject is ThreadAbortException))
-                    {
-                        _logger.Fatal((Exception) e.ExceptionObject, "exception occurred, quiting workspacer: " + ((Exception) e.ExceptionObject).ToString());
-                        _app.QuitWithException((Exception) e.ExceptionObject);
-                    }
-                });
-#endif
-
-            _app.Start();
+            return key.GetSubKeyNames()
+                .Select(keyName => key.OpenSubKey(keyName))
+                .Where(subKey => displayName == (string)subKey?.GetValue("DisplayName")
+                                 && publisher == (string)subKey?.GetValue("Publisher"))
+                .Select(subKey => (string)subKey?.GetValue("InstallLocation")).FirstOrDefault();
         }
+        #endregion
     }
 }
