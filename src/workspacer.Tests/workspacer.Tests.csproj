@@ -12,8 +12,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\workspacer.Shared\workspacer.Shared.csproj" />
-    <ProjectReference Include="..\..\src\workspacer\workspacer.csproj" />
+    <ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj" />
+    <ProjectReference Include="..\workspacer\workspacer.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>

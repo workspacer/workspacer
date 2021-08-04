@@ -26,11 +26,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.ActionMenu", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.FocusIndicator", "src\workspacer.FocusIndicator\workspacer.FocusIndicator.csproj", "{E7F2E1A7-2771-4924-A8D8-20761188D6F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Tests", "test\workspacer.Tests\workspacer.Tests.csproj", "{FB339CF1-E0A7-4BE5-80DA-0CC095A54DE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Tests", "src\workspacer.Tests\workspacer.Tests.csproj", "{FB339CF1-E0A7-4BE5-80DA-0CC095A54DE6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Shared.Tests", "test\workspacer.Shared.Tests\workspacer.Shared.Tests.csproj", "{0B147785-39FE-4E5A-B205-60451444D885}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Shared.Tests", "src\workspacer.Shared.Tests\workspacer.Shared.Tests.csproj", "{0B147785-39FE-4E5A-B205-60451444D885}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Bar.Tests", "test\workspacer.Bar.Tests\workspacer.Bar.Tests.csproj", "{E07E0126-58F9-40D1-84D2-76449A902A85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Bar.Tests", "src\workspacer.Bar.Tests\workspacer.Bar.Tests.csproj", "{E07E0126-58F9-40D1-84D2-76449A902A85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3801228F-86AF-4076-A559-85FDE0B95200}"
 EndProject
