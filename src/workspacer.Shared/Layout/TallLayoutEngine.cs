@@ -56,11 +56,11 @@ namespace workspacer
             {
                 if (i < numInPrimary)
                 {
-                    list.Add(new WindowLocation(MaybeReverse(0, primaryWidth, spaceWidth), i * primaryHeight, primaryWidth, primaryHeight, WindowState.Normal));
+                    list.Add(new WindowLocation(CalcXPos(0, primaryWidth, spaceWidth), i * primaryHeight, primaryWidth, primaryHeight, WindowState.Normal));
                 }
                 else
                 {
-                    list.Add(new WindowLocation(MaybeReverse(primaryWidth, secondaryWidth, spaceWidth), (i - numInPrimary) * height, secondaryWidth, height, WindowState.Normal));
+                    list.Add(new WindowLocation(CalcXPos(primaryWidth, secondaryWidth, spaceWidth), (i - numInPrimary) * height, secondaryWidth, height, WindowState.Normal));
                 }
             }
             return list;
@@ -99,7 +99,7 @@ namespace workspacer
             return _numInPrimary + _numInPrimaryOffset;
         }
 
-        private int MaybeReverse(int x, int windowsWidth, int spaceWidth)
+        private int CalcXPos(int x, int windowsWidth, int spaceWidth)
         {
             return _leftToRight ? x : spaceWidth - x - windowsWidth;
         }
