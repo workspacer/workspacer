@@ -31,9 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Shared.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Bar.Tests", "src\workspacer.Bar.Tests\workspacer.Bar.Tests.csproj", "{E07E0126-58F9-40D1-84D2-76449A902A85}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3801228F-86AF-4076-A559-85FDE0B95200}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.TitleBar", "src\workspacer.TitleBar\workspacer.TitleBar.csproj", "{191834CC-3FB2-4DFB-BF5E-8FC9231873F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.TitleBar", "src\workspacer.TitleBar\workspacer.TitleBar.csproj", "{191834CC-3FB2-4DFB-BF5E-8FC9231873F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,8 +193,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD604298-5BA0-441E-8BD3-66579436DEFE}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{191834CC-3FB2-4DFB-BF5E-8FC9231873F3} = {3801228F-86AF-4076-A559-85FDE0B95200}
 	EndGlobalSection
 EndGlobal
