@@ -28,9 +28,36 @@ namespace workspacer.TitleBar
             _context.Workspaces.WindowAdded += WindowAdded;
         }
 
-        private void SetStyle(IWindow window, TitleBarStyle settings)
+        private void SetStyle(IWindow window, Win32.WS style)
         {
-            var style = (Win32.WS)Win32.GetWindowLongPtr(window.Handle, Win32.GWL_STYLE);
+            Win32.SetWindowLongPtr(window.Handle, Win32.GWL_STYLE, (IntPtr)style);
+        }
+
+        private void WindowAdded(IWindow window, IWorkspace workspace)
+        {
+            var settings = GetStyleSettings(window);
+            if (settings != null)
+            {
+                var style = (Win32.WS)Win32.GetWindowLongPtr(window.Handle, Win32.GWL_STYLE);
+                style = UpdateStyle(style, settings);
+                SetStyle(window, style);
+            }
+        }
+
+        private TitleBarStyle GetStyleSettings(IWindow window)
+        {
+            foreach (var rule in _config.Rules)
+            {
+                if (rule.Matcher(window))
+                {
+                    return rule.Style;
+                }
+            }
+            return null;
+        }
+
+        public static Win32.WS UpdateStyle(Win32.WS style, TitleBarStyle settings)
+        {
             if (settings.ShowTitleBar)
             {
                 style |= Win32.WS.WS_CAPTION;
@@ -48,28 +75,8 @@ namespace workspacer.TitleBar
             {
                 style &= ~Win32.WS.WS_THICKFRAME;
             }
-            Win32.SetWindowLongPtr(window.Handle, Win32.GWL_STYLE, (IntPtr)style);
-        }
 
-        private void WindowAdded(IWindow window, IWorkspace workspace)
-        {
-            var style = GetStyle(window);
-            if (style != null)
-            {
-                SetStyle(window, style);
-            }
-        }
-
-        private TitleBarStyle GetStyle(IWindow window)
-        {
-            foreach (var rule in _config.Rules)
-            {
-                if (rule.Matcher(window))
-                {
-                    return rule.Style;
-                }
-            }
-            return null;
+            return style;
         }
     }
 }
