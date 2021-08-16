@@ -326,7 +326,43 @@ context.AddTitleBar(titleBarPluginConfig);
 </code></pre></div><h2 id="how-do-i-minimize-windows">How do I minimize windows?</h2>
 <p>By default, <code>context.CanMinimizeWindows = false</code>. To enable the minimizing of windows, set:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.CanMinimizeWindows = <span style="color:#66d9ef">true</span>;
-</code></pre></div>
+</code></pre></div><h2 id="how-can-i-troubleshoot-visual-studio-code-type-checking">How can I troubleshoot Visual Studio Code type checking?</h2>
+<p>Visual Studio Code uses OmniSharp to provide intellisense and syntax interpolation of C# script files
+such as your <code>workspacer.config.csx</code> - this should work provided you have the <a href="https://code.visualstudio.com/docs/languages/csharp">C# extension</a> installed.</p>
+<p>However, issues with completion or problems indicated for valid code arise when OmniSharp finds multiple .NET SDKs
+installed. Each framework is (.NET Framework, .NET Core, .NET etc) a candidate for the backend it uses to understand your <code>.csx</code> file.</p>
+<p>One way to confirm this is by viewing OmniSharp&rsquo;s output in <code>Output &gt; OmniSharp Log</code> after loading <code>workspace.config.csx</code>.
+For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">[info]: OmniSharp.Script.ScriptContextProvider</span>
+        <span style="color:#a6e22e">Searching for compilation dependencies with the fallback framework of &#39;net461&#39;.</span>
+</code></pre></div><p>OmniSharp will display the default framework it has chosen which in this case is <code>.NET Framework 4.6.1</code> on the system
+instead of the correct <code>.NET</code>. This framework does not understand the lambda expressions we use in config,
+so the following problem is found for the default template (<code>workspacer.config.template.csx</code>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">Cannot convert lambda expression to type &#39;Action&lt;IConfigContext&gt;&#39; because it is not a delegate type [workspacer.config.csx] csharp(CS1660)</span>
+</code></pre></div><h3 id="workarounds">Workarounds</h3>
+<p>In the case you don&rsquo;t require multiple <code>.NET</code> runtimes on your machine, simply uninstall SDKs so that the only SDK
+installed matches the latest one targeted by <code>workspacer</code>.</p>
+<p>Reload VS Code and confirm <code>Output &gt; OmniSharp Log</code> displays the right target framework and no false problems appear.</p>
+<p>In the case that multiple frameworks are required, there is also the option of specifying which one OmniSharp should use:</p>
+<ol>
+<li>
+<p>Create an <code>omnisharp.json</code> file in <code>%USERS%/.workspacer</code> (your <code>workspacer.config.csx</code> should also live here)</p>
+</li>
+<li>
+<p>Add this sample config for <code>.NET 5</code> (which is targeted at time of writing) to the file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;script&#34;</span>: {
+        <span style="color:#f92672">&#34;enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+        <span style="color:#f92672">&#34;defaultTargetFramework&#34;</span>: <span style="color:#e6db74">&#34;net5.0&#34;</span>,
+        <span style="color:#f92672">&#34;enableScriptNuGetReferences&#34;</span>: <span style="color:#66d9ef">true</span>
+    }
+}
+</code></pre></div></li>
+<li>
+<p>Reload VS Code and confirm <code>Output &gt; OmniSharp Log</code> displays the right target framework and no false problems appear.</p>
+</li>
+</ol>
+
 </div>
 </main>
   <footer> 
