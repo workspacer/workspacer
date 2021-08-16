@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
-
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\workspacer.Bar\workspacer.Bar.csproj" />
+    <ProjectReference Include="..\workspacer.Bar\workspacer.Bar.csproj" />
   </ItemGroup>
 
 </Project>
