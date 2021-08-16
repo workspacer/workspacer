@@ -88,6 +88,8 @@ Workspacer offers additional functionality beyond just tiling your windows throu
   - Allows for user-configurable gaps between windows.
   - Similar to i3 these gaps are seperated into an 'inner' and an 'outer gap'.
   - Currently gap settings are global i.e. affect all workspaces, a local option can be implemented.
+- [Title bar](#title-bar)
+  - Allows for the removal of the title bar from windows
 
 ### Menu Bar
 
@@ -189,8 +191,44 @@ context.AddGap(
 );
 ```
 
-Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g., `IncrementOuterGap`, `DecrementInnerGap`) to key binds.
-For more details have a look at an example from the [user snippets](https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs).
+Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g. `IncrementOuterGap`, `DecrementInnerGap`) to keybinds.
+For more details have a look at an example from the [user snippets](https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs)
+
+### Title Bar
+
+This adds the ability to remove the title bar from specific or all windows. This is useful for applications that have a title bar which is unncessary for the purpose of the window when Workspacer is in use.
+
+By default, the title bar and sizing border are shown on all windows. To update the defaults:
+
+```csharp
+#r "C:\Program Files\workspacer\plugins\workspacer.TitleBar\workspacer.TitleBar.dll"
+
+using workspacer.TitleBar;
+
+var titleBarPluginConfig = new TitleBarPluginConfig(new TitleBarStyle(showTitleBar: false, showSizingBorder: false));
+context.AddTitleBar(titleBarPluginConfig);
+```
+
+The available styles can be seen below:
+
+![TitleBar styles](../static/images/titlebar-styles.png)
+
+To customize the styling for specific windows:
+
+```csharp
+var titleBarPluginConfig = new TitleBarPluginConfig();
+titleBarPluginConfig.SetWindowProcessName("Notepad", new TitleBarStyle(showTitleBar: false, showSizingBorder: false));
+context.AddTitleBar(titleBarPluginConfig);
+```
+
+Setting the filters can be done using the `TitleBarPluginConfig` methods:
+
+```csharp
+public void SetWindowClass(string windowClass, TitleBarStyle style);
+public void SetWindowProcessName(string processName, TitleBarStyle style);
+public void SetWindowTitle(string title, TitleBarStyle style);
+public void SetWindowTitleMAtch(string match, TitleBarStyle style);
+```
 
 ## How do I register custom keybindings?
 
