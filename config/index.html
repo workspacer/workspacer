@@ -195,6 +195,11 @@ context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(<span style="
 <li>Currently gap settings are global i.e. affect all workspaces, a local option can be implemented.</li>
 </ul>
 </li>
+<li><a href="#title-bar">Title bar</a>
+<ul>
+<li>Allows for the removal of the title bar from windows</li>
+</ul>
+</li>
 </ul>
 <h3 id="menu-bar">Menu Bar</h3>
 <p>Like other tiling window managers workspacer includes a status/menu bar which shows relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs">BarWidgetBase</a>.</p>
@@ -286,9 +291,29 @@ context.AddGap(
         Delta = gap / <span style="color:#ae81ff">2</span>,
     }
 );
-</code></pre></div><p>Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g., <code>IncrementOuterGap</code>, <code>DecrementInnerGap</code>) to key binds.
-For more details have a look at an example from the <a href="https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs">user snippets</a>.</p>
-<h2 id="how-do-i-register-custom-keybindings">How do I register custom keybindings?</h2>
+</code></pre></div><p>Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g. <code>IncrementOuterGap</code>, <code>DecrementInnerGap</code>) to keybinds.
+For more details have a look at an example from the <a href="https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs">user snippets</a></p>
+<h3 id="title-bar">Title Bar</h3>
+<p>This adds the ability to remove the title bar from specific or all windows. This is useful for applications that have a title bar which is unncessary for the purpose of the window when Workspacer is in use.</p>
+<p>By default, the title bar and sizing border are shown on all windows. To update the defaults:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#960050;background-color:#1e0010">#</span>r <span style="color:#e6db74">&#34;C:\Program Files\workspacer\plugins\workspacer.TitleBar\workspacer.TitleBar.dll&#34;</span>
+
+<span style="color:#66d9ef">using</span> workspacer.TitleBar;
+
+<span style="color:#66d9ef">var</span> titleBarPluginConfig = <span style="color:#66d9ef">new</span> TitleBarPluginConfig(<span style="color:#66d9ef">new</span> TitleBarStyle(showTitleBar: <span style="color:#66d9ef">false</span>, showSizingBorder: <span style="color:#66d9ef">false</span>));
+context.AddTitleBar(titleBarPluginConfig);
+</code></pre></div><p>The available styles can be seen below:</p>
+<p><img src="../static/images/titlebar-styles.png" alt="TitleBar styles"></p>
+<p>To customize the styling for specific windows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> titleBarPluginConfig = <span style="color:#66d9ef">new</span> TitleBarPluginConfig();
+titleBarPluginConfig.SetWindowProcessName(<span style="color:#e6db74">&#34;Notepad&#34;</span>, <span style="color:#66d9ef">new</span> TitleBarStyle(showTitleBar: <span style="color:#66d9ef">false</span>, showSizingBorder: <span style="color:#66d9ef">false</span>));
+context.AddTitleBar(titleBarPluginConfig);
+</code></pre></div><p>Setting the filters can be done using the <code>TitleBarPluginConfig</code> methods:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowClass(<span style="color:#66d9ef">string</span> windowClass, TitleBarStyle style);
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowProcessName(<span style="color:#66d9ef">string</span> processName, TitleBarStyle style);
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowTitle(<span style="color:#66d9ef">string</span> title, TitleBarStyle style);
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowTitleMAtch(<span style="color:#66d9ef">string</span> match, TitleBarStyle style);
+</code></pre></div><h2 id="how-do-i-register-custom-keybindings">How do I register custom keybindings?</h2>
 <p>Workspacer subscribes to the <a href="../keybindings">default set of key bindings</a> automatically for you. If you want to add additional key bindings, or override an existing one, you can do the following:</p>
 <p>Define the mod key. Check <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/KeyModifiers.cs">KeyModifiers.cs</a> to see all available modifiers. <code>KeyModifiers.Alt</code> is the default mod key. If you want to use multiple modifier keys (e.g. Left Alt + Left Control), use <code>KeyModifiers.LAlt | KeyModifiers.LCtrl</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">KeyModifiers mod = KeyModifiers.Alt;
