@@ -88,6 +88,8 @@ Workspacer offers additional functionality beyond just tiling your windows throu
   - Allows for user-configurable gaps between windows.
   - Similar to i3 these gaps are seperated into an 'inner' and an 'outer gap'.
   - Currently gap settings are global i.e. affect all workspaces, a local option can be implemented.
+- [Title bar](#title-bar)
+  - Allows for the removal of the title bar from windows
 
 ### Menu Bar
 
@@ -189,8 +191,44 @@ context.AddGap(
 );
 ```
 
-Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g., `IncrementOuterGap`, `DecrementInnerGap`) to key binds.
-For more details have a look at an example from the [user snippets](https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs).
+Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g. `IncrementOuterGap`, `DecrementInnerGap`) to keybinds.
+For more details have a look at an example from the [user snippets](https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs)
+
+### Title Bar
+
+This adds the ability to remove the title bar from specific or all windows. This is useful for applications that have a title bar which is unncessary for the purpose of the window when Workspacer is in use.
+
+By default, the title bar and sizing border are shown on all windows. To update the defaults:
+
+```csharp
+#r "C:\Program Files\workspacer\plugins\workspacer.TitleBar\workspacer.TitleBar.dll"
+
+using workspacer.TitleBar;
+
+var titleBarPluginConfig = new TitleBarPluginConfig(new TitleBarStyle(showTitleBar: false, showSizingBorder: false));
+context.AddTitleBar(titleBarPluginConfig);
+```
+
+The available styles can be seen below:
+
+![TitleBar styles](../static/images/titlebar-styles.png)
+
+To customize the styling for specific windows:
+
+```csharp
+var titleBarPluginConfig = new TitleBarPluginConfig();
+titleBarPluginConfig.SetWindowProcessName("Notepad", new TitleBarStyle(showTitleBar: false, showSizingBorder: false));
+context.AddTitleBar(titleBarPluginConfig);
+```
+
+Setting the filters can be done using the `TitleBarPluginConfig` methods:
+
+```csharp
+public void SetWindowClass(string windowClass, TitleBarStyle style);
+public void SetWindowProcessName(string processName, TitleBarStyle style);
+public void SetWindowTitle(string title, TitleBarStyle style);
+public void SetWindowTitleMAtch(string match, TitleBarStyle style);
+```
 
 ## How do I register custom keybindings?
 
@@ -227,3 +265,51 @@ By default, `context.CanMinimizeWindows = false`. To enable the minimizing of wi
 ```csharp
 context.CanMinimizeWindows = true;
 ```
+
+## How can I troubleshoot Visual Studio Code type checking?
+
+Visual Studio Code uses OmniSharp to provide intellisense and syntax interpolation of C# script files
+such as your `workspacer.config.csx` - this should work provided you have the [C# extension](https://code.visualstudio.com/docs/languages/csharp) installed.
+
+However, issues with completion or problems indicated for valid code arise when OmniSharp finds multiple .NET SDKs
+installed. Each framework is (.NET Framework, .NET Core, .NET etc) a candidate for the backend it uses to understand your `.csx` file.
+
+One way to confirm this is by viewing OmniSharp's output in `Output > OmniSharp Log` after loading `workspace.config.csx`.
+For example:
+
+``` ini
+[info]: OmniSharp.Script.ScriptContextProvider
+        Searching for compilation dependencies with the fallback framework of 'net461'.
+```
+
+OmniSharp will display the default framework it has chosen which in this case is `.NET Framework 4.6.1` on the system
+instead of the correct `.NET`. This framework does not understand the lambda expressions we use in config,
+so the following problem is found for the default template (`workspacer.config.template.csx`):
+
+``` ini
+Cannot convert lambda expression to type 'Action<IConfigContext>' because it is not a delegate type [workspacer.config.csx] csharp(CS1660)
+```
+
+### Workarounds
+
+In the case you don't require multiple `.NET` runtimes on your machine, simply uninstall SDKs so that the only SDK
+installed matches the latest one targeted by `workspacer`.
+
+Reload VS Code and confirm `Output > OmniSharp Log` displays the right target framework and no false problems appear.
+
+In the case that multiple frameworks are required, there is also the option of specifying which one OmniSharp should use:
+
+1. Create an `omnisharp.json` file in `%USERS%/.workspacer` (your `workspacer.config.csx` should also live here)
+2. Add this sample config for `.NET 5` (which is targeted at time of writing) to the file:
+
+    ```json
+    {
+        "script": {
+            "enabled": true,
+            "defaultTargetFramework": "net5.0",
+            "enableScriptNuGetReferences": true
+        }
+    }
+    ```
+
+3. Reload VS Code and confirm `Output > OmniSharp Log` displays the right target framework and no false problems appear.
