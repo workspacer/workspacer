@@ -14,15 +14,16 @@ namespace workspacer.Bar.Widgets
 
             //cpu needs to be sampled twice, else value will always be 0
             dynamic secondValue = cpuUsage.NextValue();
-
+            
             var cpuCounter = secondValue.ToString("00.00") + "%";
-
+                
             return Parts(Part(cpuCounter, fontname: FontName), Part("CPU: ", fontname: FontName));
         }
 
         public override void Initialize()
         {
             ramCounter = new PerformanceCounter("Memory", "Available MBytes");
+
             cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
 
             _timer = new System.Timers.Timer(Interval);

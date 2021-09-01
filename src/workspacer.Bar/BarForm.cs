@@ -1,8 +1,5 @@
 using System;
 using System.Drawing;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -31,7 +28,18 @@ namespace workspacer.Bar
             this.ControlBox = false;
             this.FormBorderStyle = FormBorderStyle.None;
 
-            this.BackColor = ColorToColor(config.DefaultWidgetBackground);
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+
+            if (config.Transparent)
+            {
+                //this.BackColor = System.Drawing.Color.Transparent;
+
+                this.BackColor = System.Drawing.Color.LimeGreen;
+                this.TransparencyKey = System.Drawing.Color.LimeGreen;
+            } else
+            {
+                this.BackColor = ColorToColor(config.DefaultWidgetBackground);
+            }
 
             this.Load += OnLoad;
 
@@ -59,6 +67,8 @@ namespace workspacer.Bar
 
         private System.Drawing.Color ColorToColor(Color color)
         {
+            if (color.A != 255) return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+
             return System.Drawing.Color.FromArgb(color.R, color.G, color.B);
         }
 

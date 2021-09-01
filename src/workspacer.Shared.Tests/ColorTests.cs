@@ -17,6 +17,14 @@ namespace workspacer.Shared.Tests
         }
 
         [Fact]
+        public void Creating_Color_With_Valid_ARGB_Components_Succeeds()
+        {
+            var black = new Color(0, 0, 0, 0);
+            var white = new Color(0xFF, 0xFF, 0xFF, 0xFF);
+            var red = new Color(255, 255, 0, 0);
+        }
+
+        [Fact]
         public void Creating_Color_With_Invalid_RGB_Components_Throws()
         {
             var sets = new[]

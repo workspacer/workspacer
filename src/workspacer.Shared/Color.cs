@@ -8,6 +8,7 @@ namespace workspacer
 {
     public class Color : IEquatable<Color>
     {
+        public byte A { get; set; }
         public byte R { get; }
         public byte G { get; }
         public byte B { get; }
@@ -23,6 +24,19 @@ namespace workspacer
             ValidateRange(g, nameof(g));
             ValidateRange(b, nameof(b));
 
+            R = (byte)r;
+            G = (byte)g;
+            B = (byte)b;
+        }
+
+        public Color(int a, int r, int g, int b)
+        {
+            ValidateRange(a, nameof(a));
+            ValidateRange(r, nameof(r));
+            ValidateRange(g, nameof(g));
+            ValidateRange(b, nameof(b));
+
+            A = (byte)a;
             R = (byte)r;
             G = (byte)g;
             B = (byte)b;
