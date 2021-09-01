@@ -25,25 +25,34 @@ namespace workspacer.Bar.Widgets
         {
             PowerStatus pwr = SystemInformation.PowerStatus;
             float currentBatteryCharge = pwr.BatteryLifePercent;
+            PowerLineStatus pwrStat = pwr.PowerLineStatus;
+            String ch;
+            if (pwrStat.ToString() == "Online") ch = "Charging";
+            else ch = "Discharging";    
+     
 
             if (HasBatteryWarning)
             {
                 if (currentBatteryCharge <= LowChargeThreshold)
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, fontname: FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, fontname: FontName),
+                        Part(ch, HighChargeColor, fontname: FontName));
                 }
                 else if (currentBatteryCharge <= MedChargeThreshold)
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, fontname: FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, fontname: FontName),
+                        Part(ch, MedChargeColor, fontname: FontName));
                 }
                 else
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, fontname: FontName));
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, fontname: FontName),
+                        Part(ch, HighChargeColor, fontname: FontName));
                 }
             }
             else
             {
-                return Parts(Part(currentBatteryCharge.ToString("#0%"), fontname: FontName));
+                return Parts(Part(currentBatteryCharge.ToString("#0%"), fontname: FontName),
+                        Part(ch, HighChargeColor, fontname: FontName));
             }
         }
 
