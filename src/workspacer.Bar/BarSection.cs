@@ -14,6 +14,7 @@ namespace workspacer.Bar
         private IConfigContext _configContext;
         private string _fontName;
         private int _fontSize;
+        private string _fontStyle;
 
         private Color _defaultFore;
         private Color _defaultBack;
@@ -25,7 +26,7 @@ namespace workspacer.Bar
         private IDictionary<Label, Action> _clickedHandlers;
 
         public BarSection(bool reverse, FlowLayoutPanel panel, IBarWidget[] widgets, IMonitor monitor, IConfigContext context, 
-            Color defaultFore, Color defaultBack, string fontName, int fontSize)
+            Color defaultFore, Color defaultBack, string fontName, int fontSize, string fontStyle)
         {
             _panel = panel;
             _widgets = widgets;
@@ -33,6 +34,7 @@ namespace workspacer.Bar
             _configContext = context;
             _fontName = fontName;
             _fontSize = fontSize;
+            _fontStyle = fontStyle;
             _dirty = true;
             _reverse = reverse;
             _defaultFore = defaultFore;
@@ -87,6 +89,7 @@ namespace workspacer.Bar
             }
         }
 
+        //TODO: check color transparency
         private void SetLabel(Label label, IBarWidgetPart part)
         {
             label.Text = part.Text;
@@ -115,7 +118,7 @@ namespace workspacer.Bar
             }
             if (part.FontName != null)
             {
-                label.Font = CreateFont(part.FontName, _fontSize);
+                label.Font = CreateFont(part.FontName, _fontSize, _fontStyle);
             };
         }
 
@@ -129,9 +132,10 @@ namespace workspacer.Bar
             return System.Drawing.Color.FromArgb(color.R, color.G, color.B);
         }
 
-        private Font CreateFont(string name, float size)
+        private Font CreateFont(string name, float size, string style)
         {
-            return new Font(name, size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            FontStyle fStyle = (FontStyle)Enum.Parse(typeof(FontStyle), style);
+            return new Font(name, size, fStyle, GraphicsUnit.Point, ((byte)(0)));
         }
 
         private Label AddLabel()
@@ -140,7 +144,7 @@ namespace workspacer.Bar
             _panel.Controls.Add(label);
 
             label.AutoSize = true;
-            label.Font = CreateFont(_fontName, _fontSize);
+            label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
             label.Margin = new Padding(0);
             label.Padding = new Padding(0);
 

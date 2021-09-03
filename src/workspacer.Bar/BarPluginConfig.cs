@@ -13,12 +13,13 @@ namespace workspacer.Bar
         public int BarHeight { get; set; } = 30;
         public string FontName { get; set; } = "Consolas";
         public int FontSize { get; set; } = 16;
-
+        public string FontStyle { get; set; } = "Regular";
         public Color DefaultWidgetForeground { get; set; } = Color.White;
         public Color DefaultWidgetBackground { get; set; } = Color.Black;
         public Color Background { get; set; } = Color.Black;
 
         public Boolean Transparent = false;
+        
 
         public Func<IBarWidget[]> LeftWidgets { get; set; } = () => 
             new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() };
