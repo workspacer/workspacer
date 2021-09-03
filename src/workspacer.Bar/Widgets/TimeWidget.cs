@@ -20,7 +20,7 @@ namespace workspacer.Bar.Widgets
             _format = format;
         }
 
-        public TimeWidget() : this(200, "dd.MM.yy hh:mm:ss tt") { }
+        public TimeWidget() : this(200, "dd.MM.yy") { }
 
         public override IBarWidgetPart[] GetParts()
         {
