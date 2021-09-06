@@ -19,6 +19,12 @@ namespace workspacer.Bar.Widgets
 
         private System.Timers.Timer _timer;
         private int Interval { get; set; } = 5000;
+        private string _fontStyle = null;
+
+        public PerformanceMonitor(string style = null)
+        {
+            _fontStyle = style;
+        }
 
         public override IBarWidgetPart[] GetParts()
         {
@@ -31,7 +37,8 @@ namespace workspacer.Bar.Widgets
             dynamic secondRamUsedValue = _ramUsed.NextValue();
             var ramCounter = secondRamUsedValue.ToString("00.00") + "%";
 
-            return Parts(Part("RAM: " + ramCounter, fontname: FontName), Part(cpuCounter, fontname: FontName), Part("CPU: ", fontname: FontName));
+            //return Parts(Part("RAM: " + ramCounter, fontname: FontName), Part(cpuCounter, fontname: FontName), Part("CPU: ", fontname: FontName, fontstyle: _fontStyle));
+            return Parts(Part("RAM: " + ramCounter, fontname: FontName, fontstyle: _fontStyle), Part("CPU: " + cpuCounter, fontname: FontName, fontstyle: _fontStyle));
         }
 
         public override void Initialize()

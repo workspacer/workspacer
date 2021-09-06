@@ -20,6 +20,13 @@ namespace workspacer.Bar.Widgets
         
 
         private System.Timers.Timer _timer;
+        private string _fontStyle = null;
+
+        public BatteryWidget(string style = null)
+        {
+            _fontStyle = style;
+        }
+
 
         public override IBarWidgetPart[] GetParts()
         {
@@ -36,23 +43,23 @@ namespace workspacer.Bar.Widgets
                 if (currentBatteryCharge <= LowChargeThreshold)
                 {
                     return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, fontname: FontName),
-                        Part(ch, HighChargeColor, fontname: FontName));
+                        Part(ch, HighChargeColor, fontname: FontName, fontstyle: _fontStyle));
                 }
                 else if (currentBatteryCharge <= MedChargeThreshold)
                 {
                     return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, fontname: FontName),
-                        Part(ch, MedChargeColor, fontname: FontName));
+                        Part(ch, MedChargeColor, fontname: FontName, fontstyle: _fontStyle));
                 }
                 else
                 {
                     return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, fontname: FontName),
-                        Part(ch, HighChargeColor, fontname: FontName));
+                        Part(ch, HighChargeColor, fontname: FontName, fontstyle: _fontStyle));
                 }
             }
             else
             {
                 return Parts(Part(currentBatteryCharge.ToString("#0%"), fontname: FontName),
-                        Part(ch, HighChargeColor, fontname: FontName));
+                        Part(ch, HighChargeColor, fontname: FontName, fontstyle: _fontStyle));
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace workspacer.Bar
 {
@@ -69,7 +70,7 @@ namespace workspacer.Bar
                         }
                         else
                         {
-                            var label = AddLabel();
+                            var label = AddLabel(part);
                             SetLabel(label, part);
                         }
                         partNumber++;
@@ -118,7 +119,13 @@ namespace workspacer.Bar
             }
             if (part.FontName != null)
             {
-                label.Font = CreateFont(part.FontName, _fontSize, _fontStyle);
+                if(part.FontStyle == null)
+                {
+                    label.Font = CreateFont(part.FontName, _fontSize, _fontStyle);
+                } else
+                {
+                    label.Font = CreateFont(part.FontName, _fontSize, part.FontStyle);
+                }
             };
         }
 
@@ -135,16 +142,26 @@ namespace workspacer.Bar
         private Font CreateFont(string name, float size, string style)
         {
             FontStyle fStyle = (FontStyle)Enum.Parse(typeof(FontStyle), style);
+            Debug.WriteLine("Fontstyle is " + fStyle);
+
+
             return new Font(name, size, fStyle, GraphicsUnit.Point, ((byte)(0)));
         }
 
-        private Label AddLabel()
+        private Label AddLabel(IBarWidgetPart part)
         {
             Label label = new Label();
             _panel.Controls.Add(label);
 
             label.AutoSize = true;
-            label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
+            if (part.FontStyle == null)
+            {
+                label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
+            }
+            else
+            {
+                label.Font = CreateFont(_fontName, _fontSize, part.FontStyle);
+            }
             label.Margin = new Padding(0);
             label.Padding = new Padding(0);
 

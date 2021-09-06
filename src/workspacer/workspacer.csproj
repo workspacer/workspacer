@@ -8,6 +8,7 @@
     <Description>a tiling window manager for Windows</Description>
     <Authors>Rick Button</Authors>
     <Version>0.9.11</Version>
+    <Configurations>Debug;Release;dude</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\workspacer.config.template.csx" />
