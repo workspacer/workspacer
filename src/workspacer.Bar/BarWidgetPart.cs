@@ -16,5 +16,6 @@ namespace workspacer.Bar
         public Action PartClicked { get; set; }
         public string FontName { get; set; }
         public string FontStyle { get; set; }
+
     }
 }

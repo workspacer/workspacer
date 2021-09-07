@@ -62,7 +62,7 @@ namespace workspacer.Bar
                     for (var j = 0; j < parts.Length; j++)
                     {
                         var part = parts[j];
-
+                      
                         if (partNumber < _panel.Controls.Count)
                         {
                             Label label = (Label)_panel.Controls[partNumber];
@@ -101,7 +101,6 @@ namespace workspacer.Bar
             {
                 label.ForeColor = ColorToColor(_defaultFore);
             }
-
             if (part.BackgroundColor != null && part.BackgroundColor != _defaultFore)
             {
                 label.BackColor = ColorToColor(part.BackgroundColor);
@@ -109,7 +108,6 @@ namespace workspacer.Bar
             {
                 label.BackColor = System.Drawing.Color.FromArgb(0, System.Drawing.Color.Black);
             }
-
             if (part.PartClicked != null)
             {
                 _clickedHandlers[label] = part.PartClicked;
@@ -119,14 +117,26 @@ namespace workspacer.Bar
             }
             if (part.FontName != null)
             {
-                if(part.FontStyle == null)
+                if (part.FontStyle == null)
                 {
-                    label.Font = CreateFont(part.FontName, _fontSize, _fontStyle);
-                } else
+                    label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
+                }
+                else
                 {
                     label.Font = CreateFont(part.FontName, _fontSize, part.FontStyle);
                 }
-            };
+            }
+            else
+            {
+                if (part.FontStyle != null)
+                {
+                    label.Font = CreateFont(_fontName, _fontSize, part.FontStyle);
+                }
+                else
+                {
+                    label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
+                }
+            }
         }
 
         public void MarkDirty()
@@ -142,8 +152,6 @@ namespace workspacer.Bar
         private Font CreateFont(string name, float size, string style)
         {
             FontStyle fStyle = (FontStyle)Enum.Parse(typeof(FontStyle), style);
-            Debug.WriteLine("Fontstyle is " + fStyle);
-
 
             return new Font(name, size, fStyle, GraphicsUnit.Point, ((byte)(0)));
         }
@@ -157,10 +165,14 @@ namespace workspacer.Bar
             if (part.FontStyle == null)
             {
                 label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
+                if (label.Text == "Web" || label.Text == "Code") Trace.WriteLine("169" + "style for " + label.Text + " is: " + label.Font.Style);
+
             }
             else
             {
                 label.Font = CreateFont(_fontName, _fontSize, part.FontStyle);
+                if (label.Text == "Web" || label.Text == "Code") Trace.WriteLine("175" + "style for " + label.Text + " is: " + label.Font.Style);
+
             }
             label.Margin = new Padding(0);
             label.Padding = new Padding(0);
@@ -172,6 +184,7 @@ namespace workspacer.Bar
                     _clickedHandlers[label]();
                 }
             };
+            if (label.Text == "Web" || label.Text == "Code") Trace.WriteLine("188" + "style for " + label.Text + " is: " + label.Font.Style);
 
             return label;
         }

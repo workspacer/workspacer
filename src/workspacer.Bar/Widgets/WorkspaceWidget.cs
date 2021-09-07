@@ -6,6 +6,8 @@ namespace workspacer.Bar.Widgets
 {
     public class WorkspaceWidget : BarWidgetBase
     {
+        private static Logger Logger = Logger.Create();
+
         public Color WorkspaceHasFocusColor { get; set; } = Color.Red;
         public Color WorkspaceEmptyColor { get; set; } = Color.Gray;
         public Color WorkspaceIndicatingBackColor { get; set; } = Color.Teal;
@@ -13,6 +15,9 @@ namespace workspacer.Bar.Widgets
 
         private Timer _blinkTimer;
         private ConcurrentDictionary<IWorkspace, bool> _blinkingWorkspaces;
+
+        public IWorkspace FocusedWorkspace => Context.WorkspaceContainer
+       .GetWorkspaceForMonitor(Context.MonitorContainer.FocusedMonitor);
 
         public override void Initialize()
         {
@@ -33,9 +38,12 @@ namespace workspacer.Bar.Widgets
             int index = 0;
             foreach (var workspace in workspaces)
             {
+
                 parts.Add(CreatePart(workspace, index));
+                
                 index++;
             }
+
             return parts.ToArray();
         }
 
@@ -64,11 +72,12 @@ namespace workspacer.Bar.Widgets
         {
             var backColor = WorkspaceIsIndicating(workspace) ? WorkspaceIndicatingBackColor : null;
 
+
             return Part(GetDisplayName(workspace, index), GetDisplayColor(workspace, index), backColor, () =>
             {
                 Context.Workspaces.SwitchMonitorToWorkspace(Context.Monitor.Index, index);
             },
-            FontName);
+            FontName, fontstyle: GetDisplayStyle(workspace, index));
         }
 
         private void UpdateWorkspaces()
@@ -94,6 +103,12 @@ namespace workspacer.Bar.Widgets
 
             var hasWindows = workspace.ManagedWindows.Count != 0;
             return hasWindows ? null : WorkspaceEmptyColor;
+        }
+
+         protected virtual string GetDisplayStyle(IWorkspace workspace, int index)
+        {
+            return (workspace == FocusedWorkspace) ? "Bold" : null;
+            
         }
 
         private void BlinkIndicatingWorkspaces()

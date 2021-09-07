@@ -66,6 +66,8 @@ namespace workspacer
         public static readonly Color Navy =      new Color(0x00, 0x00, 0x80);
         public static readonly Color Fuchsia =   new Color(0xFF, 0x00, 0xFF);
         public static readonly Color Purple =    new Color(0x80, 0x00, 0x80);
+        public static readonly Color Orange =    new Color(0xFC, 0x9B, 0x00);
+
 
         public bool Equals(Color other)
         {

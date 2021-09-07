@@ -1,9 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
 
 namespace workspacer.Bar.Widgets
@@ -11,7 +6,7 @@ namespace workspacer.Bar.Widgets
     public class BatteryWidget : BarWidgetBase
     {
         public Color LowChargeColor { get; set; } = Color.Red;
-        public Color MedChargeColor { get; set; } = Color.Yellow;
+        public Color MedChargeColor { get; set; } = Color.Orange;
         public Color HighChargeColor { get; set; } = Color.Green;
         public bool HasBatteryWarning { get; set; } = true;
         public double LowChargeThreshold { get; set; } = 0.10;
@@ -42,23 +37,23 @@ namespace workspacer.Bar.Widgets
             {
                 if (currentBatteryCharge <= LowChargeThreshold)
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, fontname: FontName),
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), LowChargeColor, fontname: FontName, fontstyle: _fontStyle),
                         Part(ch, HighChargeColor, fontname: FontName, fontstyle: _fontStyle));
                 }
                 else if (currentBatteryCharge <= MedChargeThreshold)
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, fontname: FontName),
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), MedChargeColor, fontname: FontName, fontstyle: _fontStyle),
                         Part(ch, MedChargeColor, fontname: FontName, fontstyle: _fontStyle));
                 }
                 else
                 {
-                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, fontname: FontName),
+                    return Parts(Part(currentBatteryCharge.ToString("#0%"), HighChargeColor, fontname: FontName, fontstyle: _fontStyle),
                         Part(ch, HighChargeColor, fontname: FontName, fontstyle: _fontStyle));
                 }
             }
             else
             {
-                return Parts(Part(currentBatteryCharge.ToString("#0%"), fontname: FontName),
+                return Parts(Part(currentBatteryCharge.ToString("#0%"), fontname: FontName, fontstyle: _fontStyle),
                         Part(ch, HighChargeColor, fontname: FontName, fontstyle: _fontStyle));
             }
         }
