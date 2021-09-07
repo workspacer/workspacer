@@ -120,19 +120,16 @@ namespace workspacer.Bar
                 if (part.FontStyle == null)
                 {
                     label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
-                }
-                else
+                } else
                 {
                     label.Font = CreateFont(part.FontName, _fontSize, part.FontStyle);
                 }
-            }
-            else
+            } else
             {
                 if (part.FontStyle != null)
                 {
                     label.Font = CreateFont(_fontName, _fontSize, part.FontStyle);
-                }
-                else
+                } else
                 {
                     label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
                 }
@@ -152,7 +149,6 @@ namespace workspacer.Bar
         private Font CreateFont(string name, float size, string style)
         {
             FontStyle fStyle = (FontStyle)Enum.Parse(typeof(FontStyle), style);
-
             return new Font(name, size, fStyle, GraphicsUnit.Point, ((byte)(0)));
         }
 
@@ -165,14 +161,10 @@ namespace workspacer.Bar
             if (part.FontStyle == null)
             {
                 label.Font = CreateFont(_fontName, _fontSize, _fontStyle);
-                if (label.Text == "Web" || label.Text == "Code") Trace.WriteLine("169" + "style for " + label.Text + " is: " + label.Font.Style);
-
             }
             else
             {
                 label.Font = CreateFont(_fontName, _fontSize, part.FontStyle);
-                if (label.Text == "Web" || label.Text == "Code") Trace.WriteLine("175" + "style for " + label.Text + " is: " + label.Font.Style);
-
             }
             label.Margin = new Padding(0);
             label.Padding = new Padding(0);
@@ -184,8 +176,6 @@ namespace workspacer.Bar
                     _clickedHandlers[label]();
                 }
             };
-            if (label.Text == "Web" || label.Text == "Code") Trace.WriteLine("188" + "style for " + label.Text + " is: " + label.Font.Style);
-
             return label;
         }
 

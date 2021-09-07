@@ -37,7 +37,6 @@ namespace workspacer.Bar.Widgets
             dynamic secondRamUsedValue = _ramUsed.NextValue();
             var ramCounter = secondRamUsedValue.ToString("00.00") + "%";
 
-            //return Parts(Part("RAM: " + ramCounter, fontname: FontName), Part(cpuCounter, fontname: FontName), Part("CPU: ", fontname: FontName, fontstyle: _fontStyle));
             return Parts(Part("RAM: " + ramCounter, fontname: FontName, fontstyle: _fontStyle), Part("CPU: " + cpuCounter, fontname: FontName, fontstyle: _fontStyle));
         }
 
