@@ -109,7 +109,7 @@ namespace workspacer
             var match = _context.Plugins.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
             if (match != null)
             {
-                return Assembly.LoadFile(match.Location);
+                return Assembly.LoadFrom(match.Location);
             }
             return null;
         }
