@@ -20,6 +20,10 @@ namespace workspacer.Sound
         {
             _clientInstance = new SoundClient(_config, context);
 
+            context.Keybinds.Subscribe(KeyModifiers.None, Keys.VolumeUp, VolumeStepUp);
+            context.Keybinds.Subscribe(KeyModifiers.None, Keys.VolumeDown, VolumeStepDown);
+            context.Keybinds.Subscribe(KeyModifiers.None, Keys.VolumeMute, ToggleMute);
+
             _clientInstance.VolumeChanged += VolumeChangedEvent;
             _clientInstance.MuteChanged += MuteChangedEvent;
         }
@@ -50,19 +54,25 @@ namespace workspacer.Sound
             return _clientInstance.SetVolumeScalar(value);
         }
 
-        public int? VolumeStepUp()
+        public void VolumeStepUp()
         {
-            return _clientInstance?.VolumeStepUp();
+            _clientInstance?.VolumeStepUp();
         }
 
-        public int? VolumeStepDown()
+        public void VolumeStepDown()
         {
-            return _clientInstance?.VolumeStepDown();
+            _clientInstance?.VolumeStepDown();
         }
 
-        public int SetMutedState(bool muted)
+        public void ToggleMute()
         {
-            return _clientInstance.SetMutedState(muted);
+            var isMuted = _clientInstance.GetMuted();
+            if (!isMuted.HasValue)
+            {
+                return;
+            }
+
+            _clientInstance.SetMutedState(!isMuted.Value);
         }
     }
 }

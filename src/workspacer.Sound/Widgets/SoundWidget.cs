@@ -60,11 +60,6 @@ namespace workspacer.Sound.Widgets
             return Part($"{volume}%", RenderMultiColor ? GetVolumeColor(volume) : PrimaryColor);
         }
 
-        private IBarWidgetPart[] RenderBarGraph()
-        {
-            return Part("", RenderMultiColor ? GetVolumeColor(0) : PrimaryColor);
-        }
-
         private Color GetVolumeColor(int volume)
         {
             var color = Color.White;

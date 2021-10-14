@@ -31,7 +31,11 @@ namespace workspacer.Sound
             _mmDeviceEnumerator.RegisterEndpointNotificationCallback(this);
 
             GetDefaultDevice();
+            ForceRefresh();
+        }
 
+        public void ForceRefresh()
+        {
             CheckVolumeState();
             CheckMuteState();
         }
@@ -149,7 +153,7 @@ namespace workspacer.Sound
             }
         }
 
-        private bool? GetMuted()
+        public bool? GetMuted()
         {
             if (_defaultDeviceAudioEndpointVolume == null)
             {
@@ -161,7 +165,7 @@ namespace workspacer.Sound
             return isMuted;
         }
 
-        private float? GetVolume()
+        public float? GetVolume()
         {
             if(_defaultDeviceAudioEndpointVolume == null)
             {

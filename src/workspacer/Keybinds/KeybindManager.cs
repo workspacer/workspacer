@@ -136,7 +136,7 @@ You can either change your custom hotkey or reassign the default hotkey";
                     key != Keys.LControlKey && key != Keys.RControlKey &&
                     key != Keys.LWin && key != Keys.RWin)
                 {
-                    KeyModifiers modifiersPressed = 0;
+                    var modifiersPressed = KeyModifiers.None;
                     // there is no other way to distinguish between left and right modifier keys
                     if ((Win32.GetKeyState(KeysToKeys(Keys.LShiftKey)) & 0x8000) == 0x8000)
                     {
@@ -194,15 +194,13 @@ You can either change your custom hotkey or reassign the default hotkey";
 
         private bool DoKeyboardEvent(Keys key, KeyModifiers modifiersPressed)
         {
-            if (modifiersPressed != KeyModifiers.None)
+            var sub = new Sub(modifiersPressed, key);
+            if (_kbdSubs.ContainsKey(sub))
             {
-                var sub = new Sub(modifiersPressed, key);
-                if (_kbdSubs.ContainsKey(sub))
-                {
-                    _kbdSubs[sub]?.Binding.Invoke();
-                    return true;
-                }
+                _kbdSubs[sub]?.Binding.Invoke();
+                return true;
             }
+
             return false;
         }
 
