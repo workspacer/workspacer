@@ -27,6 +27,7 @@
     <ProjectReference Include="..\workspacer.Gap\workspacer.Gap.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\workspacer.ActionMenu\workspacer.ActionMenu.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\workspacer.FocusIndicator\workspacer.FocusIndicator.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\workspacer.Sound\workspacer.Sound.csproj" />
     <ProjectReference Include="..\workspacer.Titlebar\workspacer.Titlebar.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\workspacer.Watcher\workspacer.Watcher.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>

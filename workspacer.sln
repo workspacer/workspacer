@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.TitleBar", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.TitleBar.Tests", "src\workspacer.TitleBar.Tests\workspacer.TitleBar.Tests.csproj", "{E4E357BA-0154-4266-A816-B765208E810D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.Sound", "src\workspacer.Sound\workspacer.Sound.csproj", "{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +203,18 @@ Global
 		{E4E357BA-0154-4266-A816-B765208E810D}.Release|x64.Build.0 = Release|Any CPU
 		{E4E357BA-0154-4266-A816-B765208E810D}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4E357BA-0154-4266-A816-B765208E810D}.Release|x86.Build.0 = Release|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Debug|x64.Build.0 = Debug|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Debug|x86.Build.0 = Debug|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Release|x64.ActiveCfg = Release|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Release|x64.Build.0 = Release|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Release|x86.ActiveCfg = Release|Any CPU
+		{80D9E2E0-5A4F-4DD1-AB21-7535DF162A75}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
