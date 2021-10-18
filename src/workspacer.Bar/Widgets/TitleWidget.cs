@@ -121,7 +121,7 @@ namespace workspacer.Bar.Widgets
                 return Parts(Part(NoWindowMessage, null, fontname: FontName));
             }
 
-            return windows.Select(w => CreateTitlePart(w, WindowHasFocusColor, FontName, IsShortTitle, MaxTitleLength)).ToArray();
+            return windows.Select(w => CreateTitlePart(w, WindowHasFocusColor, FontName, IsShortTitle, MaxTitleLength, TitlePartClicked)).ToArray();
         }
 
         private IBarWidgetPart CreateTitlePart(IWindow window, Color windowHasFocusColor, string fontName, bool isShortTitle = false, int? maxTitleLength = null, Func<IWindow, Action> clickAction = null)
