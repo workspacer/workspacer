@@ -4,28 +4,25 @@ namespace workspacer.Sound
 {
     public class SoundPlugin : IPlugin
     {
-        private IConfigContext _context;
-        private SoundPluginConfig _config;
-        private SoundClient _clientInstance;
+        private static SoundClient _clientInstance = new SoundClient();
 
+        private readonly SoundPluginConfig _config;
         private static List<ISoundEventCallback> _callbacks = new List<ISoundEventCallback>();
 
         public SoundPlugin() : this(new SoundPluginConfig()) { }
         public SoundPlugin(SoundPluginConfig config)
         {
+            _clientInstance.VolumeChanged += VolumeChangedEvent;
+            _clientInstance.MuteChanged += MuteChangedEvent;
+
             _config = config;
         }
 
         public void AfterConfig(IConfigContext context)
         {
-            _clientInstance = new SoundClient(_config, context);
-
             context.Keybinds.Subscribe(KeyModifiers.None, Keys.VolumeUp, VolumeStepUp);
             context.Keybinds.Subscribe(KeyModifiers.None, Keys.VolumeDown, VolumeStepDown);
             context.Keybinds.Subscribe(KeyModifiers.None, Keys.VolumeMute, ToggleMute);
-
-            _clientInstance.VolumeChanged += VolumeChangedEvent;
-            _clientInstance.MuteChanged += MuteChangedEvent;
         }
 
         private void VolumeChangedEvent(float val)
@@ -47,6 +44,7 @@ namespace workspacer.Sound
         public static void Subscribe(ISoundEventCallback callback)
         {
             _callbacks.Add(callback);
+            _clientInstance.ForceRefresh();
         }
 
         public int SetVolumeScalar(float value)

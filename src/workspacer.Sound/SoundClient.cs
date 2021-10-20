@@ -20,12 +20,12 @@ namespace workspacer.Sound
         public event MuteChangedDelegate MuteChanged;
         public event DeviceChangedDelegate DeviceChanged;
 
-        public SoundClient(SoundPluginConfig config, IConfigContext context)
+        public SoundClient()
         {
             _mmDeviceEnumerator = Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(ComCLSIDs.MMDeviceEnumeratorCLSID))) as IMMDeviceEnumerator;
             if (_mmDeviceEnumerator == null)
             {
-                context.QuitWithException(new Exception("Creating device enumerator failed"));
+                throw new Exception("Creating device enumerator failed");
             }
 
             _mmDeviceEnumerator.RegisterEndpointNotificationCallback(this);
@@ -74,6 +74,7 @@ namespace workspacer.Sound
             if (dataFlow == EDataFlow.eRender && deviceRole == ERole.eMultimedia)
             {
                 GetDefaultDevice(defaultDeviceId);
+                ForceRefresh();
             }
         }
 

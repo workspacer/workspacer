@@ -13,20 +13,21 @@ namespace workspacer.Sound.Widgets
 
         public override IBarWidgetPart[] GetParts()
         {
+            if (_isMuted)
+            {
+                return Parts(Part("/", PrimaryColor));
+            }
+
             return new IBarWidgetPart[]
             {
-                RenderIcon(),
-                RenderPercentage()
+                RenderPercentage(),
+                RenderIcon()
             };
         }
 
         private IBarWidgetPart RenderIcon()
         {
             var volume = _volume;
-            if (_isMuted)
-            {
-                return Part("/", PrimaryColor);
-            }
 
             var icon = $"1F568";
             if (volume > 20)
@@ -52,11 +53,6 @@ namespace workspacer.Sound.Widgets
         private IBarWidgetPart RenderPercentage()
         {
             var volume = _volume;
-            if (_isMuted)
-            {
-                return Part("/", PrimaryColor);
-            }
-
             return Part($"{volume}%", RenderMultiColor ? GetVolumeColor(volume) : PrimaryColor);
         }
 
