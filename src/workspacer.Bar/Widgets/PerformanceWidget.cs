@@ -1,25 +1,25 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 namespace workspacer.Bar.Widgets
 {
-
-    public abstract class PerformanceWidget : BarWidgetBase
+    public abstract class PerformanceWidgetBase : BarWidgetBase
     {
         public int Interval { get; set; } = 1000;
-        public virtual string Icon { get { return string.Empty; } }
-        public virtual string CounterCategory { get { return string.Empty; } }
-        public virtual string CounterName { get { return string.Empty; } }
-        public virtual string CounterInstance { get { return string.Empty; } }
-        public virtual bool? CounterReadOnly { get { return true; } }
+        protected virtual string Icon { get { return string.Empty; } }
+        protected virtual string CounterCategory { get { return string.Empty; } }
+        protected virtual string CounterName { get { return string.Empty; } }
+        protected virtual string CounterInstance { get { return string.Empty; } }
+        protected virtual bool? CounterReadOnly { get { return true; } }
+        protected virtual Action ClickAction { get; }
 
         private Timer _timer;
         private PerformanceCounter _counter;
-
-        public PerformanceWidget(int interval)
+        public override void Initialize()
         {
-            Interval = interval;
             InitializeCounter();
         }
 
@@ -48,9 +48,16 @@ namespace workspacer.Bar.Widgets
             }
 
             _counter.BeginInit();
+            _timer = new Timer((state) => Context.MarkDirty(), null, 0, Interval);
         }
 
         public override IBarWidgetPart[] GetParts()
+        {
+            var icon = GetIconOrEmpty();
+            return Parts(Part($"{GetText(_counter.NextValue())}{icon}", null, null, ClickAction));
+        }
+
+        private string GetIconOrEmpty()
         {
             var icon = string.Empty;
 
@@ -62,82 +69,95 @@ namespace workspacer.Bar.Widgets
             {
             }
 
-            return Parts(Part($"{GetText(_counter.NextValue())}{(string.IsNullOrEmpty(icon) ? string.Empty : $" {icon}")}"));
+            return icon;
         }
 
         protected abstract string GetText(float value);
-
-        public override void Initialize()
-        {
-            _timer = new Timer((state) => Context.MarkDirty(), null, 0, Interval);
-        }
     }
 
-    public class CpuPerformanceWidget : PerformanceWidget
+    public class CpuPerformanceWidget : PerformanceWidgetBase
     {
-        private const string PROCESSOR_COUNTER_CATEGORY = "Processor";
-        private const string PROCESSOR_COUNTER_TYPE = "% Processor Time";
-        private const string PROCESSOR_COUNTER_INSTANCE = "_Total";
-        private const string ICON = "2699";
+        protected override string CounterCategory => "Processor";
+        protected override string CounterName => "% Processor Time";
+        protected override string CounterInstance => GetCoreName();
+        protected override string Icon => "2699";
+        protected override Action ClickAction => () => Process.Start("taskmgr.exe");
 
-        public CpuPerformanceWidget(int interval) : base(interval)
+        public int? ProcessorCore { get; set; } = null;
+
+        private string GetCoreName()
         {
+            return ProcessorCore?.ToString() ?? "_Total";
         }
-
-        public override string CounterCategory => PROCESSOR_COUNTER_CATEGORY;
-
-        public override string CounterName => PROCESSOR_COUNTER_TYPE;
-
-        public override string CounterInstance => PROCESSOR_COUNTER_INSTANCE;
-        public override string Icon => ICON;
 
         protected override string GetText(float value)
         {
-            return Convert.ToInt32(value).ToString();
+            return Convert.ToInt16(value).ToString().PadLeft(3);
         }
     }
 
-    public class MemoryPerformanceWidget : PerformanceWidget
+    public class MemoryPerformanceWidget : PerformanceWidgetBase
     {
-        private const string MEMORY_COUNTER_CATEGORY = "Memory";
-        private const string MEMORY_COUNTER_TYPE = "Available MBytes";
-        private const string ICON = "1F5CA";
-
-        public MemoryPerformanceWidget(int interval) : base(interval)
-        {
-        }
-
-        public override string CounterCategory => MEMORY_COUNTER_CATEGORY;
-
-        public override string CounterName => MEMORY_COUNTER_TYPE;
-
-        public override string Icon => ICON;
+        protected override string CounterCategory => "Memory";
+        protected override string CounterName => "Available Bytes";
+        protected override string Icon => "1F5CF";
+        protected override Action ClickAction => () => Process.Start("taskmgr.exe");
 
         protected override string GetText(float value)
         {
-            return Convert.ToInt32(value).ToString();
+            var totalMemory = new ComputerInfo().TotalPhysicalMemory / (1024 * 1024);
+            return Convert.ToInt32((1 - value / totalMemory) * 100).ToString().PadLeft(4);
         }
     }
 
-    public class NetworkPerformanceWidget : PerformanceWidget
+    public class NetworkPerformanceWidget : PerformanceWidgetBase
     {
-        private const string NETWORK_COUNTER_CATEGORY = "Network";
-        private const string NETWORK_COUNTER_TYPE = "Bytes Total/sec";
-        private const string ICON = "1F5A7";
+        protected override string CounterCategory => "Network Interface";
+        protected override string CounterName => "Bytes Total/sec";
+        protected override string CounterInstance => _interfaceName;
+        protected override string Icon => "1F5A7";
+        protected override Action ClickAction => () => Process.Start("explorer.exe", @"shell:::{26EE0668-A00A-44D7-9371-BEB064C98683}\3");
 
-        public NetworkPerformanceWidget(int interval) : base(interval)
+        private string _interfaceName;
+        public NetworkPerformanceWidget(string interfaceName = null) : base()
         {
+            _interfaceName = interfaceName;
+
+            var category = new PerformanceCounterCategory(CounterCategory);
+            var interfaces = category.GetInstanceNames();
+            if (!interfaces.Contains(interfaceName))
+            {
+                _interfaceName = interfaces.First();
+            }
         }
-
-        public override string CounterCategory => NETWORK_COUNTER_CATEGORY;
-
-        public override string CounterName => NETWORK_COUNTER_TYPE;
-
-        public override string Icon => ICON;
 
         protected override string GetText(float value)
         {
-            return Convert.ToInt32(value).ToString();
+            var amount = value;
+            var stack = 0;
+            while (Convert.ToInt32(amount).ToString().Length > 3)
+            {
+                amount = amount / 1000;
+                stack++;
+            }
+
+            var size = "B ";
+            switch (stack)
+            {
+                case 1:
+                    size = "KB";
+                    break;
+                case 2:
+                    size = "MB";
+                    break;
+                case 3:
+                    size = "GB";
+                    break;
+                default:
+                    break;
+            }
+
+            return $"{Convert.ToInt32(amount), 4}{size}";
         }
     }
 }
