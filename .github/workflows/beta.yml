@@ -1,0 +1,55 @@
+name: beta
+
+on:
+  push:
+    tags:
+      - "beta"
+
+jobs:
+  build-and-prerelease:
+    runs-on: windows-latest
+
+    steps:
+    # Build
+    - uses: actions/checkout@v2
+    - name: Get version
+      # NOTE: github.run_number increments for each run of the workflow. Therefore, you can have v0.9.11-beta.1 followed by v0.9.12-beta.2
+      run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version)-beta.${{ github.run_number }}" >> $env:GITHUB_ENV
+    - name: Restore solution
+      run: dotnet restore
+    - name: Build project
+      run: dotnet publish /p:DefineConstants=BRANCH_beta --configuration Release --no-restore
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Build
+        path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\
+    - name: Build installer
+      run: |
+        $env:PATH += ";${env:WIX}bin" # Add to PATH
+        .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\ -version $env:VERSION
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Setup
+        path: .\out\workspacer-${{ env.VERSION }}.msi
+    
+    # Release
+    - name: Zip build output
+      run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-$env:VERSION.zip"
+    - name: Delete temp beta tag
+      uses: dev-drprasad/delete-tag-and-release@v0.2.0
+      with:
+       delete_release: true
+       tag_name: beta
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Prerelease
+      uses: softprops/action-gh-release@v1
+      with:
+        name: workspacer ${{ env.VERSION }}
+        tag_name: v${{ env.VERSION }}
+        prerelease: true
+        files: |
+          ./out/workspacer-${{ env.VERSION }}.zip
+          ./out/workspacer-${{ env.VERSION }}.msi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
