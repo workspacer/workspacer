@@ -37,9 +37,9 @@ context.WorkspaceContainer.CreateWorkspace("layouts!", new FullLayoutEngine(), n
 
 ### Existing Layout Engines
 
-- [`FullLayoutEngine`](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
+- [`FullLayoutEngine`](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/FullLayoutEngine.cs)
   - Maximizes the current focused window and hides all others.
-- [`TallLayoutEngine`](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/PaneLayoutEngine.cs)
+- [`TallLayoutEngine`](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/TallLayoutEngine.cs)
   - Splits the screen in two horizontal zones, a primary and a secondary one.
   - Windows get created in the secondary zone by default.
   - The number of windows in the primary zone can be dynamically adjusted.
