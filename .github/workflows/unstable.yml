@@ -34,7 +34,7 @@ jobs:
     - name: Zip build output
       run: Compress-Archive -Path .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-latest-unstable.zip"
     - name: Delete existing unstable tag and release
-      uses: dev-drprasad/delete-tag-and-release@v0.1.2
+      uses: dev-drprasad/delete-tag-and-release@v0.2.0
       with:
        delete_release: true
        tag_name: unstable
