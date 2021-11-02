@@ -1,4 +1,4 @@
-# workspacer ![stable](https://github.com/rickbutton/workspacer/workflows/stable/badge.svg) ![unstable](https://github.com/rickbutton/workspacer/workflows/unstable/badge.svg)
+# workspacer ![stable](https://github.com/workspacer/workspacer/workflows/stable/badge.svg) ![unstable](https://github.com/workspacer/workspacer/workflows/unstable/badge.svg)
 
 ### a tiling window manager for Windows 10
 
@@ -7,6 +7,10 @@ workspacer is a tiling window manager for Windows 10, similar in style and funct
 # installation
 
 [check out the quick start guide](https://www.workspacer.org/quickstart)
+
+# customization
+
+[check out the wiki](https://github.com/workspacer/workspacer/wiki/Customization)
 
 # contributing
 

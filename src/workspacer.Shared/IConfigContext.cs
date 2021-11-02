@@ -25,6 +25,7 @@ namespace workspacer
         IWindowRouter WindowRouter { get; set; }
 
         IMonitorContainer MonitorContainer { get; set; }
+        bool CanMinimizeWindows { get; set; }
 
         /// <summary>
         /// the default layout Func is used to generate layouts for workspaces that do not
