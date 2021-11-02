@@ -11,17 +11,19 @@ namespace workspacer
         private readonly int _numInPrimary;
         private readonly double _primaryPercent;
         private readonly double _primaryPercentIncrement;
+        private readonly bool _leftToRight;
 
         private int _numInPrimaryOffset = 0;
         private double _primaryPercentOffset = 0;
 
-        public TallLayoutEngine() : this(1, 0.5, 0.03) { }
+        public TallLayoutEngine(bool reversed = false) : this(1, 0.5, 0.03, reversed) { }
 
-        public TallLayoutEngine(int numInPrimary, double primaryPercent, double primaryPercentIncrement)
+        public TallLayoutEngine(int numInPrimary, double primaryPercent, double primaryPercentIncrement, bool reversed)
         {
             _numInPrimary = numInPrimary;
             _primaryPercent = primaryPercent;
             _primaryPercentIncrement = primaryPercentIncrement;
+            _leftToRight = !reversed;
         }
 
         public string Name => "tall";
@@ -54,11 +56,11 @@ namespace workspacer
             {
                 if (i < numInPrimary)
                 {
-                    list.Add(new WindowLocation(0, i * primaryHeight, primaryWidth, primaryHeight, WindowState.Normal));
+                    list.Add(new WindowLocation(CalcXPos(0, primaryWidth, spaceWidth), i * primaryHeight, primaryWidth, primaryHeight, WindowState.Normal));
                 }
                 else
                 {
-                    list.Add(new WindowLocation(primaryWidth, (i - numInPrimary) * height, secondaryWidth, height, WindowState.Normal));
+                    list.Add(new WindowLocation(CalcXPos(primaryWidth, secondaryWidth, spaceWidth), (i - numInPrimary) * height, secondaryWidth, height, WindowState.Normal));
                 }
             }
             return list;
@@ -95,6 +97,11 @@ namespace workspacer
         private int GetNumInPrimary()
         {
             return _numInPrimary + _numInPrimaryOffset;
+        }
+
+        private int CalcXPos(int x, int windowsWidth, int spaceWidth)
+        {
+            return _leftToRight ? x : spaceWidth - x - windowsWidth;
         }
     }
 }
