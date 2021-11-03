@@ -105,8 +105,8 @@ namespace workspacer.Bar.Widgets
 
         protected override string GetText(float value)
         {
-            var totalMemory = new ComputerInfo().TotalPhysicalMemory / (1024 * 1024);
-            return Convert.ToInt32((1 - value / totalMemory) * 100).ToString().PadLeft(4);
+            var totalMemory = new ComputerInfo().TotalPhysicalMemory;
+            return Convert.ToInt32((1 - value / totalMemory) * 100).ToString().PadLeft(3);
         }
     }
 
@@ -137,7 +137,7 @@ namespace workspacer.Bar.Widgets
             var stack = 0;
             while (Convert.ToInt32(amount).ToString().Length > 3)
             {
-                amount = amount / 1000;
+                amount /= 1000;
                 stack++;
             }
 
@@ -157,7 +157,7 @@ namespace workspacer.Bar.Widgets
                     break;
             }
 
-            return $"{Convert.ToInt32(amount), 4}{size}";
+            return $"{Convert.ToInt32(amount),3}{size}";
         }
     }
 }
