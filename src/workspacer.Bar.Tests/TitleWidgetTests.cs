@@ -16,7 +16,7 @@ namespace workspacer.Bar.Tests
         [Fact]
         public void GetShortTitle_SplitEmDash()
         {
-            var s = "workspacer — Visual Studio Code";
+            var s = "workspacer â€” Visual Studio Code";
             Assert.Equal("Visual Studio Code", TitleWidget.GetShortTitle(s));
         }
 
@@ -59,7 +59,7 @@ namespace workspacer.Bar.Tests
         public void GetTrimmedTitle_InputLessThenMax()
         {
             var s = "Visual Studio Code";
-            Assert.Equal("Visual Studio Code", TitleWidget.GetTrimmedTitle(s,50));
+            Assert.Equal("Visual Studio Code", TitleWidget.GetTrimmedTitle(s, 50));
         }
 
         [Fact]
