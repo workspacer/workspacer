@@ -10,11 +10,12 @@ namespace workspacer.Bar.Widgets
         public Color WindowHasFocusColor { get; set; } = Color.Yellow;
         public bool IsShortTitle { get; set; } = false;
         public int? MaxTitleLength { get; set; } = null;
-        public bool MultiWindowTitles { get; set; } = false;
+        public bool ShowAllWindowTitles { get; set; } = false;
         public string TitlePreamble { get; set; } = null;
         public string TitlePostamble { get; set; } = null;
         public string NoWindowMessage { get; set; } = "No Windows";
         public Func<IWindow, Action> TitlePartClicked = ClickAction;
+        public Func<IWindow, object> OrderWindowsBy = (window) => { return $"{window.IsFocused}{window.Title}"; };
         #endregion
 
         public override void Initialize()
@@ -26,32 +27,10 @@ namespace workspacer.Bar.Widgets
         }
 
         #region Get Windows
-        private IEnumerable<IWindow> GetWindows(bool filterOnTitleFilled = false)
+        private IEnumerable<IWindow> GetWindows(bool filterOnTitleFilled = true)
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
-
-            var allWindows = currentWorkspace.ManagedWindows;
-            if (allWindows.Count == 1)
-            {
-                return allWindows.ToArray();
-            }
-
-            if (currentWorkspace.FocusedWindow != null && allWindows.Contains(currentWorkspace.FocusedWindow))
-            {
-                //Move to top
-                allWindows.Remove(currentWorkspace.FocusedWindow);
-                allWindows.Insert(0, currentWorkspace.FocusedWindow);
-            }
-
-            if (currentWorkspace.LastFocusedWindow != null && allWindows.Contains(currentWorkspace.LastFocusedWindow) &&
-                currentWorkspace.FocusedWindow != currentWorkspace.LastFocusedWindow)
-            {
-                //Move to second place
-                allWindows.Remove(currentWorkspace.LastFocusedWindow);
-                allWindows.Insert(1, currentWorkspace.LastFocusedWindow);
-            }
-
-            return allWindows.Where(window => !filterOnTitleFilled || !string.IsNullOrEmpty(window.Title)).ToArray();
+            return currentWorkspace.ManagedWindows.Where(window => !filterOnTitleFilled || !string.IsNullOrEmpty(window.Title));
         }
 
         private IWindow GetWindow()
@@ -68,7 +47,7 @@ namespace workspacer.Bar.Widgets
         private void RefreshRemove(IWindow window, IWorkspace workspace)
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
-            if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && !GetWindows(true).Contains(window))
+            if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && !GetWindows().Contains(window))
             {
                 Context.MarkDirty();
             }
@@ -77,7 +56,7 @@ namespace workspacer.Bar.Widgets
         private void RefreshAdd(IWindow window, IWorkspace workspace)
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
-            if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && GetWindows(true).Contains(window))
+            if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && GetWindows().Contains(window))
             {
                 Context.MarkDirty();
             }
@@ -86,7 +65,7 @@ namespace workspacer.Bar.Widgets
         private void RefreshUpdated(IWindow window, IWorkspace workspace)
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
-            if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && GetWindows(true).Contains(window))
+            if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && GetWindows().Contains(window))
             {
                 Context.MarkDirty();
             }
@@ -106,6 +85,7 @@ namespace workspacer.Bar.Widgets
                     return;
                 }
 
+                window.ShowInCurrentState();
                 window.BringToTop();
                 window.Focus();
             });
@@ -115,13 +95,13 @@ namespace workspacer.Bar.Widgets
         #region Title Generation
         public override IBarWidgetPart[] GetParts()
         {
-            var windows = MultiWindowTitles ? GetWindows(true) : new[] { GetWindow() };
+            var windows = ShowAllWindowTitles ? GetWindows() : new[] { GetWindow() };
             if (windows == null || !windows.Any())
             {
                 return Parts(Part(NoWindowMessage, null, fontname: FontName));
             }
 
-            return windows.Select(w => CreateTitlePart(w, WindowHasFocusColor, FontName, IsShortTitle, MaxTitleLength, TitlePartClicked)).ToArray();
+            return windows.OrderByDescending(OrderWindowsBy).Select(w => CreateTitlePart(w, WindowHasFocusColor, FontName, IsShortTitle, MaxTitleLength, TitlePartClicked)).ToArray();
         }
 
         private IBarWidgetPart CreateTitlePart(IWindow window, Color windowHasFocusColor, string fontName, bool isShortTitle = false, int? maxTitleLength = null, Func<IWindow, Action> clickAction = null)
