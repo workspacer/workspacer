@@ -9,15 +9,16 @@ namespace workspacer.Bar.Widgets
     public abstract class PerformanceWidgetBase : BarWidgetBase
     {
         public int Interval { get; set; } = 1000;
-        protected virtual string Icon { get { return string.Empty; } }
         protected virtual string CounterCategory { get { return string.Empty; } }
         protected virtual string CounterName { get { return string.Empty; } }
         protected virtual string CounterInstance { get { return string.Empty; } }
         protected virtual bool? CounterReadOnly { get { return true; } }
-        protected virtual Action ClickAction { get; }
+        public virtual string StringFormat { get; set; } = "{0}";
+        public virtual Action ClickAction { get; set; }
 
         private Timer _timer;
         private PerformanceCounter _counter;
+
         public override void Initialize()
         {
             InitializeCounter();
@@ -53,17 +54,17 @@ namespace workspacer.Bar.Widgets
 
         public override IBarWidgetPart[] GetParts()
         {
-            var icon = GetIconOrEmpty();
-            return Parts(Part($"{GetText(_counter.NextValue())}{icon}", null, null, ClickAction));
+            var text = GetText(_counter.NextValue());
+            return Parts(Part(string.Format(StringFormat, text), null, null, ClickAction));
         }
 
-        private string GetIconOrEmpty()
+        protected static string ConvertUnicodeToChar(string iconCode)
         {
             var icon = string.Empty;
 
             try
             {
-                icon = char.ConvertFromUtf32(int.Parse(Icon, System.Globalization.NumberStyles.HexNumber));
+                icon = char.ConvertFromUtf32(int.Parse(iconCode, System.Globalization.NumberStyles.HexNumber));
             }
             catch
             {
@@ -80,8 +81,8 @@ namespace workspacer.Bar.Widgets
         protected override string CounterCategory => "Processor";
         protected override string CounterName => "% Processor Time";
         protected override string CounterInstance => GetCoreName();
-        protected override string Icon => "2699";
-        protected override Action ClickAction => () => Process.Start("taskmgr.exe");
+        public override string StringFormat { get; set; } = "{0}" + ConvertUnicodeToChar("2699");
+        public override Action ClickAction => () => Process.Start("taskmgr.exe"); // Opens Task Manager
 
         public int? ProcessorCore { get; set; } = null;
 
@@ -100,8 +101,8 @@ namespace workspacer.Bar.Widgets
     {
         protected override string CounterCategory => "Memory";
         protected override string CounterName => "Available Bytes";
-        protected override string Icon => "1F5CF";
-        protected override Action ClickAction => () => Process.Start("taskmgr.exe");
+        public override string StringFormat { get; set; } = "{0}" + ConvertUnicodeToChar("1F5CF");
+        public override Action ClickAction => () => Process.Start("taskmgr.exe"); // Opens Task Manager
 
         protected override string GetText(float value)
         {
@@ -115,10 +116,11 @@ namespace workspacer.Bar.Widgets
         protected override string CounterCategory => "Network Interface";
         protected override string CounterName => "Bytes Total/sec";
         protected override string CounterInstance => _interfaceName;
-        protected override string Icon => "1F5A7";
-        protected override Action ClickAction => () => Process.Start("explorer.exe", @"shell:::{26EE0668-A00A-44D7-9371-BEB064C98683}\3");
+        public override string StringFormat { get; set; } = "{0}" + ConvertUnicodeToChar("1F5A7");
+        public override Action ClickAction => () => Process.Start("explorer.exe", @"shell:::{26EE0668-A00A-44D7-9371-BEB064C98683}\3"); // Opens Network Connections
 
         private string _interfaceName;
+
         public NetworkPerformanceWidget(string interfaceName = null) : base()
         {
             _interfaceName = interfaceName;
@@ -133,11 +135,10 @@ namespace workspacer.Bar.Widgets
 
         protected override string GetText(float value)
         {
-            var amount = value;
             var stack = 0;
-            while (Convert.ToInt32(amount).ToString().Length > 3)
+            while (Convert.ToInt32(value).ToString().Length > 3)
             {
-                amount /= 1000;
+                value /= 1000;
                 stack++;
             }
 
@@ -157,7 +158,7 @@ namespace workspacer.Bar.Widgets
                     break;
             }
 
-            return $"{Convert.ToInt32(amount),3}{size}";
+            return $"{Convert.ToInt32(value),3}{size}";
         }
     }
 }
