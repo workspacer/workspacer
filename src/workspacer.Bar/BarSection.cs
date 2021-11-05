@@ -101,7 +101,7 @@ namespace workspacer.Bar
 
                 while (panel.Controls.Count > partCount)
                 {
-                    panel.Controls.Remove(panel.Controls[panel.Controls.Count-1]);
+                    panel.Controls.RemoveAt(panel.Controls.Count - 1);
                 }
             }
         }
