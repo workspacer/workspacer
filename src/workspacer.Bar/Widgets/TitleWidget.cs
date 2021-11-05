@@ -15,7 +15,7 @@ namespace workspacer.Bar.Widgets
         public string TitlePostamble { get; set; } = null;
         public string NoWindowMessage { get; set; } = "No Windows";
         public Func<IWindow, Action> TitlePartClicked = ClickAction;
-        public Func<IWindow, object> OrderWindowsBy = (window) => { return $"{window.IsFocused}{window.Title}"; };
+        public Func<IWindow, object> OrderWindowsBy = (window) => 0;
         #endregion
 
         public override void Initialize()
