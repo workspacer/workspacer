@@ -19,7 +19,6 @@ namespace workspacer.Bar
         private Color _defaultBack;
 
         private bool _reverse;
-        private bool _dirty;
         private IBarWidgetContext _context;
 
         private IDictionary<Label, Action> _clickedHandlers;
@@ -33,7 +32,6 @@ namespace workspacer.Bar
             _configContext = context;
             _fontName = fontName;
             _fontSize = fontSize;
-            _dirty = true;
             _reverse = reverse;
             _defaultFore = defaultFore;
             _defaultBack = defaultBack;
@@ -65,23 +63,30 @@ namespace workspacer.Bar
 
         public void Draw()
         {
-            if (_dirty)
+            if (!_widgets.Any(w => w.IsDirty()))
             {
-                var widgets = _reverse ? _widgets.Reverse().ToArray() : _widgets;
-                for (var wIndex = 0; wIndex < widgets.Length; wIndex++)
+                return;
+            }
+
+            var widgets = _reverse ? _widgets.Reverse().ToArray() : _widgets;
+            for (int wIndex = 0; wIndex < widgets.Length; wIndex++)
+            {
+                if (!widgets[wIndex].IsDirty())
                 {
-                    var widgetPanel = _panel.Controls[wIndex];
-                    var parts = widgets[wIndex].GetParts();
-
-                    EqualizeControls((FlowLayoutPanel)widgetPanel, parts.Count());
-
-                    for (var pIndex = 0; pIndex < parts.Length; pIndex++)
-                    {
-                        SetLabel((Label)widgetPanel.Controls[pIndex], parts[pIndex]);
-                    }
+                    continue;
                 }
 
-                _dirty = false;
+                var widgetPanel = _panel.Controls[wIndex];
+                var parts = widgets[wIndex].GetParts();
+
+                EqualizeControls((FlowLayoutPanel)widgetPanel, parts.Count());
+
+                for (var pIndex = 0; pIndex < parts.Length; pIndex++)
+                {
+                    SetLabel((Label)widgetPanel.Controls[pIndex], parts[pIndex]);
+                }
+
+                widgets[wIndex].MarkClean();
             }
         }
 
@@ -127,11 +132,6 @@ namespace workspacer.Bar
             {
                 _clickedHandlers.Remove(label);
             }
-        }
-
-        public void MarkDirty()
-        {
-            _dirty = true;
         }
 
         private System.Drawing.Color ColorToColor(Color color)
