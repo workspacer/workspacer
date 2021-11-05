@@ -18,6 +18,7 @@ namespace workspacer.Bar.Widgets
 
         private Timer _timer;
         private PerformanceCounter _counter;
+        private string _text;
 
         public override void Initialize()
         {
@@ -49,13 +50,12 @@ namespace workspacer.Bar.Widgets
             }
 
             _counter.BeginInit();
-            _timer = new Timer((state) => Context.MarkDirty(), null, 0, Interval);
+            _timer = new Timer((state) => _text = GetText(_counter.NextValue()), null, 0, Interval);
         }
 
         public override IBarWidgetPart[] GetParts()
         {
-            var text = GetText(_counter.NextValue());
-            return Parts(Part(string.Format(StringFormat, text), null, null, ClickAction));
+            return Parts(Part(string.Format(StringFormat, _text), null, null, ClickAction));
         }
 
         protected static string ConvertUnicodeToChar(string iconCode)
@@ -117,7 +117,7 @@ namespace workspacer.Bar.Widgets
         protected override string CounterName => "Bytes Total/sec";
         protected override string CounterInstance => _interfaceName;
         public override string StringFormat { get; set; } = "{0}" + ConvertUnicodeToChar("1F5A7");
-        public override Action ClickAction => () => Process.Start("explorer.exe", @"shell:::{26EE0668-A00A-44D7-9371-BEB064C98683}\3"); // Opens Network Connections
+        public override Action ClickAction => () => Process.Start("explorer.exe", @"shell:::{26EE0668-A00A-44D7-9371-BEB064C98683}\3"); // Opens Network and internet
 
         private string _interfaceName;
 
