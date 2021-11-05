@@ -43,13 +43,13 @@ namespace workspacer.Bar
             _context = new BarWidgetContext(this, _monitor, _configContext);
             while (_panel.Controls.Count != _widgets.Count())
             {
-                _panel.Controls.Add(CreateWidgetPannel());
+                _panel.Controls.Add(CreateWidgetPanel());
             }
 
             InitializeWidgets(widgets, _context);
         }
 
-        private FlowLayoutPanel CreateWidgetPannel()
+        private FlowLayoutPanel CreateWidgetPanel()
         {
             return new FlowLayoutPanel
             {
@@ -85,18 +85,18 @@ namespace workspacer.Bar
             }
         }
 
-        private void EqualizeControls(FlowLayoutPanel pannel, int partCount)
+        private void EqualizeControls(FlowLayoutPanel panel, int partCount)
         {
-            if (pannel.Controls.Count != partCount)
+            if (panel.Controls.Count != partCount)
             {
-                while (pannel.Controls.Count < partCount)
+                while (panel.Controls.Count < partCount)
                 {
-                    AddLabel(pannel);
+                    AddLabel(panel);
                 }
 
-                while (pannel.Controls.Count > partCount)
+                while (panel.Controls.Count > partCount)
                 {
-                    pannel.Controls.RemoveAt(0);
+                    panel.Controls.Remove(panel.Controls[panel.Controls.Count-1]);
                 }
             }
         }
