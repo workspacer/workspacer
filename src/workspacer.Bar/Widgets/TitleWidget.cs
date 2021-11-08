@@ -49,7 +49,7 @@ namespace workspacer.Bar.Widgets
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && !GetWindows().Contains(window))
             {
-                Context.MarkDirty();
+                MarkDirty();
             }
         }
 
