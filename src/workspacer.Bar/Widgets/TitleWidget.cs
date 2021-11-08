@@ -58,7 +58,7 @@ namespace workspacer.Bar.Widgets
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && GetWindows().Contains(window))
             {
-                Context.MarkDirty();
+                MarkDirty();
             }
         }
 
@@ -67,13 +67,13 @@ namespace workspacer.Bar.Widgets
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             if (workspace == currentWorkspace && !string.IsNullOrEmpty(window.Title) && GetWindows().Contains(window))
             {
-                Context.MarkDirty();
+                MarkDirty();
             }
         }
 
         private void RefreshFocusedMonitor()
         {
-            Context.MarkDirty();
+            MarkDirty();
         }
 
         private static Action ClickAction(IWindow window)
