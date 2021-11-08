@@ -50,7 +50,13 @@ namespace workspacer.Bar.Widgets
             }
 
             _counter.BeginInit();
-            _timer = new Timer((state) => _text = GetText(_counter.NextValue()), null, 0, Interval);
+            _timer = new Timer((state) => Update() , null, 0, Interval);
+        }
+
+        protected virtual void Update()
+        {
+            _text = GetText(_counter.NextValue());
+            MarkDirty();
         }
 
         public override IBarWidgetPart[] GetParts()
