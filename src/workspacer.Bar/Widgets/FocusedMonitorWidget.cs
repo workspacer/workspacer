@@ -26,7 +26,7 @@ namespace workspacer.Bar.Widgets
 
         public override void Initialize()
         {
-            Context.Workspaces.FocusedMonitorUpdated += () => Context.MarkDirty();
+            Context.Workspaces.FocusedMonitorUpdated += () => MarkDirty();
         }
     }
 }

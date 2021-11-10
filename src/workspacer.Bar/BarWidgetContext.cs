@@ -22,10 +22,5 @@ namespace workspacer.Bar
             Monitor = monitor;
             _context = context;
         }
-
-        public void MarkDirty()
-        {
-            _section.MarkDirty();
-        }
     }
 }
