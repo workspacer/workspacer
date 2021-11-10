@@ -26,7 +26,7 @@ namespace workspacer.Bar.Widgets
         public override void Initialize()
         {
             _timer = new Timer(200);
-            _timer.Elapsed += (s, e) => Context.MarkDirty();
+            _timer.Elapsed += (s, e) => MarkDirty();
             _timer.Enabled = true;
         }
     }
