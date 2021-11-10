@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -52,10 +50,12 @@ namespace workspacer
             var name = new DirectoryInfo(dir).Name;
 
             Console.WriteLine(Path.Combine(dir, name + ".dll"));
-            var assembly = Assembly.LoadFile(Path.Combine(dir, name + ".dll"));
+
+            // LoadFrom is used because it loads non-project plugin dependencies
+            // https://docs.microsoft.com/en-us/archive/blogs/suzcook/loadfile-vs-loadfrom
+            var assembly = Assembly.LoadFrom(Path.Combine(dir, name + ".dll"));
 
             var types = assembly.GetTypes().Where(t => typeof(IPlugin).IsAssignableFrom(t)).ToList();
-
             if (types.Count != 1)
             {
                 throw new Exception("invalid number of types");
