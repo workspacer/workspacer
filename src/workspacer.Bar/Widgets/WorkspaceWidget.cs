@@ -77,7 +77,7 @@ namespace workspacer.Bar.Widgets
 
         private void UpdateWorkspaces()
         {
-            Context.MarkDirty();
+            MarkDirty();
         }
 
         protected virtual string GetDisplayName(IWorkspace workspace, int index)
@@ -116,7 +116,7 @@ namespace workspacer.Bar.Widgets
 
             if (didFlip)
             {
-                Context.MarkDirty();
+                MarkDirty();
             }
         }
     }
