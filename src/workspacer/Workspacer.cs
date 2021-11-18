@@ -109,6 +109,8 @@ namespace workspacer
             var match = _context.Plugins.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
             if (match != null)
             {
+                // LoadFrom is used because it loads non-project plugin dependencies
+                // https://docs.microsoft.com/en-us/archive/blogs/suzcook/loadfile-vs-loadfrom
                 return Assembly.LoadFrom(match.Location);
             }
             return null;
