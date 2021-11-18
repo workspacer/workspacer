@@ -6,6 +6,10 @@ using System.Threading;
 
 namespace workspacer.Bar.Widgets
 {
+
+    /// <summary>
+    /// Base for PerformanceWidget that implements the creation of the needed elements
+    /// </summary>
     public abstract class PerformanceWidgetBase : BarWidgetBase
     {
         public int Interval { get; set; } = 1000;
@@ -82,6 +86,9 @@ namespace workspacer.Bar.Widgets
         protected abstract string GetText(float value);
     }
 
+    /// <summary>
+    /// Measures CPU processor use time % in total or specific core
+    /// </summary>
     public class CpuPerformanceWidget : PerformanceWidgetBase
     {
         protected override string CounterCategory => "Processor";
@@ -90,6 +97,9 @@ namespace workspacer.Bar.Widgets
         public override string StringFormat { get; set; } = "{0}" + ConvertUnicodeToChar("2699");
         public override Action ClickAction => () => Process.Start("taskmgr.exe"); // Opens Task Manager
 
+        /// <summary>
+        /// Set this to measure a specific core
+        /// </summary>
         public int? ProcessorCore { get; set; } = null;
 
         private string GetCoreName()
@@ -103,6 +113,9 @@ namespace workspacer.Bar.Widgets
         }
     }
 
+    /// <summary>
+    /// Measures total memory usage
+    /// </summary>
     public class MemoryPerformanceWidget : PerformanceWidgetBase
     {
         protected override string CounterCategory => "Memory";
@@ -117,9 +130,15 @@ namespace workspacer.Bar.Widgets
         }
     }
 
+    /// <summary>
+    /// Measures the usage of a specific network interface
+    /// 'InterfaceName' is name of network interface from network connections, replace all '()' with '[]'
+    /// </summary>
     public class NetworkPerformanceWidget : PerformanceWidgetBase
     {
-        protected override string CounterCategory => "Network Interface";
+        private static string _counterCategory = "Network Interface";
+
+        protected override string CounterCategory => _counterCategory;
         protected override string CounterName => "Bytes Total/sec";
         protected override string CounterInstance => _interfaceName;
         public override string StringFormat { get; set; } = "{0}" + ConvertUnicodeToChar("1F5A7");
@@ -131,12 +150,20 @@ namespace workspacer.Bar.Widgets
         {
             _interfaceName = interfaceName;
 
-            var category = new PerformanceCounterCategory(CounterCategory);
-            var interfaces = category.GetInstanceNames();
+            var interfaces = GetInterfaces();
             if (!interfaces.Contains(interfaceName))
             {
                 _interfaceName = interfaces.First();
             }
+        }
+
+        /// <summary>
+        /// Get a list of all interfaces that can be monitored
+        /// </summary>
+        public static string[] GetInterfaces()
+        {
+            var category = new PerformanceCounterCategory(_counterCategory);
+            return category.GetInstanceNames();
         }
 
         protected override string GetText(float value)
