@@ -47,19 +47,19 @@ namespace workspacer.Sound
             _clientInstance.ForceRefresh();
         }
 
-        public int SetVolumeScalar(float value)
+        public void SetVolumeScalar(float value)
         {
-            return _clientInstance.SetVolumeScalar(value);
+            _clientInstance.SetVolumeScalar(value);
         }
 
         public void VolumeStepUp()
         {
-            _clientInstance?.VolumeStepUp();
+            _clientInstance.VolumeStepUp();
         }
 
         public void VolumeStepDown()
         {
-            _clientInstance?.VolumeStepDown();
+            _clientInstance.VolumeStepDown();
         }
 
         public void ToggleMute()

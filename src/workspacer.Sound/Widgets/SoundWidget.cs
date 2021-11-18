@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using workspacer.Bar;
 
 namespace workspacer.Sound.Widgets
@@ -15,7 +16,7 @@ namespace workspacer.Sound.Widgets
         {
             if (_isMuted)
             {
-                return Parts(Part("/", PrimaryColor));
+                return Parts(Part("/", PrimaryColor, null, () => Process.Start("Rundll32.exe", @"shell32.dll,Control_RunDLL Mmsys.cpl,,0")));
             }
 
             return new IBarWidgetPart[]
@@ -89,14 +90,17 @@ namespace workspacer.Sound.Widgets
         public void VolumeChanged(float scalarVolume)
         {
             _volume = (int)Math.Ceiling(100 * scalarVolume);
+            MarkDirty();
         }
         public void MuteChanged(bool isMuted)
         {
             _isMuted = isMuted;
+            MarkDirty();
         }
 
         public void DeviceChanged()
         {
+            MarkDirty();
         }
     }
 }

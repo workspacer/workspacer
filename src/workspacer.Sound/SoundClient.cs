@@ -44,7 +44,7 @@ namespace workspacer.Sound
 
         public void OnDeviceStateChanged(string deviceId, uint newState)
         {
-            DeviceChanged.Invoke(deviceId, newState);
+            DeviceChanged?.Invoke(deviceId, newState);
 #if EVENT_DEBUG
             MessageBox.Show($"DeviceStateChanged deviceId:[{deviceId}] newState:[{newState}]");
 #endif
@@ -178,9 +178,9 @@ namespace workspacer.Sound
             return scalar;
         }
 
-        public int SetVolumeScalar(float value)
+        public int? SetVolumeScalar(float value)
         {
-            return _defaultDeviceAudioEndpointVolume.SetMasterVolumeLevelScalar(value, Guid.NewGuid());
+            return _defaultDeviceAudioEndpointVolume?.SetMasterVolumeLevelScalar(value, Guid.NewGuid());
         }
 
         public int? VolumeStepUp()
@@ -193,9 +193,9 @@ namespace workspacer.Sound
             return _defaultDeviceAudioEndpointVolume?.VolumeStepDown(Guid.NewGuid());
         }
 
-        public int SetMutedState(bool muted)
+        public int? SetMutedState(bool muted)
         {
-            return _defaultDeviceAudioEndpointVolume.SetMute(muted, Guid.NewGuid());
+            return _defaultDeviceAudioEndpointVolume?.SetMute(muted, Guid.NewGuid());
         }
     }
 }
