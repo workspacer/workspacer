@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace workspacer
 {
-    public delegate void WindowFocusedDelegate();
+    public delegate void FocusedDelegate();
 
     public class WindowsWindow : IWindow
     {
@@ -21,7 +21,7 @@ namespace workspacer
         private IntPtr _handle;
         private bool _didManualHide;
 
-        public WindowFocusedDelegate WindowFocused;
+        public FocusedDelegate Focused;
 
         private int _processId;
         private string _processName;
@@ -163,7 +163,7 @@ namespace workspacer
             {
                 Logger.Debug("[{0}] :: Focus", this);
                 Win32Helper.ForceForegroundWindow(_handle);
-                WindowFocused?.Invoke();
+                Focused?.Invoke();
             }
         }
 

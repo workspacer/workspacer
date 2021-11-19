@@ -229,7 +229,7 @@ You can either change your custom hotkey or reassign the default hotkey";
                 () => _context.Enabled = !_context.Enabled, "toggle enable/disable");
 
             Subscribe(mod | KeyModifiers.LShift, Keys.C,
-                () => _context.Workspaces.FocusedWorkspace.CloseFocusedWindow(), "close focused window");
+                () => _context.Workspaces.CloseFocusedWindow(_context.Workspaces.FocusedWorkspace), "close focused window");
 
             Subscribe(mod, Keys.Space,
                 () => _context.Workspaces.FocusedWorkspace.NextLayoutEngine(), "next layout");
@@ -241,22 +241,22 @@ You can either change your custom hotkey or reassign the default hotkey";
                 () => _context.Workspaces.FocusedWorkspace.ResetLayout(), "reset layout");
 
             Subscribe(mod, Keys.J,
-                () => _context.Workspaces.FocusedWorkspace.FocusNextWindow(), "focus next window");
+                () => _context.Workspaces.FocusNextWindow(_context.Workspaces.FocusedWorkspace), "focus next window");
 
             Subscribe(mod, Keys.K,
-                () => _context.Workspaces.FocusedWorkspace.FocusPreviousWindow(), "focus previous window");
+                () => _context.Workspaces.FocusPreviousWindow(_context.Workspaces.FocusedWorkspace), "focus previous window");
 
             Subscribe(mod, Keys.M,
-                () => _context.Workspaces.FocusedWorkspace.FocusPrimaryWindow(), "focus primary window");
+                () => _context.Workspaces.FocusPrimaryWindow(_context.Workspaces.FocusedWorkspace), "focus primary window");
 
             Subscribe(mod, Keys.Enter,
-                () => _context.Workspaces.FocusedWorkspace.SwapFocusAndPrimaryWindow(), "swap focus and primary window");
+                () => _context.Workspaces.SwapFocusAndPrimaryWindow(_context.Workspaces.FocusedWorkspace), "swap focus and primary window");
 
             Subscribe(mod | KeyModifiers.LShift, Keys.J,
-                () => _context.Workspaces.FocusedWorkspace.SwapFocusAndNextWindow(), "swap focus and next window");
+                () => _context.Workspaces.SwapFocusAndNextWindow(_context.Workspaces.FocusedWorkspace), "swap focus and next window");
 
             Subscribe(mod | KeyModifiers.LShift, Keys.K,
-                () => _context.Workspaces.FocusedWorkspace.SwapFocusAndPreviousWindow(), "swap focus and previous window");
+                () => _context.Workspaces.SwapFocusAndPreviousWindow(_context.Workspaces.FocusedWorkspace), "swap focus and previous window");
 
             Subscribe(mod, Keys.H,
                 () => _context.Workspaces.FocusedWorkspace.ShrinkPrimaryArea(), "shrink primary area");

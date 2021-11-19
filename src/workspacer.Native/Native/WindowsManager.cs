@@ -205,7 +205,7 @@ namespace workspacer
 
                 if (!ShouldIgnoreWindow(window))
                 {
-                    window.WindowFocused += () => HandleWindowFocused(window);
+                    window.Focused += () => HandleWindowFocused(window);
                     _windows[handle] = window;
 
                     if (emitEvent)
