@@ -43,7 +43,7 @@ namespace workspacer
             int height = spaceHeight / Math.Max(numWindows - numInPrimary, 1);
 
             // if there are more "primary" windows than actual windows,
-            // then we want the pane to actually spreauu  d the entire width
+            // then we want the pane to actually spread the entire width
             // of the working area
             if (numInPrimary >= numWindows)
             {
