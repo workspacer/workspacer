@@ -40,8 +40,8 @@ namespace workspacer
             int primaryWidth = (int)(spaceWidth * (_primaryPercent + _primaryPercentOffset));
             int primaryHeight = spaceHeight / numInPrimary;
 
-            int leftHeight = spaceHeight / Math.Max((numWindows - numInPrimary) / 2, 1);
-            int rightHeight = spaceHeight / Math.Max((numWindows - numInPrimary + 1) / 2, 1);
+            int leftHeight = GetLeftHeight(spaceHeight, numWindows, numInPrimary);
+            int rightHeight = GetRightHeight(spaceHeight, numWindows, numInPrimary);
 
 
             // if there are more "primary" windows than actual windows,
@@ -76,6 +76,16 @@ namespace workspacer
                 }
             }
             return list;
+        }
+
+        private int GetLeftHeight(int spaceHeight, int numWindows, int numInPrimary)
+        {
+            return spaceHeight / Math.Max((numWindows - numInPrimary) / 2, 1);
+        }
+
+        private int GetRightHeight(int spaceHeight, int numWindows, int numInPrimary)
+        {
+            return spaceHeight / Math.Max((numWindows - numInPrimary + 1) / 2, 1);
         }
 
         public void ShrinkPrimaryArea()
