@@ -36,12 +36,15 @@ namespace workspacer
                 return list;
 
             int numInPrimary = Math.Min(GetNumInPrimary(), numWindows);
+            int nbLeftWindows = GetNbLeftWindows(numWindows, numInPrimary);
+            int nbRightWindows = GetNbRightWindows(numWindows, numInPrimary);
 
             int primaryWidth = (int)(spaceWidth * (_primaryPercent + _primaryPercentOffset));
-            int primaryHeight = spaceHeight / numInPrimary;
+            int secondaryWidth = (spaceWidth - primaryWidth) / 2;
 
-            int leftHeight = GetLeftHeight(spaceHeight, numWindows, numInPrimary);
-            int rightHeight = GetRightHeight(spaceHeight, numWindows, numInPrimary);
+            int primaryHeight = spaceHeight / numInPrimary;
+            int leftHeight = GetSecondaryHeight(spaceHeight, nbLeftWindows);
+            int rightHeight = GetSecondaryHeight(spaceHeight, nbRightWindows);
 
 
             // if there are more "primary" windows than actual windows,
@@ -50,9 +53,14 @@ namespace workspacer
             if (numInPrimary >= numWindows)
             {
                 primaryWidth = spaceWidth;
+                secondaryWidth = 0;
+            }
+            else if (nbRightWindows == 0)
+            {
+                // fill up the right side if no windows
+                primaryWidth += secondaryWidth;
             }
 
-            int secondaryWidth = (spaceWidth - primaryWidth) / 2;
 
             for (var i = 0; i < numWindows; i++)
             {
@@ -62,8 +70,7 @@ namespace workspacer
                 }
                 else
                 {
-                    int nbLeftWindows = (numWindows - numInPrimary) / 2;
-                    if (i <= nbLeftWindows)
+                    if (i < nbLeftWindows + numInPrimary)
                     {
                         // left side
                         list.Add(new WindowLocation(0, (i - numInPrimary) * leftHeight, secondaryWidth, leftHeight, WindowState.Normal));
@@ -78,15 +85,22 @@ namespace workspacer
             return list;
         }
 
-        private int GetLeftHeight(int spaceHeight, int numWindows, int numInPrimary)
+        public int GetNbLeftWindows(int numWindows, int numInPrimary)
         {
-            return spaceHeight / Math.Max((numWindows - numInPrimary) / 2, 1);
+            // +1 so that we round up
+            return (numWindows - numInPrimary + 1) / 2;
         }
 
-        private int GetRightHeight(int spaceHeight, int numWindows, int numInPrimary)
+        public int GetNbRightWindows(int numWindows, int numInPrimary)
         {
-            return spaceHeight / Math.Max((numWindows - numInPrimary + 1) / 2, 1);
+            return (numWindows - numInPrimary) / 2; // rounded down
         }
+
+        public int GetSecondaryHeight(int spaceHeight, int nbWindows)
+        {
+            return spaceHeight / Math.Max(nbWindows, 1);
+        }
+
 
         public void ShrinkPrimaryArea()
         {
