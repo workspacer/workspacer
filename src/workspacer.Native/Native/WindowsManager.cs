@@ -91,15 +91,14 @@ namespace workspacer
 
         public void DumpWindowDebugOutputForFocusedWindow()
         {
-            var output = "";
             var focusedWindow = Windows.Where(win => win.IsFocused)
                 .Select(win => win).FirstOrDefault();
 
             if (focusedWindow != null)
             {
-                output += GenerateWindowDebugOutput(focusedWindow) + "\r\n\r\n";
+                var output = GenerateWindowDebugOutput(focusedWindow);
+                OpenDebugOutput(output);
             }
-            OpenDebugOutput(output);
         }
 
         public void DumpWindowUnderCursorDebugOutput()
