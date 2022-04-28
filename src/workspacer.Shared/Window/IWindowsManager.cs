@@ -12,6 +12,7 @@ namespace workspacer
     {
         IWindowsDeferPosHandle DeferWindowsPos(int count);
         void DumpWindowDebugOutput();
+        void DumpWindowDebugOutputForFocusedWindow();
         void DumpWindowUnderCursorDebugOutput();
 
         event WindowFocusDelegate WindowFocused;
