@@ -14,7 +14,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: workspacer-build
         path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64

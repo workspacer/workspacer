@@ -17,7 +17,7 @@ jobs:
       run: dotnet restore
     - name: Build project
       run: dotnet publish /p:DefineConstants=BRANCH_unstable --configuration Release --no-restore
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: Build
         path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\
@@ -25,7 +25,7 @@ jobs:
       run: |
         $env:PATH += ";${env:WIX}bin" # Add to PATH
         .\scripts\buildinstaller.ps1 -buildDir .\src\workspacer\bin\Release\net5.0-windows\win10-x64\publish\ -version "latest-unstable"
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: Setup
         path: .\out\workspacer-latest-unstable.msi
