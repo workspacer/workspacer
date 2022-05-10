@@ -114,26 +114,26 @@
 		
 		
 			
-			<a href="../quickstart">quickstart</a>
+			<a href="">quickstart</a>
 		
 			
-			<a href="../config">config</a>
+			<a href="">config</a>
 		
 			
-			<a href="../keybindings">keybinds</a>
+			<a href="">keybinds</a>
 		
 			
-			<a href="../screenshots">screenshots</a>
+			<a href="">screenshots</a>
 		
 			
-			<a href="../changelog">changelog</a>
+			<a href="">changelog</a>
 		
 	</nav>
 	<nav class="nav-dekstop nav-extra">
 		
 		
 			
-			<a href="https://github.com/workspacer/workspacer/issues/new" class="btn btn-small btn-light">submit an issue</a>
+			<a href="" class="btn btn-small btn-light">submit an issue</a>
 		
 	</nav>
 	<button class="nav-phone-toggle btn btn-light"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
@@ -146,25 +146,25 @@
 		
 		
 			
-			<a href="../quickstart" class="btn btn-small btn-light">quickstart</a>
+			<a href="" class="btn btn-small btn-light">quickstart</a>
 		
 			
-			<a href="../config" class="btn btn-small btn-light">config</a>
+			<a href="" class="btn btn-small btn-light">config</a>
 		
 			
-			<a href="../keybindings" class="btn btn-small btn-light">keybinds</a>
+			<a href="" class="btn btn-small btn-light">keybinds</a>
 		
 			
-			<a href="../screenshots" class="btn btn-small btn-light">screenshots</a>
+			<a href="" class="btn btn-small btn-light">screenshots</a>
 		
 			
-			<a href="../changelog" class="btn btn-small btn-light">changelog</a>
+			<a href="" class="btn btn-small btn-light">changelog</a>
 		
 		<div class="extra-separator"></div>
 		
 		
 			
-			<a href="https://github.com/workspacer/workspacer/issues/new" class="btn btn-small">submit an issue</a>
+			<a href="" class="btn btn-small">submit an issue</a>
 		
 	</nav>
 </header> 
@@ -194,15 +194,15 @@ This configuration documentation assumes that you have already created the examp
 <p>Workspacer is intended to be on the extreme end of the power user spectrum. You can use workspacer without knowing how to code, but advanced configuration will be challenging if you need to deviate outside of the examples and configurations of other users.</p>
 <h2 id="how-do-i-define-custom-workspaces">How do I define custom workspaces?</h2>
 <p>Workspaces are created by calling the appropriate function on the <code>IWorkspaceContainer</code> you are using. In the default configuration, that is <code>CreateWorkspace</code> on the <code>context.WorkspaceContainer</code> object. For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;workspace&#34;</span>);
-context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;another&#34;</span>);
-context.WorkspaceContainer.CreateWorkspaces(<span style="color:#e6db74">&#34;more&#34;</span>, <span style="color:#e6db74">&#34;than&#34;</span>, <span style="color:#e6db74">&#34;one&#34;</span>);
-</code></pre></div><h2 id="layout-engines">Layout Engines</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;workspace&#34;</span>);
+</span></span><span style="display:flex;"><span>context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;another&#34;</span>);
+</span></span><span style="display:flex;"><span>context.WorkspaceContainer.CreateWorkspaces(<span style="color:#e6db74">&#34;more&#34;</span>, <span style="color:#e6db74">&#34;than&#34;</span>, <span style="color:#e6db74">&#34;one&#34;</span>);
+</span></span></code></pre></div><h2 id="layout-engines">Layout Engines</h2>
 <p>Layout engines define the way windows get arranged on each workspace. There are a number of different ways to lay out windows and you can swap between them dynamically. By default, workspacer loads two engines to switch between, the <code>FullLayoutEngine</code> and the <code>TallLayoutEngine</code>, however you can change the set of default layout engines via:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.DefaultLayouts = () =&gt; <span style="color:#66d9ef">new</span> ILayoutEngine[] { <span style="color:#66d9ef">new</span> FullLayoutEngine() };
-</code></pre></div><p>You can even manually specify the layout engines on a per-workspace basis, by passing the different layout engines to the <code>CreateWorkspace</code> (or equivalent) function:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;layouts!&#34;</span>, <span style="color:#66d9ef">new</span> FullLayoutEngine(), <span style="color:#66d9ef">new</span> TallLayoutEngine());
-</code></pre></div><h3 id="existing-layout-engines">Existing Layout Engines</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.DefaultLayouts = () =&gt; <span style="color:#66d9ef">new</span> ILayoutEngine[] { <span style="color:#66d9ef">new</span> FullLayoutEngine() };
+</span></span></code></pre></div><p>You can even manually specify the layout engines on a per-workspace basis, by passing the different layout engines to the <code>CreateWorkspace</code> (or equivalent) function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.WorkspaceContainer.CreateWorkspace(<span style="color:#e6db74">&#34;layouts!&#34;</span>, <span style="color:#66d9ef">new</span> FullLayoutEngine(), <span style="color:#66d9ef">new</span> TallLayoutEngine());
+</span></span></code></pre></div><h3 id="existing-layout-engines">Existing Layout Engines</h3>
 <ul>
 <li><a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Layout/FullLayoutEngine.cs"><code>FullLayoutEngine</code></a>
 <ul>
@@ -241,11 +241,11 @@ context.WorkspaceContainer.CreateWorkspaces(<span style="color:#e6db74">&#34;mor
 <h2 id="filters--routes">Filters &amp; Routes</h2>
 <p>By default, workspacer will ignore certain system windows, such as Task Manager and workspacer itself, and will route windows to the focused workspace when they are opened. This is completely customizable via <code>IWindowRouter</code>.</p>
 <p>The default configuration provides the standard set of ignore/routing rules, but more can be added via calls to <code>AddFilter</code> and <code>AddRoute</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#960050;background-color:#1e0010">#</span> custom filter
-context.WindowRouter.AddFilter((window) =&gt; !window.Title.Contains(<span style="color:#e6db74">&#34;my fun application&#34;</span>));
-<span style="color:#960050;background-color:#1e0010">#</span> custom route
-context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(<span style="color:#e6db74">&#34;Google Chrome&#34;</span>) ? context.WorkspaceContainer[<span style="color:#e6db74">&#34;web&#34;</span>] : <span style="color:#66d9ef">null</span>);
-</code></pre></div><p>The <code>AddFilter</code> call will ensure that any window title containing the text <code>&quot;my fun application&quot;</code> will be ignored by workspacer. A <code>true</code> return value will allow the window to be managed, while a <code>false</code> value will force workspacer to ignore the window. This is recommended for full-screen applications such as videogames which may have conflicts with workspacer that could lead to unwanted crashes or false detections from an anti-cheat system due to workspacer trying to manage it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">#</span> custom filter
+</span></span><span style="display:flex;"><span>context.WindowRouter.AddFilter((window) =&gt; !window.Title.Contains(<span style="color:#e6db74">&#34;my fun application&#34;</span>));
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">#</span> custom route
+</span></span><span style="display:flex;"><span>context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(<span style="color:#e6db74">&#34;Google Chrome&#34;</span>) ? context.WorkspaceContainer[<span style="color:#e6db74">&#34;web&#34;</span>] : <span style="color:#66d9ef">null</span>);
+</span></span></code></pre></div><p>The <code>AddFilter</code> call will ensure that any window title containing the text <code>&quot;my fun application&quot;</code> will be ignored by workspacer. A <code>true</code> return value will allow the window to be managed, while a <code>false</code> value will force workspacer to ignore the window. This is recommended for full-screen applications such as videogames which may have conflicts with workspacer that could lead to unwanted crashes or false detections from an anti-cheat system due to workspacer trying to manage it.</p>
 <p>The <code>AddRoute</code> call will ensure that any window title containing the text &ldquo;Google Chrome&rdquo; will be automatically placed in the &ldquo;web&rdquo; workspace. A <code>null</code> return value will signal to workspacer that the next route should be checked, while returning an actual workspace will ensure that the workspace manager will place the window in the returned workspace.</p>
 <h2 id="plugins">Plugins</h2>
 <p>Workspacer offers additional functionality beyond just tiling your windows through Plugins. This is a way for a developer to ship functionality as a DLL that taps into workspacer without requiring massive amounts of extra code in your config file. Supported plugins include:</p>
@@ -282,26 +282,26 @@ context.WindowRouter.AddRoute((window) =&gt; window.Title.Contains(<span style="
 <h3 id="menu-bar">Menu Bar</h3>
 <p>Like other tiling window managers workspacer includes a status/menu bar which shows relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs">BarWidgetBase</a>.</p>
 <p>The bar can be installed like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig());
-</code></pre></div><p>The default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties on the <code>config</code> optional parameter.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig());
+</span></span></code></pre></div><p>The default workspacer config will do this for you automatically, so the only thing you will likely need to change is the set of widgets installed via the <code>LeftWidgets</code> and <code>RightWidgets</code> properties on the <code>config</code> optional parameter.</p>
 <p>An example of a bar, which implements the <code>TimeWidget</code> with a custom time format and the <code>BatteryWidget</code> is shown below:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig()
-    {
-        BarTitle = <span style="color:#e6db74">&#34;workspacer.Bar&#34;</span>,
-        FontSize = <span style="color:#ae81ff">14</span>,
-        FontName = <span style="color:#e6db74">&#34;JetBrainsMono NF&#34;</span>,
-        RightWidgets = () =&gt; <span style="color:#66d9ef">new</span> IBarWidget[] { <span style="color:#66d9ef">new</span> TimeWidget(<span style="color:#ae81ff">1000</span>,<span style="color:#e6db74">&#34;hh:mm&#34;</span>), <span style="color:#66d9ef">new</span> BatteryWidget() },
-    });
-</code></pre></div><p>All widgets output a string and share common properties as defined by the <code>IBarWidgetPart</code> interface.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> IBarWidgetPart
-    {
-        <span style="color:#66d9ef">string</span> Text { <span style="color:#66d9ef">get</span>; }
-        Color ForegroundColor { <span style="color:#66d9ef">get</span>; }
-        Color BackgroundColor { <span style="color:#66d9ef">get</span>; }
-        Action PartClicked { <span style="color:#66d9ef">get</span>; }
-        <span style="color:#66d9ef">string</span> FontName { <span style="color:#66d9ef">get</span>; }
-    }
-</code></pre></div><p>Widgets support custom on-click functions and callbacks through the <code>PartClicked</code> Action. Icon fonts are also supported and can be set for individual widgets but require system wide installation of the font and there may be issues with <code>.OTF</code> files, so <code>TTF</code>s are recommended. To add icons to a widget you must use its unicode value.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        BarTitle = <span style="color:#e6db74">&#34;workspacer.Bar&#34;</span>,
+</span></span><span style="display:flex;"><span>        FontSize = <span style="color:#ae81ff">14</span>,
+</span></span><span style="display:flex;"><span>        FontName = <span style="color:#e6db74">&#34;JetBrainsMono NF&#34;</span>,
+</span></span><span style="display:flex;"><span>        RightWidgets = () =&gt; <span style="color:#66d9ef">new</span> IBarWidget[] { <span style="color:#66d9ef">new</span> TimeWidget(<span style="color:#ae81ff">1000</span>,<span style="color:#e6db74">&#34;hh:mm&#34;</span>), <span style="color:#66d9ef">new</span> BatteryWidget() },
+</span></span><span style="display:flex;"><span>    });
+</span></span></code></pre></div><p>All widgets output a string and share common properties as defined by the <code>IBarWidgetPart</code> interface.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IBarWidgetPart</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">string</span> Text { <span style="color:#66d9ef">get</span>; }
+</span></span><span style="display:flex;"><span>        Color ForegroundColor { <span style="color:#66d9ef">get</span>; }
+</span></span><span style="display:flex;"><span>        Color BackgroundColor { <span style="color:#66d9ef">get</span>; }
+</span></span><span style="display:flex;"><span>        Action PartClicked { <span style="color:#66d9ef">get</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">string</span> FontName { <span style="color:#66d9ef">get</span>; }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>Widgets support custom on-click functions and callbacks through the <code>PartClicked</code> Action. Icon fonts are also supported and can be set for individual widgets but require system wide installation of the font and there may be issues with <code>.OTF</code> files, so <code>TTF</code>s are recommended. To add icons to a widget you must use its unicode value.
 For example if you wanted to add this <a href="https://fontawesome.com/v5.15/icons/desktop?style=solid">monitor icon from FontAwesome</a> you would have to write <code>&quot;\uf108&quot;</code>.</p>
 <h4 id="menu-bar-widgets">Menu Bar Widgets</h4>
 <ul>
@@ -347,77 +347,77 @@ For example if you wanted to add this <a href="https://fontawesome.com/v5.15/ico
 </ul>
 <h3 id="the-action-menu">The Action Menu</h3>
 <p>The action menu is implemented as a <code>plugin</code>, (see the above <a href="#plugins">Plugins</a> section). The action menu can be installed like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> actionMenu = context.AddActionMenu();
-
-actionMenu.DefaultMenu.AddMenu(<span style="color:#e6db74">&#34;do a thing&#34;</span>, () =&gt; DoACoolThing());
-actionMenu.DefaultMenu.AddMenu(<span style="color:#e6db74">&#34;open a menu&#34;</span>, () =&gt; CreateAMenu(container, actionMenu));
-actionMenu.DefaultMenu.AddFreeForm(<span style="color:#e6db74">&#34;write to console&#34;</span>, (s) =&gt; Console.WriteLine(s));
-</code></pre></div><p>Note that <code>DefaultMenu</code> contains a useful set of default items. If you don&rsquo;t want these defaults, or you want to create a menu for nesting, you can use the <code>Clear</code> method. You can nest these menus as much as desired, so any set of menus can be created.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> actionMenu = context.AddActionMenu();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>actionMenu.DefaultMenu.AddMenu(<span style="color:#e6db74">&#34;do a thing&#34;</span>, () =&gt; DoACoolThing());
+</span></span><span style="display:flex;"><span>actionMenu.DefaultMenu.AddMenu(<span style="color:#e6db74">&#34;open a menu&#34;</span>, () =&gt; CreateAMenu(container, actionMenu));
+</span></span><span style="display:flex;"><span>actionMenu.DefaultMenu.AddFreeForm(<span style="color:#e6db74">&#34;write to console&#34;</span>, (s) =&gt; Console.WriteLine(s));
+</span></span></code></pre></div><p>Note that <code>DefaultMenu</code> contains a useful set of default items. If you don&rsquo;t want these defaults, or you want to create a menu for nesting, you can use the <code>Clear</code> method. You can nest these menus as much as desired, so any set of menus can be created.</p>
 <h3 id="gaps">Gaps</h3>
 <p>Gaps are supported through <code>IConfigContext::AddLayoutProxy</code> which is also used to recalculate window positions when the menu bar is present.</p>
 <p>They can be implemented like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#960050;background-color:#1e0010">#</span>r <span style="color:#e6db74">&#34;C:\Program Files\workspacer\plugins\workspacer.Gap\workspacer.Gap.dll&#34;</span>
-
-<span style="color:#66d9ef">using</span> workspacer.Gap;
-
-<span style="color:#66d9ef">var</span> gap = <span style="color:#ae81ff">20</span>;
-context.AddGap(
-    <span style="color:#66d9ef">new</span> GapPluginConfig()
-    {
-        InnerGap = gap,
-        OuterGap = gap / <span style="color:#ae81ff">2</span>,
-        Delta = gap / <span style="color:#ae81ff">2</span>,
-    }
-);
-</code></pre></div><p>Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g. <code>IncrementOuterGap</code>, <code>DecrementInnerGap</code>) to keybinds.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">#</span>r <span style="color:#e6db74">&#34;C:\Program Files\workspacer\plugins\workspacer.Gap\workspacer.Gap.dll&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> workspacer.Gap;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> gap = <span style="color:#ae81ff">20</span>;
+</span></span><span style="display:flex;"><span>context.AddGap(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">new</span> GapPluginConfig()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        InnerGap = gap,
+</span></span><span style="display:flex;"><span>        OuterGap = gap / <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>        Delta = gap / <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>Gaps can be also adjusted on-the-fly by binding the relevant functions (e.g. <code>IncrementOuterGap</code>, <code>DecrementInnerGap</code>) to keybinds.
 For more details have a look at an example from the <a href="https://github.com/workspacer/workspacer/blob/master/snippets/gaps.cs">user snippets</a></p>
 <h3 id="title-bar">Title Bar</h3>
 <p>This adds the ability to remove the title bar from specific or all windows. This is useful for applications that have a title bar which is unncessary for the purpose of the window when Workspacer is in use.</p>
 <p>By default, the title bar and sizing border are shown on all windows. To update the defaults:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#960050;background-color:#1e0010">#</span>r <span style="color:#e6db74">&#34;C:\Program Files\workspacer\plugins\workspacer.TitleBar\workspacer.TitleBar.dll&#34;</span>
-
-<span style="color:#66d9ef">using</span> workspacer.TitleBar;
-
-<span style="color:#66d9ef">var</span> titleBarPluginConfig = <span style="color:#66d9ef">new</span> TitleBarPluginConfig(<span style="color:#66d9ef">new</span> TitleBarStyle(showTitleBar: <span style="color:#66d9ef">false</span>, showSizingBorder: <span style="color:#66d9ef">false</span>));
-context.AddTitleBar(titleBarPluginConfig);
-</code></pre></div><p>The available styles can be seen below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">#</span>r <span style="color:#e6db74">&#34;C:\Program Files\workspacer\plugins\workspacer.TitleBar\workspacer.TitleBar.dll&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> workspacer.TitleBar;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> titleBarPluginConfig = <span style="color:#66d9ef">new</span> TitleBarPluginConfig(<span style="color:#66d9ef">new</span> TitleBarStyle(showTitleBar: <span style="color:#66d9ef">false</span>, showSizingBorder: <span style="color:#66d9ef">false</span>));
+</span></span><span style="display:flex;"><span>context.AddTitleBar(titleBarPluginConfig);
+</span></span></code></pre></div><p>The available styles can be seen below:</p>
 <p><img src="../static/images/titlebar-styles.png" alt="TitleBar styles"></p>
 <p>To customize the styling for specific windows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> titleBarPluginConfig = <span style="color:#66d9ef">new</span> TitleBarPluginConfig();
-titleBarPluginConfig.SetWindowProcessName(<span style="color:#e6db74">&#34;Notepad&#34;</span>, <span style="color:#66d9ef">new</span> TitleBarStyle(showTitleBar: <span style="color:#66d9ef">false</span>, showSizingBorder: <span style="color:#66d9ef">false</span>));
-context.AddTitleBar(titleBarPluginConfig);
-</code></pre></div><p>Setting the filters can be done using the <code>TitleBarPluginConfig</code> methods:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowClass(<span style="color:#66d9ef">string</span> windowClass, TitleBarStyle style);
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowProcessName(<span style="color:#66d9ef">string</span> processName, TitleBarStyle style);
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowTitle(<span style="color:#66d9ef">string</span> title, TitleBarStyle style);
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowTitleMAtch(<span style="color:#66d9ef">string</span> match, TitleBarStyle style);
-</code></pre></div><h2 id="how-do-i-register-custom-keybindings">How do I register custom keybindings?</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> titleBarPluginConfig = <span style="color:#66d9ef">new</span> TitleBarPluginConfig();
+</span></span><span style="display:flex;"><span>titleBarPluginConfig.SetWindowProcessName(<span style="color:#e6db74">&#34;Notepad&#34;</span>, <span style="color:#66d9ef">new</span> TitleBarStyle(showTitleBar: <span style="color:#66d9ef">false</span>, showSizingBorder: <span style="color:#66d9ef">false</span>));
+</span></span><span style="display:flex;"><span>context.AddTitleBar(titleBarPluginConfig);
+</span></span></code></pre></div><p>Setting the filters can be done using the <code>TitleBarPluginConfig</code> methods:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowClass(<span style="color:#66d9ef">string</span> windowClass, TitleBarStyle style);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowProcessName(<span style="color:#66d9ef">string</span> processName, TitleBarStyle style);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowTitle(<span style="color:#66d9ef">string</span> title, TitleBarStyle style);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> SetWindowTitleMAtch(<span style="color:#66d9ef">string</span> match, TitleBarStyle style);
+</span></span></code></pre></div><h2 id="how-do-i-register-custom-keybindings">How do I register custom keybindings?</h2>
 <p>Workspacer subscribes to the <a href="../keybindings">default set of key bindings</a> automatically for you. If you want to add additional key bindings, or override an existing one, you can do the following:</p>
 <p>Define the mod key. Check <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/KeyModifiers.cs">KeyModifiers.cs</a> to see all available modifiers. <code>KeyModifiers.Alt</code> is the default mod key. If you want to use multiple modifier keys (e.g. Left Alt + Left Control), use <code>KeyModifiers.LAlt | KeyModifiers.LCtrl</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">KeyModifiers mod = KeyModifiers.Alt;
-</code></pre></div><p>Add a key binding using <code>context.Keybinds.Subscribe</code>. See <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/Keys.cs">Keys.cs</a> for all the available key names.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.Subscribe(mod, Keys.Y, () =&gt; Console.WriteLine(<span style="color:#e6db74">&#34;Y was pressed&#34;</span>))
-</code></pre></div><p>If you want to remove a keybinding that already exists, you can unsubscribe from it:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.Unsubscribe(mod, Keys.Y);
-</code></pre></div><p>Finally, you can remove all the default keybindings via:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.Keybinds.UnsubscribeAll();
-</code></pre></div><h2 id="how-do-i-minimize-windows">How do I minimize windows?</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>KeyModifiers mod = KeyModifiers.Alt;
+</span></span></code></pre></div><p>Add a key binding using <code>context.Keybinds.Subscribe</code>. See <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Shared/Keybind/Keys.cs">Keys.cs</a> for all the available key names.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.Keybinds.Subscribe(mod, Keys.Y, () =&gt; Console.WriteLine(<span style="color:#e6db74">&#34;Y was pressed&#34;</span>))
+</span></span></code></pre></div><p>If you want to remove a keybinding that already exists, you can unsubscribe from it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.Keybinds.Unsubscribe(mod, Keys.Y);
+</span></span></code></pre></div><p>Finally, you can remove all the default keybindings via:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.Keybinds.UnsubscribeAll();
+</span></span></code></pre></div><h2 id="how-do-i-minimize-windows">How do I minimize windows?</h2>
 <p>By default, <code>context.CanMinimizeWindows = false</code>. To enable the minimizing of windows, set:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">context.CanMinimizeWindows = <span style="color:#66d9ef">true</span>;
-</code></pre></div><h2 id="how-can-i-troubleshoot-visual-studio-code-type-checking">How can I troubleshoot Visual Studio Code type checking?</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.CanMinimizeWindows = <span style="color:#66d9ef">true</span>;
+</span></span></code></pre></div><h2 id="how-can-i-troubleshoot-visual-studio-code-type-checking">How can I troubleshoot Visual Studio Code type checking?</h2>
 <p>Visual Studio Code uses OmniSharp to provide intellisense and syntax interpolation of C# script files
 such as your <code>workspacer.config.csx</code> - this should work provided you have the <a href="https://code.visualstudio.com/docs/languages/csharp">C# extension</a> installed.</p>
 <p>However, issues with completion or problems indicated for valid code arise when OmniSharp finds multiple .NET SDKs
 installed. Each framework is (.NET Framework, .NET Core, .NET etc) a candidate for the backend it uses to understand your <code>.csx</code> file.</p>
 <p>One way to confirm this is by viewing OmniSharp&rsquo;s output in <code>Output &gt; OmniSharp Log</code> after loading <code>workspace.config.csx</code>.
 For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">[info]: OmniSharp.Script.ScriptContextProvider</span>
-        <span style="color:#a6e22e">Searching for compilation dependencies with the fallback framework of &#39;net461&#39;.</span>
-</code></pre></div><p>OmniSharp will display the default framework it has chosen which in this case is <code>.NET Framework 4.6.1</code> on the system
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#a6e22e">[info]: OmniSharp.Script.ScriptContextProvider</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Searching for compilation dependencies with the fallback framework of &#39;net461&#39;.</span>
+</span></span></code></pre></div><p>OmniSharp will display the default framework it has chosen which in this case is <code>.NET Framework 4.6.1</code> on the system
 instead of the correct <code>.NET</code>. This framework does not understand the lambda expressions we use in config,
 so the following problem is found for the default template (<code>workspacer.config.template.csx</code>):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">Cannot convert lambda expression to type &#39;Action&lt;IConfigContext&gt;&#39; because it is not a delegate type [workspacer.config.csx] csharp(CS1660)</span>
-</code></pre></div><h3 id="workarounds">Workarounds</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#a6e22e">Cannot convert lambda expression to type &#39;Action&lt;IConfigContext&gt;&#39; because it is not a delegate type [workspacer.config.csx] csharp(CS1660)</span>
+</span></span></code></pre></div><h3 id="workarounds">Workarounds</h3>
 <p>In the case you don&rsquo;t require multiple <code>.NET</code> runtimes on your machine, simply uninstall SDKs so that the only SDK
 installed matches the latest one targeted by <code>workspacer</code>.</p>
 <p>Reload VS Code and confirm <code>Output &gt; OmniSharp Log</code> displays the right target framework and no false problems appear.</p>
@@ -428,14 +428,14 @@ installed matches the latest one targeted by <code>workspacer</code>.</p>
 </li>
 <li>
 <p>Add this sample config for <code>.NET 5</code> (which is targeted at time of writing) to the file:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;script&#34;</span>: {
-        <span style="color:#f92672">&#34;enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;defaultTargetFramework&#34;</span>: <span style="color:#e6db74">&#34;net5.0&#34;</span>,
-        <span style="color:#f92672">&#34;enableScriptNuGetReferences&#34;</span>: <span style="color:#66d9ef">true</span>
-    }
-}
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;script&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;defaultTargetFramework&#34;</span>: <span style="color:#e6db74">&#34;net5.0&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;enableScriptNuGetReferences&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
 <li>
 <p>Reload VS Code and confirm <code>Output &gt; OmniSharp Log</code> displays the right target framework and no false problems appear.</p>
 </li>
@@ -448,11 +448,11 @@ installed matches the latest one targeted by <code>workspacer</code>.</p>
 	<p>&copy; Licence MIT.</p>
 	<nav class="nav-footer">
 		
-			<a href="https://github.com/workspacer/workspacer">Workspacer</a>
+			<a href="">Workspacer</a>
 		
-			<a href="https://github.com/rickbutton">Rick Button</a>
+			<a href="">Rick Button</a>
 		
-			<a href="https://rickbutton.me">Website</a>
+			<a href="">Website</a>
 		
 	</nav>
 </footer>
