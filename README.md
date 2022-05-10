@@ -1,8 +1,8 @@
 # workspacer ![stable](https://github.com/workspacer/workspacer/workflows/stable/badge.svg) ![unstable](https://github.com/workspacer/workspacer/workflows/unstable/badge.svg)
 
-### a tiling window manager for Windows 10
+### a tiling window manager for Windows 10 or newer
 
-workspacer is a tiling window manager for Windows 10, similar in style and function to common unix tiling window managers (dwm, i3, xmonad).
+workspacer is a tiling window manager for Windows 10+, similar in style and function to common unix tiling window managers (dwm, i3, xmonad).
 
 # installation
 
