@@ -155,6 +155,19 @@ For example if you wanted to add this [monitor icon from FontAwesome](https://fo
 - `TextWidget`
   - Shows provided fixed text.
   - Useful for dividers.
+- `CpuPerformanceWidget`
+  - Shows percentage of processor usage.
+  - Reports specific core when ProcessorCore is set.
+  - When clicked, Task Manager is opened.
+  - Further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/PerformanceWidget.cs).
+- `MemoryPerformanceWidget`
+  - Shows percentage of memory usage.
+  - When clicked, Task Manager is opened.
+  - Further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/PerformanceWidget.cs).
+- `NetworkPerformanceWidget`
+  - Shows the total of trafic on a specific network interface.
+  - When clicked, Network Connections is opened.
+  - Further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/PerformanceWidget.cs).
 
 ### The Action Menu
 
