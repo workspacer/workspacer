@@ -22,7 +22,6 @@ namespace workspacer
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
 
         public event WorkspaceUpdatedDelegate WorkspaceUpdated;
-        public event WindowFocusedDelegate WindowFocused;
         public event WindowAddedDelegate WindowAdded;
         public event WindowUpdatedDelegate WindowUpdated;
         public event WindowRemovedDelegate WindowRemoved;
@@ -33,179 +32,6 @@ namespace workspacer
         {
             _context = context;
             _windowsToWorkspaces = new Dictionary<IWindow, IWorkspace>();
-        }
-
-        public void CloseFocusedWindow(IWorkspace workspace)
-        {
-            var window = workspace.ManagedWindows.FirstOrDefault(w => w.IsFocused);
-            window?.Close();
-            WindowRemoved?.Invoke(window, workspace);
-        }
-
-
-        public void FocusLastFocusedWindow(IWorkspace workspace)
-        {
-            if (workspace.LastFocusedWindow != null)
-            {
-                workspace.LastFocusedWindow.Focus();
-                WindowFocused?.Invoke(workspace.LastFocusedWindow, workspace);
-            }
-            else
-            {
-                FocusPrimaryWindow(workspace);
-            }
-        }
-
-        public void FocusNextWindow(IWorkspace workspace)
-        {
-            var windows = workspace.ManagedWindows;
-            var didFocus = false;
-            for (var i = 0; i < windows.Count; i++)
-            {
-                var window = windows[i];
-                if (window.IsFocused)
-                {
-                    if (i + 1 == windows.Count)
-                    {
-                        windows[0].Focus();
-                        WindowFocused?.Invoke(windows[0], workspace);
-                    }
-                    else
-                    {
-                        windows[i + 1].Focus();
-                        WindowFocused?.Invoke(windows[i + 1], workspace);
-                    }
-                    didFocus = true;
-                    break;
-                }
-            }
-
-            if (!didFocus && windows.Count > 0)
-            {
-                if (workspace.LastFocusedWindow != null)
-                {
-                    workspace.LastFocusedWindow.Focus();
-                    WindowFocused?.Invoke(workspace.LastFocusedWindow, workspace);
-                }
-                else
-                {
-                    windows[0].Focus();
-                    WindowFocused?.Invoke(windows[0], workspace);
-                }
-            }
-        }
-
-        public void FocusPreviousWindow(IWorkspace workspace)
-        {
-            var windows = workspace.ManagedWindows;
-            var didFocus = false;
-            for (var i = 0; i < windows.Count; i++)
-            {
-                var window = windows[i];
-                if (window.IsFocused)
-                {
-                    if (i == 0)
-                    {
-                        windows[windows.Count - 1].Focus();
-                        WindowFocused?.Invoke(windows[windows.Count - 1], workspace);
-                    }
-                    else
-                    {
-                        windows[i - 1].Focus();
-                        WindowFocused?.Invoke(windows[i - 1], workspace);
-                    }
-                    didFocus = true;
-                    break;
-                }
-            }
-
-            if (!didFocus && windows.Count > 0)
-            {
-                if (workspace.LastFocusedWindow != null)
-                {
-                    workspace.LastFocusedWindow.Focus();
-                    WindowFocused?.Invoke(workspace.LastFocusedWindow, workspace);
-                }
-                else
-                {
-                    windows[0].Focus();
-                    WindowFocused?.Invoke(windows[0], workspace);
-                }
-            }
-        }
-
-        public void FocusPrimaryWindow(IWorkspace workspace)
-        {
-            var window = workspace.ManagedWindows.FirstOrDefault();
-            window?.Focus();
-            WindowFocused?.Invoke(window, workspace);
-        }
-
-        public void SwapFocusAndPrimaryWindow(IWorkspace workspace)
-        {
-            var windows = workspace.ManagedWindows;
-            if (windows.Count > 1)
-            {
-                var primary = windows[0];
-                var focus = windows.FirstOrDefault(w => w.IsFocused);
-
-                if (focus != null)
-                {
-                    workspace.SwapWindows(primary, focus);
-                    WindowMoved?.Invoke(primary, workspace);
-                    WindowMoved?.Invoke(focus, workspace);
-                }
-            }
-        }
-
-        public void SwapFocusAndNextWindow(IWorkspace workspace)
-        {
-            var windows = workspace.ManagedWindows;
-            for (var i = 0; i < windows.Count; i++)
-            {
-                var window = windows[i];
-                if (window.IsFocused)
-                {
-                    if (i + 1 == windows.Count)
-                    {
-                        workspace.SwapWindows(window, windows[0]);
-                        WindowMoved?.Invoke(window, workspace);
-                        WindowMoved?.Invoke(windows[0], workspace);
-                    }
-                    else
-                    {
-                        workspace.SwapWindows(window, windows[i + 1]);
-                        WindowMoved?.Invoke(window, workspace);
-                        WindowMoved?.Invoke(windows[i + 1], workspace);
-                    }
-                    break;
-                }
-            }
-        }
-
-        public void SwapFocusAndPreviousWindow(IWorkspace workspace)
-        {
-            var windows = workspace.ManagedWindows;
-            for (var i = 0; i < windows.Count; i++)
-            {
-                var window = windows[i];
-                if (window.IsFocused)
-                {
-                    if (i == 0)
-                    {
-                        workspace.SwapWindows(window, windows[windows.Count - 1]);
-                        WindowMoved?.Invoke(window, workspace);
-                        WindowMoved?.Invoke(windows[windows.Count - 1], workspace);
-                    }
-                    else
-                    {
-                        workspace.SwapWindows(window, windows[i - 1]);
-                        WindowMoved?.Invoke(window, workspace);
-                        WindowMoved?.Invoke(windows[i - 1], workspace);
-                    }
-                    break;
-                }
-            }
         }
 
         public void SwitchToWindow(IWindow window)
@@ -249,7 +75,7 @@ namespace workspacer
 
                     WorkspaceUpdated?.Invoke();
 
-                    FocusLastFocusedWindow(targetWorkspace);
+                    targetWorkspace.FocusLastFocusedWindow();
                 }
             }
         }
@@ -282,7 +108,7 @@ namespace workspacer
 
             WorkspaceUpdated?.Invoke();
 
-            FocusLastFocusedWindow(targetWorkspace);
+            targetWorkspace.FocusLastFocusedWindow();
         }
 
         public void SwitchToNextWorkspace()
@@ -302,7 +128,7 @@ namespace workspacer
 
             WorkspaceUpdated?.Invoke();
 
-            FocusLastFocusedWindow(targetWorkspace);
+            targetWorkspace.FocusLastFocusedWindow();
         }
 
         public void SwitchToPreviousWorkspace()
@@ -322,7 +148,7 @@ namespace workspacer
 
             WorkspaceUpdated?.Invoke();
 
-            FocusLastFocusedWindow(targetWorkspace);
+            targetWorkspace.FocusLastFocusedWindow();
         }
 
         public void SwitchFocusedMonitor(int index)
@@ -336,7 +162,7 @@ namespace workspacer
                 if (focusedMonitor != monitor)
                 {
                     _context.MonitorContainer.FocusedMonitor = monitor;
-                    FocusLastFocusedWindow(FocusedWorkspace);
+                    FocusedWorkspace.FocusLastFocusedWindow();
 
                     FocusedMonitorUpdated?.Invoke();
                 }
@@ -350,7 +176,7 @@ namespace workspacer
             if (focusedMonitor != targetMonitor)
             {
                 _context.MonitorContainer.FocusedMonitor = targetMonitor;
-                FocusLastFocusedWindow(FocusedWorkspace);
+                FocusedWorkspace.FocusLastFocusedWindow();
 
                 FocusedMonitorUpdated?.Invoke();
             }
@@ -363,7 +189,7 @@ namespace workspacer
             if (focusedMonitor != targetMonitor)
             {
                 _context.MonitorContainer.FocusedMonitor = targetMonitor;
-                FocusLastFocusedWindow(FocusedWorkspace);
+                FocusedWorkspace.FocusLastFocusedWindow();
 
                 FocusedMonitorUpdated?.Invoke();
             }

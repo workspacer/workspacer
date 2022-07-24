@@ -111,6 +111,12 @@ namespace workspacer
                 DoLayout();
         }
 
+        public void CloseFocusedWindow()
+        {
+            var window = ManagedWindows.FirstOrDefault(w => w.IsFocused);
+            window?.Close();
+        }
+
         public void PreviousLayoutEngine()
         {
             if (_layoutIndex == 0)
@@ -141,6 +147,148 @@ namespace workspacer
         {
             GetLayoutEngine().ResetPrimaryArea();
             DoLayout();
+        }
+
+        public void FocusLastFocusedWindow()
+        {
+            if (_lastFocused != null)
+            {
+                _lastFocused.Focus();
+            } else
+            {
+                FocusPrimaryWindow();
+            }
+        }
+
+        public void FocusNextWindow()
+        {
+            var windows = ManagedWindows;
+            var didFocus = false;
+            for (var i = 0; i < windows.Count; i++)
+            {
+                var window = windows[i];
+                if (window.IsFocused)
+                {
+                    if (i + 1 == windows.Count)
+                    {
+                        windows[0].Focus();
+                    }
+                    else
+                    {
+                        windows[i + 1].Focus();
+                    }
+                    didFocus = true;
+                    break;
+                }
+            }
+
+            if (!didFocus && windows.Count > 0)
+            {
+                if (_lastFocused != null)
+                {
+                    _lastFocused.Focus();
+                } else
+                {
+                    windows[0].Focus();
+                }
+            }
+        }
+
+        public void FocusPreviousWindow()
+        {
+            var windows = ManagedWindows;
+            var didFocus = false;
+            for (var i = 0; i < windows.Count; i++)
+            {
+                var window = windows[i];
+                if (window.IsFocused)
+                {
+                    if (i == 0)
+                    {
+                        windows[windows.Count - 1].Focus();
+                    }
+                    else
+                    {
+                        windows[i - 1].Focus();
+                    }
+                    didFocus = true;
+                    break;
+                }
+            }
+
+            if (!didFocus && windows.Count > 0)
+            {
+                if (_lastFocused != null)
+                {
+                    _lastFocused.Focus();
+                } else
+                {
+                    windows[0].Focus();
+                }
+            }
+        }
+
+        public void FocusPrimaryWindow()
+        {
+            var window = ManagedWindows.FirstOrDefault();
+            window?.Focus();
+        }
+
+        public void SwapFocusAndPrimaryWindow()
+        {
+            var windows = ManagedWindows;
+            if (windows.Count > 1)
+            {
+                var primary = windows[0];
+                var focus = windows.FirstOrDefault(w => w.IsFocused);
+
+                if (focus != null)
+                {
+                    SwapWindows(primary, focus);
+                }
+            }
+        }
+
+        public void SwapFocusAndNextWindow()
+        {
+            var windows = ManagedWindows;
+            for (var i = 0; i < windows.Count; i++)
+            {
+                var window = windows[i];
+                if (window.IsFocused)
+                {
+                    if (i + 1 == windows.Count)
+                    {
+                        SwapWindows(window, windows[0]);
+                    }
+                    else
+                    {
+                        SwapWindows(window, windows[i + 1]);
+                    }
+                    break;
+                }
+            }
+        }
+
+        public void SwapFocusAndPreviousWindow()
+        {
+            var windows = ManagedWindows;
+            for (var i = 0; i < windows.Count; i++)
+            {
+                var window = windows[i];
+                if (window.IsFocused)
+                {
+                    if (i == 0)
+                    {
+                        SwapWindows(window, windows[windows.Count - 1]);
+                    }
+                    else
+                    {
+                        SwapWindows(window, windows[i - 1]);
+                    }
+                    break;
+                }
+            }
         }
 
         public void ShrinkPrimaryArea()
@@ -182,21 +330,6 @@ namespace workspacer
             }
         }
 
-        public void SwapWindows(IWindow left, IWindow right)
-        {
-            lock (_windows)
-            {
-                Logger.Trace("SwapWindows[{0},{1}]", left, right);
-                var leftIdx = _windows.FindIndex(w => w == left);
-                var rightIdx = _windows.FindIndex(w => w == right);
-
-                _windows[leftIdx] = right;
-                _windows[rightIdx] = left;
-            }
-
-            DoLayout();
-        }
-
         public bool IsPointInside(int x, int y)
         {
             var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
@@ -208,6 +341,33 @@ namespace workspacer
             {
                 return false;
             }
+        }
+
+        private int GetLayoutSlotIndexForPoint(int x, int y)
+        {
+            var locations = CalcLayout();
+            if (locations == null)
+                return -1;
+            var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
+            if (monitor == null)
+                return -1;
+
+            var adjustedLocations = locations.Select(loc => new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y,
+                                loc.Width, loc.Height, loc.State)).ToList();
+
+            var firstFit = adjustedLocations.FindIndex(l => l.IsPointInside(x, y));
+            return firstFit;
+        }
+
+        private IEnumerable<IWindowLocation> CalcLayout()
+        {
+            var windows = ManagedWindows;
+            var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
+            if (monitor != null)
+            {
+                return GetLayoutEngine().CalcLayout(windows, monitor.Width, monitor.Height);
+            }
+            return null;
         }
 
         public void DoLayout()
@@ -256,31 +416,19 @@ namespace workspacer
             return Name;
         }
 
-        private int GetLayoutSlotIndexForPoint(int x, int y)
+        private void SwapWindows(IWindow left, IWindow right)
         {
-            var locations = CalcLayout();
-            if (locations == null)
-                return -1;
-            var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
-            if (monitor == null)
-                return -1;
-
-            var adjustedLocations = locations.Select(loc => new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y,
-                                loc.Width, loc.Height, loc.State)).ToList();
-
-            var firstFit = adjustedLocations.FindIndex(l => l.IsPointInside(x, y));
-            return firstFit;
-        }
-
-        private IEnumerable<IWindowLocation> CalcLayout()
-        {
-            var windows = ManagedWindows;
-            var monitor = _context.WorkspaceContainer.GetCurrentMonitorForWorkspace(this);
-            if (monitor != null)
+            lock (_windows)
             {
-                return GetLayoutEngine().CalcLayout(windows, monitor.Width, monitor.Height);
+                Logger.Trace("SwapWindows[{0},{1}]", left, right);
+                var leftIdx = _windows.FindIndex(w => w == left);
+                var rightIdx = _windows.FindIndex(w => w == right);
+
+                _windows[leftIdx] = right;
+                _windows[rightIdx] = left;
             }
-            return null;
+
+            DoLayout();
         }
 
         private ILayoutEngine GetLayoutEngine()
