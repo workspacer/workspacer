@@ -89,6 +89,18 @@ namespace workspacer
             OpenDebugOutput(output);
         }
 
+        public void DumpWindowDebugOutputForFocusedWindow()
+        {
+            var focusedWindow = Windows.Where(win => win.IsFocused)
+                .Select(win => win).FirstOrDefault();
+
+            if (focusedWindow != null)
+            {
+                var output = GenerateWindowDebugOutput(focusedWindow);
+                OpenDebugOutput(output);
+            }
+        }
+
         public void DumpWindowUnderCursorDebugOutput()
         {
             var location = Control.MousePosition;
@@ -196,7 +208,7 @@ namespace workspacer
         {
             return idChild == Win32.CHILDID_SELF && idObject == Win32.OBJID.OBJID_WINDOW && hwnd != IntPtr.Zero;
         }
-        
+
         private void RegisterWindow(IntPtr handle, bool emitEvent = true)
         {
             if (!_windows.ContainsKey(handle))
