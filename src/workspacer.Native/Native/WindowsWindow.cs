@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
-    public delegate void WindowFocusedDelegate();
-
     public class WindowsWindow : IWindow
     {
         private static Logger Logger = Logger.Create();
@@ -21,7 +15,9 @@ namespace workspacer
         private IntPtr _handle;
         private bool _didManualHide;
 
-        public WindowFocusedDelegate WindowFocused;
+        public event WindowClosedDelegate WindowClosed;
+        public event WindowUpdatedDelegate WindowUpdated;
+        public event WindowFocusedDelegate WindowFocused;
 
         private int _processId;
         private string _processName;
@@ -175,6 +171,7 @@ namespace workspacer
                 _didManualHide = true;
             }
             Win32.ShowWindow(_handle, Win32.SW.SW_HIDE);
+            WindowUpdated?.Invoke(WindowUpdateType.Hide);
         }
 
         public void ShowNormal()
@@ -182,6 +179,7 @@ namespace workspacer
             _didManualHide = false;
             Logger.Trace("[{0}] :: ShowNormal", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWNOACTIVATE);
+            WindowUpdated?.Invoke(WindowUpdateType.Show);
         }
 
         public void ShowMaximized()
@@ -189,6 +187,7 @@ namespace workspacer
             _didManualHide = false;
             Logger.Trace("[{0}] :: ShowMaximized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMAXIMIZED);
+            WindowUpdated?.Invoke(WindowUpdateType.Show);
         }
 
         public void ShowMinimized()
@@ -196,6 +195,7 @@ namespace workspacer
             _didManualHide = false;
             Logger.Trace("[{0}] :: ShowMinimized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMINIMIZED);
+            WindowUpdated?.Invoke(WindowUpdateType.Show);
         }
 
         public void ShowInCurrentState()
@@ -217,12 +217,19 @@ namespace workspacer
         public void BringToTop()
         {
             Win32.BringWindowToTop(_handle);
+            WindowUpdated?.Invoke(WindowUpdateType.Foreground);
         }
 
         public void Close()
         {
             Logger.Debug("[{0}] :: Close", this);
             Win32Helper.QuitApplication(_handle);
+            WindowClosed?.Invoke();
+        }
+
+        public void Updated(WindowUpdateType type)
+        {
+            WindowUpdated?.Invoke(type);
         }
 
         public override string ToString()

@@ -22,10 +22,10 @@ namespace workspacer
         private Dictionary<IWindow, IWorkspace> _windowsToWorkspaces;
 
         public event WorkspaceUpdatedDelegate WorkspaceUpdated;
-        public event WindowAddedDelegate WindowAdded;
-        public event WindowUpdatedDelegate WindowUpdated;
-        public event WindowRemovedDelegate WindowRemoved;
-        public event WindowMovedDelegate WindowMoved;
+        public event WorkspaceWindowAddedDelegate WindowAdded;
+        public event WorkspaceWindowUpdatedDelegate WindowUpdated;
+        public event WorkspaceWindowRemovedDelegate WindowRemoved;
+        public event WorkspaceWindowMovedDelegate WindowMoved;
         public event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
 
         public WorkspaceManager(IConfigContext context)

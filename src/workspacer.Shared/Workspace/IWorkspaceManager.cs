@@ -8,10 +8,10 @@ namespace workspacer
 {
     public delegate void WorkspaceUpdatedDelegate();
     public delegate void FocusedMonitorUpdatedDelegate();
-    public delegate void WindowAddedDelegate(IWindow window, IWorkspace workspace);
-    public delegate void WindowUpdatedDelegate(IWindow window, IWorkspace workspace);
-    public delegate void WindowRemovedDelegate(IWindow window, IWorkspace workspace);
-    public delegate void WindowMovedDelegate(IWindow window, IWorkspace oldWorkspace, IWorkspace newWorkspace);
+    public delegate void WorkspaceWindowAddedDelegate(IWindow window, IWorkspace workspace);
+    public delegate void WorkspaceWindowUpdatedDelegate(IWindow window, IWorkspace workspace);
+    public delegate void WorkspaceWindowRemovedDelegate(IWindow window, IWorkspace workspace);
+    public delegate void WorkspaceWindowMovedDelegate(IWindow window, IWorkspace oldWorkspace, IWorkspace newWorkspace);
 
     public interface IWorkspaceManager
     {
@@ -39,10 +39,10 @@ namespace workspacer
         void ForceWorkspaceUpdate();
 
         event WorkspaceUpdatedDelegate WorkspaceUpdated;
-        event WindowAddedDelegate WindowAdded;
-        event WindowUpdatedDelegate WindowUpdated;
-        event WindowRemovedDelegate WindowRemoved;
-        event WindowMovedDelegate WindowMoved;
+        event WorkspaceWindowAddedDelegate WindowAdded;
+        event WorkspaceWindowUpdatedDelegate WindowUpdated;
+        event WorkspaceWindowRemovedDelegate WindowRemoved;
+        event WorkspaceWindowMovedDelegate WindowMoved;
         event FocusedMonitorUpdatedDelegate FocusedMonitorUpdated;
     }
 }

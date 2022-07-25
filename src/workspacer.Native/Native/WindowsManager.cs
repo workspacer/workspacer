@@ -218,6 +218,9 @@ namespace workspacer
                 if (!ShouldIgnoreWindow(window))
                 {
                     window.WindowFocused += () => HandleWindowFocused(window);
+                    window.WindowUpdated += (type) => HandleWindowUpdated(window, type);
+                    window.WindowClosed += () => HandleWindowClosed(window);
+
                     _windows[handle] = window;
 
                     if (emitEvent)
@@ -303,9 +306,19 @@ namespace workspacer
             }
         }
 
-        private void HandleWindowFocused(WindowsWindow window)
+        private void HandleWindowFocused(IWindow window)
         {
             WindowFocused?.Invoke(window);
+        }
+
+        private void HandleWindowUpdated(IWindow window, WindowUpdateType type)
+        {
+            WindowUpdated?.Invoke(window, type);
+        }
+
+        private void HandleWindowClosed(IWindow window)
+        {
+            WindowDestroyed?.Invoke(window);
         }
 
         private void HandleWindowMoveStart(WindowsWindow window)
@@ -331,17 +344,17 @@ namespace workspacer
             }
         }
 
-        private void HandleWindowAdd(WindowsWindow window, bool firstCreate)
+        private void HandleWindowAdd(IWindow window, bool firstCreate)
         {
             WindowCreated?.Invoke(window, firstCreate);
         }
 
-        private void HandleWindowRemove(WindowsWindow window)
+        private void HandleWindowRemove(IWindow window)
         {
             WindowDestroyed?.Invoke(window);
         }
 
-        private bool ShouldIgnoreWindow(WindowsWindow window)
+        private bool ShouldIgnoreWindow(IWindow window)
         {
             var id = -1;
             try

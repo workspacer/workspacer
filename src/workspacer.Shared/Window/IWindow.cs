@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
+    public delegate void WindowUpdatedDelegate(WindowUpdateType type);
+    public delegate void WindowClosedDelegate();
+    public delegate void WindowFocusedDelegate();
+
     public interface IWindow
     {
+        event WindowClosedDelegate WindowClosed;
+        event WindowUpdatedDelegate WindowUpdated;
+        event WindowFocusedDelegate WindowFocused;
+
         IntPtr Handle { get; }
         string Title { get; }
         string Class { get; }
@@ -37,5 +40,7 @@ namespace workspacer
         void BringToTop();
 
         void Close();
+
+        void Updated(WindowUpdateType type);
     }
 }
