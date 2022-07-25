@@ -14,7 +14,7 @@ using System.Windows.Forms;
 namespace workspacer
 {
     public delegate void WindowDelegate(IWindow window);
-    public delegate void WindowCreateDelegate(IWindow window, bool firstCreate);
+    public delegate void WindowAddDelegate(IWindow window, bool firstCreate);
     public delegate void WindowUpdateDelegate(IWindow window, WindowUpdateType type);
 
     public class WindowsManager : IWindowsManager
@@ -30,10 +30,13 @@ namespace workspacer
 
         private Dictionary<WindowsWindow, bool> _floating;
 
-        public event WindowCreateDelegate WindowCreated;
-        public event WindowDelegate WindowDestroyed;
-        public event WindowUpdateDelegate WindowUpdated;
+        public event WindowAddDelegate AddWindowTrigger;
+        public event WindowDelegate RemoveWindowTrigger;
+        public event WindowUpdateDelegate UpdateWindowTrigger;
+
         public event WindowFocusDelegate WindowFocused;
+        public event WindowDelegate WindowUpdated;
+        public event WindowDelegate WindowClosed;
 
         public IEnumerable<IWindow> Windows => _windows.Values;
 
@@ -218,7 +221,7 @@ namespace workspacer
                 if (!ShouldIgnoreWindow(window))
                 {
                     window.WindowFocused += () => HandleWindowFocused(window);
-                    window.WindowUpdated += (type) => HandleWindowUpdated(window, type);
+                    window.WindowUpdated += () => HandleWindowUpdated(window);
                     window.WindowClosed += () => HandleWindowClosed(window);
 
                     _windows[handle] = window;
@@ -246,7 +249,7 @@ namespace workspacer
             if (type == WindowUpdateType.Show  && _windows.ContainsKey(handle))
             {
                 var window = _windows[handle];
-                WindowUpdated?.Invoke(window, type);
+                UpdateWindowTrigger?.Invoke(window, type);
             }
             else if (type == WindowUpdateType.Show)
             {
@@ -260,13 +263,13 @@ namespace workspacer
                     UnregisterWindow(handle);
                 } else
                 {
-                    WindowUpdated?.Invoke(window, type);
+                    UpdateWindowTrigger?.Invoke(window, type);
                 }
             }
             else if (_windows.ContainsKey(handle))
             {
                 var window = _windows[handle];
-                WindowUpdated?.Invoke(window, type);
+                UpdateWindowTrigger?.Invoke(window, type);
             }
         }
 
@@ -278,7 +281,7 @@ namespace workspacer
                 Logger.Debug("StartWindowMove[{0}]", window);
 
                 HandleWindowMoveStart(window);
-                WindowUpdated?.Invoke(window, WindowUpdateType.MoveStart);
+                UpdateWindowTrigger?.Invoke(window, WindowUpdateType.MoveStart);
             }
         }
 
@@ -290,7 +293,7 @@ namespace workspacer
                 Logger.Debug("EndWindowMove[{0}]", window);
 
                 HandleWindowMoveEnd();
-                WindowUpdated?.Invoke(window, WindowUpdateType.MoveEnd);
+                UpdateWindowTrigger?.Invoke(window, WindowUpdateType.MoveEnd);
             }
         }
 
@@ -301,7 +304,7 @@ namespace workspacer
                 var window = _windows[handle];
                 if (_mouseMoveWindow == window)
                 {
-                    WindowUpdated?.Invoke(window, WindowUpdateType.Move);
+                    UpdateWindowTrigger?.Invoke(window, WindowUpdateType.Move);
                 }
             }
         }
@@ -311,14 +314,14 @@ namespace workspacer
             WindowFocused?.Invoke(window);
         }
 
-        private void HandleWindowUpdated(IWindow window, WindowUpdateType type)
+        private void HandleWindowUpdated(IWindow window)
         {
-            WindowUpdated?.Invoke(window, type);
+            WindowUpdated?.Invoke(window);
         }
 
         private void HandleWindowClosed(IWindow window)
         {
-            WindowDestroyed?.Invoke(window);
+            WindowClosed?.Invoke(window);
         }
 
         private void HandleWindowMoveStart(WindowsWindow window)
@@ -346,12 +349,12 @@ namespace workspacer
 
         private void HandleWindowAdd(IWindow window, bool firstCreate)
         {
-            WindowCreated?.Invoke(window, firstCreate);
+            AddWindowTrigger?.Invoke(window, firstCreate);
         }
 
         private void HandleWindowRemove(IWindow window)
         {
-            WindowDestroyed?.Invoke(window);
+            RemoveWindowTrigger?.Invoke(window);
         }
 
         private bool ShouldIgnoreWindow(IWindow window)

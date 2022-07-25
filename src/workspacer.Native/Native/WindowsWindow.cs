@@ -171,7 +171,6 @@ namespace workspacer
                 _didManualHide = true;
             }
             Win32.ShowWindow(_handle, Win32.SW.SW_HIDE);
-            WindowUpdated?.Invoke(WindowUpdateType.Hide);
         }
 
         public void ShowNormal()
@@ -179,7 +178,6 @@ namespace workspacer
             _didManualHide = false;
             Logger.Trace("[{0}] :: ShowNormal", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWNOACTIVATE);
-            WindowUpdated?.Invoke(WindowUpdateType.Show);
         }
 
         public void ShowMaximized()
@@ -187,7 +185,6 @@ namespace workspacer
             _didManualHide = false;
             Logger.Trace("[{0}] :: ShowMaximized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMAXIMIZED);
-            WindowUpdated?.Invoke(WindowUpdateType.Show);
         }
 
         public void ShowMinimized()
@@ -195,7 +192,6 @@ namespace workspacer
             _didManualHide = false;
             Logger.Trace("[{0}] :: ShowMinimized", this);
             Win32.ShowWindow(_handle, Win32.SW.SW_SHOWMINIMIZED);
-            WindowUpdated?.Invoke(WindowUpdateType.Show);
         }
 
         public void ShowInCurrentState()
@@ -212,12 +208,14 @@ namespace workspacer
             {
                 ShowNormal();
             }
+
+            WindowUpdated?.Invoke();
         }
 
         public void BringToTop()
         {
             Win32.BringWindowToTop(_handle);
-            WindowUpdated?.Invoke(WindowUpdateType.Foreground);
+            WindowUpdated?.Invoke();
         }
 
         public void Close()
@@ -227,9 +225,9 @@ namespace workspacer
             WindowClosed?.Invoke();
         }
 
-        public void Updated(WindowUpdateType type)
+        public void TriggerUpdated()
         {
-            WindowUpdated?.Invoke(type);
+            WindowUpdated?.Invoke();
         }
 
         public override string ToString()

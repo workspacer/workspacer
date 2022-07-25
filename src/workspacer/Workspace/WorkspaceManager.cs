@@ -432,6 +432,16 @@ namespace workspacer
             }
         }
 
+        public void TriggerWindowUpdated(IWindow window)
+        {
+            if (_windowsToWorkspaces.ContainsKey(window))
+            {
+                Logger.Trace("UpdateWindow({0})", window);
+                var workspace = _windowsToWorkspaces[window];
+                WindowUpdated?.Invoke(window, workspace);
+            }
+        }
+
         private void TrySwapWindowToMouse(IWindow window)
         {
             var point = Control.MousePosition;

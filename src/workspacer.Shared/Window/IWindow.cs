@@ -3,8 +3,8 @@ using System.Drawing;
 
 namespace workspacer
 {
-    public delegate void WindowUpdatedDelegate(WindowUpdateType type);
     public delegate void WindowClosedDelegate();
+    public delegate void WindowUpdatedDelegate();
     public delegate void WindowFocusedDelegate();
 
     public interface IWindow
@@ -41,6 +41,6 @@ namespace workspacer
 
         void Close();
 
-        void Updated(WindowUpdateType type);
+        void TriggerUpdated();
     }
 }
