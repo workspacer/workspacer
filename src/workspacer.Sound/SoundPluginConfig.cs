@@ -2,6 +2,6 @@
 {
     public class SoundPluginConfig
     {
-        public bool BindDefaultKeys { get; set; }
+        public bool BindDefaultPlaybackKeybinds { get; set; }
     }
 }

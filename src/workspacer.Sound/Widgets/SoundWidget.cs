@@ -4,10 +4,20 @@ using workspacer.Bar;
 
 namespace workspacer.Sound.Widgets
 {
-    public class SoundWidget : BarWidgetBase, ISoundEventCallback
+    public interface ISoundWidget
+    {
+        void SetVolume(float scalarVolume);
+        void SetMuted(bool isMuted);
+        void DeviceChanged();
+
+        DeviceInfo DeviceInfo { get; set; }
+    }
+
+    public class SoundWidget : BarWidgetBase, ISoundWidget
     {
         public bool RenderMultiColor { get; set; }
         public Color PrimaryColor { get; set; } = Color.White;
+        public DeviceInfo DeviceInfo { get; set; }
 
         private int _volume;
         private bool _isMuted;
@@ -87,12 +97,13 @@ namespace workspacer.Sound.Widgets
             SoundPlugin.Subscribe(this);
         }
 
-        public void VolumeChanged(float scalarVolume)
+        public void SetVolume(float scalarVolume)
         {
             _volume = (int)Math.Ceiling(100 * scalarVolume);
             MarkDirty();
         }
-        public void MuteChanged(bool isMuted)
+
+        public void SetMuted(bool isMuted)
         {
             _isMuted = isMuted;
             MarkDirty();
