@@ -5,7 +5,7 @@
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <Description>a tiling window manager for Windows</Description>
     <Authors>Rick Button</Authors>
-    <Version>0.9.11</Version>
+    <Version>0.9.12</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
