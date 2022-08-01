@@ -63,11 +63,11 @@ namespace workspacer
             WindowRouter = new WindowRouter(this);
             MonitorContainer = new NativeMonitorContainer();
 
-            Windows.AddWindowTrigger += Workspaces.AddWindow;
-            Windows.RemoveWindowTrigger += Workspaces.RemoveWindow;
-            Windows.UpdateWindowTrigger += Workspaces.UpdateWindow;
+            Windows.WindowCreated += Workspaces.AddWindow;
+            Windows.WindowDestroyed += Workspaces.RemoveWindow;
+            Windows.WindowUpdated += Workspaces.UpdateWindow;
 
-            Windows.WindowUpdated += Workspaces.TriggerWindowUpdated;
+            Windows.OnWindowUpdated += Workspaces.TriggerWindowUpdated;
 
             // ignore watcher windows in workspacer
             WindowRouter.AddFilter((window) => window.ProcessId != _pipeServer.WatcherProcess.Id);

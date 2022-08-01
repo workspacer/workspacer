@@ -3,15 +3,13 @@ using System.Drawing;
 
 namespace workspacer
 {
-    public delegate void WindowClosedDelegate();
-    public delegate void WindowUpdatedDelegate();
-    public delegate void WindowFocusedDelegate();
+    public delegate void IWindowDelegate(IWindow sender);
 
     public interface IWindow
     {
-        event WindowClosedDelegate WindowClosed;
-        event WindowUpdatedDelegate WindowUpdated;
-        event WindowFocusedDelegate WindowFocused;
+        event IWindowDelegate WindowClosed;
+        event IWindowDelegate WindowUpdated;
+        event IWindowDelegate WindowFocused;
 
         IntPtr Handle { get; }
         string Title { get; }
