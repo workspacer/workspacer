@@ -34,7 +34,7 @@ namespace workspacer
         public event WindowDelegate WindowDestroyed;
         public event WindowUpdateDelegate WindowUpdated;
 
-        public event WindowFocusDelegate OnWindowFocused;
+        public event WindowFocusDelegate WindowFocused;
         public event WindowDelegate OnWindowUpdated;
         public event WindowDelegate OnWindowClosed;
 
@@ -311,7 +311,7 @@ namespace workspacer
 
         private void HandleWindowFocused(IWindow window)
         {
-            OnWindowFocused?.Invoke(window);
+            WindowFocused?.Invoke(window);
         }
 
         private void HandleWindowUpdated(IWindow window)

@@ -7,8 +7,18 @@ namespace workspacer
 
     public interface IWindow
     {
+        /// <summary>
+        /// Event to notify subscribers when Close function was called on the window
+        /// </summary>
         event IWindowDelegate WindowClosed;
+        /// <summary>
+        /// Event to notify subscribers that an update action was called on the window
+        /// This includes SetUpdated, all Show* functions and BringToTop
+        /// </summary>
         event IWindowDelegate WindowUpdated;
+        /// <summary>
+        /// Event to notify subscribers that Focus function was called on the window
+        /// </summary>
         event IWindowDelegate WindowFocused;
 
         IntPtr Handle { get; }
@@ -39,6 +49,11 @@ namespace workspacer
 
         void Close();
 
-        void TriggerUpdated();
+        /// <summary>
+        /// Notifies subscribers of the WindowUpdated event
+        /// This is used when code outside this class modifies the window state
+        /// E.g. swapping windows in a workspace
+        /// </summary>
+        void SetUpdated();
     }
 }

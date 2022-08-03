@@ -225,7 +225,7 @@ namespace workspacer
             WindowClosed?.Invoke(this);
         }
 
-        public void TriggerUpdated()
+        public void SetUpdated()
         {
             WindowUpdated?.Invoke(this);
         }

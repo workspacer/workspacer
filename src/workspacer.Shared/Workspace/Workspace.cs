@@ -427,8 +427,8 @@ namespace workspacer
                 _windows[leftIdx] = right;
                 _windows[rightIdx] = left;
 
-                right.TriggerUpdated();
-                left.TriggerUpdated();
+                right.SetUpdated();
+                left.SetUpdated();
             }
 
             DoLayout();

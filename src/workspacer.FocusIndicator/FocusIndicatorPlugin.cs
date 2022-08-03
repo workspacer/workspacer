@@ -25,7 +25,7 @@ namespace workspacer.FocusIndicator
         {
             _context = context;
 
-            _context.Windows.OnWindowFocused += WindowFocused;
+            _context.Windows.WindowFocused += WindowFocused;
         }
 
         private void WindowFocused(IWindow window)
