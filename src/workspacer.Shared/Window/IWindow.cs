@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -54,6 +59,6 @@ namespace workspacer
         /// This is used when code outside this class modifies the window state
         /// E.g. swapping windows in a workspace
         /// </summary>
-        void SetUpdated();
+        void NotifyUpdated();
     }
 }

@@ -432,7 +432,7 @@ namespace workspacer
             }
         }
 
-        public void TriggerWindowUpdated(IWindow window)
+        public void HandleWindowUpdated(IWindow window)
         {
             if (_windowsToWorkspaces.ContainsKey(window))
             {
