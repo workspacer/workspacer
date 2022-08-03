@@ -8,16 +8,16 @@ namespace workspacer
     public interface IWindow
     {
         /// <summary>
-        /// Event to notify subscribers when Close function was called on the window
+        /// Notifies when the Close function was called on the window
         /// </summary>
         event IWindowDelegate WindowClosed;
         /// <summary>
-        /// Event to notify subscribers that an update action was called on the window
+        /// Notifies that an update action was called on the window
         /// This includes SetUpdated, all Show* functions and BringToTop
         /// </summary>
         event IWindowDelegate WindowUpdated;
         /// <summary>
-        /// Event to notify subscribers that Focus function was called on the window
+        /// Notifies that the Focus function was called on the window
         /// </summary>
         event IWindowDelegate WindowFocused;
 

@@ -30,12 +30,30 @@ namespace workspacer
 
         private Dictionary<WindowsWindow, bool> _floating;
 
+        /// <summary>
+        /// Notifies when a new window handle was created by the manager
+        /// </summary>
         public event WindowCreateDelegate WindowCreated;
+        /// <summary>
+        /// Notifies when a handled window was removed by the manager
+        /// </summary>
         public event WindowDelegate WindowDestroyed;
+        /// <summary>
+        /// Notifies when a handled window was updated by the manager
+        /// </summary>
         public event WindowUpdateDelegate WindowUpdated;
 
+        /// <summary>
+        /// Notifies when a window focuses itself
+        /// </summary>
         public event WindowFocusDelegate WindowFocused;
+        /// <summary>
+        /// Notifies when a window updated itself
+        /// </summary>
         public event WindowDelegate OnWindowUpdated;
+        /// <summary>
+        /// Notifies when a window closes itself
+        /// </summary>
         public event WindowDelegate OnWindowClosed;
 
         public IEnumerable<IWindow> Windows => _windows.Values;
