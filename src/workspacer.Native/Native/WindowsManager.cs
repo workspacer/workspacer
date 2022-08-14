@@ -40,6 +40,7 @@ namespace workspacer
         public event WindowDelegate WindowDestroyed;
         /// <summary>
         /// Notifies when a handled window was updated by the manager
+        /// This is used internally by the workspace manager to apply the update to the window
         /// </summary>
         public event WindowUpdateDelegate WindowUpdated;
 
@@ -49,12 +50,14 @@ namespace workspacer
         public event WindowFocusDelegate WindowFocused;
         /// <summary>
         /// Notifies when a window updated itself
+        /// This is used to externally notify when an update was applied to a window
         /// </summary>
-        public event WindowDelegate OnWindowUpdated;
+        public event WindowDelegate WorkspacerExternalWindowUpdate;
         /// <summary>
         /// Notifies when a window closes itself
+        /// This is used to notify when a window was closed
         /// </summary>
-        public event WindowDelegate OnWindowClosed;
+        public event WindowDelegate WorkspacerExternalWindowClosed;
 
         public IEnumerable<IWindow> Windows => _windows.Values;
 
@@ -334,12 +337,12 @@ namespace workspacer
 
         private void HandleWindowUpdated(IWindow window)
         {
-            OnWindowUpdated?.Invoke(window);
+            WorkspacerExternalWindowUpdate?.Invoke(window);
         }
 
         private void HandleWindowClosed(IWindow window)
         {
-            OnWindowClosed?.Invoke(window);
+            WorkspacerExternalWindowClosed?.Invoke(window);
         }
 
         private void HandleWindowMoveStart(WindowsWindow window)
