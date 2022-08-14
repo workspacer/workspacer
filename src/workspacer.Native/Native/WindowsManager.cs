@@ -55,7 +55,7 @@ namespace workspacer
         public event WindowDelegate WorkspacerExternalWindowUpdate;
         /// <summary>
         /// Notifies when a window closes itself
-        /// This is used to notify when a window was closed
+        /// This is used to externally notify when a window was closed
         /// </summary>
         public event WindowDelegate WorkspacerExternalWindowClosed;
 
