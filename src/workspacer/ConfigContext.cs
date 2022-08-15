@@ -67,6 +67,8 @@ namespace workspacer
             Windows.WindowDestroyed += Workspaces.RemoveWindow;
             Windows.WindowUpdated += Workspaces.UpdateWindow;
 
+            Windows.WorkspacerExternalWindowUpdate += Workspaces.HandleWindowUpdated;
+
             // ignore watcher windows in workspacer
             WindowRouter.AddFilter((window) => window.ProcessId != _pipeServer.WatcherProcess.Id);
 
