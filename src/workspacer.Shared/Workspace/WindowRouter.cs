@@ -32,6 +32,7 @@ namespace workspacer
             IgnoreProcessName("StartMenuExperienceHost");
             IgnoreProcessName("SearchApp");
             IgnoreProcessName("SearchHost"); // Windows 11 search
+            IgnoreProcessName("search");     // Windows 11 RTM search
             IgnoreWindowClass("Shell_TrayWnd"); // Windows 11 start
             IgnoreProcessName("ScreenClippingHost");
             _filters.Add((window) => !(window.ProcessId == Process.GetCurrentProcess().Id));

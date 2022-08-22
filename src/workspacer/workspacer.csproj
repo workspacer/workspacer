@@ -7,16 +7,16 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <Description>a tiling window manager for Windows</Description>
     <Authors>Rick Button</Authors>
-    <Version>0.9.11</Version>
+    <Version>0.9.12</Version>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\workspacer.config.template.csx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autoupdater.NET.Official" Version="1.7.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="4.0.1" />
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.7.4" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="4.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Octokit" Version="0.50.0" />
+    <PackageReference Include="Octokit" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\workspacer.Native\workspacer.Native.csproj" />
@@ -27,7 +27,7 @@
     <ProjectReference Include="..\workspacer.Gap\workspacer.Gap.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\workspacer.ActionMenu\workspacer.ActionMenu.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\workspacer.FocusIndicator\workspacer.FocusIndicator.csproj" ReferenceOutputAssembly="false" />
-    <ProjectReference Include="..\workspacer.Titlebar\workspacer.Titlebar.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\workspacer.TitleBar\workspacer.TitleBar.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\workspacer.Watcher\workspacer.Watcher.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <Target Name="CopyPluginsAfterBuild" AfterTargets="Build">
