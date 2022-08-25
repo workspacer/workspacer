@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer.Bar
 {
@@ -15,6 +11,13 @@ namespace workspacer.Bar
             context.AddLayoutProxy((layout) => new MenuBarLayoutEngine(layout, config.BarTitle, config.BarHeight));
 
             context.Plugins.RegisterPlugin(new BarPlugin(config));
+        }
+
+        public static void AddBar(this IConfigContext context, Action<BarPluginConfig> onConfig)
+        {
+            var config = new BarPluginConfig();
+            onConfig(config);
+            context.AddBar(config);
         }
     }
 }

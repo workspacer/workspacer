@@ -11,23 +11,38 @@ namespace workspacer.Gap
         private int _innerGap;
         private int _outerGap;
         private int _delta;
+        private bool _onFocused;
         private ILayoutEngine _inner;
         public string Name => _inner.Name;
 
-        public GapLayoutEngine(ILayoutEngine inner, int innerGap = 0, int outerGap = 0, int delta = 20)
+        public GapLayoutEngine(ILayoutEngine inner, int innerGap = 0, int outerGap = 0, int delta = 20, bool onFocused = true)
         {
             _inner = inner;
             _innerGap = innerGap;
             _outerGap = outerGap;
             _delta = delta;
+            _onFocused = onFocused;
         }
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)
         {
             var doubleOuter = _outerGap * 2;
             var halfInner = _innerGap / 2;
-            return _inner.CalcLayout(windows, spaceWidth - doubleOuter, spaceHeight - doubleOuter).Select(l =>
-                new WindowLocation(l.X + _outerGap + halfInner, l.Y + _outerGap + halfInner, l.Width - _innerGap, l.Height - _innerGap, l.State)
+            return windows.Zip(_inner.CalcLayout(windows, spaceWidth - doubleOuter, spaceHeight - doubleOuter)).Select(
+                win =>
+                {
+                    var l = win.Second;
+                    if (win.First.IsFocused && !_onFocused)
+                    {
+                        return new WindowLocation(l.X + _outerGap, l.Y + _outerGap,
+                            l.Width, l.Height, l.State);
+                    }
+                    else
+                    {
+                        return new WindowLocation(l.X + _outerGap + halfInner, l.Y + _outerGap + halfInner,
+                            l.Width - _innerGap, l.Height - _innerGap, l.State);
+                    }
+                }
             );
         }
 

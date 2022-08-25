@@ -16,7 +16,6 @@ namespace workspacer.Bar
 
         public Color DefaultWidgetForeground { get; set; } = Color.White;
         public Color DefaultWidgetBackground { get; set; } = Color.Black;
-        public Color Background { get; set; } = Color.Black;
 
         public Func<IBarWidget[]> LeftWidgets { get; set; } = () => 
             new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() };

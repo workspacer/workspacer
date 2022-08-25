@@ -15,5 +15,12 @@ namespace workspacer.TitleBar
             context.Plugins.RegisterPlugin(plugin);
             return plugin;
         }
+
+        public static TitleBarPlugin AddTitleBar(this IConfigContext context, Action<TitleBarPluginConfig> onConfig)
+        {
+            var config = new TitleBarPluginConfig();
+            onConfig(config);
+            return context.AddTitleBar(config);
+        }
     }
 }
