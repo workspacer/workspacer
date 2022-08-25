@@ -13,7 +13,7 @@
     <EmbeddedResource Include="Config\workspacer.config.template.csx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autoupdater.NET.Official" Version="1.7.4" />
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.7.5" />
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="4.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Octokit" Version="2.0.1" />
