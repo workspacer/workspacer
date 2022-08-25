@@ -1,8 +1,5 @@
 using System;
 using System.Drawing;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
