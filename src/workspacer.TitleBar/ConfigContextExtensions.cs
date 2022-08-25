@@ -1,3 +1,5 @@
+using System;
+
 namespace workspacer.TitleBar
 {
     public static class ConfigContextExtensions

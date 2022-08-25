@@ -1,5 +1,7 @@
 ﻿namespace workspacer.ActionMenu
 {
+    using System;
+
     public static class ConfigContextExtensions
     {
         public static ActionMenuPlugin AddActionMenu(this IConfigContext context, ActionMenuPluginConfig config = null)
