@@ -27,6 +27,9 @@ namespace workspacer
                 if (handle != IntPtr.Zero)
                 {
                     var style = Win32.GetWindowLongPtr(handle, Win32.GWL_STYLE);
+                    if (Environment.Is64BitProcess) {
+                        return ((UInt64)style & (UInt64)Win32.WS.WS_VISIBLE) != 0;
+                    }
                     return ((uint)style & (uint)Win32.WS.WS_VISIBLE) != 0;
                 }
                 return false;
