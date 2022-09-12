@@ -12,9 +12,16 @@ namespace workspacer.Bar
         {
             config = config ?? new BarPluginConfig();
 
-            context.AddLayoutProxy((layout) => new MenuBarLayoutEngine(layout, config.BarTitle, config.BarHeight, config.BarIsTop, config.BarReservesSpace));
+            context.AddLayoutProxy((layout) => new MenuBarLayoutEngine(layout, config));
 
             context.Plugins.RegisterPlugin(new BarPlugin(config));
+        }
+
+        public static void AddBar(this IConfigContext context, Action<BarPluginConfig> configAction)
+        {
+            var config = new BarPluginConfig();
+            configAction.Invoke(config);
+            context.AddBar(config);
         }
     }
 }

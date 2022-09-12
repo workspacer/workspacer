@@ -29,7 +29,13 @@ namespace workspacer.Bar
             this.Text = config.BarTitle;
             this.ControlBox = false;
             this.FormBorderStyle = FormBorderStyle.None;
-            this.BackColor = ColorToColor(config.DefaultWidgetBackground);
+            this.BackColor = ColorToColor(config.Background);
+
+            if (config.IsTransparant)
+            {
+                this.AllowTransparency = true;
+                this.TransparencyKey = ColorToColor(config.Transparant);
+            }
 
             this.Load += OnLoad;
 
@@ -43,6 +49,12 @@ namespace workspacer.Bar
                 CreateParams cp = base.CreateParams;
                 // turn on WS_EX_TOOLWINDOW style bit
                 cp.ExStyle |= 0x80;
+                
+                // turn on WS_EX_TOPMOST if the topbar does not reserve space.
+                if (_config is not null && !_config.BarReservesSpace)
+                    cp.ExStyle |= 0x8 | 0x80000;
+                if (_config is not null && _config.IsTransparant)
+                    cp.ExStyle |= 0x20;
                 return cp;
             }
         }
@@ -57,7 +69,7 @@ namespace workspacer.Bar
 
         private System.Drawing.Color ColorToColor(Color color)
         {
-            return System.Drawing.Color.FromArgb(color.R, color.G, color.B);
+            return System.Drawing.Color.FromArgb(255, color.R, color.G, color.B);
         }
 
         private void OnLoad(object sender, EventArgs e)
@@ -74,7 +86,7 @@ namespace workspacer.Bar
             _timer.Enabled = true;
 
             this.Height = _config.BarHeight;
-            this.Width = _config.BarIsMinimal ? _left.WidthInPixels + _right.WidthInPixels : _monitor.Width;
+            this.Width = _monitor.Width;
 
         }
 
@@ -89,7 +101,7 @@ namespace workspacer.Bar
             this.leftPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.leftPanel.AutoSize = true;
-            this.leftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.leftPanel.BackColor = ColorToColor(this._config.DefaultWidgetBackground);
             this.leftPanel.Location = new System.Drawing.Point(0, 0);
             this.leftPanel.Margin = new System.Windows.Forms.Padding(0);
             this.leftPanel.Name = "leftPanel";
@@ -102,7 +114,7 @@ namespace workspacer.Bar
             this.rightPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rightPanel.AutoSize = true;
-            this.rightPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.rightPanel.BackColor = ColorToColor(this._config.DefaultWidgetBackground);
             this.rightPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.rightPanel.Location = new System.Drawing.Point(1848, 0);
             this.rightPanel.Margin = new System.Windows.Forms.Padding(0);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using workspacer.Bar.Widgets;
@@ -19,6 +20,11 @@ namespace workspacer.Bar
 
         public Color DefaultWidgetForeground { get; set; } = Color.White;
         public Color DefaultWidgetBackground { get; set; } = Color.Black;
+        
+        public Color Transparant { get; set; } = Color.Lime;
+
+        public bool IsTransparant = false;
+
         public Color Background { get; set; } = Color.Black;
 
         public Func<IBarWidget[]> LeftWidgets { get; set; } = () => 
