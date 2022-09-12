@@ -7,7 +7,11 @@ namespace workspacer
     {
         public static string GetUserWorkspacerPath()
         {
+            #if DEBUG
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer_debug");
+            #else
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer");
+            #endif
         }
 
         public static void EnsureUserWorkspacerPathExists()

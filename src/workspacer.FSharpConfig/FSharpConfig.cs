@@ -13,13 +13,27 @@
     /// </summary>
     public static class FSharpConfig
     {
+
+        /// <summary>
+        /// Get the path of the workspacer settings directory.
+        /// </summary>
+        /// <returns>The path of the workspacer settings directory.</returns>
+        public static string GetUserWorkspacerPath()
+        {
+#if DEBUG
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer_debug");
+#else
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer");
+#endif
+        }
+
         /// <summary>
         /// Get the path of the F# configuration file.
         /// </summary>
         /// <returns>The path of the F# configuration file.</returns>
         private static string GetConfigFile()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer", "workspacer.config.fsx");
+            return Path.Combine(GetUserWorkspacerPath(), "Workspacer.Config.fsx");
         }
 
         /// <summary>
@@ -68,9 +82,9 @@
         /// <returns></returns>
         public static Action<IConfigContext> Use()
         {
-            var text = File.ReadAllText(GetConfigFile());
-            var action = FSharpConfig.Eval<FSharpFunc<IConfigContext, Unit>>(text);
-            return x => action.Invoke(x);
+            return
+                FSharpCompiler.LoadScript(GetConfigFile())
+                    .GetDelegate<Action<IConfigContext>>("Workspacer.Config", "setupContext");
         }
 
         /// <summary>
