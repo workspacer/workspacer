@@ -21,7 +21,7 @@
         {
             var references = dllFiles.ToDictionary(x => AssemblyName.GetAssemblyName(x).FullName);
 
-            Assembly Resolver(object? sender, ResolveEventArgs args)
+            Assembly Resolver(object sender, ResolveEventArgs args)
             {
                 AppDomain domain = (AppDomain) sender!;
 

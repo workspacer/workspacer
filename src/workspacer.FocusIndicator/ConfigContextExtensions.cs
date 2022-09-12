@@ -1,3 +1,5 @@
+﻿using System;
+
 namespace workspacer.FocusIndicator
 {
     public static class ConfigContextExtensions

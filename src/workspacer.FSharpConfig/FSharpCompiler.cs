@@ -56,7 +56,7 @@
             }
         }
 
-        public static Assembly LoadScript(string scriptFile, string? dllFile = null)
+        public static Assembly LoadScript(string scriptFile, string dllFile = null)
         {
             if (dllFile is null)
                 dllFile = Path.ChangeExtension(scriptFile, "dll");
