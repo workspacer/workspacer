@@ -50,7 +50,10 @@
                     FSharpOption<int>.None,
                     FSharpOption<CancellationToken>.None
                 );
-            Console.WriteLine(result);
+            if (result.Item2 != 0)
+            {
+                throw new FSharpCompileException(result.Item1[0].Message, result.Item1);
+            }
         }
 
         public static Assembly LoadScript(string scriptFile, string? dllFile = null)
