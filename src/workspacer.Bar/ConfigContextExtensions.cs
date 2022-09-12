@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace workspacer.Bar
 {
     public static class ConfigContextExtensions

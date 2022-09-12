@@ -1,5 +1,3 @@
-using System;
-
 namespace workspacer.Gap
 {
     using System.Runtime.CompilerServices;
