@@ -131,6 +131,8 @@ public interface IBarWidgetPart
 Widgets support custom on-click functions and callbacks through the `PartClicked` Action. Icon fonts are also supported and can be set for individual widgets but require system wide installation of the font and there may be issues with `.OTF` files, so `TTF`s are recommended. To add icons to a widget you must use its unicode value.
 For example if you wanted to add this [monitor icon from FontAwesome](https://fontawesome.com/v5.15/icons/desktop?style=solid) you would have to write `"\uf108"`.
 
+Starting another process in the funcion `PartClicked` requires elevated privileges on Windows 11.
+
 #### Menu Bar Widgets
 
 - `ActiveLayoutWidget`
