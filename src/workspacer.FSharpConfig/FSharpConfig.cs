@@ -13,27 +13,13 @@
     /// </summary>
     public static class FSharpConfig
     {
-
-        /// <summary>
-        /// Get the path of the workspacer settings directory.
-        /// </summary>
-        /// <returns>The path of the workspacer settings directory.</returns>
-        public static string GetUserWorkspacerPath()
-        {
-#if DEBUG
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer_debug");
-#else
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer");
-#endif
-        }
-
         /// <summary>
         /// Get the path of the F# configuration file.
         /// </summary>
         /// <returns>The path of the F# configuration file.</returns>
-        private static string GetConfigFile()
+        private static string GetConfigFile(IConfigContext context)
         {
-            return Path.Combine(GetUserWorkspacerPath(), "Workspacer.Config.fsx");
+            return Path.Combine(context.UserWorkspacerPath, "Workspacer.Config.fsx");
         }
 
         /// <summary>
@@ -42,9 +28,7 @@
         /// <returns></returns>
         public static Action<IConfigContext> Use()
         {
-            return
-                FSharpCompiler.LoadScript(GetConfigFile())
-                    .GetDelegate<Action<IConfigContext>>("Workspacer.Config", "setupContext");
+            return Extend;
         }
 
         /// <summary>
@@ -54,7 +38,9 @@
         /// <param name="context">The configuration context.</param>
         public static void Extend(this IConfigContext context)
         {
-            FSharpConfig.Use().Invoke(context);
+            FSharpCompiler.LoadScript(GetConfigFile(context))
+                .GetDelegate<Action<IConfigContext>>("Workspacer.Config", "setupContext")
+                .Invoke(context);
         }
     }
 }

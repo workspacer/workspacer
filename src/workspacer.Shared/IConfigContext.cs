@@ -23,6 +23,8 @@ namespace workspacer
 
         IMonitorContainer MonitorContainer { get; set; }
         bool CanMinimizeWindows { get; set; }
+        
+        string UserWorkspacerPath { get; }
 
         /// <summary>
         /// the default layout Func is used to generate layouts for workspaces that do not

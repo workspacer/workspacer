@@ -30,6 +30,8 @@ namespace workspacer
         public IMonitorContainer MonitorContainer { get; set; }
 
         public bool CanMinimizeWindows { get; set; } = false;
+        
+        public string UserWorkspacerPath => FileHelper.GetUserWorkspacerPath();
 
         private System.Timers.Timer _timer;
         private PipeServer _pipeServer;
