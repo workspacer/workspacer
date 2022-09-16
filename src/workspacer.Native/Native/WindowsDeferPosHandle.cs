@@ -70,7 +70,9 @@ namespace workspacer
             int Width = location.Width + offset.Width;
             int Height = location.Height + offset.Height;
 
-            Win32.DeferWindowPos(_info, window.Handle, IntPtr.Zero, X, Y, Width, Height, flags);
+            var oldLocation = window.Location;
+            if (oldLocation.X != X || oldLocation.Y != Y || oldLocation.Width != Width || oldLocation.Height != Height)
+                Win32.DeferWindowPos(_info, window.Handle, IntPtr.Zero, X, Y, Width, Height, flags);
         }
     }
 }
