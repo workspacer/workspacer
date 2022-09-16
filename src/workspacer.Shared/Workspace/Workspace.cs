@@ -1,9 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace workspacer
 {
@@ -426,6 +422,9 @@ namespace workspacer
 
                 _windows[leftIdx] = right;
                 _windows[rightIdx] = left;
+
+                right.NotifyUpdated();
+                left.NotifyUpdated();
             }
 
             DoLayout();

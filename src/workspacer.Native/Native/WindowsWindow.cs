@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
-    public delegate void WindowFocusedDelegate();
-
     public class WindowsWindow : IWindow
     {
         private static Logger Logger = Logger.Create();
@@ -21,7 +15,9 @@ namespace workspacer
         private IntPtr _handle;
         private bool _didManualHide;
 
-        public WindowFocusedDelegate WindowFocused;
+        public event IWindowDelegate WindowClosed;
+        public event IWindowDelegate WindowUpdated;
+        public event IWindowDelegate WindowFocused;
 
         private int _processId;
         private string _processName;
@@ -163,7 +159,7 @@ namespace workspacer
             {
                 Logger.Debug("[{0}] :: Focus", this);
                 Win32Helper.ForceForegroundWindow(_handle);
-                WindowFocused?.Invoke();
+                WindowFocused?.Invoke(this);
             }
         }
 
@@ -212,17 +208,26 @@ namespace workspacer
             {
                 ShowNormal();
             }
+
+            WindowUpdated?.Invoke(this);
         }
 
         public void BringToTop()
         {
             Win32.BringWindowToTop(_handle);
+            WindowUpdated?.Invoke(this);
         }
 
         public void Close()
         {
             Logger.Debug("[{0}] :: Close", this);
             Win32Helper.QuitApplication(_handle);
+            WindowClosed?.Invoke(this);
+        }
+
+        public void NotifyUpdated()
+        {
+            WindowUpdated?.Invoke(this);
         }
 
         public override string ToString()

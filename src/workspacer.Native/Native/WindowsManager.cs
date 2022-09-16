@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
 
 namespace workspacer
@@ -30,10 +25,34 @@ namespace workspacer
 
         private Dictionary<WindowsWindow, bool> _floating;
 
+        /// <summary>
+        /// Notifies when a new window handle was created by the manager
+        /// </summary>
         public event WindowCreateDelegate WindowCreated;
+        /// <summary>
+        /// Notifies when a handled window was removed by the manager
+        /// </summary>
         public event WindowDelegate WindowDestroyed;
+        /// <summary>
+        /// Notifies when a handled window was updated by the manager
+        /// This is used internally by the workspace manager to apply the update to the window
+        /// </summary>
         public event WindowUpdateDelegate WindowUpdated;
+
+        /// <summary>
+        /// Notifies when a window focuses itself
+        /// </summary>
         public event WindowFocusDelegate WindowFocused;
+        /// <summary>
+        /// Notifies when a window updated itself
+        /// This is used to externally notify when an update was applied to a window
+        /// </summary>
+        public event WindowDelegate WorkspacerExternalWindowUpdate;
+        /// <summary>
+        /// Notifies when a window closes itself
+        /// This is used to externally notify when a window was closed
+        /// </summary>
+        public event WindowDelegate WorkspacerExternalWindowClosed;
 
         public IEnumerable<IWindow> Windows => _windows.Values;
 
@@ -217,7 +236,10 @@ namespace workspacer
 
                 if (!ShouldIgnoreWindow(window))
                 {
-                    window.WindowFocused += () => HandleWindowFocused(window);
+                    window.WindowFocused += (sender) => HandleWindowFocused(sender);
+                    window.WindowUpdated += (sender) => HandleWindowUpdated(sender);
+                    window.WindowClosed += (sender) => HandleWindowClosed(sender);
+
                     _windows[handle] = window;
 
                     if (emitEvent)
@@ -303,9 +325,19 @@ namespace workspacer
             }
         }
 
-        private void HandleWindowFocused(WindowsWindow window)
+        private void HandleWindowFocused(IWindow window)
         {
             WindowFocused?.Invoke(window);
+        }
+
+        private void HandleWindowUpdated(IWindow window)
+        {
+            WorkspacerExternalWindowUpdate?.Invoke(window);
+        }
+
+        private void HandleWindowClosed(IWindow window)
+        {
+            WorkspacerExternalWindowClosed?.Invoke(window);
         }
 
         private void HandleWindowMoveStart(WindowsWindow window)
@@ -331,17 +363,17 @@ namespace workspacer
             }
         }
 
-        private void HandleWindowAdd(WindowsWindow window, bool firstCreate)
+        private void HandleWindowAdd(IWindow window, bool firstCreate)
         {
             WindowCreated?.Invoke(window, firstCreate);
         }
 
-        private void HandleWindowRemove(WindowsWindow window)
+        private void HandleWindowRemove(IWindow window)
         {
             WindowDestroyed?.Invoke(window);
         }
 
-        private bool ShouldIgnoreWindow(WindowsWindow window)
+        private bool ShouldIgnoreWindow(IWindow window)
         {
             var id = -1;
             try
