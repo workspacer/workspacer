@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29306.81
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer", "src\workspacer\workspacer.csproj", "{D89294E0-EB76-440E-835C-CCD1E4CF6933}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -34,6 +34,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.TitleBar", "src\workspacer.TitleBar\workspacer.TitleBar.csproj", "{191834CC-3FB2-4DFB-BF5E-8FC9231873F3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "workspacer.TitleBar.Tests", "src\workspacer.TitleBar.Tests\workspacer.TitleBar.Tests.csproj", "{E4E357BA-0154-4266-A816-B765208E810D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workspacer.FocusBorder", "src\workspacer.FocusBorder\workspacer.FocusBorder.csproj", "{37DFB8A1-071D-4622-A377-92480909F4AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,6 +203,18 @@ Global
 		{E4E357BA-0154-4266-A816-B765208E810D}.Release|x64.Build.0 = Release|Any CPU
 		{E4E357BA-0154-4266-A816-B765208E810D}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4E357BA-0154-4266-A816-B765208E810D}.Release|x86.Build.0 = Release|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Debug|x64.Build.0 = Debug|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Debug|x86.Build.0 = Debug|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Release|x64.ActiveCfg = Release|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Release|x64.Build.0 = Release|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Release|x86.ActiveCfg = Release|Any CPU
+		{37DFB8A1-071D-4622-A377-92480909F4AA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
