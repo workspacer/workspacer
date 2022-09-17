@@ -30,6 +30,7 @@
     <ProjectReference Include="..\workspacer.TitleBar\workspacer.TitleBar.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\workspacer.Watcher\workspacer.Watcher.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\workspacer.FSharpConfig\workspacer.FSharpConfig.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\workspacer.FocusBorder\workspacer.FocusBorder.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <Target Name="CopyPluginsAfterBuild" AfterTargets="Build">
     <Copy SourceFiles="$(SolutionDir)src\workspacer.Bar\$(OutDir)workspacer.Bar.dll" DestinationFolder="$(TargetDir)plugins\workspacer.Bar\" />
@@ -38,6 +39,7 @@
 	    <_FSharpConfigCopyItems Include="$(SolutionDir)src\workspacer.FSharpConfig\$(OutDir)*.dll" />
     </ItemGroup>
     <Copy SourceFiles="@(_FSharpConfigCopyItems)" DestinationFolder="$(TargetDir)plugins\workspacer.FSharpConfig\" />
+    <Copy SourceFiles="$(SolutionDir)src\workspacer.FocusBorder\$(OutDir)workspacer.FocusBorder.dll" DestinationFolder="$(TargetDir)plugins\workspacer.FocusBorder\" />
     <Copy SourceFiles="$(SolutionDir)src\workspacer.ActionMenu\$(OutDir)workspacer.ActionMenu.dll" DestinationFolder="$(TargetDir)plugins\workspacer.ActionMenu\" />
     <Copy SourceFiles="$(SolutionDir)src\workspacer.FocusIndicator\$(OutDir)workspacer.FocusIndicator.dll" DestinationFolder="$(TargetDir)plugins\workspacer.FocusIndicator\" />
     <Copy SourceFiles="$(SolutionDir)src\workspacer.TitleBar\$(OutDir)workspacer.TitleBar.dll" DestinationFolder="$(TargetDir)plugins\workspacer.TitleBar\" />
@@ -48,6 +50,7 @@
   <Target Name="CopyPluginsAfterPublish" AfterTargets="Publish">
     <Copy SourceFiles="$(SolutionDir)src\workspacer.Bar\$(OutDir)workspacer.Bar.dll" DestinationFolder="$(PublishDir)plugins\workspacer.Bar\" />
     <Copy SourceFiles="$(SolutionDir)src\workspacer.Gap\$(OutDir)workspacer.Gap.dll" DestinationFolder="$(PublishDir)plugins\workspacer.Gap\" />
+    <Copy SourceFiles="$(SolutionDir)src\workspacer.FocusBorder\$(OutDir)workspacer.FocusBorder.dll" DestinationFolder="$(PublishDir)plugins\workspacer.FocusBorder\" />
     <Copy SourceFiles="$(SolutionDir)src\workspacer.ActionMenu\$(OutDir)workspacer.ActionMenu.dll" DestinationFolder="$(PublishDir)plugins\workspacer.ActionMenu\" />
     <Copy SourceFiles="$(SolutionDir)src\workspacer.FocusIndicator\$(OutDir)workspacer.FocusIndicator.dll" DestinationFolder="$(PublishDir)plugins\workspacer.FocusIndicator\" />
     <Copy SourceFiles="$(SolutionDir)src\workspacer.TitleBar\$(OutDir)workspacer.TitleBar.dll" DestinationFolder="$(PublishDir)plugins\workspacer.TitleBar\" />

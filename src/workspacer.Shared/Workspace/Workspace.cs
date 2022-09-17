@@ -400,12 +400,15 @@ namespace workspacer
                 {
                     windows.ForEach(w => w.Hide());
                 }
+                OnLayoutCompleted?.Invoke(this);
             }
             else
             {
                 windows.ForEach(w => w.ShowInCurrentState());
             }
         }
+
+        public event OnLayoutCompletedDelegate OnLayoutCompleted;
 
         public override string ToString()
         {
