@@ -23,13 +23,13 @@ __workspacer__ is a tiling window manager for Windows 10+, similar in style and 
 ## Winget
 
 ```console
-$ winget install --id=rickbutton.workspacer  -e
+winget install --id=rickbutton.workspacer  -e
 ```
 
 ## Chocolatey
 
 ```console
-$ choco install workspacer
+choco install workspacer
 ```
 
 ## Scoop
