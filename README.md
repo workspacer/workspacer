@@ -39,7 +39,8 @@ scoop bucket add extras
 scoop install workspacer
 ```
 
-This is enough to get started - to see more info, check out the [quick start guide][quickstart]!
+This is enough to get started - to see more info, check out the
+[quick start guide][quickstart-page]!
 
 # Customization
 
@@ -66,8 +67,8 @@ return doConfig;
 This gives you a full experience, but you can read the [config][config-page]
 page to see the full gambit of available options.
 
-Check out the [wiki](https://github.com/workspacer/workspacer/wiki/Customization)
-to see other users' configurations and post your own!
+Check out the [wiki][wiki-page] to see other users'
+configurations and post your own!
 
 # Contributing
 
@@ -75,6 +76,7 @@ Thanks for your interest in contributing!
 
 Review the [code of conduct](./CODE_OF_CONDUCT.md) and submit a pull request!
 
-[workspacer]: https://workspacer.org
-[quickstart]: https://www.workspacer.org/quickstart
-[config-page]: https://www.workspacer.org/quickstart
+[workspacer-home]: https://workspacer.org
+[quickstart-page]: https://workspacer.org/quickstart
+[config-page]: https://workspacer.org/config
+[wiki-page]: https://github.com/workspacer/workspacer/wiki/Customization
