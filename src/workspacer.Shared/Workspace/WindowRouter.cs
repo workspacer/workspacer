@@ -32,6 +32,8 @@ namespace workspacer
             IgnoreProcessName("search");     // Windows 11 RTM search
             IgnoreWindowClass("Shell_TrayWnd"); // Windows 11 start
             IgnoreProcessName("ScreenClippingHost");
+            IgnoreWindowClass("WorkerW"); //Windows desktop
+
             _filters.Add((window) => !(window.ProcessId == Process.GetCurrentProcess().Id));
         }
 
