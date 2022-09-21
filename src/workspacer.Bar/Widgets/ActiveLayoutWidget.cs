@@ -6,13 +6,15 @@ namespace workspacer.Bar.Widgets
     {
       
         private Timer _timer;
+        public bool UseAlias { get; set; } = false;
 
         public ActiveLayoutWidget() { }
 
         public override IBarWidgetPart[] GetParts()
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
-            return Parts(Part(LeftPadding + currentWorkspace.LayoutName + RightPadding, partClicked: () =>
+
+            return Parts(Part(LeftPadding + (UseAlias? currentWorkspace.LayoutAlias:currentWorkspace.LayoutName) + RightPadding, partClicked: () =>
             {
                Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
             }, fontname: FontName));

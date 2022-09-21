@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace workspacer.Bar
 {
@@ -9,12 +10,14 @@ namespace workspacer.Bar
         private int _offset;
         private ILayoutEngine _inner;
         public string Name => _inner.Name;
-
+        public string Alias { get; set; }
+        
         public MenuBarLayoutEngine(ILayoutEngine inner, string title, int offset)
         {
             _inner = inner;
             _title = title;
             _offset = offset;
+            Alias = _inner.Alias;
         }
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)

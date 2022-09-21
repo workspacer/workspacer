@@ -29,6 +29,7 @@ namespace workspacer
         }
 
         public string Name => "dwindle";
+        public string Alias { get; set; } = "Dwindle";
 
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)

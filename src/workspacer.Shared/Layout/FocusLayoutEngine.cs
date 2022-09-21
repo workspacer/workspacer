@@ -8,6 +8,7 @@ namespace workspacer
     public class FocusLayoutEngine : ILayoutEngine
     {
         public string Name => "focus";
+        public string Alias { get; set; } = "Focus";
 
         private readonly int _numInPrimary;
         private readonly double _primaryPercent;
