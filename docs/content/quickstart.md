@@ -50,9 +50,11 @@ Workspacer's configuration file allows for __type checking__ and __intellisense_
 
 ### Configuring in F#
 
-Workspacer can also be configured in F#, either by extending an existing C# configuration or replacing C# configuration entirely. To get started with F# configuration, replace the C# configuration file with the following:
+Workspacer can also be configured in F#, either by extending an existing C# configuration or replacing C# configuration entirely. F# script files (`.fsx`) are supported with autocompletion in Visual Studio and Rider, as well as Visual Studio Code (using the [iodine](https://marketplace.visualstudio.com/items?itemName=Ionide.Ionide-fsharp) plugin). All configuration options available in C# configuration are also available for F# configuration.
 
-```
+To get started with F# configuration, replace the C# configuration file with the following:
+
+```csharp
 #r "C:\Program Files\workspacer\workspacer.Shared.dll"
 #r C:\Program Files\workspacer\plugins\workspacer.FSharpConfig\workspacer.FSharpConfig.dll"
 
@@ -71,11 +73,9 @@ With this configuration, workspacer is configured in the `setupContext` function
 C:\Users\<username>\.config\workspacer\Workspacer.Config.fsx
 ```
 
+An example configuration, equivalent to the default C# configuration is available on [github](TOOD). In the F# configuration, it is important to use `#r @".."` directives instead of `#r ".."`. Furthermore, a function `setupContext` is used instead of the returned action in the C# configuration. These differences are due to the F# configuration being compiled to a `dll` library, rather than running as a script directly.
 
-
-
-
-
+[The config page](/config) contains a reference of the available configuration options, as well as C# examples.
 
 ## Learning
 
