@@ -31,7 +31,7 @@ namespace workspacer
 
         public bool CanMinimizeWindows { get; set; } = false;
         
-        public string UserWorkspacerPath => FileHelper.GetUserWorkspacerPath();
+        public string ConfigDirectory => FileHelper.GetConfigDirectory();
 
         private System.Timers.Timer _timer;
         private PipeServer _pipeServer;

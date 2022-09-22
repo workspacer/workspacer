@@ -17,10 +17,10 @@ namespace workspacer
         public void Start()
         {
             // init user folder
-            FileHelper.EnsureUserWorkspacerPathExists();
+            FileHelper.EnsureConfigDirectoryExists();
 
             // init logging
-            Logger.Initialize(FileHelper.GetUserWorkspacerPath());
+            Logger.Initialize(FileHelper.GetConfigDirectory());
             Logger.Debug("starting workspacer");
 
             // init plugin assembly resolver
@@ -126,7 +126,7 @@ namespace workspacer
             else
             {
                 ConfigHelper.CreateExampleConfig();
-                DisplayMessage($"workspacer.config.csx created in: [${FileHelper.GetUserWorkspacerPath()}]");
+                DisplayMessage($"workspacer.config.csx created in: [${FileHelper.GetConfigDirectory()}]");
             }
         }
 

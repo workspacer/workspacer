@@ -13,7 +13,7 @@ namespace workspacer
 
         private static string GetPathInUserFolder(string file)
         {
-            return Path.Combine(FileHelper.GetUserWorkspacerPath(), file);
+            return Path.Combine(FileHelper.GetConfigDirectory(), file);
         }
 
         public static bool CanCreateExampleConfig()

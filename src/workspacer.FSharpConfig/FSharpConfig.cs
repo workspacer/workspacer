@@ -19,7 +19,7 @@
         /// <returns>The path of the F# configuration file.</returns>
         private static string GetConfigFile(IConfigContext context)
         {
-            return Path.Combine(context.UserWorkspacerPath, "Workspacer.Config.fsx");
+            return Path.Combine(context.ConfigDirectory, "Workspacer.Config.fsx");
         }
 
         /// <summary>
