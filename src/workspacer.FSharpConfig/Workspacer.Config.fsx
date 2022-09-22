@@ -1,7 +1,7 @@
 #r @"C:\Program Files\workspacer\workspacer.Shared.dll"
-#r @"C:\Program Files\workspacerplugins\workspacer.Bar\workspacer.Bar.dll"
-#r @"C:\Program Files\workspacerplugins\workspacer.ActionMenu\workspacer.ActionMenu.dll"
-#r @"C:\Program Files\workspacerplugins\workspacer.FocusIndicator\workspacer.FocusIndicator.dll"
+#r @"C:\Program Files\workspacer\plugins\workspacer.Bar\workspacer.Bar.dll"
+#r @"C:\Program Files\workspacer\plugins\workspacer.ActionMenu\workspacer.ActionMenu.dll"
+#r @"C:\Program Files\workspacer\plugins\workspacer.FocusIndicator\workspacer.FocusIndicator.dll"
 
 open workspacer;
 open workspacer.Bar;
