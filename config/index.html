@@ -279,6 +279,17 @@ This configuration documentation assumes that you have already created the examp
 </ul>
 </li>
 </ul>
+<p>Most plugins can be configured using either an <code>Action</code> to change the default configuration, or by passing a configuration directly. For instance, the menu bar plugin may be configured in either of the following two ways:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.AddBar(<span style="color:#66d9ef">new</span> BarPluginConfig()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        FontName = <span style="color:#e6db74">&#34;JetBrainsMono NF&#34;</span>,
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context.AddBar(context =&gt;
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        context.FontName = <span style="color:#e6db74">&#34;JetBrainsMono NF&#34;</span>;
+</span></span><span style="display:flex;"><span>    });
+</span></span></code></pre></div><p>In the examples below, the top method is used, as it explicitly states the type of the configuration (in this case <code>BarPluginConfig</code>).</p>
 <h3 id="menu-bar">Menu Bar</h3>
 <p>Like other tiling window managers workspacer includes a status/menu bar which shows relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from <a href="https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs">BarWidgetBase</a>.</p>
 <p>The bar can be installed like this:</p>
