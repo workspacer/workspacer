@@ -8,16 +8,14 @@
 
     public static class Extensions
     {
-        public static Assembly LoadFile(this AppDomain appDomain, string filename) {
-            FileStream fs = new FileStream(filename, FileMode.Open);
-            byte[] buffer = new byte[(int) fs.Length];
-            fs.Read(buffer, 0, buffer.Length);
-            fs.Close();
 
-            return appDomain.Load(buffer);
+        public static Assembly LoadFile(this AppDomain instance, string dllFile)
+        {
+            var buffer = File.ReadAllBytes(dllFile);
+            return instance.Load(buffer);
         }
 
-        public static AppDomain FileResolver(this AppDomain resoleAppDomain, IEnumerable<string> dllFiles)
+        public static AppDomain AddFileResolver(this AppDomain instance, IEnumerable<string> dllFiles)
         {
             var references = dllFiles.ToDictionary(x => AssemblyName.GetAssemblyName(x).FullName);
 
@@ -25,25 +23,23 @@
             {
                 AppDomain domain = (AppDomain) sender!;
 
-                var file = references[args.Name];
-                return LoadFile(domain, file);
+                if (references.TryGetValue(args.Name, out var fileName))
+                {
+                    return domain.LoadFile(fileName);
+                }
+
+                return null;
             }
 
-            resoleAppDomain.AssemblyResolve += Resolver;
-            return resoleAppDomain;
-        }
-
-        public static T GetDelegate<T>(this Type t, string name)
-            where T : Delegate
-        {
-            var method = t.GetMethod(name);
-            return (T)Delegate.CreateDelegate(typeof(T), method);
+            instance.AssemblyResolve += Resolver;
+            return instance;
         }
 
         public static T GetDelegate<T>(this Assembly a, string t, string name)
             where T : Delegate
         {
-            return a.GetType(t)!.GetDelegate<T>(name);
+            var method = a.GetType(t)!.GetMethod(name);
+            return method is null ? null : Delegate.CreateDelegate(typeof(T), method) as T;
         }
     }
 }

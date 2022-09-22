@@ -68,10 +68,9 @@
                 CompileScript(scriptFile, references, dllFile);
             }
 
-
             return
                 AppDomain.CurrentDomain
-                    .FileResolver(references)
+                    .AddFileResolver(references)
                     .LoadFile(dllFile);
         }
 

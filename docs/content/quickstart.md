@@ -73,7 +73,7 @@ With this configuration, workspacer is configured in the `setupContext` function
 C:\Users\<username>\.config\workspacer\Workspacer.Config.fsx
 ```
 
-An example configuration, equivalent to the default C# configuration is available on [github](TOOD). In the F# configuration, it is important to use `#r @".."` directives instead of `#r ".."`. Furthermore, a function `setupContext` is used instead of the returned action in the C# configuration. These differences are due to the F# configuration being compiled to a `dll` library, rather than running as a script directly.
+An example configuration, equivalent to the default C# configuration is available on [github](https://github.com/workspacer/workspacer/blob/master/src/workspacer.FSharpConfig/Workspace.Config.fsx). In the F# configuration, it is important to use `#r @".."` directives instead of `#r ".."`. Furthermore, a function `setupContext` is used instead of the returned action in the C# configuration. These differences are due to the F# configuration being compiled to a `dll` library, rather than running as a script directly.
 
 [The config page](/config) contains a reference of the available configuration options, as well as C# examples.
 

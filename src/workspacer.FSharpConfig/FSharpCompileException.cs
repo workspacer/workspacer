@@ -7,9 +7,9 @@
     {
         public FSharpDiagnostic[] Errors { get; }
 
-        public FSharpCompileException(string message, FSharpDiagnostic[] diagnostics) : base(message)
+        public FSharpCompileException(string message, FSharpDiagnostic[] errors) : base(message)
         {
-            this.Errors = diagnostics;
+            this.Errors = errors;
         }
     }
 }

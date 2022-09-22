@@ -16,8 +16,6 @@ namespace workspacer
 
         public void Start()
         {
-            var sw = new Stopwatch();
-            sw.Start();
             // init user folder
             FileHelper.EnsureUserWorkspacerPathExists();
 
@@ -89,7 +87,6 @@ namespace workspacer
             _context.Plugins.AfterConfig(_context);
 
             // start message pump on main thread
-            Logger.Info($"Elapsed {sw.ElapsedMilliseconds}ms");
             Application.Run();
         }
 
