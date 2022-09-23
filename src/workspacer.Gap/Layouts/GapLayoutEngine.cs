@@ -10,7 +10,6 @@ namespace workspacer.Gap
         private int _delta;
         private ILayoutEngine _inner;
         public string Name => _inner.Name;
-        public string Alias { get; set; } = "Gap";
 
         public GapLayoutEngine(ILayoutEngine inner, int innerGap = 0, int outerGap = 0, int delta = 20)
         {
@@ -18,7 +17,6 @@ namespace workspacer.Gap
             _innerGap = innerGap;
             _outerGap = outerGap;
             _delta = delta;
-            Alias = _inner.Alias;
         }
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)

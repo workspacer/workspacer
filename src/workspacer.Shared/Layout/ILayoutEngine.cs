@@ -12,7 +12,6 @@ namespace workspacer
         /// the name of the layout engine
         /// </summary>
         string Name { get; }
-        string Alias { get; set; } 
 
         /// <summary>
         /// calculate the desired layout of the workspace

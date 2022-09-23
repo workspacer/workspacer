@@ -7,7 +7,6 @@ namespace workspacer
     public class GridLayoutEngine : ILayoutEngine
     {
         public string Name => "grid";
-        public string Alias { get; set; } = "Grid";
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)
         {

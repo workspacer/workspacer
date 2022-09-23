@@ -45,7 +45,6 @@ namespace workspacer
         public IWindow LastFocusedWindow => _lastFocused;
         public string Name { get; set; }
         public string LayoutName => _layoutEngines[_layoutIndex].Name;
-        public string LayoutAlias => _layoutEngines[_layoutIndex].Alias;
         public bool IsIndicating { get; set; }
 
         private IConfigContext _context;

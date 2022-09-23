@@ -25,7 +25,6 @@ namespace workspacer
         }
 
         public string Name => "tall";
-        public string Alias { get; set; } = "Tall";
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)
         {

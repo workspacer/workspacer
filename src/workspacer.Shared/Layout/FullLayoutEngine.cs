@@ -34,7 +34,6 @@ namespace workspacer
         }
 
         public string Name => "full";
-        public string Alias { get; set; } = "Full";
 
         public void ShrinkPrimaryArea() { }
         public void ExpandPrimaryArea() { }

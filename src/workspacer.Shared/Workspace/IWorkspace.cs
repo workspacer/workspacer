@@ -21,8 +21,6 @@ namespace workspacer
         /// </summary>
         string LayoutName { get; }
 
-        string LayoutAlias { get; }
-
         /// <summary>
         /// set of windows that are contained within the workspace
         /// </summary>

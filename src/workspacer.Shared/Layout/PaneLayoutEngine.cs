@@ -8,14 +8,12 @@ namespace workspacer
     {
         public VertLayoutEngine() : base(true) { }
         public override string Name => "rows";
-        public override string Alias { get; set; } = "Rows";
     }
 
     public class HorzLayoutEngine : PaneLayoutEngine
     {
         public HorzLayoutEngine() : base(false) { }
         public override string Name => "columns";
-        public override string Alias { get; set; } = "Columns";
     }
 
     public abstract class PaneLayoutEngine : ILayoutEngine
@@ -31,7 +29,6 @@ namespace workspacer
         private double _primaryPercentOffset = 0;
 
         public abstract string Name { get; }
-        public abstract string Alias { get; set; }
 
         public PaneLayoutEngine(bool vertical) : this(vertical, 1, 0.03) { }
 
