@@ -36,6 +36,8 @@
                 scriptFile,
                 "-o",
                 dllFile,
+                "--targetprofile:netcore",
+                "--target:library",
                 $"--lib:\"{Path.GetDirectoryName(Assembly.GetCallingAssembly().Location)}\"",
             };
 
@@ -71,6 +73,7 @@
             return
                 AppDomain.CurrentDomain
                     .AddFileResolver(references)
+                    .AddNoVersionResolver()
                     .LoadFile(dllFile);
         }
 
