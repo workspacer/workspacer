@@ -14,10 +14,10 @@ namespace workspacer.Bar.Widgets
         {
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
 
-            return Parts(Part(UseAlias? currentWorkspace.LayoutAlias:currentWorkspace.LayoutName, partClicked: () =>
+            return Parts(Part(LeftPadding + (UseAlias? currentWorkspace.LayoutAlias:currentWorkspace.LayoutName) + RightPadding, partClicked: () =>
             {
                Context.Workspaces.FocusedWorkspace.NextLayoutEngine();
-            }));
+            }, fontname: FontName));
         }
 
         public override void Initialize()
