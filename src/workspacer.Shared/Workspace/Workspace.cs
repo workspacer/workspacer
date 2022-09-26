@@ -396,7 +396,7 @@ namespace workspacer
                             var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y,
                                 loc.Width, loc.Height, loc.State);
 
-                            if (!window.IsMouseMoving)
+                            if (!window.IsMouseMoving && !window.IsFullscreen)
                             {
                                 handle.DeferWindowPos(window, adjustedLoc);
                             }
