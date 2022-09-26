@@ -46,17 +46,20 @@ namespace workspacer.FocusBorder
             if (_context.Workspaces.FocusedWorkspace != workspace)
                 return;
 
-            // If there is no focused window, hide the border,
-            if (workspace.FocusedWindow is not null)
+            var focussed = workspace.FocusedWindow ?? workspace.LastFocusedWindow;
+            // If there is no focused window, hide the border.
+            // Disable border on moving windows for performance.
+            if (focussed is not null && !focussed.IsMouseMoving)
             {
+                if (focussed.CanLayout)
+                    this._form.Execute(x => x.SetWindow(focussed));
                 if (!this._form.Read.Visible)
                     this._form.Execute(x => x.Show());
-                if (workspace.FocusedWindow.CanLayout)
-                    this._form.Execute(x => x.SetWindow(workspace.FocusedWindow));
             }
             else
             {
-                this._form.Execute(x => x.Hide());
+                if (this._form.Read.Visible)
+                    this._form.Execute(x => x.Hide());
             }
         }
 

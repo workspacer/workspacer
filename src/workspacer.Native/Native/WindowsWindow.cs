@@ -151,6 +151,10 @@ namespace workspacer
         public bool IsFocused => Win32.GetForegroundWindow() == _handle;
         public bool IsMinimized => Win32.IsIconic(_handle);
         public bool IsMaximized => Win32.IsZoomed(_handle);
+        public bool IsFullscreen =>
+            (~Win32.GetWindowStyleLongPtr(_handle))
+                .HasFlag(Win32.WS.WS_OVERLAPPED | Win32.WS.WS_BORDER | Win32.WS.WS_THICKFRAME);
+        
         public bool IsMouseMoving { get; internal set; }
 
         public void Focus()

@@ -368,6 +368,13 @@ namespace workspacer
 
         public void DoLayout()
         {
+            // Skip layout if the focussed window is fullscreen.
+            if (FocusedWindow?.IsFullscreen ?? false)
+            {
+                OnLayoutCompleted?.Invoke(this);
+                return;
+            }
+
             var windows = ManagedWindows.ToList();
             if (_context.Enabled)
             {
