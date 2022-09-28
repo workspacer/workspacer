@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Reflection;
 
-    public static class Extensions
+    public static class AppDomainExtensions
     {
 
         public static Assembly LoadFile(this AppDomain instance, string dllFile)

@@ -36,7 +36,7 @@
         /// C# configuration action.
         /// </summary>
         /// <param name="context">The configuration context.</param>
-        public static void Extend(this IConfigContext context)
+        public static void Extend(IConfigContext context)
         {
             FSharpCompiler.LoadScript(GetConfigFile(context))
                 .GetDelegate<Action<IConfigContext>>("Workspacer.Config", "setupContext")
