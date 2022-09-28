@@ -2,17 +2,17 @@
 
 namespace workspacer.FocusBorder
 {
-    public interface IFormProxy<Form>
+    public interface IFormProxy<TForm>
     {
         /// <summary>
         /// Execute the given action in the thread that owns the form.
         /// </summary>
         /// <param name="action">The action to execute.</param>
-        public void Execute(Action<Form> action);
+        void Execute(Action<TForm> action);
 
         /// <summary>
         /// Get the underlying form. This property should only be used to read values.
         /// </summary>
-        public Form Read { get; }
+        TForm Read { get; }
     }
 }
