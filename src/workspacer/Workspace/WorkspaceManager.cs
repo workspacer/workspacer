@@ -417,7 +417,8 @@ namespace workspacer
                         }
                     }
 
-                    if (type == WindowUpdateType.Move)
+                    // Only change the current window if we are actively moving it.
+                    if (type == WindowUpdateType.Move && window.IsMouseMoving)
                     {
                         TrySwapWindowToMouse(window);
                     }
