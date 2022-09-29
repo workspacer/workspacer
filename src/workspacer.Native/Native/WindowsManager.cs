@@ -315,13 +315,9 @@ namespace workspacer
 
         private void WindowMove(IntPtr handle)
         {
-            if (_mouseMoveWindow != null && _windows.ContainsKey(handle))
+            if (_windows.ContainsKey(handle) && _windows[handle].CanLayout)
             {
-                var window = _windows[handle];
-                if (_mouseMoveWindow == window)
-                {
-                    WindowUpdated?.Invoke(window, WindowUpdateType.Move);
-                }
+                WindowUpdated?.Invoke(_windows[handle], WindowUpdateType.Move);
             }
         }
 

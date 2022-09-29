@@ -368,6 +368,13 @@ namespace workspacer
 
         public void DoLayout()
         {
+            // Skip layout if the focussed window is fullscreen.
+            if (FocusedWindow?.IsFullscreen ?? false)
+            {
+                OnLayoutCompleted?.Invoke(this);
+                return;
+            }
+
             var windows = ManagedWindows.ToList();
             if (_context.Enabled)
             {
@@ -389,7 +396,7 @@ namespace workspacer
                             var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y,
                                 loc.Width, loc.Height, loc.State);
 
-                            if (!window.IsMouseMoving)
+                            if (!window.IsMouseMoving && !window.IsFullscreen)
                             {
                                 handle.DeferWindowPos(window, adjustedLoc);
                             }
