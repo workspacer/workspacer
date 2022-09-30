@@ -24,7 +24,7 @@ namespace workspacer
             _leftToRight = !reversed;
         }
 
-        public string Name => "tall";
+        public string Name { get; set; } = "tall";
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)
         {
