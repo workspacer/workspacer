@@ -8,7 +8,6 @@ namespace workspacer.Bar
 {
     public class BarSection
     {
-        public int WidthInPixels;
         private FlowLayoutPanel _panel;
         private IBarWidget[] _widgets;
         private IMonitor _monitor;
@@ -46,19 +45,6 @@ namespace workspacer.Bar
             }
 
             InitializeWidgets(widgets, _context);
-            GetWidthInPixels(widgets);
-        }
-
-        private void GetWidthInPixels(IEnumerable<IBarWidget> widgets)
-        {
-            foreach (var w in widgets)
-            {
-                var parts = w.GetParts();
-                foreach (var part in parts)
-                {
-                    WidthInPixels += TextRenderer.MeasureText(part.Text, CreateFont(_fontName, _fontSize)).Width;
-                }
-            }
         }
 
         private FlowLayoutPanel CreateWidgetPanel()

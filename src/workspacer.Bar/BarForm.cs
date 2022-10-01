@@ -22,7 +22,7 @@ namespace workspacer.Bar
             _config = config;
             _timer = new System.Timers.Timer(50);
             _timer.Elapsed += Redraw;
-            
+
             this.Text = config.BarTitle;
             this.ControlBox = false;
             this.FormBorderStyle = FormBorderStyle.None;
@@ -72,11 +72,9 @@ namespace workspacer.Bar
             this.Height = _config.BarHeight;
             var titleBarHeight = this.ClientRectangle.Height - this.Height;
            
-            if (_config.BarIsTop)
-                this.Location = new Point(_monitor.X, _monitor.Y - titleBarHeight);
-            else
-
-                this.Location = new Point(_monitor.X, _monitor.Y + _monitor.Height - _config.BarHeight);
+            this.Location = _config.BarIsTop
+                ? new Point(_monitor.X, _monitor.Y - titleBarHeight)
+                : new Point(_monitor.X, _monitor.Y + _monitor.Height - _config.BarHeight);
 
             _timer.Enabled = true;
 
