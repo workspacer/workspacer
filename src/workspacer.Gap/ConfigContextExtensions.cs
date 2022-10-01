@@ -1,3 +1,5 @@
+using System;
+
 namespace workspacer.Gap
 {
     public static class ConfigContextExtensions
@@ -16,6 +18,13 @@ namespace workspacer.Gap
             context.Plugins.RegisterPlugin(plugin);
 
             return plugin;
+        }
+        
+        public static GapPlugin AddGap(this IConfigContext context, Action<GapPluginConfig> onConfig)
+        {
+            var config = new GapPluginConfig();
+            onConfig(config);
+            return context.AddGap(config);
         }
     }
 }

@@ -1,11 +1,14 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace workspacer.FocusBorder
 {
-    public partial class FocusBorderForm : Form
+    public partial class FocusBorderForm : Form, IFormProxy<FocusBorderForm>
     {
         private FocusBorderPluginConfig _config;
+
+        public IWindow Current { get; private set; } = null;
 
         public FocusBorderForm(FocusBorderPluginConfig config)
         {
@@ -16,26 +19,22 @@ namespace workspacer.FocusBorder
 
         public void SetWindow(IWindow window)
         {
-            var baseLocation = new WindowLocation(
+            this.Current = window;
+            
+            var location = new WindowLocation(
                 window.Location.X - window.Offset.X,
                 window.Location.Y - window.Offset.Y,
                 window.Location.Width - window.Offset.Width,
                 window.Location.Height - window.Offset.Height,
                 window.Location.State);
-            this.SetLocation(baseLocation);
-        }
-        
-        private void SetLocation(IWindowLocation location)
-        {
+            
             if (location.X != this.Location.X || location.Y != this.Location.Y || location.Width != this.Width ||
                 location.Height != this.Height)
             {
-                this.Invoke((MethodInvoker)(() => {
-                    this.Location = new Point(location.X, location.Y);
-                    this.Width = location.Width;
-                    this.Height = location.Height;
-                    this.Refresh();
-                }));
+                this.Location = new Point(location.X, location.Y);
+                this.Width = location.Width;
+                this.Height = location.Height;
+                this.Refresh();
             }
         }
         protected override void OnPaint(PaintEventArgs e)
@@ -83,5 +82,19 @@ namespace workspacer.FocusBorder
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        public void Execute(Action<FocusBorderForm> action)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)(() => action.Invoke(this)));
+            }
+            else
+            {
+                action.Invoke(this);
+            }
+        }
+
+        public FocusBorderForm Read => this;
     }
 }

@@ -36,6 +36,7 @@ namespace workspacer
         bool IsFocused { get; }
         bool IsMinimized { get; }
         bool IsMaximized { get; }
+        bool IsFullscreen { get; }
         bool IsMouseMoving { get; }
 
         void Focus();
