@@ -8,7 +8,12 @@ namespace workspacer.Bar
         private string _title;
         private int _offset;
         private ILayoutEngine _inner;
-        public string Name => _inner.Name;
+
+        public string Name
+        {
+            get => _inner.Name;
+            set => _inner.Name = value;
+        }
 
         public MenuBarLayoutEngine(ILayoutEngine inner, string title, int offset)
         {

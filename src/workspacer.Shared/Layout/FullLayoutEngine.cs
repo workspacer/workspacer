@@ -33,7 +33,7 @@ namespace workspacer
             return list;
         }
 
-        public string Name => "full";
+        public string Name { get; set; } = "full";
 
         public void ShrinkPrimaryArea() { }
         public void ExpandPrimaryArea() { }
