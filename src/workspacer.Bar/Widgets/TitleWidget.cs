@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer.Bar.Widgets
 {
@@ -59,7 +56,7 @@ namespace workspacer.Bar.Widgets
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             if (workspace == currentWorkspace)
             {
-                Context.MarkDirty();
+                MarkDirty();
             }
         }
 
@@ -68,13 +65,13 @@ namespace workspacer.Bar.Widgets
             var currentWorkspace = Context.WorkspaceContainer.GetWorkspaceForMonitor(Context.Monitor);
             if (workspace == currentWorkspace && window == GetWindow())
             {
-                Context.MarkDirty();
+                MarkDirty();
             }
         }
 
         private void RefreshFocusedMonitor()
         {
-            Context.MarkDirty();
+            MarkDirty();
         }
 
         public static string GetShortTitle(string title)

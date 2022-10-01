@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace workspacer.Bar.Widgets
+﻿namespace workspacer.Bar.Widgets
 {
     public class FocusedMonitorWidget : BarWidgetBase
     {
@@ -26,7 +20,7 @@ namespace workspacer.Bar.Widgets
 
         public override void Initialize()
         {
-            Context.Workspaces.FocusedMonitorUpdated += () => Context.MarkDirty();
+            Context.Workspaces.FocusedMonitorUpdated += () => MarkDirty();
         }
     }
 }

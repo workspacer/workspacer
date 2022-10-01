@@ -91,6 +91,21 @@ Workspacer offers additional functionality beyond just tiling your windows throu
 - [Title bar](#title-bar)
   - Allows for the removal of the title bar from windows
 
+Most plugins can be configured using either an `Action` to change the default configuration, or by passing a configuration directly. For instance, the menu bar plugin may be configured in either of the following two ways:
+```csharp
+context.AddBar(new BarPluginConfig()
+    {
+        FontName = "JetBrainsMono NF",
+    });
+
+context.AddBar(context =>
+    {
+        context.FontName = "JetBrainsMono NF";
+    });
+```
+
+In the examples below, the top method is used, as it explicitly states the type of the configuration (in this case `BarPluginConfig`).
+
 ### Menu Bar
 
 Like other tiling window managers workspacer includes a status/menu bar which shows relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from [BarWidgetBase](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs).
@@ -154,6 +169,19 @@ For example if you wanted to add this [monitor icon from FontAwesome](https://fo
 - `TextWidget`
   - Shows provided fixed text.
   - Useful for dividers.
+- `CpuPerformanceWidget`
+  - Shows percentage of processor usage.
+  - Reports specific core when ProcessorCore is set.
+  - When clicked, Task Manager is opened.
+  - Further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/PerformanceWidget.cs).
+- `MemoryPerformanceWidget`
+  - Shows percentage of memory usage.
+  - When clicked, Task Manager is opened.
+  - Further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/PerformanceWidget.cs).
+- `NetworkPerformanceWidget`
+  - Shows the total of trafic on a specific network interface.
+  - When clicked, Network Connections is opened.
+  - Further details [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/PerformanceWidget.cs).
 
 ### The Action Menu
 

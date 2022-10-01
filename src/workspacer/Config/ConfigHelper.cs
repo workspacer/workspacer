@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Scripting;
 
 namespace workspacer
@@ -20,7 +13,7 @@ namespace workspacer
 
         private static string GetPathInUserFolder(string file)
         {
-            return Path.Combine(FileHelper.GetUserWorkspacerPath(), file);
+            return Path.Combine(FileHelper.GetConfigDirectory(), file);
         }
 
         public static bool CanCreateExampleConfig()

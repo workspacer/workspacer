@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace workspacer.Bar.Widgets
@@ -77,7 +73,7 @@ namespace workspacer.Bar.Widgets
 
         private void UpdateWorkspaces()
         {
-            Context.MarkDirty();
+            MarkDirty();
         }
 
         protected virtual string GetDisplayName(IWorkspace workspace, int index)
@@ -116,7 +112,7 @@ namespace workspacer.Bar.Widgets
 
             if (didFlip)
             {
-                Context.MarkDirty();
+                MarkDirty();
             }
         }
     }

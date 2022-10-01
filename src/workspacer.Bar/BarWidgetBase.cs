@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer.Bar
 {
@@ -12,6 +10,7 @@ namespace workspacer.Bar
         public string FontName { get; set; } = null;
         public string LeftPadding { get; set; } = "";
         public string RightPadding { get; set; } = "";
+        private bool _isDirty = true;
 
         public void Initialize(IBarWidgetContext context)
         {
@@ -49,6 +48,21 @@ namespace workspacer.Bar
                 LeftPadding = leftPadding,
                 RightPadding = rightPadding
             };
+        }
+
+        public bool IsDirty()
+        {
+            return _isDirty;
+        }
+
+        public void MarkDirty()
+        {
+            _isDirty = true;
+        }
+
+        public void MarkClean()
+        {
+            _isDirty = false;
         }
     }
 }

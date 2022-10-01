@@ -20,12 +20,11 @@ namespace workspacer.Bar
         private Color _defaultBack;
 
         private bool _reverse;
-        private bool _dirty;
         private IBarWidgetContext _context;
 
         private IDictionary<Label, Action> _clickedHandlers;
 
-        public BarSection(bool reverse, FlowLayoutPanel panel, IBarWidget[] widgets, IMonitor monitor, IConfigContext context, 
+        public BarSection(bool reverse, FlowLayoutPanel panel, IBarWidget[] widgets, IMonitor monitor, IConfigContext context,
             Color defaultFore, Color defaultBack, string fontName, int fontSize)
         {
             _panel = panel;
@@ -34,15 +33,18 @@ namespace workspacer.Bar
             _configContext = context;
             _fontName = fontName;
             _fontSize = fontSize;
-            _dirty = true;
             _reverse = reverse;
             _defaultFore = defaultFore;
             _defaultBack = defaultBack;
 
-
             _clickedHandlers = new Dictionary<Label, Action>();
 
             _context = new BarWidgetContext(this, _monitor, _configContext);
+            while (_panel.Controls.Count != _widgets.Count())
+            {
+                _panel.Controls.Add(CreateWidgetPanel());
+            }
+
             InitializeWidgets(widgets, _context);
             GetWidthInPixels(widgets);
         }
@@ -59,83 +61,91 @@ namespace workspacer.Bar
             }
         }
 
+        private FlowLayoutPanel CreateWidgetPanel()
+        {
+            return new FlowLayoutPanel
+            {
+                AutoSize = true,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom,
+                BackColor = ColorToColor(_defaultBack),
+                Location = new Point(0, 0),
+                Margin = new Padding(0),
+                Size = new Size(50, 50),
+                WrapContents = false
+            };
+        }
+
         public void Draw()
         {
-            if (_dirty)
+            if (!_widgets.Any(w => w.IsDirty()))
             {
-                var widgets = _reverse ? _widgets.Reverse().ToArray() : _widgets;
+                return;
+            }
 
-                int partNumber = 0;
-                for (var i = 0; i < widgets.Length; i++)
+            var widgets = _reverse ? _widgets.Reverse().ToArray() : _widgets;
+            for (int wIndex = 0; wIndex < widgets.Length; wIndex++)
+            {
+                if (!widgets[wIndex].IsDirty())
                 {
-                    var widget = widgets[i];
-                    var parts = widget.GetParts();
-                    for (var j = 0; j < parts.Length; j++)
-                    {
-                        var part = parts[j];
-
-                        if (partNumber < _panel.Controls.Count)
-                        {
-                            Label label = (Label)_panel.Controls[partNumber];
-                            SetLabel(label, part);
-                        }
-                        else
-                        {
-                            var label = AddLabel();
-                            SetLabel(label, part);
-                        }
-                        partNumber++;
-                    }
+                    continue;
                 }
 
-                var toRemove = new List<Control>();
-                if (partNumber < _panel.Controls.Count - 1)
+                var widgetPanel = _panel.Controls[wIndex];
+                var parts = widgets[wIndex].GetParts();
+
+                EqualizeControls((FlowLayoutPanel)widgetPanel, parts.Count());
+
+                for (var pIndex = 0; pIndex < parts.Length; pIndex++)
                 {
-                    for (var i = partNumber; i < _panel.Controls.Count; i++)
-                    {
-                        toRemove.Add(_panel.Controls[i]);
-                    }
+                    SetLabel((Label)widgetPanel.Controls[pIndex], parts[pIndex]);
                 }
-                toRemove.ForEach(c => _panel.Controls.Remove(c));
-                _dirty = false;
+
+                widgets[wIndex].MarkClean();
+            }
+        }
+
+        private void EqualizeControls(FlowLayoutPanel panel, int partCount)
+        {
+            if (panel.Controls.Count != partCount)
+            {
+                while (panel.Controls.Count < partCount)
+                {
+                    AddLabel(panel);
+                }
+
+                while (panel.Controls.Count > partCount)
+                {
+                    panel.Controls.RemoveAt(panel.Controls.Count - 1);
+                }
             }
         }
 
         private void SetLabel(Label label, IBarWidgetPart part)
         {
             label.Text = part.Text;
-            if (part.ForegroundColor != null)
+
+            var foregroundColor = ColorToColor(part.ForegroundColor ?? _defaultFore);
+            if (label.ForeColor != foregroundColor)
             {
-                label.ForeColor = ColorToColor(part.ForegroundColor);
-            } else
-            {
-                label.ForeColor = ColorToColor(_defaultFore);
+                label.ForeColor = foregroundColor;
             }
 
-            if (part.BackgroundColor != null && part.BackgroundColor != _defaultFore)
+            var backgroundColor = ColorToColor(part.BackgroundColor ?? _defaultBack);
+            if (label.BackColor != backgroundColor)
             {
-                label.BackColor = ColorToColor(part.BackgroundColor);
-            } else
-            {
-                label.BackColor = System.Drawing.Color.FromArgb(0, System.Drawing.Color.Black);
+                label.BackColor = backgroundColor;
             }
+
+            label.Font = CreateFont(string.IsNullOrEmpty(part.FontName) ? _fontName : part.FontName, _fontSize);
 
             if (part.PartClicked != null)
             {
                 _clickedHandlers[label] = part.PartClicked;
-            } else
+            }
+            else
             {
                 _clickedHandlers.Remove(label);
             }
-            if (part.FontName != null)
-            {
-                label.Font = CreateFont(part.FontName, _fontSize);
-            };
-        }
-
-        public void MarkDirty()
-        {
-            _dirty = true;
         }
 
         private System.Drawing.Color ColorToColor(Color color)
@@ -148,16 +158,17 @@ namespace workspacer.Bar
             return new Font(name, size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
         }
 
-        private Label AddLabel()
+        private Label AddLabel(FlowLayoutPanel panel)
         {
-            Label label = new Label();
-            _panel.Controls.Add(label);
+            var label = new Label
+            {
+                Font = CreateFont(_fontName, _fontSize),
+                Padding = new Padding(0),
+                Margin = new Padding(0),
+                AutoSize = true
+            };
 
-            label.AutoSize = true;
-            label.Font = CreateFont(_fontName, _fontSize);
-            label.Margin = new Padding(0);
-            label.Padding = new Padding(0);
-
+            panel.Controls.Add(label);
             label.Click += (s, e) =>
             {
                 if (_clickedHandlers.ContainsKey(label))

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -16,10 +17,10 @@ namespace workspacer
         public void Start()
         {
             // init user folder
-            FileHelper.EnsureUserWorkspacerPathExists();
+            FileHelper.EnsureConfigDirectoryExists();
 
             // init logging
-            Logger.Initialize(FileHelper.GetUserWorkspacerPath());
+            Logger.Initialize(FileHelper.GetConfigDirectory());
             Logger.Debug("starting workspacer");
 
             // init plugin assembly resolver
@@ -39,10 +40,10 @@ namespace workspacer
             });
 
             // init system tray
-            _context.SystemTray.AddToContextMenu("enable/disable workspacer", () => _context.Enabled = !_context.Enabled);
-            _context.SystemTray.AddToContextMenu("quit workspacer", () => _context.Quit());
-            _context.SystemTray.AddToContextMenu("restart workspacer", () => _context.Restart());
-            _context.SystemTray.AddToContextMenu("show/hide keybind help", () => _context.Keybinds.ShowKeybindDialog());
+            _context.SystemTray.AddToContextMenu("Show/Hide keybindings help", () => _context.Keybinds.ShowKeybindDialog());
+            _context.SystemTray.AddToContextMenu("Enable/Disable workspacer", () => _context.Enabled = !_context.Enabled);
+            _context.SystemTray.AddToContextMenu("Restart workspacer", () => _context.Restart());
+            _context.SystemTray.AddToContextMenu("Quit workspacer", () => _context.Quit());
             if (ConfigHelper.CanCreateExampleConfig())
             {
                 _context.SystemTray.AddToContextMenu("create example workspacer.config.csx", CreateExampleConfig);
@@ -109,7 +110,9 @@ namespace workspacer
             var match = _context.Plugins.AvailablePlugins.Select(p => p.Assembly).SingleOrDefault(a => a.GetName().FullName == args.Name);
             if (match != null)
             {
-                return Assembly.LoadFile(match.Location);
+                // LoadFrom is used because it loads non-project plugin dependencies
+                // https://docs.microsoft.com/en-us/archive/blogs/suzcook/loadfile-vs-loadfrom
+                return Assembly.LoadFrom(match.Location);
             }
             return null;
         }
@@ -123,7 +126,7 @@ namespace workspacer
             else
             {
                 ConfigHelper.CreateExampleConfig();
-                DisplayMessage($"workspacer.config.csx created in: [${FileHelper.GetUserWorkspacerPath()}]");
+                DisplayMessage($"workspacer.config.csx created in: [${FileHelper.GetConfigDirectory()}]");
             }
         }
 

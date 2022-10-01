@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace workspacer.Bar
+﻿namespace workspacer.Bar
 {
     public class BarWidgetContext : IBarWidgetContext
     {
@@ -21,11 +15,6 @@ namespace workspacer.Bar
             _section = section;
             Monitor = monitor;
             _context = context;
-        }
-
-        public void MarkDirty()
-        {
-            _section.MarkDirty();
         }
     }
 }

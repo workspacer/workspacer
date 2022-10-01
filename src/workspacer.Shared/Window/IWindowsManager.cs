@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace workspacer
+﻿namespace workspacer
 {
     public delegate void WindowFocusDelegate(IWindow window);
 
@@ -12,6 +6,7 @@ namespace workspacer
     {
         IWindowsDeferPosHandle DeferWindowsPos(int count);
         void DumpWindowDebugOutput();
+        void DumpWindowDebugOutputForFocusedWindow();
         void DumpWindowUnderCursorDebugOutput();
 
         event WindowFocusDelegate WindowFocused;

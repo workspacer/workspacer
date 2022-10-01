@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace workspacer.Bar.Widgets
@@ -30,7 +26,7 @@ namespace workspacer.Bar.Widgets
         public override void Initialize()
         {
             _timer = new Timer(_interval);
-            _timer.Elapsed += (s, e) => Context.MarkDirty();
+            _timer.Elapsed += (s, e) => MarkDirty();
             _timer.Enabled = true;
         }
     }

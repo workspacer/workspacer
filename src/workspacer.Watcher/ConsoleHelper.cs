@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -30,12 +24,10 @@ namespace workspacer
             {
 
                 var handle = Win32.GetConsoleWindow();
-                if (handle != IntPtr.Zero)
-                {
-                    var style = Win32.GetWindowLongPtr(handle, Win32.GWL_STYLE);
-                    return ((uint)style & (uint)Win32.WS.WS_VISIBLE) != 0;
-                }
-                return false;
+                if (handle == IntPtr.Zero)
+                    return false;
+
+                return Win32.GetWindowStyleLongPtr(handle).HasFlag(Win32.WS.WS_VISIBLE);
             }
             set
             {
@@ -43,14 +35,7 @@ namespace workspacer
                 if (handle == IntPtr.Zero)
                     return;
 
-                if (IsConsoleShowing)
-                {
-                    Win32.ShowWindow(handle, Win32.SW.SW_HIDE);
-                }
-                else
-                {
-                    Win32.ShowWindow(handle, Win32.SW.SW_SHOW);
-                }
+                Win32.ShowWindow(handle, value ? Win32.SW.SW_SHOW : Win32.SW.SW_HIDE);
             }
         }
 
