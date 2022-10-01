@@ -28,7 +28,7 @@ namespace workspacer.Bar
             else
             {
                 return _inner.CalcLayout(windows, spaceWidth, spaceHeight - areaOffset)
-                .Select(l => new WindowLocation(l.X, l.Y, l.Width, l.Height - areaOffset , l.State));
+                .Select(l => new WindowLocation(l.X, l.Y, l.Width, l.Height , l.State));
             }
         }
 

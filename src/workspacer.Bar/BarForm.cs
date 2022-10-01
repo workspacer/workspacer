@@ -28,10 +28,10 @@ namespace workspacer.Bar
             this.FormBorderStyle = FormBorderStyle.None;
             this.BackColor = ColorToColor(config.Background);
 
-            if (config.IsTransparant)
+            if (config.IsTransparent)
             {
                 this.AllowTransparency = true;
-                this.TransparencyKey = ColorToColor(config.Transparant);
+                this.TransparencyKey = ColorToColor(config.TransparencyKey);
             }
 
             this.Load += OnLoad;
@@ -45,13 +45,11 @@ namespace workspacer.Bar
             {
                 CreateParams cp = base.CreateParams;
                 // turn on WS_EX_TOOLWINDOW style bit
-                cp.ExStyle |= 0x80;
+                cp.ExStyle |= (int) Win32.WS_EX.WS_EX_TOOLWINDOW;
                 
                 // turn on WS_EX_TOPMOST if the topbar does not reserve space.
                 if (_config is not null && !_config.BarReservesSpace)
-                    cp.ExStyle |= 0x8 | 0x80000;
-                if (_config is not null && _config.IsTransparant)
-                    cp.ExStyle |= 0x20;
+                    cp.ExStyle |= (int) (Win32.WS_EX.WS_EX_TOPMOST | Win32.WS_EX.WS_EX_LAYERED);
                 return cp;
             }
         }

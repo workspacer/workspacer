@@ -9,16 +9,15 @@ namespace workspacer.Bar
         public int BarHeight { get; set; } = 30;
         public string FontName { get; set; } = "Consolas";
         public int FontSize { get; set; } = 16;
-        public bool BarIsMinimal { get; set; } = false;
         public bool BarIsTop { get; set; } = true;
         public bool BarReservesSpace { get; set; } = true;
 
         public Color DefaultWidgetForeground { get; set; } = Color.White;
         public Color DefaultWidgetBackground { get; set; } = Color.Black;
         
-        public Color Transparant { get; set; } = Color.Lime;
+        public Color TransparencyKey { get; set; } = Color.Lime;
 
-        public bool IsTransparant = false;
+        public bool IsTransparent = false;
 
         public Color Background { get; set; } = Color.Black;
 

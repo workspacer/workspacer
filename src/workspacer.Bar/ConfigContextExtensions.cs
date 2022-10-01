@@ -21,12 +21,5 @@ namespace workspacer.Bar
             configAction.Invoke(config);
             return AddBar(context, config);
         }
-
-        public static void AddBar(this IConfigContext context, Action<BarPluginConfig> configAction)
-        {
-            var config = new BarPluginConfig();
-            configAction.Invoke(config);
-            context.AddBar(config);
-        }
     }
 }
