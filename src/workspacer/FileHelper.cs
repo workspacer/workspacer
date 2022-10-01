@@ -5,7 +5,7 @@ namespace workspacer
 {
     public static class FileHelper
     {
-        public static string GetUserWorkspacerPath()
+        public static string GetConfigDirectory()
         {
             var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
@@ -23,9 +23,9 @@ namespace workspacer
             return newConfigDirectory;
         }
 
-        public static void EnsureUserWorkspacerPathExists()
+        public static void EnsureConfigDirectoryExists()
         {
-            var path = GetUserWorkspacerPath();
+            var path = GetConfigDirectory();
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
         }
