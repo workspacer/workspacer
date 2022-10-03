@@ -1,22 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
     public static class FileHelper
     {
-        public static string GetUserWorkspacerPath()
+        public static string GetConfigDirectory()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".workspacer");
+            var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+            // Use a migrated configuraton folder first.
+            var newConfigDirectory = Path.Combine(userFolder, ".config", "workspacer");
+            if (Directory.Exists(newConfigDirectory))
+                return newConfigDirectory;
+            
+            // Fall back to old configuration folder.
+            var oldConfigDirectory = Path.Combine(userFolder, ".workspacer");
+            if (Directory.Exists(oldConfigDirectory))
+                return oldConfigDirectory;
+
+            // Default to new configuration folder.
+            return newConfigDirectory;
         }
 
-        public static void EnsureUserWorkspacerPathExists()
+        public static void EnsureConfigDirectoryExists()
         {
-            var path = GetUserWorkspacerPath();
+            var path = GetConfigDirectory();
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
         }

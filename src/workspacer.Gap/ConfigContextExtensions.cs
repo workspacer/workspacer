@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer.Gap
 {
@@ -22,6 +18,13 @@ namespace workspacer.Gap
             context.Plugins.RegisterPlugin(plugin);
 
             return plugin;
+        }
+        
+        public static GapPlugin AddGap(this IConfigContext context, Action<GapPluginConfig> onConfig)
+        {
+            var config = new GapPluginConfig();
+            onConfig(config);
+            return context.AddGap(config);
         }
     }
 }

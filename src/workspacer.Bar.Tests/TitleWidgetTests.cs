@@ -1,4 +1,3 @@
-using System;
 using workspacer.Bar.Widgets;
 using Xunit;
 

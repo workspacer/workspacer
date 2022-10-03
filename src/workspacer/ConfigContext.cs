@@ -30,6 +30,8 @@ namespace workspacer
         public IMonitorContainer MonitorContainer { get; set; }
 
         public bool CanMinimizeWindows { get; set; } = false;
+        
+        public string ConfigDirectory => FileHelper.GetConfigDirectory();
 
         private System.Timers.Timer _timer;
         private PipeServer _pipeServer;
@@ -228,8 +230,7 @@ namespace workspacer
             SaveState();
             var response = new LauncherResponse()
             {
-                Action = LauncherAction.RestartWithMessage,
-                Message = "A display settings change has been detected, which has automatically disabled workspacer. Press 'restart' when ready.",
+                Action = LauncherAction.Restart
             };
             SendResponse(response);
 

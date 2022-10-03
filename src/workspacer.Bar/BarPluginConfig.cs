@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using workspacer.Bar.Widgets;
 
 namespace workspacer.Bar
@@ -13,9 +9,16 @@ namespace workspacer.Bar
         public int BarHeight { get; set; } = 30;
         public string FontName { get; set; } = "Consolas";
         public int FontSize { get; set; } = 16;
+        public bool BarIsTop { get; set; } = true;
+        public bool BarReservesSpace { get; set; } = true;
 
         public Color DefaultWidgetForeground { get; set; } = Color.White;
         public Color DefaultWidgetBackground { get; set; } = Color.Black;
+        
+        public Color TransparencyKey { get; set; } = Color.Lime;
+
+        public bool IsTransparent = false;
+
         public Color Background { get; set; } = Color.Black;
 
         public Func<IBarWidget[]> LeftWidgets { get; set; } = () => 

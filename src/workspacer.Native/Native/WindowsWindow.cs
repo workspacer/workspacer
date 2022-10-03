@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -155,6 +151,17 @@ namespace workspacer
         public bool IsFocused => Win32.GetForegroundWindow() == _handle;
         public bool IsMinimized => Win32.IsIconic(_handle);
         public bool IsMaximized => Win32.IsZoomed(_handle);
+
+        public bool IsFullscreen
+        {
+            get
+            {
+                var windowed = Win32.WS.WS_OVERLAPPED | Win32.WS.WS_BORDER | Win32.WS.WS_THICKFRAME;
+                // Verify none of the windowed flags are set.
+                return (Win32.GetWindowStyleLongPtr(_handle) & windowed) == 0;
+            }
+        }
+
         public bool IsMouseMoving { get; internal set; }
 
         public void Focus()

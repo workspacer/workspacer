@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace workspacer
 {
@@ -15,7 +11,7 @@ namespace workspacer
         /// <summary>
         /// the name of the layout engine
         /// </summary>
-        string Name { get; }
+        string Name { get; set; }
 
         /// <summary>
         /// calculate the desired layout of the workspace
