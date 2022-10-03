@@ -6,7 +6,12 @@ namespace workspacer.Bar
     public class MenuBarLayoutEngine : ILayoutEngine
     {
         private ILayoutEngine _inner;
-        public string Name => _inner.Name;
+
+        public string Name
+        {
+            get => _inner.Name;
+            set => _inner.Name = value;
+        }
 
         private BarPluginConfig _config;
         
