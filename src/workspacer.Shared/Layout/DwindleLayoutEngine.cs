@@ -28,7 +28,7 @@ namespace workspacer
             _primaryPercentIncrement = primaryPercentIncrement;
         }
 
-        public string Name => "dwindle";
+        public string Name { get; set; } = "dwindle";
 
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)
