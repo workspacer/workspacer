@@ -10,7 +10,6 @@ namespace workspacer.Bar
         private IMonitor _monitor;
         private BarPluginConfig _config;
         private System.Timers.Timer _timer;
-
         private FlowLayoutPanel leftPanel;
         private FlowLayoutPanel rightPanel;
 
@@ -27,8 +26,13 @@ namespace workspacer.Bar
             this.Text = config.BarTitle;
             this.ControlBox = false;
             this.FormBorderStyle = FormBorderStyle.None;
+            this.BackColor = ColorToColor(config.Background);
 
-            this.BackColor = ColorToColor(config.DefaultWidgetBackground);
+            if (config.IsTransparent)
+            {
+                this.AllowTransparency = true;
+                this.TransparencyKey = ColorToColor(config.TransparencyKey);
+            }
 
             this.Load += OnLoad;
 
@@ -41,14 +45,18 @@ namespace workspacer.Bar
             {
                 CreateParams cp = base.CreateParams;
                 // turn on WS_EX_TOOLWINDOW style bit
-                cp.ExStyle |= 0x80;
+                cp.ExStyle |= (int) Win32.WS_EX.WS_EX_TOOLWINDOW;
+                
+                // turn on WS_EX_TOPMOST if the topbar does not reserve space.
+                if (_config is not null && !_config.BarReservesSpace)
+                    cp.ExStyle |= (int) (Win32.WS_EX.WS_EX_TOPMOST | Win32.WS_EX.WS_EX_LAYERED);
                 return cp;
             }
         }
 
         public void Initialize(IBarWidget[] left, IBarWidget[] right, IConfigContext context)
         {
-            _left = new BarSection(false, leftPanel, left, _monitor, context, 
+            _left = new BarSection(false, leftPanel, left, _monitor, context,
                 _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontName, _config.FontSize);
             _right = new BarSection(true, rightPanel, right, _monitor, context,
                 _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontName, _config.FontSize);
@@ -56,18 +64,23 @@ namespace workspacer.Bar
 
         private System.Drawing.Color ColorToColor(Color color)
         {
-            return System.Drawing.Color.FromArgb(color.R, color.G, color.B);
+            return System.Drawing.Color.FromArgb(255, color.R, color.G, color.B);
         }
 
         private void OnLoad(object sender, EventArgs e)
         {
             this.Height = _config.BarHeight;
             var titleBarHeight = this.ClientRectangle.Height - this.Height;
-            this.Location = new Point(_monitor.X, _monitor.Y - titleBarHeight);
+           
+            this.Location = _config.BarIsTop
+                ? new Point(_monitor.X, _monitor.Y - titleBarHeight)
+                : new Point(_monitor.X, _monitor.Y + _monitor.Height - _config.BarHeight);
+
             _timer.Enabled = true;
 
             this.Height = _config.BarHeight;
             this.Width = _monitor.Width;
+
         }
 
         private void InitializeComponent()
@@ -81,7 +94,7 @@ namespace workspacer.Bar
             this.leftPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.leftPanel.AutoSize = true;
-            this.leftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.leftPanel.BackColor = ColorToColor(this._config.DefaultWidgetBackground);
             this.leftPanel.Location = new System.Drawing.Point(0, 0);
             this.leftPanel.Margin = new System.Windows.Forms.Padding(0);
             this.leftPanel.Name = "leftPanel";
@@ -94,7 +107,7 @@ namespace workspacer.Bar
             this.rightPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rightPanel.AutoSize = true;
-            this.rightPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.rightPanel.BackColor = ColorToColor(this._config.DefaultWidgetBackground);
             this.rightPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.rightPanel.Location = new System.Drawing.Point(1848, 0);
             this.rightPanel.Margin = new System.Windows.Forms.Padding(0);

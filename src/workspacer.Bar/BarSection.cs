@@ -14,7 +14,7 @@ namespace workspacer.Bar
         private IConfigContext _configContext;
         private string _fontName;
         private int _fontSize;
-
+        
         private Color _defaultFore;
         private Color _defaultBack;
 
