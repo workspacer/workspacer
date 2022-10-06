@@ -23,6 +23,7 @@ namespace workspacer
 
         IMonitorContainer MonitorContainer { get; set; }
         bool CanMinimizeWindows { get; set; }
+        bool NewWindowAsMaster { get; set; }
         
         string ConfigDirectory { get; }
 

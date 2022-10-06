@@ -30,6 +30,7 @@ namespace workspacer
         public IMonitorContainer MonitorContainer { get; set; }
 
         public bool CanMinimizeWindows { get; set; } = false;
+        public bool NewWindowAsMaster { get; set; } = false;    
         
         public string ConfigDirectory => FileHelper.GetConfigDirectory();
 

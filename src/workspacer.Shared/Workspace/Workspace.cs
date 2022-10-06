@@ -73,7 +73,15 @@ namespace workspacer
                     _lastFocused = window;
                 }
 
-                _windows.Add(window);
+                if (_context.NewWindowAsMaster)
+                {
+                    _windows.Insert(0, window);
+                }
+                else
+                {
+                    _windows.Add(window);
+                }
+                
 
                 if (layout)
                     DoLayout();
