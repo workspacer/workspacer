@@ -30,8 +30,8 @@ namespace workspacer
         public IMonitorContainer MonitorContainer { get; set; }
 
         public bool CanMinimizeWindows { get; set; } = false;
-        public bool NewWindowAsMaster { get; set; } = false;    
-        
+        public IConfigContext.WindowOrder NewWindowOrder { get; set; } = IConfigContext.WindowOrder.NewWindowsLast;
+
         public string ConfigDirectory => FileHelper.GetConfigDirectory();
 
         private System.Timers.Timer _timer;

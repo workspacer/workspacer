@@ -73,7 +73,7 @@ namespace workspacer
                     _lastFocused = window;
                 }
 
-                if (_context.NewWindowAsMaster)
+                if (_context.NewWindowOrder == IConfigContext.WindowOrder.NewWindowsFirst)
                 {
                     _windows.Insert(0, window);
                 }
