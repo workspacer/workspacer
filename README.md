@@ -76,6 +76,10 @@ Thanks for your interest in contributing!
 
 Review the [code of conduct](./CODE_OF_CONDUCT.md) and submit a pull request!
 
+# Community
+
+Unofficial Workspacer Matrix: https://matrix.to/#/#workspacer-community:matrix.org
+
 [workspacer-home]: https://workspacer.org
 [quickstart-page]: https://workspacer.org/quickstart
 [config-page]: https://workspacer.org/config
