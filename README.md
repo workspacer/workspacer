@@ -78,7 +78,9 @@ Review the [code of conduct](./CODE_OF_CONDUCT.md) and submit a pull request!
 
 # Community
 
-Unofficial Workspacer Matrix: https://matrix.to/#/#workspacer-community:matrix.org
+You may join in our unofficial community chat hosted on the [matrix-platform](https://matrix.org/).
+
+Our community can be found on [#workspacer-community:matrix.org](https://matrix.to/#/#workspacer-community:matrix.org).
 
 [workspacer-home]: https://workspacer.org
 [quickstart-page]: https://workspacer.org/quickstart
