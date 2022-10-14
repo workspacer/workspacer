@@ -23,7 +23,8 @@ namespace workspacer
 
         IMonitorContainer MonitorContainer { get; set; }
         bool CanMinimizeWindows { get; set; }
-        
+        WindowOrder NewWindowOrder { get; set; }
+
         string ConfigDirectory { get; }
 
         /// <summary>
@@ -89,5 +90,11 @@ namespace workspacer
         /// restart workspacer
         /// </summary>
         void Restart();
+    }
+
+    public enum WindowOrder
+    {
+        NewWindowsLast, // default
+        NewWindowsFirst
     }
 }
