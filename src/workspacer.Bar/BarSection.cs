@@ -14,9 +14,11 @@ namespace workspacer.Bar
         private IConfigContext _configContext;
         private string _fontName;
         private int _fontSize;
-
+        
         private Color _defaultFore;
         private Color _defaultBack;
+
+        private int _margin;
 
         private bool _reverse;
         private IBarWidgetContext _context;
@@ -24,7 +26,7 @@ namespace workspacer.Bar
         private IDictionary<Label, Action> _clickedHandlers;
 
         public BarSection(bool reverse, FlowLayoutPanel panel, IBarWidget[] widgets, IMonitor monitor, IConfigContext context,
-            Color defaultFore, Color defaultBack, string fontName, int fontSize)
+            Color defaultFore, Color defaultBack, string fontName, int fontSize, int margin)
         {
             _panel = panel;
             _widgets = widgets;
@@ -35,19 +37,20 @@ namespace workspacer.Bar
             _reverse = reverse;
             _defaultFore = defaultFore;
             _defaultBack = defaultBack;
+            _margin = margin;
 
             _clickedHandlers = new Dictionary<Label, Action>();
 
             _context = new BarWidgetContext(this, _monitor, _configContext);
             while (_panel.Controls.Count != _widgets.Count())
             {
-                _panel.Controls.Add(CreateWidgetPanel());
+                _panel.Controls.Add(CreateWidgetPanel(_margin));
             }
 
             InitializeWidgets(widgets, _context);
         }
 
-        private FlowLayoutPanel CreateWidgetPanel()
+        private FlowLayoutPanel CreateWidgetPanel(int margin)
         {
             return new FlowLayoutPanel
             {
@@ -55,7 +58,7 @@ namespace workspacer.Bar
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom,
                 BackColor = ColorToColor(_defaultBack),
                 Location = new Point(0, 0),
-                Margin = new Padding(0),
+                Margin =new Padding(margin),
                 Size = new Size(50, 50),
                 WrapContents = false
             };

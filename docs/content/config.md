@@ -91,6 +91,21 @@ Workspacer offers additional functionality beyond just tiling your windows throu
 - [Title bar](#title-bar)
   - Allows for the removal of the title bar from windows
 
+Most plugins can be configured using either an `Action` to change the default configuration, or by passing a configuration directly. For instance, the menu bar plugin may be configured in either of the following two ways:
+```csharp
+context.AddBar(new BarPluginConfig()
+    {
+        FontName = "JetBrainsMono NF",
+    });
+
+context.AddBar(context =>
+    {
+        context.FontName = "JetBrainsMono NF";
+    });
+```
+
+In the examples below, the top method is used, as it explicitly states the type of the configuration (in this case `BarPluginConfig`).
+
 ### Menu Bar
 
 Like other tiling window managers workspacer includes a status/menu bar which shows relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from [BarWidgetBase](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs).

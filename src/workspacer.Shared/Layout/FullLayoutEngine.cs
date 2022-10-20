@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -37,7 +33,7 @@ namespace workspacer
             return list;
         }
 
-        public string Name => "full";
+        public string Name { get; set; } = "full";
 
         public void ShrinkPrimaryArea() { }
         public void ExpandPrimaryArea() { }

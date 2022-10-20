@@ -1,9 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace workspacer
 {
@@ -77,7 +73,15 @@ namespace workspacer
                     _lastFocused = window;
                 }
 
-                _windows.Add(window);
+                if (_context.NewWindowOrder == WindowOrder.NewWindowsFirst)
+                {
+                    _windows.Insert(0, window);
+                }
+                else
+                {
+                    _windows.Add(window);
+                }
+                
 
                 if (layout)
                     DoLayout();
@@ -372,6 +376,13 @@ namespace workspacer
 
         public void DoLayout()
         {
+            // Skip layout if the focussed window is fullscreen.
+            if (FocusedWindow?.IsFullscreen ?? false)
+            {
+                OnLayoutCompleted?.Invoke(this);
+                return;
+            }
+
             var windows = ManagedWindows.ToList();
             if (_context.Enabled)
             {
@@ -393,7 +404,7 @@ namespace workspacer
                             var adjustedLoc = new WindowLocation(loc.X + monitor.X, loc.Y + monitor.Y,
                                 loc.Width, loc.Height, loc.State);
 
-                            if (!window.IsMouseMoving)
+                            if (!window.IsMouseMoving && !window.IsFullscreen)
                             {
                                 handle.DeferWindowPos(window, adjustedLoc);
                             }
@@ -404,12 +415,15 @@ namespace workspacer
                 {
                     windows.ForEach(w => w.Hide());
                 }
+                OnLayoutCompleted?.Invoke(this);
             }
             else
             {
                 windows.ForEach(w => w.ShowInCurrentState());
             }
         }
+
+        public event OnLayoutCompletedDelegate OnLayoutCompleted;
 
         public override string ToString()
         {
@@ -426,6 +440,9 @@ namespace workspacer
 
                 _windows[leftIdx] = right;
                 _windows[rightIdx] = left;
+
+                right.NotifyUpdated();
+                left.NotifyUpdated();
             }
 
             DoLayout();

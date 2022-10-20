@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -26,6 +23,9 @@ namespace workspacer
 
         IMonitorContainer MonitorContainer { get; set; }
         bool CanMinimizeWindows { get; set; }
+        WindowOrder NewWindowOrder { get; set; }
+
+        string ConfigDirectory { get; }
 
         /// <summary>
         /// the default layout Func is used to generate layouts for workspaces that do not
@@ -90,5 +90,11 @@ namespace workspacer
         /// restart workspacer
         /// </summary>
         void Restart();
+    }
+
+    public enum WindowOrder
+    {
+        NewWindowsLast, // default
+        NewWindowsFirst
     }
 }

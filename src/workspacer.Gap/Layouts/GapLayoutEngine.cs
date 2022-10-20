@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer.Gap
 {
@@ -12,7 +9,11 @@ namespace workspacer.Gap
         private int _outerGap;
         private int _delta;
         private ILayoutEngine _inner;
-        public string Name => _inner.Name;
+        public string Name
+        {
+            get => _inner.Name;
+            set => _inner.Name = value;
+        }
 
         public GapLayoutEngine(ILayoutEngine inner, int innerGap = 0, int outerGap = 0, int delta = 20)
         {

@@ -1,11 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace workspacer
@@ -422,13 +417,24 @@ namespace workspacer
                         }
                     }
 
-                    if (type == WindowUpdateType.Move)
+                    // Only change the current window if we are actively moving it.
+                    if (type == WindowUpdateType.Move && window.IsMouseMoving)
                     {
                         TrySwapWindowToMouse(window);
                     }
                     _windowsToWorkspaces[window].UpdateWindow(window, type);
                     WindowUpdated?.Invoke(window, workspace);
                 }
+            }
+        }
+
+        public void HandleWindowUpdated(IWindow window)
+        {
+            if (_windowsToWorkspaces.ContainsKey(window))
+            {
+                Logger.Trace("UpdateWindow({0})", window);
+                var workspace = _windowsToWorkspaces[window];
+                WindowUpdated?.Invoke(window, workspace);
             }
         }
 
