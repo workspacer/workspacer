@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using workspacer.Sound.Endpoints;
+using workspacer.Sound.Exceptions;
 using workspacer.Sound.Widgets;
 
 namespace workspacer.Sound
 {
     public class SoundPlugin : IPlugin
     {
-        private static SoundManager _clientInstance = new();
+        private static SoundManager _clientInstance = new(CoreAudioFactory.CreateDeviceEnumerator());
         private static readonly List<ISoundWidget> _widgets = new();
 
         private readonly SoundPluginConfig _config;
@@ -63,18 +65,28 @@ namespace workspacer.Sound
         {
             _widgets.Add(widget);
 
+            if(widget.DeviceInfo == null || (string.IsNullOrEmpty(widget.DeviceInfo.Id) && (widget.DeviceInfo.Roles == null || !widget.DeviceInfo.Roles.Any()) && !widget.DeviceInfo.Type.HasValue))
+            {
+                throw new Exception("No device data given");
+            }
+
             SoundClient client = null;
             if (string.IsNullOrEmpty(widget.DeviceInfo.Id) && widget.DeviceInfo.Roles.Any() && widget.DeviceInfo.Type.HasValue)
             {
-                client = _clientInstance.RegisterClientForDefault(widget.DeviceInfo.Type.Value, widget.DeviceInfo.Roles.ToArray());
+                client = _clientInstance.CreateClientForDefault(widget.DeviceInfo.Type.Value, widget.DeviceInfo.Roles.ToArray());
             }
 
             if (!string.IsNullOrEmpty(widget.DeviceInfo.Id))
             {
-                client = _clientInstance.RegisterClientForDeviceId(widget.DeviceInfo.Id);
+                client = _clientInstance.CreateClientForDeviceId(widget.DeviceInfo.Id);
             }
 
-            client?.Refresh();
+            if (client == null)
+            {
+                throw new ClientNotFoundException();
+            }
+
+            client.Refresh();
         }
 
         public static void SetVolumeScalar(string deviceId, float value)
@@ -82,7 +94,7 @@ namespace workspacer.Sound
             var clients = _clientInstance.GetClientsForDeviceId(deviceId);
             foreach (var client in clients)
             {
-                client?.SetVolumeScalar(value);
+                client.SetVolumeScalar(value);
             }
         }
 
@@ -91,7 +103,7 @@ namespace workspacer.Sound
             var clients = _clientInstance.GetClientsForDeviceId(deviceId);
             foreach (var client in clients)
             {
-                client?.VolumeStepUp();
+                client.VolumeStepUp();
             }
         }
 
@@ -100,7 +112,7 @@ namespace workspacer.Sound
             var clients = _clientInstance.GetClientsForDeviceId(deviceId);
             foreach (var client in clients)
             {
-                client?.VolumeStepDown();
+                client.VolumeStepDown();
             }
         }
 
@@ -109,13 +121,7 @@ namespace workspacer.Sound
             var clients = _clientInstance.GetClientsForDeviceId(deviceId);
             foreach (var client in clients)
             {
-                var isMuted = client?.GetMuted();
-                if (!isMuted.HasValue)
-                {
-                    return;
-                }
-
-                client.SetMutedState(!isMuted.Value);
+                client.SetMutedState(!client.GetMuted());
             }
         }
     }

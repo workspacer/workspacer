@@ -5,7 +5,7 @@ namespace workspacer.Sound
     public class DeviceInfo
     {
         public string Id { get; set; }
-        public ICollection<DeviceRole> Roles { get; set; }
+        public ICollection<DeviceRole> Roles { get; set; } = new DeviceRole[0];
         public DeviceType? Type { get; set; }
     }
 
