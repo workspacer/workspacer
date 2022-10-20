@@ -57,9 +57,9 @@ namespace workspacer.Bar
         public void Initialize(IBarWidget[] left, IBarWidget[] right, IConfigContext context)
         {
             _left = new BarSection(false, leftPanel, left, _monitor, context,
-                _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontName, _config.FontSize);
+                _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontName, _config.FontSize, _config.BarMargin);
             _right = new BarSection(true, rightPanel, right, _monitor, context,
-                _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontName, _config.FontSize);
+                _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontName, _config.FontSize, _config.BarMargin);
         }
 
         private System.Drawing.Color ColorToColor(Color color)

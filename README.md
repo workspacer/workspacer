@@ -76,6 +76,12 @@ Thanks for your interest in contributing!
 
 Review the [code of conduct](./CODE_OF_CONDUCT.md) and submit a pull request!
 
+# Community
+
+You may join in our unofficial community chat hosted on the [matrix-platform](https://matrix.org/).
+
+Our community can be found on [#workspacer-community:matrix.org](https://matrix.to/#/#workspacer-community:matrix.org).
+
 [workspacer-home]: https://workspacer.org
 [quickstart-page]: https://workspacer.org/quickstart
 [config-page]: https://workspacer.org/config

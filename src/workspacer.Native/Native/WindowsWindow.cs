@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 
 namespace workspacer
 {
@@ -156,9 +157,10 @@ namespace workspacer
         {
             get
             {
-                var windowed = Win32.WS.WS_OVERLAPPED | Win32.WS.WS_BORDER | Win32.WS.WS_THICKFRAME;
-                // Verify none of the windowed flags are set.
-                return (Win32.GetWindowStyleLongPtr(_handle) & windowed) == 0;
+                Win32.Rect rect = new Win32.Rect();
+                Rectangle screenrect = Screen.FromHandle(_handle).Bounds;
+                Win32.GetWindowRect(_handle,ref rect);
+                return rect.Left == screenrect.Left && rect.Right == screenrect.Right && rect.Top == screenrect.Top && rect.Bottom == screenrect.Bottom;
             }
         }
 

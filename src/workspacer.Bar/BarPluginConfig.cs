@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using workspacer.Bar.Widgets;
 
 namespace workspacer.Bar
@@ -20,6 +21,8 @@ namespace workspacer.Bar
         public bool IsTransparent = false;
 
         public Color Background { get; set; } = Color.Black;
+
+        public int BarMargin { get; set; } = 0;
 
         public Func<IBarWidget[]> LeftWidgets { get; set; } = () => 
             new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() };
