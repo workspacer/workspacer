@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace workspacer
 {
+    public delegate void OnLayoutCompletedDelegate(IWorkspace workspace);
+    
     /// <summary>
     /// IWorkspace provides a common interface for workspace-related operations.
     /// workspaces logically contain a set of windows, and allow callers to interact with the 
@@ -131,6 +129,11 @@ namespace workspacer
         /// force a layout of the workspace
         /// </summary>
         void DoLayout();
+
+        /// <summary>
+        /// an event invoked after a layout has been forced.
+        /// </summary>
+        event OnLayoutCompletedDelegate OnLayoutCompleted;
 
         /// <summary>
         /// swap the specified window to a (x,y) point in the workspace

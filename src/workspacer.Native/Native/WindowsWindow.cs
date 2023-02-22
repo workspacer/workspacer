@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace workspacer
 {
@@ -155,6 +152,18 @@ namespace workspacer
         public bool IsFocused => Win32.GetForegroundWindow() == _handle;
         public bool IsMinimized => Win32.IsIconic(_handle);
         public bool IsMaximized => Win32.IsZoomed(_handle);
+
+        public bool IsFullscreen
+        {
+            get
+            {
+                Win32.Rect rect = new Win32.Rect();
+                Rectangle screenrect = Screen.FromHandle(_handle).Bounds;
+                Win32.GetWindowRect(_handle,ref rect);
+                return rect.Left == screenrect.Left && rect.Right == screenrect.Right && rect.Top == screenrect.Top && rect.Bottom == screenrect.Bottom;
+            }
+        }
+
         public bool IsMouseMoving { get; internal set; }
 
         public void Focus()

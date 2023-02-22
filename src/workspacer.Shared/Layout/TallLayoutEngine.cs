@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -26,7 +24,7 @@ namespace workspacer
             _leftToRight = !reversed;
         }
 
-        public string Name => "tall";
+        public string Name { get; set; } = "tall";
 
         public IEnumerable<IWindowLocation> CalcLayout(IEnumerable<IWindow> windows, int spaceWidth, int spaceHeight)
         {

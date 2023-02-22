@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
 
 namespace workspacer
@@ -320,13 +315,9 @@ namespace workspacer
 
         private void WindowMove(IntPtr handle)
         {
-            if (_mouseMoveWindow != null && _windows.ContainsKey(handle))
+            if (_windows.ContainsKey(handle) && _windows[handle].CanLayout)
             {
-                var window = _windows[handle];
-                if (_mouseMoveWindow == window)
-                {
-                    WindowUpdated?.Invoke(window, WindowUpdateType.Move);
-                }
+                WindowUpdated?.Invoke(_windows[handle], WindowUpdateType.Move);
             }
         }
 

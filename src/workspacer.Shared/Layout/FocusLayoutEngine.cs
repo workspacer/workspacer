@@ -7,7 +7,7 @@ namespace workspacer
     // a layout that put the master view in the center of the screen, and the secondary windows on both sides, new windows opening on the right side
     public class FocusLayoutEngine : ILayoutEngine
     {
-        public string Name => "focus";
+        public string Name { get; set; } = "focus";
 
         private readonly int _numInPrimary;
         private readonly double _primaryPercent;

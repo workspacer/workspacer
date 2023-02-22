@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -41,6 +36,7 @@ namespace workspacer
         bool IsFocused { get; }
         bool IsMinimized { get; }
         bool IsMaximized { get; }
+        bool IsFullscreen { get; }
         bool IsMouseMoving { get; }
 
         void Focus();

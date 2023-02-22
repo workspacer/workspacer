@@ -91,6 +91,21 @@ Workspacer offers additional functionality beyond just tiling your windows throu
 - [Title bar](#title-bar)
   - Allows for the removal of the title bar from windows
 
+Most plugins can be configured using either an `Action` to change the default configuration, or by passing a configuration directly. For instance, the menu bar plugin may be configured in either of the following two ways:
+```csharp
+context.AddBar(new BarPluginConfig()
+    {
+        FontName = "JetBrainsMono NF",
+    });
+
+context.AddBar(context =>
+    {
+        context.FontName = "JetBrainsMono NF";
+    });
+```
+
+In the examples below, the top method is used, as it explicitly states the type of the configuration (in this case `BarPluginConfig`).
+
 ### Menu Bar
 
 Like other tiling window managers workspacer includes a status/menu bar which shows relevant information to improve your workflow, for example: showing your workspaces, your battery level and the time. It can also have additional features provided through custom widgets by creating a class which inherits from [BarWidgetBase](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/BarWidgetBase.cs).
@@ -142,8 +157,9 @@ For example if you wanted to add this [monitor icon from FontAwesome](https://fo
 - `TimeWidget`
   - A customisable widget to show the time with standard [C# datetime formatting](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings).
 - `TitleWidget`
-  - Shows the title of the current focused window.
-  - Users can select to show just the name of the program instead of the full window title by using `isShortTitle` flag.
+  - Shows the title of windows in the current workspace.
+  - Showing all window titles instead of only the focused one can be configured with `ShowAllWindowTitles`.
+  - Users can select to show just the name of the program instead of the full window title by using `isShortTitle` flag. 
   - More configuration details are available [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/TitleWidget.cs).
 - `WorkspaceWidget`
   - Shows all existing workspaces.

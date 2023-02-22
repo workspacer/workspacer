@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace workspacer
 {
@@ -35,6 +32,8 @@ namespace workspacer
             IgnoreProcessName("search");     // Windows 11 RTM search
             IgnoreWindowClass("Shell_TrayWnd"); // Windows 11 start
             IgnoreProcessName("ScreenClippingHost");
+            IgnoreWindowClass("WorkerW"); //Windows desktop
+
             _filters.Add((window) => !(window.ProcessId == Process.GetCurrentProcess().Id));
         }
 
