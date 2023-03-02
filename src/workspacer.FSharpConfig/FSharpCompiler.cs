@@ -23,6 +23,8 @@
                 FSharpOption<bool>.None,
                 FSharpOption<bool>.None,
                 FSharpOption<bool>.None,
+                FSharpOption<bool>.None,
+                FSharpOption<bool>.None,
                 FSharpOption<bool>.None);
 
         private static Regex requireRegex = new Regex("^#r @\"(.*)\"");
