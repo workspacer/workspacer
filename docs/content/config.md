@@ -335,7 +335,7 @@ In the case that multiple frameworks are required, there is also the option of s
     {
         "script": {
             "enabled": true,
-            "defaultTargetFramework": "net6.0",
+            "defaultTargetFramework": "net7.0",
             "enableScriptNuGetReferences": true
         }
     }
