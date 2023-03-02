@@ -12,7 +12,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/changelog/</guid>
-      <description>v0.9.10 download installer switched to GitHub Actions! (thanks sitiom!) improved font configuration for menu bar (thanks N1x0!) updated to .NET 5 (thanks sitiom!) fixed bug where dangling system tray icon remains after exit (thanks OldKros!) new logo! (thanks BeeryShklar!) improved gap calculations (thanks MSylvia!) added extra configurables for TitleWidget (thanks josteink!) fixed an incorrectly duplicated default keybind (thanks Nicholas Balzer!) added a battery widget (thanks Nicholas Balzer!) documentation updates minor tweaks and improvements Thanks to: sitiom, josteink, haoxiangliew, BeeryShklar, N1x0, MSylvia, alex-griffiths, OldKros, and wkpalan for the contributions!</description>
+      <description>v0.9.11 download installer Workspacer has transitioned to a community project under the workspacer organisation - a big thanks to @rickbutton and @josteink for supporting and facilitating this. We are now actively accepting pull requests.
+Features/Additions:
+@dalyIsaac (Isaac Daly) Added a beta release branch PR #227 Added gaps plugin PR #193 Allows IWorkspace instances to be renamed PR #190 Fixed ActionMenu location on non-primary monitors PR #184 Fixed the ability to restart with a message PR #191 Fixed wrong workspace for window after restarting PR #183 Handles empty titles for short titles PR #218 Ignores Snip &amp;amp; Sketch PR #189 Ignores Windows 11 start and search PR #221 Layout engines now ignore minimized windows PR #197 Prevents System.</description>
     </item>
     
     <item>
