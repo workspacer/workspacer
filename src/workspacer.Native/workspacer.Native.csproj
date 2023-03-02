@@ -3,7 +3,7 @@
     <ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj" />
   </ItemGroup>
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <Description>a tiling window manager for Windows</Description>
     <Authors>Rick Button</Authors>

@@ -17,6 +17,6 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: workspacer-build
-        path: .\src\workspacer\bin\Release\net5.0-windows\win10-x64
+        path: .\src\workspacer\bin\Release\net6.0-windows\win10-x64
     - name: Test
       run: dotnet test

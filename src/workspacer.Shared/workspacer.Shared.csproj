@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <Description>a tiling window manager for Windows</Description>
@@ -8,6 +8,6 @@
     <Version>0.9.12</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.1.1" />
+    <PackageReference Include="NLog" Version="5.1.2" />
   </ItemGroup>
 </Project>
