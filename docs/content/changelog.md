@@ -4,7 +4,62 @@ description: "a log of changes"
 type: docs
 ---
 
-# {{<stable-installer-link version="0.9.10">}}
+# {{<stable-installer-link version="0.9.11">}}
+
+Workspacer has transitioned to a community project under the [workspacer](https://github.com/workspacer) organisation - a big thanks to @rickbutton and @josteink for supporting and facilitating this. We are now actively accepting pull requests.
+
+**Features/Additions:**
+
+- [@dalyIsaac (Isaac Daly)](https://github.com/dalyIsaac)
+  - Added a beta release branch [PR #227](https://github.com/workspacer/workspacer/pull/227)
+  - Added gaps plugin [PR #193](https://github.com/workspacer/workspacer/pull/193)
+  - Allows `IWorkspace` instances to be renamed [PR #190](https://github.com/workspacer/workspacer/pull/190)
+  - Fixed `ActionMenu` location on non-primary monitors [PR #184](https://github.com/workspacer/workspacer/pull/184)
+  - Fixed the ability to restart with a message [PR #191](https://github.com/workspacer/workspacer/pull/191)
+  - Fixed wrong workspace for window after restarting [PR #183](https://github.com/workspacer/workspacer/pull/183)
+  - Handles empty titles for short titles [PR #218](https://github.com/workspacer/workspacer/pull/218)
+  - Ignores Snip & Sketch [PR #189](https://github.com/workspacer/workspacer/pull/189)
+  - Ignores Windows 11 start and search [PR #221](https://github.com/workspacer/workspacer/pull/221)
+  - Layout engines now ignore minimized windows [PR #197](https://github.com/workspacer/workspacer/pull/197)
+  - Prevents `System.InvalidOperationException` [PR #182](https://github.com/workspacer/workspacer/pull/182)
+  - Remove extra whitespace around display name [PR #224](https://github.com/workspacer/workspacer/pull/224)
+  - ShowKeybindDialog now renders a table [PR #188](https://github.com/workspacer/workspacer/pull/188)
+- [@dlundgaard (Daniel Lundgaard)](https://github.com/dlundgaard) Feature: Move focused window to adjacent Workspace and switch to that Workspace [PR #186](https://github.com/workspacer/workspacer/pull/186)
+- [@Fusion (Chris F Ravenscroft)](https://github.com/Fusion) DwindleLayout [PR #143](https://github.com/workspacer/workspacer/pull/143)
+- [@josteink (Jostein Kjønigsen)](https://github.com/josteink) `TitleWidget`: Improve compatibility of `IsShortTitle` [PR #201](https://github.com/workspacer/workspacer/pull/201)
+- [@kmpi (Kenneth Pedersen)](https://github.com/kmpi) Previous workspace got wrong index fix [PR #199](https://github.com/workspacer/workspacer/pull/199)
+- [@lvlts](https://github.com/lvlts)
+  - Add more default filters [PR #181](https://github.com/workspacer/workspacer/pull/181)
+  - Remove title change event to prevent flickering in some apps [PR #178](https://github.com/workspacer/workspacer/pull/178)
+- [@NeoNlAmp3](https://github.com/NeoNlAmp3) Fixed Bar sizing issue [PR #170](https://github.com/workspacer/workspacer/pull/170)
+- [@OldKros (David S)](https://github.com/OldKros) Added the ability to cycle between monitors [PR #163](https://github.com/workspacer/workspacer/pull/163)
+- [@schiltz3 (John Schiltz)](https://github.com/schiltz3) Add configurable padding and focus text for some widgets [PR #215](https://github.com/workspacer/workspacer/pull/215)
+- [@tom-tan (Tomoya Tanjo)](https://github.com/tom-tan) Fix description of `alt-shift-/` [PR #205](https://github.com/workspacer/workspacer/pull/205)
+
+**Updates to documentation:**
+
+- [@egoexpress (Björn Stierand)](https://github.com/egoexpress) Fixed layout engine names, add TextWidget, add details to keybinding
+- [@N1x0](https://github.com/N1x0) Updated config.md [PR #216](https://github.com/workspacer/workspacer/pull/216)
+- [@sitiom](https://github.com/sitiom)
+  - Add chocolatey and scoop installation in docs [PR #208](https://github.com/workspacer/workspacer/pull/208)
+  - Fix semicolon on config template [PR #166](https://github.com/workspacer/workspacer/pull/166)
+  - Update all links to workspacer organization [PR #213](https://github.com/workspacer/workspacer/pull/213)
+- [@system32uwu (Mateo Carriquí)](https://github.com/system32uwu)
+  - Added Customization header, referenced wiki [PR #220](https://github.com/workspacer/workspacer/pull/220)
+  - General improvements in quickstart.md [PR #230](https://github.com/workspacer/workspacer/pull/230)
+  - Improvements in config.md [PR #229](https://github.com/workspacer/workspacer/pull/229)
+  - Referenced template config, better `AddBar` example [PR #214](https://github.com/workspacer/workspacer/pull/214)
+
+**Responded to issues and reviewed pull requests:**
+
+- [@dalyIsaac (Isaac Daly)](https://github.com/dalyIsaac)
+- [@josteink (Jostein Kjønigsen)](https://github.com/josteink)
+- [@N1x0](https://github.com/N1x0)
+- [@schiltz3 (John Schiltz)](https://github.com/schiltz3)
+- [@system32uwu (Mateo Carriquí)](https://github.com/system32uwu)
+https://www.workspacer.org/changelog
+
+# v0.9.10
 
 - switched to GitHub Actions! (thanks sitiom!)
 - improved font configuration for menu bar (thanks N1x0!)
