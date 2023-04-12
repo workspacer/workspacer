@@ -72,8 +72,7 @@ namespace workspacer
                 // handle double initialization
                 if (_configurationAssembly == default)
                 {
-                    // prevent the assembly being locked when build the configuration assembly while workspacer is running in Release mode.
-#if (!DEBUG)
+                    // prevent locking issues when copying the configuration assembly while workspacer is running.
                     var copiedAssembly = GetPathInUserFolder(ConfigLoadedAssemblyName);
                     if (File.Exists(copiedAssembly))
                     {
@@ -81,7 +80,6 @@ namespace workspacer
                     }
                     File.Copy(configurationAssemblyPath, copiedAssembly);
                     configurationAssemblyPath = copiedAssembly;
-#endif
                     _configurationAssembly = Assembly.LoadFile(configurationAssemblyPath);
                 }
 
