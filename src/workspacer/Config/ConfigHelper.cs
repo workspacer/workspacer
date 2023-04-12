@@ -10,6 +10,8 @@ namespace workspacer
     public static class ConfigHelper
     {
         private static readonly string ConfigFileName = "workspacer.config.csx";
+        private static readonly string ConfigAssemblyName = "workspacer.Configuration.dll";
+        private static readonly string ConfigLoadedAssemblyName = "workspacer.Configuration.dll.loaded";
 
         private static string GetPathInUserFolder(string file)
         {
@@ -58,10 +60,49 @@ namespace workspacer
             return file;
         }
 
+        private static Assembly _configurationAssembly = default;
+
+        private static IConfigurationBuilder LoadConfigurationAssembly()
+        {
+            IConfigurationBuilder builder = default;
+            var configurationAssemblyPath = GetPathInUserFolder(ConfigAssemblyName);
+            var exists = File.Exists(configurationAssemblyPath);
+            if (exists)
+            {
+                if (_configurationAssembly == default)
+                {
+                    // prevent building the configuration while workspacer is running in Release mode.
+#if (!DEBUG)
+                    var copiedAssembly = GetPathInUserFolder(ConfigLoadedAssemblyName);
+                    if (File.Exists(copiedAssembly))
+                    {
+                        File.Delete(copiedAssembly);
+                    }
+                    File.Copy(configurationAssemblyPath, copiedAssembly);
+                    configurationAssemblyPath = copiedAssembly;
+#endif
+                    _configurationAssembly = Assembly.LoadFile(configurationAssemblyPath);
+                }
+
+                var builderType = _configurationAssembly.GetTypes()
+                    .SingleOrDefault(type => type.IsAssignableTo(typeof(IConfigurationBuilder)));
+                if (builderType != null) builder = (IConfigurationBuilder) Activator.CreateInstance(builderType);
+            }
+
+            return builder;
+        }
+
+
         public static void DoConfig(IConfigContext context)
         {
-            var config = LoadConfig();
+            var configurationBuilder = LoadConfigurationAssembly();
+            if (configurationBuilder != null)
+            {
+                configurationBuilder.Build(context);
+                return;
+            }
 
+            var config = LoadConfig();
             var options = ScriptOptions.Default;
             var task = CSharpScript.EvaluateAsync<Action<IConfigContext>>(config, options);
             var func = task.Result;
