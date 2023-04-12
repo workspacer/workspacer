@@ -69,9 +69,10 @@ namespace workspacer
             var exists = File.Exists(configurationAssemblyPath);
             if (exists)
             {
+                // handle double initialization
                 if (_configurationAssembly == default)
                 {
-                    // prevent building the configuration while workspacer is running in Release mode.
+                    // prevent the assembly being locked when build the configuration assembly while workspacer is running in Release mode.
 #if (!DEBUG)
                     var copiedAssembly = GetPathInUserFolder(ConfigLoadedAssemblyName);
                     if (File.Exists(copiedAssembly))
