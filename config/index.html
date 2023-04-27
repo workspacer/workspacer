@@ -438,7 +438,9 @@ For more details have a look at an example from the <a href="https://github.com/
 </span></span></code></pre></div><h2 id="how-do-i-minimize-windows">How do I minimize windows?</h2>
 <p>By default, <code>context.CanMinimizeWindows = false</code>. To enable the minimizing of windows, set:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>context.CanMinimizeWindows = <span style="color:#66d9ef">true</span>;
-</span></span></code></pre></div><h2 id="how-can-i-troubleshoot-visual-studio-code-type-checking">How can I troubleshoot Visual Studio Code type checking?</h2>
+</span></span></code></pre></div><h2 id="how-do-i-change-workspacer-configuration-folder-location">How do I change .workspacer configuration folder location?</h2>
+<p>By default, the .workspacer is located at your userprofile folder, but we can set a UserEnvironmentVariable called &ldquo;WORKSPACER_CONFIG&rdquo; to change this location. If the UserEnvironmentVariable exists it will create a folder inside the path that the variable is referencing in and it will use the configuration files inside a %WORKSPACER_CONFIG%/.config/workspacer folder. It will create this path if it doesn&rsquo;t exist.</p>
+<h2 id="how-can-i-troubleshoot-visual-studio-code-type-checking">How can I troubleshoot Visual Studio Code type checking?</h2>
 <p>Visual Studio Code uses OmniSharp to provide intellisense and syntax interpolation of C# script files
 such as your <code>workspacer.config.csx</code> - this should work provided you have the <a href="https://code.visualstudio.com/docs/languages/csharp">C# extension</a> installed.</p>
 <p>However, issues with completion or problems indicated for valid code arise when OmniSharp finds multiple .NET SDKs
