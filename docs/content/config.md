@@ -159,7 +159,7 @@ For example if you wanted to add this [monitor icon from FontAwesome](https://fo
 - `TitleWidget`
   - Shows the title of windows in the current workspace.
   - Showing all window titles instead of only the focused one can be configured with `ShowAllWindowTitles`.
-  - Users can select to show just the name of the program instead of the full window title by using `isShortTitle` flag. 
+  - Users can select to show just the name of the program instead of the full window title by using `isShortTitle` flag.
   - More configuration details are available [here](https://github.com/workspacer/workspacer/blob/master/src/workspacer.Bar/Widgets/TitleWidget.cs).
 - `WorkspaceWidget`
   - Shows all existing workspaces.
@@ -294,6 +294,11 @@ By default, `context.CanMinimizeWindows = false`. To enable the minimizing of wi
 ```csharp
 context.CanMinimizeWindows = true;
 ```
+
+## How do I change .workspacer configuration folder location?
+
+By default, the .workspacer is located at your userprofile folder, but we can set a UserEnvironmentVariable called "WORKSPACER_CONFIG" to change this location. If the UserEnvironmentVariable exists it will create a folder inside the path that the variable is referencing in and it will use the configuration files inside a %WORKSPACER_CONFIG%/.config/workspacer folder. It will create this path if it doesn't exist.
+
 
 ## How can I troubleshoot Visual Studio Code type checking?
 
