@@ -8,6 +8,6 @@
     <Version>0.9.12</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.2.0" />
+    <PackageReference Include="NLog" Version="5.2.1" />
   </ItemGroup>
 </Project>
