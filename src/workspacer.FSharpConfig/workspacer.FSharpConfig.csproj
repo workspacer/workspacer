@@ -3,7 +3,7 @@
 	  <PackageReference Include="FSharp.Compiler.Service" Version="43.7.200">
 		  <Private>false</Private>
 	  </PackageReference>
-	  <PackageReference Include="FSharp.Core" Version="7.0.300">
+	  <PackageReference Include="FSharp.Core" Version="7.0.400">
 		  <Private>false</Private>
 	  </PackageReference>
 	</ItemGroup>
