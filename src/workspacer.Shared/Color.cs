@@ -49,6 +49,30 @@ namespace workspacer
         public static readonly Color Fuchsia =   new Color(0xFF, 0x00, 0xFF);
         public static readonly Color Purple =    new Color(0x80, 0x00, 0x80);
 
+        //NORD THEME COLORS
+        //Polar Night
+        public static readonly Color nord0 = new Color(46,52,64);
+        public static readonly Color nord1 = new Color(59,66,82);
+        public static readonly Color nord2 = new Color(67,76,94);
+        public static readonly Color nord3 = new Color(76,86,106);
+    
+        //Snow Storm
+        public static readonly Color nord4 = new Color(216,222,233);
+        public static readonly Color nord5 = new Color(229,233,240);
+        public static readonly Color nord6 = new Color(236,239,244);
+    
+        //Frost
+        public static readonly Color nord7 = new Color(143, 188, 187);
+        public static readonly Color nord8 = new Color(136, 192, 208);
+        public static readonly Color nord9 = new Color(129, 161, 193);
+        public static readonly Color nord10 = new Color(94, 129, 172);
+    
+        public static readonly Color nord11 = new Color(191, 97, 106);
+        public static readonly Color nord12 = new Color(208, 135, 112);
+        public static readonly Color nord13 = new Color(235, 203, 139);
+        public static readonly Color nord14 = new Color(163, 190, 140);
+        public static readonly Color nord15 = new Color(180, 142, 173);
+        
         public bool Equals(Color other)
         {
             if (other == null)

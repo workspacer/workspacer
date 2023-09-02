@@ -13,20 +13,22 @@ namespace workspacer.Bar
         public bool BarIsTop { get; set; } = true;
         public bool BarReservesSpace { get; set; } = true;
 
-        public Color DefaultWidgetForeground { get; set; } = Color.White;
-        public Color DefaultWidgetBackground { get; set; } = Color.Black;
+        public Color DefaultWidgetForeground { get; set; } = Color.nord6;
+        public Color DefaultWidgetBackground { get; set; } = Color.nord0;
         
         public Color TransparencyKey { get; set; } = Color.Lime;
 
         public bool IsTransparent = false;
 
-        public Color Background { get; set; } = Color.Black;
+        public Color Background { get; set; } = Color.nord0;
 
         public int BarMargin { get; set; } = 0;
 
         public Func<IBarWidget[]> LeftWidgets { get; set; } = () => 
-            new IBarWidget[] { new WorkspaceWidget(), new TextWidget(": "), new TitleWidget() };
+            new IBarWidget[] { new WorkspaceWidget() };
         public Func<IBarWidget[]> RightWidgets { get; set; } = () => 
             new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() };
+        public Func<IBarWidget[]> CenterWidgets { get; set; } = () => 
+            new IBarWidget[] {new TitleWidget()};
     }
 }
