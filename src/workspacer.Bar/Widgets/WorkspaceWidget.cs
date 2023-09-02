@@ -6,9 +6,11 @@ namespace workspacer.Bar.Widgets
 {
     public class WorkspaceWidget : BarWidgetBase
     {
-        public Color WorkspaceHasFocusColor { get; set; } = Color.Red;
-        public Color WorkspaceEmptyColor { get; set; } = Color.Gray;
-        public Color WorkspaceIndicatingBackColor { get; set; } = Color.Teal;
+        public Color WorkspaceHasFocusColor { get; set; } = Color.nord8;
+        public Color WorkspaceEmptyColor { get; set; } = Color.nord2;
+        public Color WorkspaceIndicatingBackColor { get; set; } = Color.nord7;
+        public Color WorkspaceColor { get; private set; } = Color.nord4;
+
         public int BlinkPeriod { get; set; } = 1000;
 
         private Timer _blinkTimer;
@@ -93,7 +95,7 @@ namespace workspacer.Bar.Widgets
             }
 
             var hasWindows = workspace.ManagedWindows.Count != 0;
-            return hasWindows ? null : WorkspaceEmptyColor;
+            return hasWindows ? WorkspaceColor : WorkspaceEmptyColor;
         }
 
         private void BlinkIndicatingWorkspaces()

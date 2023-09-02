@@ -24,11 +24,12 @@ namespace workspacer.Bar
 
         public int BarMargin { get; set; } = 0;
 
+        public Func<IBarWidget[]> CenterWidgets { get; set; } = () =>
+          new IBarWidget[] { new TitleWidget()};
         public Func<IBarWidget[]> LeftWidgets { get; set; } = () => 
             new IBarWidget[] { new WorkspaceWidget() };
         public Func<IBarWidget[]> RightWidgets { get; set; } = () => 
-            new IBarWidget[] { new TimeWidget(), new ActiveLayoutWidget() };
-        public Func<IBarWidget[]> CenterWidgets { get; set; } = () => 
-            new IBarWidget[] {new TitleWidget()};
+            new IBarWidget[] { new TimeWidget(1000, "hh:mm"),new ActiveLayoutWidget() };
+      
     }
 }

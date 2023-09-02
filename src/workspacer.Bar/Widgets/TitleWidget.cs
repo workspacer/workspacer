@@ -7,7 +7,7 @@ namespace workspacer.Bar.Widgets
     public class TitleWidget : BarWidgetBase
     {
         #region Properties
-        public Color WindowHasFocusColor { get; set; } = Color.Yellow;
+        public Color WindowHasFocusColor { get; set; } = Color.nord10;
         public bool IsShortTitle { get; set; } = false;
         public int? MaxTitleLength { get; set; } = null;
         public bool ShowAllWindowTitles { get; set; } = false;
@@ -117,7 +117,7 @@ namespace workspacer.Bar.Widgets
                 windowTitle = GetTrimmedTitle(windowTitle, maxTitleLength);
             }
 
-            windowTitle = string.Format("{0}{1}{2}", string.IsNullOrEmpty(TitlePreamble) ? '[' : TitlePreamble, windowTitle, string.IsNullOrEmpty(TitlePostamble) ? ']' : TitlePostamble);
+            windowTitle = string.Format("{0}{1}{2}", string.IsNullOrEmpty(TitlePreamble) ? "" : TitlePreamble, windowTitle, string.IsNullOrEmpty(TitlePostamble) ? "" : TitlePostamble);
 
             return Part(windowTitle, window.IsFocused ? windowHasFocusColor : null, fontname: fontName, partClicked: clickAction != null ? clickAction(window) : null);
         }

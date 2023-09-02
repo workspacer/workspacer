@@ -59,7 +59,7 @@ namespace workspacer
         }
 
         public static void DoConfig(IConfigContext context)
-        {
+        { 
             var config = LoadConfig();
 
             var options = ScriptOptions.Default;

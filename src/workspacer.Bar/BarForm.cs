@@ -47,16 +47,16 @@ namespace workspacer.Bar
             {
                 CreateParams cp = base.CreateParams;
                 // turn on WS_EX_TOOLWINDOW style bit
-                cp.ExStyle |= (int) Win32.WS_EX.WS_EX_TOOLWINDOW;
-                
+                cp.ExStyle |= (int)Win32.WS_EX.WS_EX_TOOLWINDOW;
+
                 // turn on WS_EX_TOPMOST if the topbar does not reserve space.
                 if (_config is not null && !_config.BarReservesSpace)
-                    cp.ExStyle |= (int) (Win32.WS_EX.WS_EX_TOPMOST | Win32.WS_EX.WS_EX_LAYERED);
+                    cp.ExStyle |= (int)(Win32.WS_EX.WS_EX_TOPMOST | Win32.WS_EX.WS_EX_LAYERED);
                 return cp;
             }
         }
 
-        public void Initialize(IBarWidget[] left, IBarWidget[] right,IBarWidget[] center, IConfigContext context)
+        public void Initialize(IBarWidget[] left, IBarWidget[] right, IBarWidget[] center, IConfigContext context)
         {
             _left = new BarSection(false, _leftPanel, left, _monitor, context,
                 _config.DefaultWidgetForeground, _config.DefaultWidgetBackground, _config.FontName, _config.FontSize, _config.BarMargin);
@@ -75,7 +75,7 @@ namespace workspacer.Bar
         {
             this.Height = _config.BarHeight;
             var titleBarHeight = this.ClientRectangle.Height - this.Height;
-           
+
             this.Location = _config.BarIsTop
                 ? new Point(_monitor.X, _monitor.Y - titleBarHeight)
                 : new Point(_monitor.X, _monitor.Y + _monitor.Height - _config.BarHeight);
@@ -89,62 +89,56 @@ namespace workspacer.Bar
 
         private void InitializeComponent()
         {
-            this._leftPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this._rightPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this._centerPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.SuspendLayout();
+            _leftPanel = new FlowLayoutPanel();
+            _rightPanel = new FlowLayoutPanel();
+            _centerPanel = new FlowLayoutPanel();
+            SuspendLayout();
             // 
-            // leftPanel
+            // _leftPanel
             // 
-            this._leftPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this._leftPanel.AutoSize = true;
-            this._leftPanel.BackColor = ColorToColor(this._config.DefaultWidgetBackground);
-            this._leftPanel.Location = new System.Drawing.Point(0, 0);
-            this._leftPanel.Margin = new System.Windows.Forms.Padding(0);
-            this._leftPanel.Name = "_leftPanel";
-            this._leftPanel.Size = new System.Drawing.Size(50, 50);
-            this._leftPanel.TabIndex = 0;
-            this._leftPanel.WrapContents = false;
+            _leftPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            _leftPanel.AutoSize = true;
+            _leftPanel.Location = new Point(2, 0);
+            _leftPanel.Margin = new Padding(0);
+            _leftPanel.Name = "_leftPanel";
+            _leftPanel.Size = new Size(50, 50);
+            _leftPanel.TabIndex = 0;
+            _leftPanel.WrapContents = false;
             // 
-            // rightPanel
+            // _rightPanel
             // 
-            this._rightPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._rightPanel.AutoSize = true;
-            this._rightPanel.BackColor = ColorToColor(this._config.DefaultWidgetBackground);
-            this._rightPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this._rightPanel.Location = new System.Drawing.Point(1848, 0);
-            this._rightPanel.Margin = new System.Windows.Forms.Padding(0);
-            this._rightPanel.Name = "_rightPanel";
-            this._rightPanel.Size = new System.Drawing.Size(50, 50);
-            this._rightPanel.TabIndex = 2;
-            this._rightPanel.WrapContents = false;
-            //
-            //centerPanel
-            //
-            this._centerPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this._centerPanel.AutoSize = true;
-            this._centerPanel.BackColor = ColorToColor(this._config.DefaultWidgetBackground);
-            this._centerPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this._centerPanel.Location = new System.Drawing.Point((this.Width - _centerPanel.Width) / 2, (this.Height - _centerPanel.Height) / 2);
-            this._centerPanel.Margin = new System.Windows.Forms.Padding(0);
-            this._centerPanel.Name = "_centerPanel";
-            this._centerPanel.Size = new System.Drawing.Size(50, 50);
-            this._centerPanel.TabIndex = 2;
-            this._centerPanel.WrapContents = false;
+            _rightPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            _rightPanel.AutoSize = true;
+            _rightPanel.FlowDirection = FlowDirection.RightToLeft;
+            _rightPanel.Location = new Point(1848, 0);
+            _rightPanel.Margin = new Padding(0);
+            _rightPanel.Name = "_rightPanel";
+            _rightPanel.Size = new Size(50, 50);
+            _rightPanel.TabIndex = 2;
+            _rightPanel.WrapContents = false;
+            // 
+            // _centerPanel
+            // 
+            _centerPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            _centerPanel.AutoSize = true;
+            _centerPanel.Location = new Point((Screen.PrimaryScreen.Bounds.Width - _centerPanel.Size.Width) / 2, 0);
+            _centerPanel.Margin = new Padding(0);
+            _centerPanel.Name = "_centerPanel";
+            _centerPanel.Size = new Size(50, 50);
+            _centerPanel.TabIndex = 3;
+            _centerPanel.WrapContents = false;
             // 
             // BarForm
             // 
-            this.ClientSize = new System.Drawing.Size(1898, 50);
-            this.Controls.Add(this._leftPanel);
-            this.Controls.Add(this._rightPanel);
-            this.Name = "BarForm";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            ClientSize = new Size(1898, 50);
+            Controls.Add(_leftPanel);
+            Controls.Add(_rightPanel);
+            Controls.Add(_centerPanel);
+            Name = "BarForm";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         private void Redraw(object sender, ElapsedEventArgs args)
