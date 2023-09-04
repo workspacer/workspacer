@@ -14,10 +14,23 @@ namespace workspacer.Bar.Widgets
         private Color _overtimeBackgroundColor;
         private string _incentive;
 
+        private Timer _pauseTimer;
+        private int _pauseMinutes = 0;
+        private bool _isPaused = false;
+        private int _pauseTimeLeft = 0;
 
-        public PomodoroWidget(int pomodoroMinutes = 25, Color overtimeBackgroundColor = null, string incentive = "Click to start pomodoro!")
+    private enum PomodoroState
+    {
+        Inactive,
+        Working,
+        Paused
+    }
+
+private PomodoroState _currentState = PomodoroState.Inactive;
+        public PomodoroWidget(int pomodoroMinutes = 25,int pauseMinutes = 5, Color overtimeBackgroundColor = null, string incentive = "Pomodoro")
         {
             _pomodoroMinutes = pomodoroMinutes;
+            _pauseMinutes = pauseMinutes;
             _incentive = incentive;
 
             if (overtimeBackgroundColor == null) {
@@ -34,21 +47,31 @@ namespace workspacer.Bar.Widgets
                     text: GetMessage(),
                     back: GetBackgroundColor(),
                     partClicked: () => {
-                        if (_timer.Enabled) {
-                            StopPomodoro();
-                        } else {
-                            StartPomodoro();
-                        }
+                       if (_currentState == PomodoroState.Inactive)
+                       {
+                        StartPomodoro();
+                       }
+                       else
+                       {
+                        StopPomodoro();
+                       }
                     }
                 )
             );
         }
         
         private string GetMessage() {
-            if (_timer.Enabled) {
-                return _minutesLeft.ToString() + " minutes left";
-            } else {
-                return _incentive;
+ 
+            switch (_currentState)
+            {
+                case PomodoroState.Working:
+                    return $"Work {_minutesLeft} mins left";
+                case PomodoroState.Paused:
+                    return $"Pause {_minutesLeft} mins left";
+                case PomodoroState.Inactive:
+                    return _incentive;
+                default:
+                    return "Unknown State";
             }
         }
 
@@ -63,36 +86,47 @@ namespace workspacer.Bar.Widgets
         public override void Initialize()
         {
             _timer = new Timer(60000);
-            _timer.Elapsed += (s,e) => {
-                _minutesLeft -= 1;
-                if (_minutesLeft <= 0) {
-                    _blinkTimer.Start();
-                }
-                MarkDirty();
-            };
-            _timer.Stop();
-
-            _blinkTimer = new Timer(1000);
-            _blinkTimer.Elapsed += (s,e) => {
-                _overtimeBackgroundOn = !_overtimeBackgroundOn;
-                MarkDirty();
-            };
-            _blinkTimer.Stop();
+            _timer.Elapsed += TimerElapsed;
+            _currentState = PomodoroState.Inactive;
+        
         }
 
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            _minutesLeft--;
+
+             if (_minutesLeft <= 0)
+             {
+                if (_currentState == PomodoroState.Working)
+                {
+                    StartPause();
+                }else if (_currentState == PomodoroState.Paused)
+                {
+                    StartPomodoro();
+                }
+             }
+             MarkDirty();
+    
+        }
         private void StartPomodoro() 
         {
+            _currentState = PomodoroState.Working;
             _minutesLeft = _pomodoroMinutes;
             _timer.Start();
-            _blinkTimer.Stop();
-            MarkDirty();
+  
         }
 
+        private void StartPause()
+        {
+            _currentState = PomodoroState.Paused;
+            _minutesLeft = _pauseMinutes;
+            _timer.Start();
+
+        }
         private void StopPomodoro() 
         {
+            _currentState = PomodoroState.Inactive;
             _timer.Stop();
-            _blinkTimer.Stop();
-            MarkDirty();
         }
     }
 
