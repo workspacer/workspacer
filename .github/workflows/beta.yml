@@ -11,7 +11,7 @@ jobs:
 
     steps:
     # Build
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get version
       # NOTE: github.run_number increments for each run of the workflow. Therefore, you can have v0.9.11-beta.1 followed by v0.9.12-beta.2
       run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version)-beta.${{ github.run_number }}" >> $env:GITHUB_ENV
