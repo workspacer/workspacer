@@ -11,7 +11,7 @@ jobs:
 
     steps:
     # Build
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get version
       run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version)" >> $env:GITHUB_ENV
     - name: Restore solution
