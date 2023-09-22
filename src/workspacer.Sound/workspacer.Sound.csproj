@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<ProjectReference Include="..\workspacer.Bar\workspacer.Bar.csproj" />
+		<ProjectReference Include="..\workspacer.Shared\workspacer.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="Vannatech.CoreAudio">
+	    <HintPath>Vannatech.CoreAudio.dll</HintPath>
+	    <Private>true</Private>
+	  </Reference>
+	</ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+		<Description>sound plugin for workspacer</Description>
+		<Authors>Stijn Hofman</Authors>
+		<Version>0.9.11</Version>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DefineConstants>TRACE;DEBUG</DefineConstants>
+	</PropertyGroup>
+</Project>
