@@ -11,7 +11,7 @@ jobs:
 
     steps:
     # Build
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get version
       # NOTE: github.run_number increments for each run of the workflow. Therefore, you can have v0.9.11-beta.1 followed by v0.9.12-beta.2
       run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version)-beta.${{ github.run_number }}" >> $env:GITHUB_ENV
@@ -36,7 +36,7 @@ jobs:
     - name: Zip build output
       run: Compress-Archive -Path .\src\workspacer\bin\Release\net7.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-$env:VERSION.zip"
     - name: Delete temp beta tag
-      uses: dev-drprasad/delete-tag-and-release@v0.2.1
+      uses: dev-drprasad/delete-tag-and-release@v1.0.1
       with:
        delete_release: true
        tag_name: beta

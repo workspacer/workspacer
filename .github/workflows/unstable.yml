@@ -10,7 +10,7 @@ jobs:
 
     steps:
     # Build
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get version
       run: Write-Output VERSION="$(([Xml] (Get-Content .\src\workspacer\workspacer.csproj)).Project.PropertyGroup.Version).$(${{ github.run_number }})" >> $env:GITHUB_ENV
     - name: Restore solution
@@ -34,7 +34,7 @@ jobs:
     - name: Zip build output
       run: Compress-Archive -Path .\src\workspacer\bin\Release\net7.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-latest-unstable.zip"
     - name: Delete existing unstable tag and release
-      uses: dev-drprasad/delete-tag-and-release@v0.2.1
+      uses: dev-drprasad/delete-tag-and-release@v1.0.1
       with:
        delete_release: true
        tag_name: unstable
@@ -54,7 +54,7 @@ jobs:
   deploy-site:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:

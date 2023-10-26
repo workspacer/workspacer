@@ -7,13 +7,18 @@ namespace workspacer
     {
         public static string GetConfigDirectory()
         {
-            var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            // Change  EnvironmentVariableTarget.User to another Enum to use System variable
+            var userFolder = Environment.GetEnvironmentVariable("WORKSPACER_CONFIG",EnvironmentVariableTarget.User);
+            // Using a UserEnviromentVariable to set the workspacer config folder
+            if (userFolder == null){
+              userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            }
 
             // Use a migrated configuraton folder first.
             var newConfigDirectory = Path.Combine(userFolder, ".config", "workspacer");
             if (Directory.Exists(newConfigDirectory))
                 return newConfigDirectory;
-            
+
             // Fall back to old configuration folder.
             var oldConfigDirectory = Path.Combine(userFolder, ".workspacer");
             if (Directory.Exists(oldConfigDirectory))
