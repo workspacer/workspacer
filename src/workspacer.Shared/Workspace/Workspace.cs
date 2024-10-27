@@ -164,6 +164,7 @@ namespace workspacer
             }
         }
 
+        
         public void FocusNextWindow()
         {
             var windows = ManagedWindows;
