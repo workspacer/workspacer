@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
-	  <PackageReference Include="FSharp.Compiler.Service" Version="43.7.200">
+	  <PackageReference Include="FSharp.Compiler.Service" Version="43.8.401">
 		  <Private>false</Private>
 	  </PackageReference>
-	  <PackageReference Include="FSharp.Core" Version="7.0.400">
+	  <PackageReference Include="FSharp.Core" Version="8.0.401">
 		  <Private>false</Private>
 	  </PackageReference>
 	</ItemGroup>
