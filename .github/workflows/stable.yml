@@ -35,7 +35,7 @@ jobs:
     - name: Zip build output
       run: Compress-Archive -Path .\src\workspacer\bin\Release\net7.0-windows\win10-x64\publish\* -DestinationPath ".\out\workspacer-$env:VERSION-stable.zip"
     - name: Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         name: workspacer ${{ env.VERSION }}
         body: https://www.workspacer.org/changelog
